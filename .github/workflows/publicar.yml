@@ -18,8 +18,8 @@ jobs:
   publicar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Publicar o que está no horário
@@ -31,5 +31,5 @@ jobs:
         run: |
           git config user.name "Story no Piloto"
           git config user.email "robo@storynopiloto.local"
-          git add -A fila publicados erros
-          git diff --cached --quiet || (git commit -m "Atualiza fila de stories" && git push)
+          git add -A
+          git diff --cached --quiet || (git commit -m "Atualiza fila de stories" && git pull --rebase && git push)
