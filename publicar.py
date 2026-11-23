@@ -23,14 +23,20 @@ VERSAO = os.environ.get("API_VERSION", "v25.0")
 API_FIXA = os.environ.get("API_BASE")  # só para testes
 
 
+HOSTS = {"ig": "https://graph.instagram.com/" + VERSAO, "fb": "https://graph.facebook.com/" + VERSAO}
+HOST_CERTO = {}
+
+
 def host():
-    """Token do login unificado/Facebook (começa com EA) usa graph.facebook.com;
-    token do login do Instagram (começa com IG) usa graph.instagram.com."""
+    """Token do login do Instagram (IG...) usa graph.instagram.com; token do Facebook/login unificado (EA...)
+    usa graph.facebook.com. Se a Meta não reconhecer o token num endereço, o robô tenta o outro."""
     if API_FIXA:
         return API_FIXA
-    if (TOKEN or "").startswith("IG"):
-        return "https://graph.instagram.com/" + VERSAO
-    return "https://graph.facebook.com/" + VERSAO
+    if TOKEN in HOST_CERTO:
+        return HOSTS[HOST_CERTO[TOKEN]]
+    return HOSTS["ig" if TOKEN.startswith("IG") else "fb"]
+
+
 try:
     SEGREDOS = json.loads(os.environ.get("SEGREDOS") or "{}")
 except Exception:
@@ -49,8 +55,20 @@ PAT = re.compile(r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})")
 
 
 def chamar(metodo, caminho, dados=None):
+    try:
+        return _chamar(metodo, caminho, dados, host())
+    except RuntimeError as e:
+        if API_FIXA or "parse access token" not in str(e).lower() or TOKEN in HOST_CERTO:
+            raise
+        outro = "fb" if host() == HOSTS["ig"] else "ig"
+        r = _chamar(metodo, caminho, dados, HOSTS[outro])
+        HOST_CERTO[TOKEN] = outro
+        return r
+
+
+def _chamar(metodo, caminho, dados, base):
     dados = dict(dados or {}, access_token=TOKEN)
-    url = f"{host()}/{caminho}"
+    url = f"{base}/{caminho}"
     corpo = None
     if metodo == "GET":
         url += "?" + urllib.parse.urlencode(dados)
@@ -67,6 +85,8 @@ def chamar(metodo, caminho, dados=None):
         except Exception:
             msg = txt
         raise RuntimeError(f"Instagram respondeu {e.code}: {msg}") from None
+    except urllib.error.URLError as e:
+        raise RuntimeError(f"Sem conexão com a Meta agora ({e.reason}). O robô tenta de novo na próxima rodada. demorou demais") from None
 
 
 def separar(nome):
@@ -78,7 +98,7 @@ def separar(nome):
 
 def credenciais(conta):
     suf = "_" + re.sub(r"[^A-Z0-9]", "_", conta.upper()) if conta else ""
-    return (SEGREDOS.get("IG_TOKEN" + suf, "").strip(), SEGREDOS.get("IG_USER_ID" + suf, "").strip(), suf)
+    return ("".join(SEGREDOS.get("IG_TOKEN" + suf, "").split()).strip('"\''), SEGREDOS.get("IG_USER_ID" + suf, "").strip(), suf)
 
 
 def quando(nome):
