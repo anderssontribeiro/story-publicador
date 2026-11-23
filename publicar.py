@@ -19,7 +19,18 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("America/Sao_Paulo")
-API = os.environ.get("API_BASE") or "https://graph.instagram.com/" + os.environ.get("API_VERSION", "v25.0")
+VERSAO = os.environ.get("API_VERSION", "v25.0")
+API_FIXA = os.environ.get("API_BASE")  # só para testes
+
+
+def host():
+    """Token do login unificado/Facebook (começa com EA) usa graph.facebook.com;
+    token do login do Instagram (começa com IG) usa graph.instagram.com."""
+    if API_FIXA:
+        return API_FIXA
+    if (TOKEN or "").startswith("IG"):
+        return "https://graph.instagram.com/" + VERSAO
+    return "https://graph.facebook.com/" + VERSAO
 try:
     SEGREDOS = json.loads(os.environ.get("SEGREDOS") or "{}")
 except Exception:
@@ -39,7 +50,7 @@ PAT = re.compile(r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})")
 
 def chamar(metodo, caminho, dados=None):
     dados = dict(dados or {}, access_token=TOKEN)
-    url = f"{API}/{caminho}"
+    url = f"{host()}/{caminho}"
     corpo = None
     if metodo == "GET":
         url += "?" + urllib.parse.urlencode(dados)
