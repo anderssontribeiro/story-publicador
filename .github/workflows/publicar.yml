@@ -1,0 +1,35 @@
+name: Publicar stories
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # a cada 10 minutos (o GitHub pode atrasar alguns minutos)
+  workflow_dispatch: {}      # botão "Run workflow" para publicar na hora
+  push:
+    paths: ["fila/**"]       # roda também quando você sobe um arquivo novo na fila
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Publicar o que está no horário
+        env:
+          SEGREDOS: ${{ toJSON(secrets) }}
+        run: python publicar.py
+      - name: Guardar o resultado
+        if: always()
+        run: |
+          git config user.name "Story no Piloto"
+          git config user.email "robo@storynopiloto.local"
+          git add -A fila publicados erros
+          git diff --cached --quiet || (git commit -m "Atualiza fila de stories" && git push)
