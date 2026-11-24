@@ -635,7 +635,7 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 .rs-opt>span{flex:0 0 58px;font-size:12px;color:var(--mut);font-weight:600}
 .rs-opt>div{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1}
 .rs-opt>div>button:not(.rs-dot):not(.recup):not(.recpi){flex:0 0 auto;background:none;border:1px solid #ffffff1f;color:var(--mut);border-radius:999px;padding:7px 12px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
-.rs-opt>div>button.on:not(.rs-dot){background:#f3f1ec;color:#14141a;border-color:#f3f1ec}
+.rs-opt>div>button.on:not(.rs-dot):not(.recup):not(.recpi){background:#f3f1ec;color:#14141a;border-color:#f3f1ec}
 .rs-dot{flex:0 0 28px;width:28px;height:28px;border-radius:50%;border:0;background:var(--c);cursor:pointer;box-shadow:inset 0 0 0 2px #00000033}
 .rs-dot.on{box-shadow:0 0 0 2px var(--bg),0 0 0 4px #f3f1ec}
 .rs-optc{align-items:flex-start}.rs-optc>span{padding-top:10px}
@@ -751,6 +751,14 @@ header .clock,header #who{display:none!important}
 .rs-gal.all .rs-t{flex:none;width:100%}
 .rs-gal.all .rs-t i{width:100%;height:auto;aspect-ratio:9/16}
 @media (hover:none){.rs-nav{display:none}}
+
+.stu-frame video.nomirror{transform:none}
+.stu-flip{position:absolute;right:12px;top:10px;width:40px;height:40px;border-radius:50%;border:0;background:#000000a0;backdrop-filter:blur(8px);color:#fff;display:grid;place-items:center;cursor:pointer}
+.stu-flip svg{width:20px;height:20px}
+.rsrc{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:#ffffff1a;color:#fff;white-space:nowrap}
+.rsrc.ok{background:#3ccf8e33;color:#9ff0c8}.rsrc.warn{background:#ffb54733;color:#ffd79a}
+.rflip{display:inline-grid;place-items:center}
+@media (max-width:640px){.stu-flip{top:auto;bottom:calc(52% + 12px)}}
 </style>
 </head>
 <body>
@@ -3595,9 +3603,10 @@ function fxKeywords(words){const s=new Set();words.forEach(w=>{const n=fxNorm(w.
 let recFxOn=true,recTL={words:[],zooms:[],live:false},recSR=null,recSRseg={},recAC=null,recAn=null,recLvl=0,recLastZoom=-9,recLiveEv=[],recShownEv=-1,recInterim="";
 const SRC=window.SpeechRecognition||window.webkitSpeechRecognition;
 function fxStartLive(){recTL={words:[],zooms:[],live:false};recLiveEv=[];recShownEv=-1;recInterim="";recSRseg={};recLastZoom=-9;
-  if(!recFxOn)return;const tnow=()=>(performance.now()-recT0)/1000;
-  // ouvir o volume para o zoom no ritmo da fala
+  recEnv=[];recEnvLast=-1;const tnow=()=>(performance.now()-recT0)/1000;
+  // ouvir o volume: guarda quando você fala e quando pausa (sincroniza a edição com a sua fala real)
   try{recAC=new (window.AudioContext||window.webkitAudioContext)();const src=recAC.createMediaStreamSource(recStream);recAn=recAC.createAnalyser();recAn.fftSize=1024;src.connect(recAn);recLvl=0}catch(e){recAn=null}
+  if(!recFxOn)return;
   if(!SRC){fxMsg("Neste navegador a escuta ao vivo não existe. Os efeitos entram pelo seu roteiro quando você terminar.");return}
   try{recSR=new SRC();recSR.lang="pt-BR";recSR.continuous=true;recSR.interimResults=true;recSR.maxAlternatives=1}catch(e){recSR=null;return}
   recSR.onresult=ev=>{const t=tnow();let interim="";
@@ -3626,6 +3635,16 @@ function fxPlayDraw(t,tl){const cap=$("#recCapL"),pop=$("#recPop");if(!cap)retur
   const ev=fxDetect(tl.words);let cur=-1;ev.forEach((e,i)=>{if(t>=e.t&&t<e.t+1.6)cur=i});
   if(cur!==pop._i){pop._i=cur;pop.className="rfxpop";pop.innerHTML="";if(cur>=0){const e=ev[cur];pop.className="rfxpop "+(e.k==="emo"?(cur%2?"l":"r"):"c");pop.innerHTML=fxEl(e);void pop.offsetWidth;pop.classList.add("go")}}}
 // sem escuta: usa o roteiro, distribuído no tempo da gravação
+
+let recEnv=[],recEnvLast=-1,recSrcUsed="";
+function recEnvTick(t){if(!recAn||t-recEnvLast<.05)return;recEnvLast=t;const d=new Uint8Array(recAn.fftSize);recAn.getByteTimeDomainData(d);let sum=0;for(let i=0;i<d.length;i++){const v=(d[i]-128)/128;sum+=v*v}recEnv.push([+t.toFixed(2),Math.sqrt(sum/d.length)])}
+/* distribui as palavras do roteiro pelos trechos em que você realmente falou (sem servidor) */
+function alignScript(script,env,dur){const ws=String(script).split(/\s+/).filter(Boolean);if(!ws.length||!env||env.length<20)return null;
+  const vals=env.map(e=>e[1]).slice().sort((a,b)=>a-b),q=p=>vals[Math.min(vals.length-1,Math.floor(p*vals.length))],floor=q(.2),top=q(.9);if(top-floor<.01)return null;const thr=floor+.22*(top-floor);
+  const seg=[];let cur=null;env.forEach(([t,r])=>{if(r>=thr){if(cur&&t-cur[1]<=.3)cur[1]=t;else{cur=[t,t];seg.push(cur)}}});
+  const sg=seg.map(([a,b])=>[Math.max(0,a-.05),Math.min(dur,b+.12)]).filter(([a,b])=>b-a>=.15);const tot=sg.reduce((a,[x,y])=>a+(y-x),0);if(tot<1)return null;
+  const W=ws.map(w=>w.length+1),all=W.reduce((a,b)=>a+b,0);let acc=0;
+  return ws.map((w,i)=>{let pos=acc/all*tot;acc+=W[i];for(const[a,b]of sg){if(pos<=b-a)return{w,t:+(a+pos).toFixed(2)};pos-=b-a}const l=sg[sg.length-1];return{w,t:+l[1].toFixed(2)}})}
 function fxFromScript(script,dur){const ws=String(script).split(/\s+/).filter(Boolean);const tot=ws.reduce((a,w)=>a+w.length+1,0)||1;let t=0.3;const span=Math.max(1,dur-0.6);
   return ws.map(w=>{const it={w,t:+t.toFixed(2),s:1};t+=span*(w.length+1)/tot;return it})}
 function fxApply(st,vl,tl,dur){const words=tl.words.length?tl.words:[];if(!words.length)return 0;
@@ -3966,13 +3985,13 @@ function stuGuide(){const k=String(recLay).startsWith("st:")?recLay.slice(3):rec
   const face=k==="pv_sobre"?`<circle cx="860" cy="1600" r="170" class="sf"/>`:k==="pv_dividido"?`<ellipse cx="540" cy="1380" rx="190" ry="240" class="sf"/>`:k==="antes"?`<ellipse cx="540" cy="1380" rx="190" ry="250" class="sf"/>`:k==="mini"?`<ellipse cx="540" cy="700" rx="230" ry="300" class="sf"/>`:k==="podcast"?`<ellipse cx="540" cy="700" rx="230" ry="300" class="sf"/>`:`<ellipse cx="${k==="contagem"?600:540}" cy="820" rx="250" ry="330" class="sf"/>`;
   return`<svg viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">${z}${face}<text x="${k==="contagem"?600:k==="pv_sobre"?860:540}" y="${k==="pv_sobre"?1810:k==="pv_dividido"||k==="antes"?1665:k==="mini"||k==="podcast"?1035:1185}" class="st sfx">Seu rosto aqui</text></svg>`}
 function stuSync(){const ov=$("#stu");if(!ov||!ov.classList.contains("on"))return;const g=$("#stuGuide");if(g)g.innerHTML=stuGuide();const n=$("#stuName");if(n){const all=[...MONTAGENS.map(x=>[x[0],x[1].replace(/^✨\s*/,"")]),...STYLES.map(x=>["st:"+x[0],x[1].replace(/^\S+\s/,"")])];n.textContent=(all.find(x=>x[0]===recLay)||["","Edição Pro"])[1]}}
-async function stuCam(){const v=$("#stuCam"),msg=$("#stuMsg");if(!v)return;try{if(stuStream)stuStream.getTracks().forEach(t=>t.stop());stuStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:1080},height:{ideal:1920}},audio:false});v.srcObject=stuStream;await v.play().catch(()=>{});if(msg)msg.style.display="none"}
+async function stuCam(){const v=$("#stuCam"),msg=$("#stuMsg");if(!v)return;try{if(stuStream)stuStream.getTracks().forEach(t=>t.stop());stuStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:recFacing,width:{ideal:1080},height:{ideal:1920}},audio:false});v.srcObject=stuStream;v.classList.toggle("nomirror",recFacing!=="user");await v.play().catch(()=>{});if(msg)msg.style.display="none"}
   catch(e){if(msg){msg.style.display="";msg.textContent="Permita o uso da câmera para ver a prévia aqui."}}}
 function stuStop(){if(stuStream){stuStream.getTracks().forEach(t=>t.stop());stuStream=null}const v=$("#stuCam");if(v)v.srcObject=null}
 function openStudio(){track("open_rec");let ov=$("#stu");if(!ov){ov=document.createElement("div");ov.id="stu";ov.innerHTML=`<div class="stu-top"><button type="button" class="stu-back" data-stu="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Voltar</button><div class="stu-title">Estúdio</div><span></span></div>
-   <div class="stu-body"><aside class="stu-set" id="stuSet"></aside><div class="stu-stage"><div class="stu-frame"><video id="stuCam" muted playsinline autoplay></video><div class="stu-guide" id="stuGuide"></div><p class="stu-msg" id="stuMsg">Abrindo a câmera…</p><span class="stu-chip"><i></i><b id="stuName"></b></span></div>
+   <div class="stu-body"><aside class="stu-set" id="stuSet"></aside><div class="stu-stage"><div class="stu-frame"><video id="stuCam" muted playsinline autoplay></video><div class="stu-guide" id="stuGuide"></div><p class="stu-msg" id="stuMsg">Abrindo a câmera…</p><span class="stu-chip"><i></i><b id="stuName"></b></span><button type="button" class="stu-flip" data-stu="flip" aria-label="Trocar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/></svg></button></div>
      <button type="button" class="stu-rec" data-stu="rec" aria-label="Gravar"><i></i></button><p class="stu-tip">Toque para gravar · contagem de 3 segundos</p></div></div>`;document.body.appendChild(ov);
-    ov.addEventListener("click",e=>{const b=e.target.closest("[data-stu]");if(!b)return;if(b.dataset.stu==="close")closeStudio();else{const go=$("#stuSet #recOpen");if(go)go.click()}})}
+    ov.addEventListener("click",e=>{const b=e.target.closest("[data-stu]");if(!b)return;if(b.dataset.stu==="close")closeStudio();else if(b.dataset.stu==="flip"){recFacing=recFacing==="user"?"environment":"user";stuCam()}else{const go=$("#stuSet #recOpen");if(go)go.click()}})}
   ov.classList.add("on");document.body.classList.add("stuon");sheetRec($("#stuSet"));stuSync();stuCam()}
 function closeStudio(){stuStop();const ov=$("#stu");if(ov)ov.classList.remove("on");document.body.classList.remove("stuon");renderRail()}
 let recGalAll=false;
@@ -4027,7 +4046,7 @@ let recStream=null,recMR=null,recChunks=[],recBlob=null,recDur=0,recFacing="user
 function recBasePx(){const p=$("#recP"),box=$("#recPrompt");if(!p||!box)return 40;const est=Math.max(4,recWords()/2.5),dist=Math.max(60,p.scrollHeight-box.clientHeight*0.45);return dist/est}
 function recLoop(now){const p=$("#recP");if(!p)return;const dt=recLast?(now-recLast)/1000:0;recLast=now;
   if(recScroll&&!recPaused){const max=Math.max(0,p.scrollHeight-($("#recPrompt").clientHeight*0.35));recOff=Math.min(max,recOff+recBasePx()*recSpeed*dt);p.style.transform=`translateY(${-recOff}px)`}
-  if(recMR&&recMR.state==="recording"){const t=(now-recT0)/1000;if(recFlow==="post"){}else if(isProLay()){try{liveProDraw(t)}catch(e){console.error("livePro",e)}}else if(recFxOn)fxTick(t);$("#recTime").textContent=`${Math.floor(t)} s${t>55?" · finalize!":""}`;if(t>=60){endRec();return}}
+  if(recMR&&recMR.state==="recording"){const t=(now-recT0)/1000;recEnvTick(t);if(recFlow==="post"){}else if(isProLay()){try{liveProDraw(t)}catch(e){console.error("livePro",e)}}else if(recFxOn)fxTick(t);$("#recTime").textContent=`${Math.floor(t)} s${t>55?" · finalize!":""}`;if(t>=60){endRec();return}}
   recRAF=requestAnimationFrame(recLoop)}
 function recSpeedLabel(){const l=$("#recSpd");if(l)l.textContent=Math.round(recSpeed*100)+"%"}
 function stopStream(){if(recStream){recStream.getTracks().forEach(t=>t.stop());recStream=null}}
@@ -4058,14 +4077,31 @@ function recCtlIdle(){{const ov=$("#recOv"),c=$("#recCtl"),st2=ov&&ov.querySelec
   stopTakePrev();recPrep=null;["#recLiveCv","#recPrevCv"].forEach(q=>{const c=$(q);if(c)c.style.display="none"});const fx=$("#recFx");if(fx)fx.style.display=""}
 function recWords(){return String(recScript).split(/\s+/).filter(Boolean).length}
 function countdown(n,done){const c=$("#recCount");c.style.display="grid";c.textContent=n;if(n<=0){c.style.display="none";done();return}setTimeout(()=>countdown(n-1,done),800)}
+
+/* gravação por quadro: permite trocar a câmera (frente/traseira) no meio da gravação */
+let recMix=null;
+function recMixStart(){const v=$("#recCam");if(!v||!v.videoWidth||!HTMLCanvasElement.prototype.captureStream)return null;
+  let w=v.videoWidth,h=v.videoHeight;const k=Math.min(1,1920/Math.max(w,h));w=Math.round(w*k/2)*2;h=Math.round(h*k/2)*2;
+  const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.fillStyle="#000";x.fillRect(0,0,w,h);
+  const vs=c.captureStream(30),a=recStream.getAudioTracks()[0],ms=new MediaStream([vs.getVideoTracks()[0]].concat(a?[a]:[]));
+  recMix={c,x,run:true};const draw=()=>{if(!recMix||!recMix.run)return;const el=$("#recCam");if(el&&el.videoWidth){const s=Math.max(w/el.videoWidth,h/el.videoHeight),dw=el.videoWidth*s,dh=el.videoHeight*s;x.drawImage(el,(w-dw)/2,(h-dh)/2,dw,dh)}
+    if(el&&el.requestVideoFrameCallback)el.requestVideoFrameCallback(draw);else requestAnimationFrame(draw)};
+  draw();recMix.timer=setInterval(()=>{const el=$("#recCam");if(recMix&&el&&el.paused)draw()},250);return ms}
+function recMixStop(){if(recMix){recMix.run=false;clearInterval(recMix.timer);recMix=null}}
+async function recSwapVideo(){try{const ns=await navigator.mediaDevices.getUserMedia({video:{facingMode:recFacing,width:{ideal:1920},height:{ideal:1080}},audio:false});const nv=ns.getVideoTracks()[0];
+    recStream.getVideoTracks().forEach(t=>{t.stop();recStream.removeTrack(t)});recStream.addTrack(nv);const v=$("#recCam");v.srcObject=new MediaStream([nv]);v.classList.toggle("mirror",recFacing==="user");await v.play().catch(()=>{});
+    if(recMix&&recMix.run){const draw=()=>{if(!recMix||!recMix.run)return;const el=$("#recCam"),w=recMix.c.width,h=recMix.c.height;if(el&&el.videoWidth){const s=Math.max(w/el.videoWidth,h/el.videoHeight),dw=el.videoWidth*s,dh=el.videoHeight*s;recMix.x.drawImage(el,(w-dw)/2,(h-dh)/2,dw,dh)}if(el&&el.requestVideoFrameCallback)el.requestVideoFrameCallback(draw);else requestAnimationFrame(draw)};draw()}
+    toast(recFacing==="user"?"Câmera da frente":"Câmera traseira: mostre o que quiser")}catch(e){toast("Não consegui trocar a câmera neste aparelho.");recFacing=recFacing==="user"?"environment":"user"}}
+setInterval(()=>{const el=$("#recSrcInfo");if(!el||!(recMR&&recMR.state==="recording"))return;if(recTL&&recTL.live){el.textContent="🎙 Ouvindo sua fala";el.className="rsrc ok"}else if(!recFxOn){el.textContent="Edição pelo roteiro";el.className="rsrc"}else if(!SRC||(recSR&&recSR._dead)||!recSR){el.textContent="📝 Usando o roteiro";el.className="rsrc warn"}else{el.textContent="🎙 Ouvindo…";el.className="rsrc"}},700);
 function beginRec(){
   if(!recStream){toast("A câmera ainda não abriu.");return}
   recMime=(typeof pickMime==="function"&&pickMime())||"";
-  try{recMR=new MediaRecorder(recStream,recMime?{mimeType:recMime,videoBitsPerSecond:5e6}:{})}catch(e){recMR=new MediaRecorder(recStream)}
+  let recSrc=recStream;try{recSrc=recMixStart()||recStream}catch(e){recSrc=recStream}
+  try{recMR=new MediaRecorder(recSrc,recMime?{mimeType:recMime,videoBitsPerSecond:5e6}:{})}catch(e){recMR=new MediaRecorder(recSrc)}
   recChunks=[];recMR.ondataavailable=e=>{if(e.data&&e.data.size)recChunks.push(e.data)};
-  recMR.onstop=()=>{recBlob=new Blob(recChunks,{type:recMR.mimeType||recMime||"video/webm"});showTake()};
+  recMR.onstop=()=>{recMixStop();recBlob=new Blob(recChunks,{type:recMR.mimeType||recMime||"video/webm"});showTake()};
   recMR.start(250);recT0=performance.now();recKey="rec"+Date.now();livePro=null;liveProN=-1;fxStartLive();{const live=recFlow==="live";const lc=$("#recLiveCv");if(lc)lc.style.display=live&&isProLay()?"block":"none";const fx=$("#recFx");if(fx)fx.style.display=live&&recLay!=="pro"?"":"none"}recOff=0;recPaused=false;$("#recP").style.transform="translateY(0)";setTimeout(()=>{recScroll=true},700);
-  $("#recCtl").innerHTML=`<span class="rlive">● Gravando</span><span class="rcg"><button class="btn sm" data-rc="slow">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast">🐇</button></span><button class="recbtn stop" data-rc="stop" aria-label="Parar"><span></span></button>`;
+  $("#recCtl").innerHTML=`<span class="rlive">● Gravando</span><span class="rsrc" id="recSrcInfo">🎙 Ouvindo…</span><button class="btn sm rflip" data-rc="flip" title="Trocar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg></button><span class="rcg"><button class="btn sm" data-rc="slow">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast">🐇</button></span><button class="recbtn stop" data-rc="stop" aria-label="Parar"><span></span></button>`;
 }
 function endRec(){fxStopLive();recScroll=false;recDur=(performance.now()-recT0)/1000;if(recMR&&recMR.state!=="inactive")recMR.stop();$("#recTime").textContent=""}
 function showTake(){recScroll=false;recPrep=null;{const ov=$("#recOv");if(ov)ov.classList.remove("proguide")}const lc=$("#recLiveCv");if(lc)lc.style.display="none";
@@ -4089,7 +4125,7 @@ async function prepTake(){
   const ext=/mp4/.test(blob.type)?"mp4":"webm",f=new File([blob],"gravacao."+ext,{type:blob.type});
   const vid=uid();vl.vid=vid;vl.mkey=recKey||vid;vl.name=f.name;vl.start=0;vl.end=dur;vl.dur=dur;vl.sound=true;
   st.cap.items=chunkText(script.replace(/\n/g," "),0,dur,st.cap.words);st.cap.on=true;
-  let nfx=0;const tlw=recTL.words.length?recTL:{words:fxFromScript(script,dur),zooms:recTL.zooms};
+  let nfx=0;const al=recTL.words.length?null:alignScript(script,recEnv,dur);const tlw=recTL.words.length?recTL:{words:al||fxFromScript(script,dur),zooms:recTL.zooms};recSrcUsed=recTL.words.length?"fala":al?"ritmo":"roteiro";
   if(pro){nfx=applyMontage(st,vl,tlw.words,dur,v);if(prodLay)vl.mont.prodSrc=prodSrc;if(recBgMode)vl.mont.bg=recBgMode;if(recBgSrc)vl.mont.bgSrc=recBgSrc;if(recTheme)vl.mont.theme=recTheme;stApply(vl.mont,styLay?recLay.slice(3):"pro",tlw.words,dur,v)}else if(recFxOn)nfx=fxApply(st,vl,tlw,dur);
   mkVideo(vid,f,dur);
   recPrep={st,vl,vid,f,ext,nfx,pro,dur};return recPrep}
@@ -4109,8 +4145,9 @@ async function showTakePro(){const P=await prepTake();let el=null;for(let k=0;k<
   cv2.onclick=()=>{if(el.paused)el.play().catch(()=>{});else el.pause()}}
 /* GRAVAR E DEPOIS EDITAR: escolhe a edição no final */
 const POST_OPTS=[["pro:azul","✨ Pro azul"],["pro:roxo","✨ Pro roxo"],["pro:verde","✨ Pro verde"],["pro:ouro","✨ Pro dourado"],["pro:marca","✨ Pro minha marca"],["vlegenda","📝 Só você + legenda"],["pv_dividido","🛍️ Pro produto + você"]];
+function postSrcTxt(){if(recTL&&recTL.words.length)return"🎙 Edição montada com a sua fala reconhecida";const a=alignScript(String(recScript),recEnv,Math.min(60,recDur));return a?"〰 Edição montada pelo roteiro, no ritmo real da sua voz":"📝 Edição montada pelo roteiro"}
 function postCtl(){const cur2=recLay==="pro"?"pro:"+recTheme:recLay,E=preM.get(recKey),pr=E?E.state==="done"?"✅ Recorte em alta qualidade pronto":E.state==="erro"?"Recorte de alta qualidade indisponível (usando o rápido)":`⏳ Preparando o recorte em alta qualidade… ${Math.round((E.prog||0)*100)}%`:"";
-  $("#recCtl").innerHTML=`<div class="postbox"><div class="posth"><b>Escolha a edição</b><span class="note" id="postProg">${pr}</span></div>
+  $("#recCtl").innerHTML=`<div class="postbox"><div class="posth"><b>Escolha a edição</b><span class="note" id="postProg">${pr}</span></div><span class="note" id="postSrc">${postSrcTxt()}</span>
     <div class="postopts">${POST_OPTS.map(([k,n])=>`<button type="button" class="chipb${cur2===k?" on":""}" data-pst="${k}">${n}</button>`).join("")}</div>
     <div class="posth" style="margin-top:4px"><b>Estilos prontos</b></div>
     <div class="postopts">${STYLES.map(([k,n])=>`<button type="button" class="chipb${recLay==="st:"+k?" on":""}" data-pst="st:${k}">${n}</button>`).join("")}</div>
@@ -4150,7 +4187,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-rc]");if(!
   else if(k==="fast"){recSpeed=Math.min(2.5,+(recSpeed+.15).toFixed(2));recSpeedLabel()}
   else if(k==="test"){if(recScroll){recScroll=false;recOff=0;$("#recP").style.transform="translateY(0)";b.textContent="▶ Testar texto"}else{recOff=0;recPaused=false;recScroll=true;b.textContent="■ Parar teste"}}
   else if(k==="f-"||k==="f+"){recFont=Math.max(20,Math.min(60,recFont+(k==="f+"?4:-4)));$("#recP").style.fontSize=recFont+"px"}
-  else if(k==="flip"){recFacing=recFacing==="user"?"environment":"user";startCam()}
+  else if(k==="flip"){recFacing=recFacing==="user"?"environment":"user";if(recMR&&recMR.state==="recording")recSwapVideo();else startCam()}
   else if(k==="rec")countdown(3,beginRec);
   else if(k==="fx"){recFxOn=!recFxOn;b.classList.toggle("on",recFxOn);b.textContent="✨ Edição ao vivo: "+(recFxOn?"ligada":"desligada");toast(recFxOn?"Enquanto você fala, o app coloca legenda, números, emojis e chamadas.":"Edição ao vivo desligada.")}
   else if(k==="stop")endRec();
