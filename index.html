@@ -1387,7 +1387,9 @@ let ACC=null,KEY=null;
 /* ---------- DADOS DE USO (para o Painel) — só com o "aceito" da pessoa (LGPD) ---------- */
 const APP_VER="2026.11.24";
 /* Endereço do banco: preencha aqui depois de criar o projeto no Supabase (só a URL e a chave pública "anon"). */
-const SB_URL="",SB_ANON="";
+const SB_URL="https://jhyoyeinwzmzimsevckd.supabase.co",SB_ANON="sb_publishable_f9-BC3SDH0g0-aYziS7gjQ_G0UvStMC";
+/* chave nova (sb_publishable_) vai só no cabeçalho apikey; chave antiga (JWT) também no Authorization */
+const sbHead=k=>Object.assign({apikey:k,"Content-Type":"application/json"},/^eyJ/.test(k)?{Authorization:"Bearer "+k}:{});
 const ANA_K={ok:"sp_lgpd",dev:"sp_dev",geo:"sp_geo",q:"sp_q",log:"sp_log",cfg:"sp_sb"};
 const anaLS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 function sbCfg(){const c=anaLS.get(ANA_K.cfg,null);return{url:(SB_URL||(c&&c.url)||"").replace(/\/+$/,""),key:SB_ANON||(c&&c.key)||""}}
@@ -1407,7 +1409,7 @@ function anaEv(evento,tela){if(!anaOk())return;const g=anaGeoV||anaLS.get(ANA_K.
 async function anaFlush(keep){const c=sbCfg();const saved=anaLS.get(ANA_K.q,[]);const batch=saved.concat(anaQ.splice(0));if(!batch.length)return;
   if(!c.url||!c.key||!navigator.onLine){anaLS.set(ANA_K.q,batch.slice(-300));return}
   anaLS.set(ANA_K.q,[]);
-  try{const r=await fetch(c.url+"/rest/v1/eventos",{method:"POST",keepalive:!!keep&&JSON.stringify(batch).length<60000,headers:{apikey:c.key,Authorization:"Bearer "+c.key,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify(batch)});
+  try{const r=await fetch(c.url+"/rest/v1/eventos",{method:"POST",keepalive:!!keep&&JSON.stringify(batch).length<60000,headers:Object.assign(sbHead(c.key),{Prefer:"return=minimal"}),body:JSON.stringify(batch)});
     if(!r.ok)throw new Error(r.status)}catch(e){const q=anaLS.get(ANA_K.q,[]);anaLS.set(ANA_K.q,batch.concat(q).slice(-300))}}
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")anaFlush(true)});
 addEventListener("online",()=>anaFlush());
@@ -4490,8 +4492,8 @@ const pnPct=(a,b)=>b?Math.round(a/b*100)+"%":"–";
 const pnNum=v=>{const x=parseFloat(String(v||"").replace(/\./g,"").replace(",","."));return isNaN(x)?0:x};
 const pnDate=d=>d?new Date(String(d).length<=10?d+"T12:00:00":d).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}):"";
 async function pnRpc(fn,args){const c=sbCfg();if(!c.url||!c.key)throw new Error("Banco não ligado.");
-  const r=await fetch(c.url+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:c.key,Authorization:"Bearer "+c.key,"Content-Type":"application/json"},body:JSON.stringify(args)});
-  const t=await r.text();let j=null;try{j=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw new Error((j&&(j.message||j.hint))||("Erro "+r.status));return j}
+  const r=await fetch(c.url+"/rest/v1/rpc/"+fn,{method:"POST",headers:sbHead(c.key),body:JSON.stringify(args)});
+  const t=await r.text();let j=null;try{j=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw new Error((j&&(j.message||j.hint))||("Erro "+r.status));if(j==null)throw new Error("Resposta vazia do banco.");return j}
 const pnArgs=a=>Object.assign({p_chave:anaLS.get(PN_K.chave,"")},a);
 const pnBank=()=>{const c=sbCfg();return!!(c.url&&c.key&&anaLS.get(PN_K.chave,""))};
 /* prévia: mesmo formato do banco, calculado com os eventos deste aparelho */
