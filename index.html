@@ -752,7 +752,7 @@ header .clock,header #who{display:none!important}
 .rs-gal.all .rs-t i{width:100%;height:auto;aspect-ratio:9/16}
 @media (hover:none){.rs-nav{display:none}}
 
-.stu-frame video.nomirror{transform:none}
+.stu-frame video.nomirror,.stu-vid video.nomirror{transform:none}
 .stu-flip{position:absolute;right:12px;top:10px;width:40px;height:40px;border-radius:50%;border:0;background:#000000a0;backdrop-filter:blur(8px);color:#fff;display:grid;place-items:center;cursor:pointer}
 .stu-flip svg{width:20px;height:20px}
 .rsrc{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:#ffffff1a;color:#fff;white-space:nowrap}
@@ -802,6 +802,28 @@ header .clock,header #who{display:none!important}
 @media (max-width:640px){.stu-set{scroll-padding-bottom:96px;scroll-padding-top:10px}}
 .postdots{align-items:center;gap:10px}.postdots .rs-dot{flex:0 0 28px}
 #v-home{overflow-x:hidden}
+
+.rvirar{display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:#ffffff1f;border:0;color:#fff;border-radius:14px;padding:6px 10px;font:inherit;font-size:11px;font-weight:700;cursor:pointer}
+.rvirar:active{transform:scale(.95)}
+.stu-flip{width:auto!important;height:auto!important;border-radius:14px!important;padding:7px 10px!important;display:flex!important;flex-direction:column;gap:2px;font:inherit;font-size:11px;font-weight:700}
+.rs-sub{font-size:12px;color:var(--mut);font-weight:600;margin-top:2px}
+.rs-cols .rs-t{flex-basis:60px}.rs-cols .rs-t i{width:60px;height:107px}
+
+/* estúdio: prévia montada com a foto do produto */
+.stu-vid{position:absolute;inset:0;overflow:hidden}
+.stu-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.stu-vid video.nomirror{transform:none}
+.stu-prod{display:none;position:absolute;overflow:hidden;background:linear-gradient(135deg,#ff5a7a55,#ffb54755);cursor:pointer}
+.stu-prod img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.stu-prod span{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:#fff;font-size:13px;font-weight:700}
+.stu-frame.hasprod .stu-prod img{display:block}.stu-frame.hasprod .stu-prod span{display:none}
+.stu-frame.lay-sobre .stu-prod{display:block;inset:0}
+.stu-frame.lay-sobre .stu-vid{inset:auto;left:7.4%;top:65.6%;width:40.74%;height:auto;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 3px #fff,0 8px 24px #0008;z-index:2}
+.stu-frame.lay-div{background:radial-gradient(circle at 50% 35%,#0d2257,#050b1f)}
+.stu-frame.lay-div .stu-prod{display:block;left:6.5%;top:7.3%;width:87%;height:42.7%;border-radius:14px;box-shadow:0 0 0 1px #4da3ff88}
+.stu-frame.lay-div .stu-vid{inset:auto;left:6.5%;top:54.2%;width:87%;height:39.6%;border-radius:14px;box-shadow:0 0 0 1px #4da3ff88}
+.stu-frame .stu-guide{z-index:3}.stu-frame .stu-chip,.stu-frame .stu-flip{z-index:4}
+@media (max-width:640px){.stu-stage{align-items:center}.stu-frame.lay-sobre,.stu-frame.lay-div{height:46%;width:auto;aspect-ratio:9/16;margin-top:10px;border-radius:16px;box-shadow:0 0 0 1px #ffffff1f}}
 </style>
 </head>
 <body>
@@ -3672,10 +3694,10 @@ function fxPunch(){return;const v=$("#recCam");if(!v)return;v.classList.add("pun
 function fxEl(e){return e.k==="num"?`<b class="fxnum">${esc(e.x)}</b>`:e.k==="cta"?`<b class="fxcta">👉 ${esc(e.x)}</b>`:`<b class="fxemo">${e.x}</b>`}
 function fxLiveDraw(){const cap=$("#recCapL"),pop=$("#recPop");if(!cap)return;
   const ws=recTL.words.slice(-6).map(w=>w.w).concat(recInterim?recInterim.split(/\s+/):[]).slice(-6);
-  cap.innerHTML=ws.length?ws.map(w=>{const n=fxNorm(w);return(FX_EMOJI[n]||FX_CTA.includes(n)||/\d/.test(n))?`<em>${esc(w)}</em>`:esc(w)}).join(" "):"";
+  cap.innerHTML=recCaps&&ws.length?ws.map(w=>{const n=fxNorm(w);return(FX_EMOJI[n]||FX_CTA.includes(n)||/\d/.test(n))?`<em>${esc(w)}</em>`:esc(w)}).join(" "):"";
   if(recLiveEv.length-1>recShownEv){recShownEv=recLiveEv.length-1;const e=recLiveEv[recShownEv];pop.className="rfxpop "+(e.k==="emo"?(recShownEv%2?"l":"r"):"c");pop.innerHTML=fxEl(e);void pop.offsetWidth;pop.classList.add("go")}}
 function fxPlayDraw(t,tl){const cap=$("#recCapL"),pop=$("#recPop");if(!cap)return;
-  const ws=tl.words.filter(w=>w.t<=t+0.05).slice(-6).map(w=>w.w);cap.innerHTML=ws.map(w=>{const n=fxNorm(w);return(FX_EMOJI[n]||FX_CTA.includes(n)||/\d/.test(n))?`<em>${esc(w)}</em>`:esc(w)}).join(" ");
+  const ws=recCaps?tl.words.filter(w=>w.t<=t+0.05).slice(-6).map(w=>w.w):[];cap.innerHTML=ws.map(w=>{const n=fxNorm(w);return(FX_EMOJI[n]||FX_CTA.includes(n)||/\d/.test(n))?`<em>${esc(w)}</em>`:esc(w)}).join(" ");
   const ev=fxDetect(tl.words);let cur=-1;ev.forEach((e,i)=>{if(t>=e.t&&t<e.t+1.6)cur=i});
   if(cur!==pop._i){pop._i=cur;pop.className="rfxpop";pop.innerHTML="";if(cur>=0){const e=ev[cur];pop.className="rfxpop "+(e.k==="emo"?(cur%2?"l":"r"):"c");pop.innerHTML=fxEl(e);void pop.offsetWidth;pop.classList.add("go")}}}
 // sem escuta: usa o roteiro, distribuído no tempo da gravação
@@ -3967,14 +3989,14 @@ function mtStudio(ctx,x,y,w,h,T,t){const g=ctx.createLinearGradient(x,y,x,y+h);g
   ctx.globalAlpha=.18;ctx.strokeStyle=T.a;ctx.lineWidth=2;for(let k=0;k<12;k++){const yy=y+h*.62+k*k*9;ctx.beginPath();ctx.moveTo(x,yy);ctx.lineTo(x+w,yy);ctx.stroke()}
   for(let k=-6;k<=6;k++){ctx.beginPath();ctx.moveTo(x+w/2+k*40,y+h*.62);ctx.lineTo(x+w/2+k*260,y+h);ctx.stroke()}
   ctx.globalAlpha=.5;for(let k=0;k<3;k++){const bx=x+w*(.15+.35*k)+Math.sin(t*.6+k)*20;const lg=ctx.createLinearGradient(bx,y,bx+60,y);lg.addColorStop(0,T.a+"00");lg.addColorStop(.5,T.a+"55");lg.addColorStop(1,T.a+"00");ctx.fillStyle=lg;ctx.fillRect(bx,y,60,h*.62)}ctx.restore()}
-function mtOpenTitle(ctx,s,y,lt,T,A){
+function mtOpenTitle(ctx,s,y,lt,T,A){if(!String(s.title||"").trim()){mtKicker(ctx,s.kicker,540,y+120,T,A,"center");return}
     mtKicker(ctx,s.kicker,540,y+120,T,A,"center");ctx.save();let fs=150;ctx.font=`900 ${fs}px "Montserrat",sans-serif`;const tt=String(s.title||"").toUpperCase();const ls0=()=>mtWrap(ctx,tt,800);while((ls0().length>2||ls0().some(q=>ctx.measureText(q).width>820))&&fs>70){fs-=8;ctx.font=`900 ${fs}px "Montserrat",sans-serif`}
       const ls=ls0();ls.forEach((ln,k)=>{const q=mtOut((lt-.1-k*.18)/.45);ctx.globalAlpha=q*A;const sc=1.06-.06*q;ctx.save();ctx.translate(540,y+160+k*fs*1.02+fs/2);ctx.scale(sc,sc);const gg=ctx.createLinearGradient(0,-fs/2,0,fs/2);gg.addColorStop(0,"#ffffff");gg.addColorStop(1,T.k);ctx.fillStyle=gg;ctx.shadowColor=T.a;ctx.shadowBlur=40;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(ln,0,0);ctx.restore()});
       const uw=mtOut((lt-.5)/.5)*420;ctx.globalAlpha=A;ctx.fillStyle=T.a;ctx.shadowColor=T.a;ctx.shadowBlur=20;rr(ctx,540-uw/2,y+170+ls.length*fs*1.02,uw,8,4);ctx.fill();ctx.restore()}
-function mtShort(words,max=5){const ws=words.map(w=>String(w.w||w).replace(/[.,!?;:]/g,"")).filter(Boolean);const k=ws.filter(w=>!MT_STOP.has(fxNorm(w))&&fxNorm(w).length>2);const use=(k.length>=2?k:ws).slice(0,max).join(" ");return use.charAt(0).toUpperCase()+use.slice(1)}
+function mtShort(words,max=5){const ws=words.map(w=>String((w&&typeof w==="object")?(w.w||""):w).replace(/[.,!?;:]/g,"")).filter(Boolean);const k=ws.filter(w=>!MT_STOP.has(fxNorm(w))&&fxNorm(w).length>2);const use=(k.length>=2?k:ws).slice(0,max).join(" ");return use.charAt(0).toUpperCase()+use.slice(1)}
 const MT_LEAD=new Set("voce e a o as os de do da que com entao ai tipo pra para isso eu".split(" "));
 const FX_LABEL={vivo:"Ao vivo",horario:"No seu horário",gratis:"Grátis",gratuito:"Gratuito",whatsapp:"WhatsApp",enem:"ENEM",hoje:"Hoje",prazo:"Prazo curto",diploma:"Diploma",certificado:"Certificado",vagas:"Vagas limitadas",vaga:"Garanta a vaga",desconto:"Desconto",matricula:"Matrícula",aula:"Aulas",aulas:"Aulas",curso:"Curso",casa:"De casa",trabalho:"Trabalho",familia:"Família",tempo:"Seu tempo",rapido:"Rápido",facil:"Fácil",simples:"Simples"};
-function mtPhrase(src,max=6){let ws=(Array.isArray(src)?src.map(w=>w.w||w):String(src).split(/\s+/)).map(w=>String(w).replace(/[.,!?;:“”"]/g,"")).filter(Boolean);
+function mtPhrase(src,max=6){let ws=(Array.isArray(src)?src.map(w=>(w&&typeof w==="object")?(w.w||""):w):String(src).split(/\s+/)).map(w=>String(w).replace(/[.,!?;:“”"]/g,"")).filter(Boolean);
   while(ws.length>1&&MT_LEAD.has(fxNorm(ws[0])))ws.shift();ws=ws.slice(0,max);while(ws.length>1&&MT_STOP.has(fxNorm(ws[ws.length-1])))ws.pop();const t=ws.join(" ");return t.charAt(0).toUpperCase()+t.slice(1)}
 const MT_KICK=["O que você ganha","Na prática","Por que vale a pena","Presta atenção","O diferencial"];
 function mtItems(words){const out=[],seen=new Set();words.forEach(w=>{const n=fxNorm(w.w);if(FX_EMOJI[n]&&!seen.has(n)){seen.add(n);out.push({x:FX_LABEL[n]||String(w.w).replace(/[.,!?;:]/g,"").replace(/^./,c=>c.toUpperCase()),e:FX_EMOJI[n],t:w.t})}});return out}
@@ -4061,19 +4083,19 @@ function stuGuide(){const k=String(recLay).startsWith("st:")?recLay.slice(3):rec
   else if(k==="contagem")z=Z(46,250,284,560,"Contagem",38)+Z(46,1330,700,170,"Nome do evento")+Z(70,1590,940,140,"Legenda");
   else if(k==="antes")z=Z(0,0,1080,950,"Fotos antes e depois",0)+Z(70,1640,940,150,"Legenda");
   else if(k==="live")z=Z(30,40,1020,120,"Perfil · AO VIVO",16)+Z(70,190,940,260,"Título")+Z(40,1250,1000,400,"Comentários")+Z(40,1684,1000,124,"Link fixado",26);
-  else if(k==="pv_dividido")z=Z(70,140,940,820,"Foto do produto",40)+Z(70,1040,940,760,"Você",40);
-  else if(k==="pv_sobre")z=Z(0,0,1080,1920,"Foto do produto",0);
+  else if(k==="pv_dividido"||k==="pv_sobre")z="";
   else z=Z(90,170,900,260,"Título")+Z(70,1520,940,180,"Legenda");
-  const face=k==="pv_sobre"?`<circle cx="860" cy="1600" r="170" class="sf"/>`:k==="pv_dividido"?`<ellipse cx="540" cy="1380" rx="190" ry="240" class="sf"/>`:k==="antes"?`<ellipse cx="540" cy="1380" rx="190" ry="250" class="sf"/>`:k==="mini"?`<ellipse cx="540" cy="700" rx="230" ry="300" class="sf"/>`:k==="podcast"?`<ellipse cx="540" cy="700" rx="230" ry="300" class="sf"/>`:`<ellipse cx="${k==="contagem"?600:540}" cy="820" rx="250" ry="330" class="sf"/>`;
-  return`<svg viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">${z}${face}<text x="${k==="contagem"?600:k==="pv_sobre"?860:540}" y="${k==="pv_sobre"?1810:k==="pv_dividido"||k==="antes"?1665:k==="mini"||k==="podcast"?1035:1185}" class="st sfx">Seu rosto aqui</text></svg>`}
-function stuSync(){const ov=$("#stu");if(!ov||!ov.classList.contains("on"))return;const g=$("#stuGuide");if(g)g.innerHTML=stuGuide();const n=$("#stuName");if(n){const all=[...MONTAGENS.map(x=>[x[0],x[1].replace(/^✨\s*/,"")]),...STYLES.map(x=>["st:"+x[0],x[1].replace(/^\S+\s/,"")])];n.textContent=(all.find(x=>x[0]===recLay)||["","Edição Pro"])[1]}}
+  const face=k==="pv_sobre"?`<circle cx="300" cy="1480" r="150" class="sf"/>`:k==="pv_dividido"?`<ellipse cx="540" cy="1400" rx="170" ry="220" class="sf"/>`:k==="antes"?`<ellipse cx="540" cy="1380" rx="190" ry="250" class="sf"/>`:k==="mini"?`<ellipse cx="540" cy="700" rx="230" ry="300" class="sf"/>`:k==="podcast"?`<ellipse cx="540" cy="700" rx="230" ry="300" class="sf"/>`:`<ellipse cx="${k==="contagem"?600:540}" cy="820" rx="250" ry="330" class="sf"/>`;
+  if(k==="pv_sobre"||k==="pv_dividido")return"";
+  return`<svg viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">${z}${face}<text x="${k==="contagem"?600:k==="pv_sobre"?300:540}" y="${k==="pv_sobre"?1750:k==="pv_dividido"?1660:k==="antes"?1665:k==="mini"||k==="podcast"?1035:1185}" class="st sfx">Seu rosto aqui</text></svg>`}
+function stuSync(){const ov=$("#stu");if(!ov||!ov.classList.contains("on"))return;{const f=$("#stuFrame"),im=$("#stuProdImg");if(f){f.classList.toggle("lay-sobre",recLay==="pv_sobre");f.classList.toggle("lay-div",recLay==="pv_dividido");f.classList.toggle("hasprod",!!recProdPick)}if(im){if(recProdPick&&im.getAttribute("src")!==recProdPick)im.src=recProdPick;if(!recProdPick)im.removeAttribute("src")}}const g=$("#stuGuide");if(g)g.innerHTML=stuGuide();const n=$("#stuName");if(n){const all=[...MONTAGENS.map(x=>[x[0],x[1].replace(/^✨\s*/,"")]),...STYLES.map(x=>["st:"+x[0],x[1].replace(/^\S+\s/,"")])];n.textContent=(all.find(x=>x[0]===recLay)||["","Edição Pro"])[1]}}
 async function stuCam(){const v=$("#stuCam"),msg=$("#stuMsg");if(!v)return;try{if(stuStream)stuStream.getTracks().forEach(t=>t.stop());stuStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:recFacing,width:{ideal:1080},height:{ideal:1920}},audio:false});v.srcObject=stuStream;v.classList.toggle("nomirror",recFacing!=="user");await v.play().catch(()=>{});if(msg)msg.style.display="none"}
   catch(e){if(msg){msg.style.display="";msg.textContent="Permita o uso da câmera para ver a prévia aqui."}}}
 function stuStop(){if(stuStream){stuStream.getTracks().forEach(t=>t.stop());stuStream=null}const v=$("#stuCam");if(v)v.srcObject=null}
 function openStudio(){track("open_rec");try{document.fonts&&document.fonts.load('400 60px "Anton"')}catch(e){}let ov=$("#stu");if(!ov){ov=document.createElement("div");ov.id="stu";ov.innerHTML=`<div class="stu-top"><button type="button" class="stu-back" data-stu="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Editor</button><div class="stu-title">Estúdio</div><span></span></div>
-   <div class="stu-body"><aside class="stu-set" id="stuSet"></aside><div class="stu-stage"><div class="stu-frame"><video id="stuCam" muted playsinline autoplay></video><div class="stu-guide" id="stuGuide"></div><p class="stu-msg" id="stuMsg">Abrindo a câmera…</p><span class="stu-chip"><i></i><b id="stuName"></b></span><button type="button" class="stu-flip" data-stu="flip" aria-label="Trocar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/></svg></button></div>
+   <div class="stu-body"><aside class="stu-set" id="stuSet"></aside><div class="stu-stage"><div class="stu-frame" id="stuFrame"><div class="stu-prod" id="stuProd"><img id="stuProdImg" alt=""><span>Toque para escolher a foto do produto</span></div><div class="stu-vid"><video id="stuCam" muted playsinline autoplay></video></div><div class="stu-guide" id="stuGuide"></div><p class="stu-msg" id="stuMsg">Abrindo a câmera…</p><span class="stu-chip"><i></i><b id="stuName"></b></span><button type="button" class="stu-flip" data-stu="flip" aria-label="Virar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg><span>Virar</span></button></div>
      <button type="button" class="stu-rec" data-stu="rec" aria-label="Gravar"><i></i></button><p class="stu-tip">Toque para gravar · contagem de 3 segundos</p></div></div>`;document.body.appendChild(ov);
-    ov.addEventListener("click",e=>{const b=e.target.closest("[data-stu]");if(!b)return;if(b.dataset.stu==="close")closeStudio();else if(b.dataset.stu==="flip"){recFacing=recFacing==="user"?"environment":"user";stuCam()}else{const go=$("#stuSet #recOpen");if(go)go.click()}})}
+    ov.addEventListener("click",e=>{if(e.target.closest("#stuProd")&&(recLay==="pv_sobre"||recLay==="pv_dividido")){pickProdPhoto(()=>sheetRec());return}const b=e.target.closest("[data-stu]");if(!b)return;if(b.dataset.stu==="close")closeStudio();else if(b.dataset.stu==="flip"){recFacing=recFacing==="user"?"environment":"user";stuCam()}else{const go=$("#stuSet #recOpen");if(go)go.click()}})}
   ov.classList.add("on");document.body.classList.add("stuon");sheetRec($("#stuSet"));stuSync();stuCam()}
 function closeStudio(){stuStop();const ov=$("#stu");if(ov)ov.classList.remove("on");document.body.classList.remove("stuon");renderRail()}
 
@@ -4081,8 +4103,9 @@ function closeStudio(){stuStop();const ov=$("#stu");if(ov)ov.classList.remove("o
 const IMG_OK=["image/jpeg","image/png","image/webp"];
 function checkImgFile(fl){if(!fl)return"Nenhuma foto escolhida.";if(!IMG_OK.includes(fl.type)&&!/\.(jpe?g|png|webp)$/i.test(fl.name||""))return/heic|heif/i.test(fl.type+fl.name)?"Foto HEIC do iPhone não abre aqui. No iPhone: Ajustes › Câmera › Formatos › Mais compatível, ou envie um print da foto.":"Formato não suportado. Use JPG, PNG ou WEBP.";if(fl.size>10*1024*1024)return`A foto tem ${(fl.size/1048576).toFixed(1).replace(".",",")} MB. O limite é 10 MB.`;return""}
 function pickProdPhoto(after){const fi=document.createElement("input");fi.type="file";fi.accept="image/jpeg,image/png,image/webp";fi.style.display="none";document.body.appendChild(fi);
-  fi.onchange=async()=>{const fl=fi.files[0];fi.remove();const er=checkImgFile(fl);if(er){toast(er);return}try{recProdPick=await readImg(fl,1080,1080);recPhoto="";toast("Foto do produto pronta.");after&&after()}catch(err){toast("Não consegui abrir essa foto. Tente JPG ou PNG.")}};fi.click()}
-let recGalAll=false,recScriptEdited=false;
+  fi.onchange=async()=>{const fl=fi.files[0];fi.remove();const er=checkImgFile(fl);if(er){toast(er);return}try{recProdPick=await readImg(fl,1080,recLay==="pv_sobre"?1920:1080);recPhoto="";toast("Foto do produto pronta.");after&&after()}catch(err){toast("Não consegui abrir essa foto. Tente JPG ou PNG.")}};fi.click()}
+function rsThemeThumb(T){return`<svg viewBox="0 0 54 96" aria-hidden="true"><defs><radialGradient id="rtg${T.a.slice(1)}" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="${T.b2}"/><stop offset="1" stop-color="${T.b1}"/></radialGradient></defs><rect width="54" height="96" fill="url(#rtg${T.a.slice(1)})"/><rect x="9" y="12" width="36" height="5" rx="2" fill="#fff"/><rect x="14" y="20" width="26" height="3" rx="1.5" fill="${T.k}"/><rect x="6" y="32" width="42" height="56" rx="6" fill="#2b2f3a" stroke="${T.a}" stroke-width="1.2"/><circle cx="27" cy="54" r="8" fill="#d9cfc6"/><path d="M12 80 q15-16 30 0 v8 h-30z" fill="#7d7068"/><rect x="13" y="76" width="28" height="4" rx="2" fill="${T.a}"/></svg>`}
+let recGalAll=false,recScriptEdited=false,recCaps=true;
 function rsNavSync(g){if(!g)return;const w=g.parentNode;if(!w)return;w.classList.toggle("atstart",g.scrollLeft<8);w.classList.toggle("atend",g.scrollLeft+g.clientWidth>=g.scrollWidth-8)}
 function sheetRec(target){
   const b=target||(($("#stu")&&$("#stu").classList.contains("on"))?$("#stuSet"):$("#sheetB")),keep=b.scrollTop,keepG=(b.querySelector(".rs-gal")||{}).scrollLeft,R=ROTEIROS.find(x=>x.id===recR),v={};R.f.forEach(([k,,d])=>v[k]=recV[k]||d);
@@ -4102,19 +4125,20 @@ function sheetRec(target){
     <p class="rs-hint">${esc(cur[2])}</p>
     ${isStyLay()?`<label class="rs-sw"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}><i></i><span>Corte dinâmico<em>Tira as pausas longas da fala</em></span></label>`:""}
     ${recLay==="st:contagem"||recLay==="st:antes"?`<p class="rs-hint">${recLay==="st:contagem"?"Data e nome do evento: você escolhe depois de gravar.":"Fotos do antes e do depois: você escolhe depois de gravar."}</p>`:""}
-    ${isProLay()&&!isStyLay()?`<div class="rs-opt"><span>Cores</span><div>${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="rs-dot${recTheme===k?" on":""}" data-rth="${k}" title="${esc(o.n)}" style="--c:${k==="marca"?((S.brand&&S.brand.c1)||"#ff5a7a"):o.a}"></button>`).join("")}</div></div>`:""}
-    ${recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay()?`<div class="rs-prod"><button type="button" class="rs-pp${recProdPick?" has":""}" data-rpp="1">${recProdPick?`<img src="${recProdPick}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 8"/></svg>`}</button><div><b>${recProdPick?"Foto do produto escolhida":"Foto do produto"}</b><span>JPG, PNG ou WEBP · até 10 MB · ideal 1080×1080 (quadrada)</span>${recProdPick?`<button type="button" class="linkbtn" data-rpp="1">Trocar foto</button>`:`<button type="button" class="linkbtn" data-rpp="1">Escolher do celular</button>`}</div></div>`:""}
+    ${isProLay()&&!isStyLay()?`<div class="rs-sub">Cores do Tecnológico</div><div class="rs-gal rs-cols">${Object.entries(MT_THEMES).map(([k,o])=>{const T=k==="marca"?mtTheme({theme:"marca"}):o;return`<button type="button" class="rs-t rs-tc${recTheme===k?" on":""}" data-rth="${k}"><i>${rsThemeThumb(T)}</i><span>${esc(o.n.replace(" tecnologia","").replace(" energia","").replace(" neon","").replace("Cores da minha marca","Minha marca"))}</span></button>`}).join("")}</div>`:""}
+    ${recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay()?`<div class="rs-prod"><button type="button" class="rs-pp${recProdPick?" has":""}" data-rpp="1">${recProdPick?`<img src="${recProdPick}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 8"/></svg>`}</button><div><b>${recProdPick?"Foto do produto escolhida":"Foto do produto"}</b><span>JPG, PNG ou WEBP · até 10 MB · ideal ${recLay==="pv_sobre"?"1080×1920 (vertical)":"1080×1080 (quadrada)"}</span>${recProdPick?`<button type="button" class="linkbtn" data-rpp="1">Trocar foto</button>`:`<button type="button" class="linkbtn" data-rpp="1">Escolher do celular</button>`}</div></div>`:""}
    </section>
    <section class="rs-sec"><div class="rs-h"><span>3</span>Como gravar</div>
     <div class="rs-tog">${[["post","Gravar e editar depois"],["live","Ver a edição ao vivo"]].map(([k,n])=>`<button type="button" class="${recFlow===k?"on":""}" data-rfl="${k}">${n}</button>`).join("")}</div>
     <p class="rs-hint">${recFlow==="post"?"Você grava à vontade e escolhe o acabamento no final.":"A edição aparece na tela enquanto você fala."}</p>
+    <label class="rs-sw"><input type="checkbox" id="recCapsChk"${recCaps?" checked":""}><i></i><span>Legendas automáticas<em>${recFlow==="live"?"Sua fala vira legenda na tela enquanto você grava":"Sua fala vira legenda no vídeo"}</em></span></label>
    </section>
    <button class="rs-go" id="recOpen"><i></i>Gravar</button>
    <p class="rs-foot">Câmera frontal no celular · webcam no computador</p></div>`;
   try{stuSync()}catch(e){}b.scrollTop=keep;{const g=b.querySelector(".rs-gal");if(g&&!recGalAll){if(keepG!=null)g.scrollLeft=keepG;else{const o=g.querySelector(".rs-t.on");if(o)g.scrollLeft=Math.max(0,o.offsetLeft-g.clientWidth/2+o.clientWidth/2)}g.addEventListener("scroll",()=>rsNavSync(g),{passive:true});rsNavSync(g)}}
   if(false)(async()=>{const box=$("#recPh");if(!box)return;const list=(await idbGet(upKey()))||[];const ths=await Promise.all(list.slice(0,18).map(x=>idbGet("upth:"+x.id)));
     box.innerHTML=`<button type="button" class="recup" data-rp="new" title="Enviar foto">+<span>Enviar</span></button>`+list.slice(0,18).map((x,i)=>`<button type="button" class="recpi${recPhoto===x.id?" sel":""}" data-rp="${x.id}"><img src="${ths[i]||""}" alt=""></button>`).join("")+`<button type="button" class="recup${!recPhoto?" sel":""}" data-rp=""><span>Depois</span></button>`})();
-  b.onchange=e=>{if(e.target.id==="recDynChk"){recDyn=e.target.checked}};
+  b.onchange=e=>{if(e.target.id==="recDynChk"){recDyn=e.target.checked}if(e.target.id==="recCapsChk"){recCaps=e.target.checked;livePro=null;liveProN=-1}};
   b.onclick=async e=>{const t=e.target.closest("[data-rr],[data-rl],[data-rp],[data-rbg],[data-rth],[data-rfl],[data-rsall],[data-rsnav],[data-rpp],[data-rsclr],#recOpen");if(!t)return;
     if(t.dataset.rsall){recGalAll=!recGalAll;sheetRec();return}
     if(t.dataset.rpp){pickProdPhoto(()=>sheetRec());return}
@@ -4149,7 +4173,7 @@ function openRecorder(){try{closeStudio()}catch(e){}recProdSrc="";recProdPick=""
   ov.innerHTML=`<div class="recstage"><video id="recCam" autoplay muted playsinline></video><video id="recPlay" playsinline controls style="display:none"></video>
    <div class="prompt" id="recPrompt"><div class="ptext" id="recP" style="font-size:${recFont}px">${esc(String(recScript)).replace(/\n/g,"<br>")}</div></div>
    <div class="rguide" id="recGuide"><span>Área do título · mantenha a cabeça abaixo desta linha</span></div>
-   <button type="button" class="recx" data-rc="close" aria-label="Voltar para o editor">‹ Voltar ao editor</button>
+   <button type="button" class="recx" data-rc="close" aria-label="Voltar ao estúdio">‹ Voltar ao estúdio</button>
    <canvas id="recLiveCv" class="reccv" width="540" height="960"></canvas><canvas id="recPrevCv" class="reccv" width="540" height="960"></canvas>
    <div class="rfx" id="recFx"><div class="rfxpop" id="recPop"></div><div class="rfxcap" id="recCapL"></div><p class="rfxmsg" id="recFxMsg"></p></div>
    <div class="rcount" id="recCount"></div><div class="rtime" id="recTime"></div><p class="recmsg" id="recMsg"></p>
@@ -4160,7 +4184,7 @@ function openRecorder(){try{closeStudio()}catch(e){}recProdSrc="";recProdPick=""
   const camT=setTimeout(()=>{const v=$("#recCam");if(v&&!(v.srcObject&&v.videoWidth)){const m=$("#recMsg");if(m&&m.style.display!=="block"){m.textContent="A câmera ainda não apareceu. Se o navegador perguntou, toque em Permitir. No link do artefato a câmera pode ser bloqueada: abra o arquivo HTML direto no Chrome ou Edge.";m.style.display="block"}}},4000);
   startCam().then(ok=>{if(ok){clearTimeout(camT);const m=$("#recMsg");if(m)m.style.display="none"}});
 }
-function recCtlIdle(){{const ov=$("#recOv"),c=$("#recCtl"),st2=ov&&ov.querySelector(".recstage");if(ov){ov.classList.remove("postmode");ov.classList.toggle("proguide",isProLay())}if(c&&st2&&c.parentNode!==st2)st2.appendChild(c)}recScroll=false;recOff=0;recPaused=false;$("#recCtl").innerHTML=`<button class="btn sm" data-rc="close">Fechar</button><button class="btn sm" data-rc="test">▶ Testar texto</button><span class="rcg"><button class="btn sm" data-rc="slow" title="Mais devagar">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast" title="Mais rápido">🐇</button></span><span class="rcg"><button class="btn sm" data-rc="f-">A−</button><span class="rlab">Letra</span><button class="btn sm" data-rc="f+">A+</button></span><button class="btn sm" data-rc="flip" title="Trocar câmera">🔄</button>${recFlow==="post"?"":`<button class="btn sm fxtg${recFxOn?" on":""}" data-rc="fx" title="O app escuta a sua fala e coloca legenda, números, emojis e chamadas">✨ Edição ao vivo: ${recFxOn?"ligada":"desligada"}</button>`}<button class="recbtn" data-rc="rec" aria-label="Gravar"><span></span></button>`;
+function recCtlIdle(){{const ov=$("#recOv"),c=$("#recCtl"),st2=ov&&ov.querySelector(".recstage");if(ov){ov.classList.remove("postmode");ov.classList.toggle("proguide",isProLay())}if(c&&st2&&c.parentNode!==st2)st2.appendChild(c)}recScroll=false;recOff=0;recPaused=false;$("#recCtl").innerHTML=`<button class="btn sm" data-rc="close">Fechar</button><button class="btn sm" data-rc="test">▶ Testar texto</button><span class="rcg"><button class="btn sm" data-rc="slow" title="Mais devagar">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast" title="Mais rápido">🐇</button></span><span class="rcg"><button class="btn sm" data-rc="f-">A−</button><span class="rlab">Letra</span><button class="btn sm" data-rc="f+">A+</button></span><button class="rvirar" data-rc="flip" title="Virar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg><span>Virar</span></button>${recFlow==="post"?"":`<button class="btn sm fxtg${recFxOn?" on":""}" data-rc="fx" title="O app escuta a sua fala e coloca legenda, números, emojis e chamadas">✨ Edição ao vivo: ${recFxOn?"ligada":"desligada"}</button>`}<button class="recbtn" data-rc="rec" aria-label="Gravar"><span></span></button>`;
   const cl=$("#recCapL"),pp=$("#recPop");if(cl)cl.innerHTML="";if(pp){pp.className="rfxpop";pp.innerHTML=""}
   $("#recPlay").style.display="none";$("#recCam").style.display="";$("#recPrompt").style.display="";$("#recP").style.transform="translateY(0)";
   stopTakePrev();recPrep=null;["#recLiveCv","#recPrevCv"].forEach(q=>{const c=$(q);if(c)c.style.display="none"});const fx=$("#recFx");if(fx)fx.style.display=""}
@@ -4190,7 +4214,7 @@ function beginRec(){
   recChunks=[];recMR.ondataavailable=e=>{if(e.data&&e.data.size)recChunks.push(e.data)};
   recMR.onstop=()=>{recMixStop();recBlob=new Blob(recChunks,{type:recMR.mimeType||recMime||"video/webm"});showTake()};
   recMR.start(250);recT0=performance.now();recKey="rec"+Date.now();livePro=null;liveProN=-1;fxStartLive();{const live=recFlow==="live";const lc=$("#recLiveCv");if(lc)lc.style.display=live&&isProLay()?"block":"none";const fx=$("#recFx");if(fx)fx.style.display=live&&recLay!=="pro"?"":"none"}recOff=0;recPaused=false;$("#recP").style.transform="translateY(0)";setTimeout(()=>{recScroll=true},700);
-  $("#recCtl").innerHTML=`<span class="rlive">● Gravando</span><span class="rsrc" id="recSrcInfo">🎙 Ouvindo…</span><button class="btn sm rflip" data-rc="flip" title="Trocar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg></button><span class="rcg"><button class="btn sm" data-rc="slow">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast">🐇</button></span><button class="recbtn stop" data-rc="stop" aria-label="Parar"><span></span></button>`;
+  $("#recCtl").innerHTML=`<span class="rlive">● Gravando</span><span class="rsrc" id="recSrcInfo">🎙 Ouvindo…</span><button class="rvirar" data-rc="flip" title="Virar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg><span>Virar</span></button><span class="rcg"><button class="btn sm" data-rc="slow">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast">🐇</button></span><button class="recbtn stop" data-rc="stop" aria-label="Parar"><span></span></button>`;
 }
 function endRec(){fxStopLive();recScroll=false;recDur=(performance.now()-recT0)/1000;if(recMR&&recMR.state!=="inactive")recMR.stop();$("#recTime").textContent=""}
 function showTake(){recScroll=false;recPrep=null;{const ov=$("#recOv");if(ov)ov.classList.remove("proguide")}const lc=$("#recLiveCv");if(lc)lc.style.display="none";
@@ -4215,7 +4239,8 @@ async function prepTake(){
   const vid=uid();vl.vid=vid;vl.mkey=recKey||vid;vl.name=f.name;vl.start=0;vl.end=dur;vl.dur=dur;vl.sound=true;
   st.cap.items=chunkText(script.replace(/\n/g," "),0,dur,st.cap.words);st.cap.on=true;
   let nfx=0;const al=recTL.words.length?null:alignScript(script,recEnv,dur);const tlw=recTL.words.length?recTL:{words:al||fxFromScript(script,dur),zooms:recTL.zooms};recSrcUsed=recTL.words.length?"fala":al?"ritmo":"roteiro";
-  if(pro){nfx=applyMontage(st,vl,tlw.words,dur,v);if(prodLay)vl.mont.prodSrc=prodSrc;if(recBgMode)vl.mont.bg=recBgMode;if(recBgSrc)vl.mont.bgSrc=recBgSrc;if(recTheme)vl.mont.theme=recTheme;stApply(vl.mont,styLay?recLay.slice(3):"pro",tlw.words,dur,v)}else if(recFxOn)nfx=fxApply(st,vl,tlw,dur);
+  if(pro){nfx=applyMontage(st,vl,tlw.words,dur,v);if(prodLay)vl.mont.prodSrc=prodSrc;if(recBgMode)vl.mont.bg=recBgMode;if(recBgSrc)vl.mont.bgSrc=recBgSrc;if(recTheme)vl.mont.theme=recTheme;stApply(vl.mont,styLay?recLay.slice(3):"pro",tlw.words,dur,v);vl.mont.caps=!!recCaps}else if(recFxOn)nfx=fxApply(st,vl,tlw,dur);
+  if(!pro)st.cap.on=!!recCaps;
   mkVideo(vid,f,dur);
   recPrep={st,vl,vid,f,ext,nfx,pro,dur};return recPrep}
 async function useTake(){track("recUsed");try{track("style_"+(isStyLay()?recLay.slice(3):recLay))}catch(e){}
@@ -4269,11 +4294,11 @@ function liveProDraw(t){const cv2=$("#recLiveCv"),cam=$("#recCam");if(!cv2||!cam
   const est=Math.max(8,recWords()/2.5/recSpeed);const words=recTL.live?recTL.words:fxFromScript(recScript,est).filter(w=>w.t<=t+0.2);
   if(!livePro||words.length!==liveProN){liveProN=words.length;const v={};const R=ROTEIROS.find(x=>x.id===recR);R.f.forEach(([k,,d])=>v[k]=recV[k]||d);
     if(recLay==="pv_dividido")v.__prod=true;if(recLay==="vlegenda")v.__min=true;const m=buildMontage(words.length?words:[{w:"",t:0}],Math.max(t+4,est),v,recTheme||"azul");m.bg=recBgMode;m.bgSrc=recBgSrc;m.prodSrc=recProdSrc;if(isStyLay())stApply(m,recLay.slice(3),words,Math.max(t+4,est),v);
-    const st2={cap:{items:[],kw:fxKeywords(words)},layers:[]};const n=3;for(let i=0;i<words.length;i+=n){const g=words.slice(i,i+n);st2.cap.items.push({s:g[0].t,e:words[i+n]?words[i+n].t:g[g.length-1].t+1.2,t:g.map(z=>z.w).join(" ")})}
+    const st2={cap:{items:[],kw:fxKeywords(words)},layers:[]};const n=3;for(let i=0;recCaps&&i<words.length;i+=n){const g=words.slice(i,i+n);st2.cap.items.push({s:g[0].t,e:words[i+n]?words[i+n].t:g[g.length-1].t+1.2,t:g.map(z=>z.w).join(" ")})}
     livePro={l:{mont:m,vid:"__cam"},st:st2}}
   drawMontage(lpx,livePro.l,cam,t,livePro.st,"__cam");const x2=cv2.getContext("2d");x2.drawImage(lpc,0,0,cv2.width,cv2.height)}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-rc]");if(!b)return;const k=b.dataset.rc;
-  if(k==="close")closeRecorder();
+  if(k==="close"){closeRecorder();try{openStudio()}catch(e){}}
   else if(k==="slow"){recSpeed=Math.max(.4,+(recSpeed-.15).toFixed(2));recSpeedLabel()}
   else if(k==="fast"){recSpeed=Math.min(2.5,+(recSpeed+.15).toFixed(2));recSpeedLabel()}
   else if(k==="test"){if(recScroll){recScroll=false;recOff=0;$("#recP").style.transform="translateY(0)";b.textContent="▶ Testar texto"}else{recOff=0;recPaused=false;recScroll=true;b.textContent="■ Parar teste"}}
@@ -5076,6 +5101,9 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-hm],[data-
   if(k==="lote"||k==="agenda"||k==="benef"){show(k);return}
   if(k==="seq"){const x=$("#bStart");if(x)x.click();return}
   if(k==="brand"){const x=$("#bBrand");if(x)x.click();return}});
+
+/* toque duplo na imagem da câmera vira a câmera (como no Instagram) */
+(function(){let last=0;document.addEventListener("pointerup",e=>{const inStu=e.target.closest(".stu-frame")&&!e.target.closest("button"),inRec=e.target.id==="recCam"||e.target.id==="recLiveCv";if(!inStu&&!inRec)return;const n=Date.now();if(n-last<320){last=0;if(inStu){recFacing=recFacing==="user"?"environment":"user";stuCam()}else{const b=document.querySelector('[data-rc="flip"]');if(b)b.click()}}else last=n})})();
 })();
 </script>
 </body>
