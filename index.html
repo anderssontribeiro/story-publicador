@@ -765,7 +765,7 @@ header .clock,header #who{display:none!important}
 /* ===== Início ===== */
 .hm{max-width:760px;margin:0 auto;padding:28px 20px 100px;display:flex;flex-direction:column;gap:26px}
 .hm-hero{position:relative;padding:34px 4px 8px}
-.hm-hero::before{content:"";position:absolute;inset:-60px -40vw auto;height:320px;background:radial-gradient(420px 220px at 30% 40%,#ff5a7a40,transparent 70%),radial-gradient(380px 200px at 75% 30%,#ffb54730,transparent 70%);z-index:-1;pointer-events:none}
+.hm-hero::before{content:"";position:absolute;top:-60px;left:-20px;right:-20px;height:320px;background:radial-gradient(420px 220px at 30% 40%,#ff5a7a40,transparent 70%),radial-gradient(380px 200px at 75% 30%,#ffb54730,transparent 70%);z-index:-1;pointer-events:none}
 .hm-hero p{margin:0 0 4px;font-size:15px;color:var(--mut);font-weight:600}
 .hm-hero h1{margin:0;font-family:var(--f-disp);font-size:clamp(28px,6vw,40px);line-height:1.08;letter-spacing:-.02em}
 .hm-main{display:grid;grid-template-columns:1.25fr 1fr;gap:12px}
@@ -800,6 +800,8 @@ header .clock,header #who{display:none!important}
 @media (max-width:640px){.hm{padding:16px 16px 100px;gap:22px}.hm-main{grid-template-columns:1fr 1fr}.hm-card{min-height:150px;padding:14px}.hm-card b{font-size:17px}.hm-card span{font-size:12px}}
 #stu{top:0;left:0;right:auto;bottom:auto;width:100vw;height:100vh;height:100dvh}
 @media (max-width:640px){.stu-set{scroll-padding-bottom:96px;scroll-padding-top:10px}}
+.postdots{align-items:center;gap:10px}.postdots .rs-dot{flex:0 0 28px}
+#v-home{overflow-x:hidden}
 </style>
 </head>
 <body>
@@ -1949,7 +1951,7 @@ function applyFx(ctx,l,x,y,w,h){
     if(f==="bottom"||f==="both")mk(y+h*0.4,y+h,false);if(f==="top"||f==="both")mk(y,y+h*0.45,true)}
 }
 function drawVideoFull(ctx,l){if(l.mont&&l.mont.scenes&&l.mode!=="tela")l.mode="tela";
-  const el=getVid(l);if(l.mont&&l.mont.scenes){if(segState==="idle"&&!(l.mont.style&&l.mont.style!=="pro"))loadSeg();drawMontage(ctx,l,el);return}let zs=1;
+  const el=getVid(l);if(l.mont&&l.mont.scenes){drawMontage(ctx,l,el);return}let zs=1;
   if(false&&l.zooms&&l.zooms.length&&el){const t=el.currentTime;for(const z of l.zooms){const a=t-z;if(a>=0&&a<.9){zs=1+.12*(a<.12?a/.12:Math.max(0,1-(a-.12)/.78));break}}}
   if(zs!==1){ctx.save();ctx.translate(W/2,H*.42);ctx.scale(zs,zs);ctx.translate(-W/2,-H*.42)}
   if(el&&el.videoWidth)coverVideo(ctx,el,0,0,W,H);else vidPlaceholder(ctx,0,0,W,H,l);
@@ -2444,18 +2446,15 @@ function renderPanel(){
   }else if(l.type==="video"){
     if(l.mont&&l.mont.scenes){const m=l.mont,sec2=v=>String((+v).toFixed(1)).replace(".",",");
       const sty=m.style&&m.style!=="pro";
-      h+=`<div class="full mtbox"><div class="mth"><b>${sty?styleName(m.style):"✨ Edição Pro"}</b><span class="note">${m.scenes.length} cenas</span></div>
-       <div class="note" style="margin:0">Estilo da edição</div><div class="row"><button type="button" class="btn sm${!sty?" pri":""}" data-mts="pro">✨ Edição Pro</button>${STYLES.map(([k,n])=>`<button type="button" class="btn sm${m.style===k?" pri":""}" data-mts="${k}">${n}</button>`).join("")}</div>
+      h+=`<div class="full mtbox"><div class="mth"><b>${sty?styleName(m.style):"✨ Tecnológico"}</b><span class="note">${m.scenes.length} cenas</span></div>
+       <div class="note" style="margin:0">Estilo da edição</div><div class="row"><button type="button" class="btn sm${!sty?" pri":""}" data-mts="pro">✨ Tecnológico</button>${STYLES.map(([k,n])=>`<button type="button" class="btn sm${m.style===k?" pri":""}" data-mts="${k}">${n}</button>`).join("")}</div>
        <label class="chk"><input type="checkbox" data-mtdyn="1"${m.dyn?" checked":""}> ✂️ Corte dinâmico (tira as pausas longas)</label>
        ${m.style==="contagem"?`<div class="row"><input type="date" data-mtev="evDate" value="${esc(m.evDate||"")}" aria-label="Data do evento"><input data-mtev="evName" placeholder="Nome do evento" value="${esc(m.evName||"")}" maxlength="60"></div>`:""}
        ${m.style==="live"?`<div class="row"><input data-mtev="liveF" inputmode="numeric" placeholder="Seguidores" value="${esc(m.liveF||"")}"><input data-mtev="liveCta" placeholder="Link fixado" value="${esc(m.liveCta||"")}" maxlength="40"></div><textarea data-mtev="liveC" rows="3" placeholder="Comentários reais, um por linha (Nome: comentário)">${esc(m.liveC||"")}</textarea><p class="note" style="margin:0">Use só comentários que você recebeu de verdade.</p>`:""}
        ${m.style==="antes"?`<div class="row"><button type="button" class="btn sm" data-mtad="1">🖼 ${m.antes?"Trocar fotos do antes e depois":"Escolher fotos do antes e depois"}</button></div>`:""}
        ${sty?"":`<div class="row">${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="btn sm${(m.theme||"azul")===k?" pri":""}" data-mtt="${k}">${o.n}</button>`).join("")}</div>`}
-       ${sty?(["podcast","contagem","antes"].includes(m.style)?`<div class="row">${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="btn sm${(m.theme||"azul")===k?" pri":""}" data-mtt="${k}">${o.n}</button>`).join("")}</div>`:""):`<div class="note" style="margin:0">Fundo atrás de você</div><div class="row">${[["orig","Original"],["blur","Desfocado"],["estudio","Estúdio virtual"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="btn sm${(m.bg||"orig")===k?" pri":""}" data-mtb="${k}">${n}</button>`).join("")}</div>`}
+       ${sty?(["podcast","contagem","antes"].includes(m.style)?`<div class="row">${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="btn sm${(m.theme||"azul")===k?" pri":""}" data-mtt="${k}">${o.n}</button>`).join("")}</div>`:""):""}
        ${m.scenes.some(z=>z.type==="produto")?`<div class="row"><button type="button" class="btn sm" data-mtp="1">${m.prodSrc?"🛍️ Trocar foto do produto":"🛍️ Escolher foto do produto"}</button><label class="chk"><input type="checkbox" data-mtcl="1"${m.clean?" checked":""}> Visual limpo (sem emojis)</label></div>`:`<label class="chk"><input type="checkbox" data-mtcl="1"${m.clean?" checked":""}> Visual limpo (sem emojis)</label>`}
-       ${m.bg==="foto"?`<div class="row"><button type="button" class="btn sm" data-mtb="foto">🖼 Trocar foto</button><button type="button" class="btn sm" data-mtb="${m.prevBg&&m.prevBg!=="foto"?m.prevBg:"blur"}">↩ Voltar ao fundo anterior</button></div>`:""}
-       ${sty?"":segState==="error"?`<p class="note" style="margin:0">A IA que recorta você não carregou (${esc(segErr)}). O fundo original continua.</p>`:(m.bg&&m.bg!=="orig"||m.scenes.some(z=>z.type==="abertura"))&&segState!=="ready"?`<p class="note" style="margin:0">Carregando a IA que recorta você…</p>`:""}
-       ${!sty&&((m.bg&&m.bg!=="orig")||m.scenes.some(z=>z.type==="abertura"))?(preReady(l.mkey||l.vid)?`<p class="note" style="margin:0">✅ Recorte em alta qualidade ativo.</p>`:`<button type="button" class="btn sm" data-mtq="1">🎯 Melhorar o recorte (alta qualidade)</button>`):""}
        <label class="chk"><input type="checkbox" data-mtc="1"${m.caps!==false?" checked":""}> Legenda da fala</label>
        ${m.scenes.map((sc,i)=>`<div class="mtsc" data-ms="${i}"><div class="mtsch"><b>Cena ${i+1}</b><span class="note">${sec2(sc.t0)}s – ${sec2(Math.min(sc.t1,vlDur(l)))}s</span><button type="button" class="linkbtn" data-mtgo="${i}">▶ ver</button></div>
          <select data-f="type">${opt(MT_TYPES,sc.type)}</select>
@@ -3909,7 +3908,7 @@ function drawMontage(ctx,l,el,tOv,stOv,keyOv){const st=stOv||drawingStory,m=l.mo
       if(k<n-1){ctx.save();ctx.globalAlpha=q*A;ctx.fillStyle=T.a;ctx.font="900 40px sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("›",x0+cw+gap/2,cy0+165);ctx.restore()}});
     if(s.title)mtTitle(ctx,s.title,540,cy0+380,940,56,T,lt-.3,"center")}
   // vídeo na moldura animada
-  const bgm=m.bg||"orig",behind=false;let titleDone=false;
+  const bgm="orig",behind=false;let titleDone=false;
   const drawTitle=()=>{titleDone=true;mtOpenTitle(ctx,s,y,lt,T,A)};
   ctx.save();rr(ctx,x,y,w,h,r);ctx.clip();
   if(el&&el.videoWidth){const z=1;ctx.translate(x+w/2,y+h/2);ctx.scale(z,z);ctx.translate(-(x+w/2),-(y+h/2));
@@ -4019,7 +4018,7 @@ const ROTEIROS=[
  {id:"depo",n:"Contar um resultado",d:"15 segundos",f:[["cliente","Quem","a Maria, nossa aluna"],["resultado","O resultado","terminou a faculdade em quatro anos trabalhando o dia inteiro"]],
   t:v=>`Quero te contar o que aconteceu com ${v.cliente}.\nEla ${v.resultado}.\nSe você quer um resultado assim, responde EU TAMBÉM que eu te explico como.`},
  {id:"livre",n:"Escrever do meu jeito",d:"você escreve",f:[],t:()=>""}];
-const MONTAGENS=[["pro","✨ Edição Pro","Cenas animadas que mudam com a sua fala: títulos, números, tópicos e chamada"],["pv_dividido","✨ Pro produto + você","Cenas animadas com a foto do seu produto em destaque e você falando"],["pv_sobre","Você no círculo","Foto do produto na tela toda, você num círculo"],["vlegenda","✨ Pro só você + legenda","Você na tela toda, título de abertura e legenda moderna embaixo"]];
+const MONTAGENS=[["pro","✨ Tecnológico","Cenas animadas que mudam com a sua fala: títulos, números, tópicos e chamada. Escolha a cor abaixo"],["pv_dividido","✨ Pro produto + você","Cenas animadas com a foto do seu produto em destaque e você falando"],["pv_sobre","Você no círculo","Foto do produto na tela toda, você num círculo"],["vlegenda","✨ Pro só você + legenda","Você na tela toda, título de abertura e legenda moderna embaixo"]];
 let recFlow="post",recKey="",recProdSrc="",recProdPick="";
 const isProLay=()=>recLay==="pro"||recLay==="pv_dividido"||recLay==="vlegenda"||isStyLay();
 const isStyLay=()=>String(recLay).startsWith("st:");
@@ -4031,7 +4030,7 @@ function stApply(m,style,words,dur,v={}){m.style=style;m.dyn=!!recDyn;const D=mt
   if(style==="antes"){m.antes=recAntes||"";m.depois=recDepois||""}
   if(style==="live"){m.liveF=recLiveF||"";m.liveC=recLiveC||"";m.liveCta=recLiveCta||""}
   return m}
-let recBgMode="blur",recBgSrc="",recTheme="azul";
+let recBgMode="orig",recBgSrc="",recTheme="azul";
 let recR="produto",recV={},recScript="",recLay="pro",recPhoto="",recPhotoTh="";
 function rsThumb(k){const P=(x,y,s=1,c="#d9cfc6",b="#7d7068")=>`<g transform="translate(${x} ${y}) scale(${s})"><circle cx="0" cy="-12" r="8" fill="${c}"/><path d="M-15 14 q15-16 30 0 v14 h-30z" fill="${b}"/></g>`;
   const bg=(c)=>`<rect width="54" height="96" fill="${c}"/>`,photo=`<rect width="54" height="96" fill="url(#rsg)"/>`;
@@ -4103,13 +4102,12 @@ function sheetRec(target){
     <p class="rs-hint">${esc(cur[2])}</p>
     ${isStyLay()?`<label class="rs-sw"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}><i></i><span>Corte dinâmico<em>Tira as pausas longas da fala</em></span></label>`:""}
     ${recLay==="st:contagem"||recLay==="st:antes"?`<p class="rs-hint">${recLay==="st:contagem"?"Data e nome do evento: você escolhe depois de gravar.":"Fotos do antes e do depois: você escolhe depois de gravar."}</p>`:""}
-    ${isProLay()&&!isStyLay()?`<div class="rs-opt"><span>Fundo</span><div>${[["orig","Original"],["blur","Desfocado"],["estudio","Estúdio"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="${recBgMode===k?"on":""}" data-rbg="${k}">${n}</button>`).join("")}</div></div>${recBgMode==="foto"?`<p class="rs-hint">${recBgSrc?"Foto escolhida · ":""}<button type="button" class="linkbtn" data-rbg="pick">${recBgSrc?"trocar":"escolher foto"}</button></p>`:""}
-     <div class="rs-opt"><span>Cor</span><div>${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="rs-dot${recTheme===k?" on":""}" data-rth="${k}" title="${esc(o.n)}" style="--c:${k==="marca"?((S.brand&&S.brand.c1)||"#ff5a7a"):o.a}"></button>`).join("")}</div></div>`:""}
+    ${isProLay()&&!isStyLay()?`<div class="rs-opt"><span>Cores</span><div>${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="rs-dot${recTheme===k?" on":""}" data-rth="${k}" title="${esc(o.n)}" style="--c:${k==="marca"?((S.brand&&S.brand.c1)||"#ff5a7a"):o.a}"></button>`).join("")}</div></div>`:""}
     ${recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay()?`<div class="rs-prod"><button type="button" class="rs-pp${recProdPick?" has":""}" data-rpp="1">${recProdPick?`<img src="${recProdPick}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 8"/></svg>`}</button><div><b>${recProdPick?"Foto do produto escolhida":"Foto do produto"}</b><span>JPG, PNG ou WEBP · até 10 MB · ideal 1080×1080 (quadrada)</span>${recProdPick?`<button type="button" class="linkbtn" data-rpp="1">Trocar foto</button>`:`<button type="button" class="linkbtn" data-rpp="1">Escolher do celular</button>`}</div></div>`:""}
    </section>
    <section class="rs-sec"><div class="rs-h"><span>3</span>Como gravar</div>
     <div class="rs-tog">${[["post","Gravar e editar depois"],["live","Ver a edição ao vivo"]].map(([k,n])=>`<button type="button" class="${recFlow===k?"on":""}" data-rfl="${k}">${n}</button>`).join("")}</div>
-    <p class="rs-hint">${recFlow==="post"?"Você grava à vontade e escolhe o acabamento no final, com recorte em alta qualidade.":"A edição aparece na tela enquanto você fala."}</p>
+    <p class="rs-hint">${recFlow==="post"?"Você grava à vontade e escolhe o acabamento no final.":"A edição aparece na tela enquanto você fala."}</p>
    </section>
    <button class="rs-go" id="recOpen"><i></i>Gravar</button>
    <p class="rs-foot">Câmera frontal no celular · webcam no computador</p></div>`;
@@ -4237,22 +4235,23 @@ async function showTakePro(){const P=await prepTake();let el=null;for(let k=0;k<
 /* GRAVAR E DEPOIS EDITAR: escolhe a edição no final */
 const POST_OPTS=[["pro:azul","✨ Pro azul"],["pro:roxo","✨ Pro roxo"],["pro:verde","✨ Pro verde"],["pro:ouro","✨ Pro dourado"],["pro:marca","✨ Pro minha marca"],["vlegenda","📝 Só você + legenda"],["pv_dividido","🛍️ Pro produto + você"]];
 function postSrcTxt(){if(recTL&&recTL.words.length)return"🎙 Edição montada com a sua fala reconhecida";const a=alignScript(String(recScript),recEnv,Math.min(60,recDur));return a?"〰 Edição montada pelo roteiro, no ritmo real da sua voz":"📝 Edição montada pelo roteiro"}
-function postCtl(){const cur2=recLay==="pro"?"pro:"+recTheme:recLay,E=preM.get(recKey),pr=E?E.state==="done"?"✅ Recorte em alta qualidade pronto":E.state==="erro"?"Recorte de alta qualidade indisponível (usando o rápido)":`⏳ Preparando o recorte em alta qualidade… ${Math.round((E.prog||0)*100)}%`:"";
+function postCtl(){const cur2=recLay==="pro"?"pro:"+recTheme:recLay,pr="";
   $("#recCtl").innerHTML=`<div class="postbox"><div class="posth"><b>Escolha a edição</b><span class="note" id="postProg">${pr}</span></div><span class="note" id="postSrc">${postSrcTxt()}</span>
-    <div class="postopts">${POST_OPTS.map(([k,n])=>`<button type="button" class="chipb${cur2===k?" on":""}" data-pst="${k}">${n}</button>`).join("")}</div>
+    <div class="postopts">${[["pro:"+(recTheme||"azul"),"Tecnológico","pro"],["vlegenda","Só você + legenda","vlegenda"],["pv_dividido","Produto + você","pv_dividido"]].map(([k,n,l])=>`<button type="button" class="chipb${recLay===l?" on":""}" data-pst="${k}">${n}</button>`).join("")}</div>
+    ${recLay==="pro"?`<div class="postopts postdots"><span class="note">Cores</span>${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="rs-dot${recTheme===k?" on":""}" data-pst="pro:${k}" title="${esc(o.n)}" style="--c:${k==="marca"?((S.brand&&S.brand.c1)||"#ff5a7a"):o.a}"></button>`).join("")}</div>`:""}
     <div class="posth" style="margin-top:4px"><b>Estilos prontos</b></div>
     <div class="postopts">${STYLES.map(([k,n])=>`<button type="button" class="chipb${recLay==="st:"+k?" on":""}" data-pst="st:${k}">${n}</button>`).join("")}</div>
     <div class="postopts"><button type="button" class="chipb${recDyn?" on":""}" data-pdyn="1">✂️ Corte dinâmico: ${recDyn?"ligado":"desligado"}</button></div>
     ${recLay==="st:contagem"?`<div class="postopts postin"><input type="date" id="pEvD" value="${recEvDate||isoIn(7)}" aria-label="Data do evento"><input id="pEvN" placeholder="Nome do evento (ex.: Aula aberta)" value="${esc(recEvName)}" maxlength="60"></div>`:""}
     ${recLay==="st:live"?`<div class="postopts postin"><input id="pLvF" inputmode="numeric" placeholder="Seus seguidores (ex.: 12400)" value="${esc(recLiveF)}"><input id="pLvCta" placeholder="Link fixado (ex.: Garanta sua vaga)" value="${esc(recLiveCta)}" maxlength="40"></div><div class="postopts postin"><textarea id="pLvC" rows="2" placeholder="Comentários REAIS que você recebeu, um por linha. Ex.: Ana: Quero saber mais!">${esc(recLiveC)}</textarea></div>`:""}
     ${recLay==="st:antes"?`<div class="postopts"><button type="button" class="chipb" data-pad="1">🖼 ${recAntes?"Trocar fotos do antes e depois":"Escolher fotos do antes e depois"}</button></div>`:""}
-    ${isProLay()&&!isStyLay()?`<div class="postopts">${[["orig","Fundo original"],["blur","Desfocado"],["estudio","Estúdio"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="chipb${recBgMode===k?" on":""}" data-pbg="${k}">${n}</button>`).join("")}</div>`:""}
+
     <div class="postbtns"><button class="btn" data-rc="close">‹ Sair</button><button class="btn" data-rc="again">↺ Gravar de novo</button><button class="btn" data-rc="use"${recDur<3?" disabled":""}>Usar e ajustar</button><button class="btn pri" data-rc="usepub"${recDur<3?" disabled":""}>Publicar ▸</button></div>
     ${recDur<3?`<span class="note" style="color:#fff">Muito curto (mínimo 3 s).</span>`:""}</div>`}
 function showPostEdit(){{const ov=$("#recOv"),c=$("#recCtl");if(ov&&c){ov.classList.add("postmode");ov.appendChild(c)}}$("#recCam").style.display="none";$("#recPrompt").style.display="none";const fx=$("#recFx");if(fx)fx.style.display="none";
   if(recLay!=="pro"&&recLay!=="vlegenda"&&recLay!=="pv_dividido"&&!isStyLay())recLay="pro";
   postCtl();showTakePro();
-  const key=recKey;precomputeMasks(recBlob,key,Math.min(60,recDur),p=>{const el=$("#postProg");if(el&&recKey===key)el.textContent=p>=1?"✅ Recorte em alta qualidade pronto":`⏳ Preparando o recorte em alta qualidade… ${Math.round(p*100)}%`}).then(E=>{const el=$("#postProg");if(el&&recKey===key&&E)el.textContent=E.state==="done"?"✅ Recorte em alta qualidade pronto":"Recorte de alta qualidade indisponível (usando o rápido)"})}
+  }
 function stPickAD(m,after){const fi=document.createElement("input");fi.type="file";fi.accept="image/*";fi.multiple=true;fi.onchange=async()=>{const fs=[...fi.files].slice(0,2);if(!fs.length)return;try{m.antes=await readImg(fs[0],1080,1080);m.depois=fs[1]?await readImg(fs[1],1080,1080):"";after()}catch(err){toast("Não consegui abrir essas fotos.")}};fi.click();toast("Escolha 2 fotos: primeiro o ANTES, depois o DEPOIS.")}
 function pickAD(after){const fi=document.createElement("input");fi.type="file";fi.accept="image/*";fi.multiple=true;fi.onchange=async()=>{const fs=[...fi.files].slice(0,2);if(!fs.length)return;try{recAntes=await readImg(fs[0],1080,1080);recDepois=fs[1]?await readImg(fs[1],1080,1080):"";after()}catch(err){toast("Não consegui abrir essas fotos.")}};fi.click();toast("Escolha 2 fotos: primeiro o ANTES, depois o DEPOIS. Com 1 foto só, você vira o depois.")}
 let evT=0;document.addEventListener("input",e=>{if(!$("#recOv"))return;const t=e.target;if(t.id==="pEvD"||t.id==="pEvN"||t.id==="pLvF"||t.id==="pLvC"||t.id==="pLvCta"){if(t.id==="pEvD")recEvDate=t.value;else if(t.id==="pEvN")recEvName=t.value;else if(t.id==="pLvF")recLiveF=t.value.replace(/\D/g,"");else if(t.id==="pLvC")recLiveC=t.value;else if(t.id==="pLvCta")recLiveCta=t.value;clearTimeout(evT);evT=setTimeout(()=>{stopTakePrev();recPrep=null;showTakePro()},500)}});
