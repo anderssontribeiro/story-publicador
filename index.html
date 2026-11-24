@@ -1736,7 +1736,7 @@ function applyFx(ctx,l,x,y,w,h){
 }
 function drawVideoFull(ctx,l){if(l.mont&&l.mont.scenes&&l.mode!=="tela")l.mode="tela";
   const el=getVid(l);if(l.mont&&l.mont.scenes){if(segState==="idle"&&!(l.mont.style&&l.mont.style!=="pro"))loadSeg();drawMontage(ctx,l,el);return}let zs=1;
-  if(l.zooms&&l.zooms.length&&el){const t=el.currentTime;for(const z of l.zooms){const a=t-z;if(a>=0&&a<.9){zs=1+.12*(a<.12?a/.12:Math.max(0,1-(a-.12)/.78));break}}}
+  if(false&&l.zooms&&l.zooms.length&&el){const t=el.currentTime;for(const z of l.zooms){const a=t-z;if(a>=0&&a<.9){zs=1+.12*(a<.12?a/.12:Math.max(0,1-(a-.12)/.78));break}}}
   if(zs!==1){ctx.save();ctx.translate(W/2,H*.42);ctx.scale(zs,zs);ctx.translate(-W/2,-H*.42)}
   if(el&&el.videoWidth)coverVideo(ctx,el,0,0,W,H);else vidPlaceholder(ctx,0,0,W,H,l);
   if(zs!==1)ctx.restore();applyFx(ctx,l,0,0,W,H);
@@ -2232,7 +2232,7 @@ function renderPanel(){
       const sty=m.style&&m.style!=="pro";
       h+=`<div class="full mtbox"><div class="mth"><b>${sty?styleName(m.style):"✨ Edição Pro"}</b><span class="note">${m.scenes.length} cenas</span></div>
        <div class="note" style="margin:0">Estilo da edição</div><div class="row"><button type="button" class="btn sm${!sty?" pri":""}" data-mts="pro">✨ Edição Pro</button>${STYLES.map(([k,n])=>`<button type="button" class="btn sm${m.style===k?" pri":""}" data-mts="${k}">${n}</button>`).join("")}</div>
-       <label class="chk"><input type="checkbox" data-mtdyn="1"${m.dyn?" checked":""}> ✂️ Corte dinâmico (tira pausas longas e dá zoom nas palavras fortes)</label>
+       <label class="chk"><input type="checkbox" data-mtdyn="1"${m.dyn?" checked":""}> ✂️ Corte dinâmico (tira as pausas longas)</label>
        ${m.style==="contagem"?`<div class="row"><input type="date" data-mtev="evDate" value="${esc(m.evDate||"")}" aria-label="Data do evento"><input data-mtev="evName" placeholder="Nome do evento" value="${esc(m.evName||"")}" maxlength="60"></div>`:""}
        ${m.style==="antes"?`<div class="row"><button type="button" class="btn sm" data-mtad="1">🖼 ${m.antes?"Trocar fotos do antes e depois":"Escolher fotos do antes e depois"}</button></div>`:""}
        ${sty?"":`<div class="row">${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="btn sm${(m.theme||"azul")===k?" pri":""}" data-mtt="${k}">${o.n}</button>`).join("")}</div>`}
@@ -3453,7 +3453,7 @@ function fxStopLive(){try{recSR&&(recSR._dead=1,recSR.stop())}catch(e){}recSR=nu
 function fxMsg(m){const el=$("#recFxMsg");if(el){el.textContent=m;el.style.display="block";clearTimeout(el._t);el._t=setTimeout(()=>el.style.display="none",6000)}}
 function fxTick(t){if(!recAn)return;const d=new Uint8Array(recAn.fftSize);recAn.getByteTimeDomainData(d);let sum=0;for(let i=0;i<d.length;i++){const v=(d[i]-128)/128;sum+=v*v}const rms=Math.sqrt(sum/d.length);
   recLvl=recLvl?recLvl*.97+rms*.03:rms;if(rms>.06&&rms>recLvl*2.3&&t-recLastZoom>3&&t>1){recLastZoom=t;recTL.zooms.push(+t.toFixed(2));fxPunch()}}
-function fxPunch(){const v=$("#recCam");if(!v)return;v.classList.add("punch");setTimeout(()=>v.classList.remove("punch"),380)}
+function fxPunch(){return;const v=$("#recCam");if(!v)return;v.classList.add("punch");setTimeout(()=>v.classList.remove("punch"),380)}
 function fxEl(e){return e.k==="num"?`<b class="fxnum">${esc(e.x)}</b>`:e.k==="cta"?`<b class="fxcta">👉 ${esc(e.x)}</b>`:`<b class="fxemo">${e.x}</b>`}
 function fxLiveDraw(){const cap=$("#recCapL"),pop=$("#recPop");if(!cap)return;
   const ws=recTL.words.slice(-6).map(w=>w.w).concat(recInterim?recInterim.split(/\s+/):[]).slice(-6);
@@ -3503,7 +3503,7 @@ function mtBrackets(ctx,x,y,w,h,T,a){ctx.save();ctx.globalAlpha*=a*.9;ctx.stroke
 function mtSceneAt(m,t){let i=m.scenes.findIndex(s=>t>=s.t0&&t<s.t1);if(i<0)i=t<(m.scenes[0]||{t0:0}).t0?0:m.scenes.length-1;return i}
 function mtRect(m,i,t){const s=m.scenes[i],to=MT_RECT[MT_POS[s.type]||"full"],prev=i>0?MT_RECT[MT_POS[m.scenes[i-1].type]||"full"]:to,p=mtEase((t+.35-s.t0)/.4);return to.map((v,k)=>prev[k]+(v-prev[k])*p)}
 /* ---------- ESTILOS PRONTOS (inspirados no Edits): Legenda viral, Cinema, Minimalista, Podcast, Contagem, Antes e depois ---------- */
-const STYLES=[["viral","🔥 Legenda viral","Palavras grandes no centro, a palavra falada em destaque e zoom nos pontos fortes"],["cinema","🎬 Cinema","Faixas pretas, cor de filme, granulado e título elegante"],["mini","◻️ Minimalista","Preto e branco, fundo claro e letra serifada: visual premium"],["podcast","🎙️ Podcast","Sua imagem em destaque, faixa com nome, ondas de áudio e legenda"],["contagem","⏳ Contagem","Faltam X dias para o seu evento ou matrícula, com número grande"],["antes","↔️ Antes e depois","Comparação em cima e você explicando embaixo"]];
+const STYLES=[["viral","🔥 Legenda viral","Palavras grandes, a palavra falada em destaque e gancho no começo"],["cinema","🎬 Cinema","Faixas pretas, cor de filme, granulado e título elegante"],["mini","◻️ Minimalista","Preto e branco, fundo claro e letra serifada: visual premium"],["podcast","🎙️ Podcast","Sua imagem em destaque, faixa com nome, ondas de áudio e legenda"],["contagem","⏳ Contagem","Faltam X dias para o seu evento, num cartão ao lado do rosto"],["antes","↔️ Antes e depois","Comparação em cima e você explicando embaixo"]];
 const styleName=k=>(STYLES.find(s=>s[0]===k)||[,"Edição Pro"])[1];
 /* corte dinâmico: tira pausas longas e marca as palavras de impacto para o zoom */
 function mtDyn(words,dur){const cuts=[],punch=[];if(!words||words.length<2)return{cuts,punch};
@@ -3513,7 +3513,7 @@ function mtDyn(words,dur){const cuts=[],punch=[];if(!words||words.length<2)retur
   const kw=new Set(fxKeywords(words)||[]);let lastP=-9;words.forEach(w=>{const n=fxNorm(w.w);if((kw.has(n)||/\d/.test(w.w)||FX_EMOJI[n])&&w.t-lastP>1.6){punch.push(+w.t.toFixed(2));lastP=w.t}});
   return{cuts,punch}}
 function mtSkip(l,el){const m=l.mont;if(!m||!m.dyn||!m.cuts||!el||el.paused)return;const t=el.currentTime,c=m.cuts.find(c=>t>=c[0]&&t<c[1]-.05);if(c)try{el.currentTime=Math.min(c[1],(l.end||el.duration||c[1]))}catch(e){}}
-function mtPunch(m,t){if(!m.dyn||!m.punch)return 1;let z=1;for(const p of m.punch){const d=t-p;if(d<-.05||d>1)continue;const a=d<.12?mtOut(d/.12):d<.6?1:1-mtEase((d-.6)/.4);z=Math.max(z,1+.13*a)}return z}
+function mtPunch(m,t){return 1;if(!m.dyn||!m.punch)return 1;let z=1;for(const p of m.punch){const d=t-p;if(d<-.05||d>1)continue;const a=d<.12?mtOut(d/.12):d<.6?1:1-mtEase((d-.6)/.4);z=Math.max(z,1+.13*a)}return z}
 function stVid(ctx,el,l,x,y,w,h,z=1,filter){ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
   if(el&&el.videoWidth){if(filter)ctx.filter=filter;if(z!==1){ctx.translate(x+w/2,y+h*.42);ctx.scale(z,z);ctx.translate(-(x+w/2),-(y+h*.42))}coverVideo(ctx,el,x,y,w,h)}else vidPlaceholder(ctx,x,y,w,h,l);ctx.restore()}
 function stCap(st,t){const c=st&&st.cap;if(!c||!c.items)return null;const it=c.items.find(z=>t>=z.s&&t<z.e);if(!it)return null;const ws=it.t.split(/\s+/).filter(Boolean);if(!ws.length)return null;
@@ -3545,11 +3545,11 @@ function drawStyle(ctx,l,el,t,st,m){const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m
     ctx.fillStyle="#ffe14d";ctx.fillRect(0,0,W*Math.min(1,t/dur),10);
     if(I.open){const q=mtOut(I.open.p/.25),out=1-mtE((t-(I.open.end-.25))/.25);ctx.save();ctx.globalAlpha=Math.min(q,out);ctx.font='800 66px "Montserrat",sans-serif';const ls=mtWrap(ctx,I.open.title.toUpperCase(),880).slice(0,3);
       ls.forEach((ln,j)=>{const w=ctx.measureText(ln).width+44,yy=250+j*96+(1-q)*30;ctx.fillStyle=j%2?"#ffe14d":"#ffffff";rr(ctx,540-w/2,yy-44,w,88,14);ctx.fill();ctx.fillStyle="#111";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(ln,540,yy+3)});ctx.restore()}
-    if(cap){const pop=mtOut(cap.p*cap.ws.length%1/.25);const fs=cap.ws.join(" ").length>16?96:112;
-      stWords(ctx,cap.ws.map(w=>w.toUpperCase()),540,1420,960,`900 ${fs}px "Montserrat",sans-serif`,fs*1.08,j=>j===cap.kk?{c:"#ffe14d",s:1+.1*(1-pop)+.04}:{c:"#ffffff",s:1},{stroke:16,strokeColor:"#000",shadow:"rgba(0,0,0,.6)",blur:20})}
-    if(I.cta){const q=mtOut(I.cta.lt/.3),pulse=1+.04*Math.sin(t*6);stPill(ctx,I.cta.title,540,1680,"#ffe14d","#111",'900 52px "Montserrat",sans-serif',q,pulse*(.8+.2*q),44,100)}}
+    if(cap){const pop=mtOut(cap.p*cap.ws.length%1/.25);const fs=cap.ws.join(" ").length>16?88:100;
+      stWords(ctx,cap.ws.map(w=>w.toUpperCase()),540,1600,960,`900 ${fs}px "Montserrat",sans-serif`,fs*1.08,j=>j===cap.kk?{c:"#ffe14d",s:1+.1*(1-pop)+.04}:{c:"#ffffff",s:1},{stroke:16,strokeColor:"#000",shadow:"rgba(0,0,0,.6)",blur:20})}
+    if(I.cta){const q=mtOut(I.cta.lt/.3),pulse=1+.04*Math.sin(t*6);stPill(ctx,I.cta.title,540,1790,"#ffe14d","#111",'900 52px "Montserrat",sans-serif',q,pulse*(.8+.2*q),44,100)}}
   else if(k==="cinema"){
-    const kb=1+.06*mtE(t/dur);stVid(ctx,el,l,0,0,W,H,kb*z,"contrast(1.12) saturate(.78) sepia(.16) brightness(.96)");
+    stVid(ctx,el,l,0,0,W,H,1,"contrast(1.12) saturate(.78) sepia(.16) brightness(.96)");
     ctx.save();ctx.globalCompositeOperation="soft-light";const tg=ctx.createLinearGradient(0,0,0,H);tg.addColorStop(0,"rgba(0,110,130,.55)");tg.addColorStop(1,"rgba(255,140,60,.45)");ctx.fillStyle=tg;ctx.fillRect(0,0,W,H);ctx.restore();
     stVignette(ctx,.6);stGrain(ctx,t,.1);
     const bh=250*mtOut(t/.8);ctx.fillStyle="#000";ctx.fillRect(0,0,W,bh);ctx.fillRect(0,H-bh,W,bh);
@@ -3563,7 +3563,7 @@ function drawStyle(ctx,l,el,t,st,m){const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m
   else if(k==="mini"){
     ctx.fillStyle="#f2efe9";ctx.fillRect(0,0,W,H);const who=stWho(),n=m.scenes.length;
     ctx.fillStyle="#1a1a1a";ctx.font='600 24px "Montserrat",sans-serif';ctx.textBaseline="middle";ctx.textAlign="left";ctx.fillText(who.name.toUpperCase().split("").join(String.fromCharCode(8202)),90,100);ctx.textAlign="right";ctx.fillText(String(I.i+1).padStart(2,"0")+" / "+String(n).padStart(2,"0"),990,100);
-    const vy=150,vh=1200;stVid(ctx,el,l,90,vy,900,vh,(1+.04*mtE(t/dur))*z,"grayscale(1) contrast(1.1) brightness(1.04)");
+    const vy=150,vh=1200;stVid(ctx,el,l,90,vy,900,vh,1,"grayscale(1) contrast(1.1) brightness(1.04)");
     const lw=900*mtOut((t-.2)/.8);ctx.fillStyle="#1a1a1a";ctx.fillRect(90,1400,lw,2);
     if(I.cta){const q=mtOut(I.cta.lt/.4);ctx.save();ctx.globalAlpha=q;ctx.fillStyle="#1a1a1a";ctx.font='600 26px "Montserrat",sans-serif';ctx.textAlign="left";ctx.textBaseline="alphabetic";ctx.fillText("RESPONDA NO DIRECT".split("").join(String.fromCharCode(8202)),90,1470);
       const fs=stFit(ctx,"→ "+I.cta.title,"700",'"Playfair Display",Georgia,serif',84,46,900);ctx.font=`700 ${fs}px "Playfair Display",Georgia,serif`;ctx.fillText("→ "+I.cta.title,90,1470+fs*1.2);ctx.restore()}
@@ -3582,15 +3582,26 @@ function drawStyle(ctx,l,el,t,st,m){const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m
     else if(I.open){const q2=mtOut(I.open.p/.4);ctx.save();ctx.globalAlpha=q2;ctx.fillStyle="#fff";ctx.font='800 64px "Montserrat",sans-serif';ctx.textAlign="center";ctx.textBaseline="middle";mtWrap(ctx,I.open.title,940).slice(0,2).forEach((ln,j,a)=>ctx.fillText(ln,540,1620+(j-(a.length-1)/2)*76));ctx.restore()}
     else if(cap)stWords(ctx,cap.ws,540,1620,960,'800 58px "Montserrat",sans-serif',70,j=>({c:j===cap.kk?(T.a==="#4da3ff"?"#7fd3ff":T.a):"#ffffff"}))}
   else if(k==="contagem"){
-    stVid(ctx,el,l,0,0,W,H,z);const g=ctx.createLinearGradient(0,0,0,1000);g.addColorStop(0,"rgba(0,0,0,.82)");g.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=g;ctx.fillRect(0,0,W,1000);
-    const g2=ctx.createLinearGradient(0,1300,0,H);g2.addColorStop(0,"rgba(0,0,0,0)");g2.addColorStop(1,"rgba(0,0,0,.6)");ctx.fillStyle=g2;ctx.fillRect(0,1300,W,620);
-    const dd=stDays(m,st),d=dd==null?7:Math.max(0,dd),spin=mtOut(t/1.3),shown=d===0?null:Math.round(d+(1-spin)*Math.min(9,d+5));
-    ctx.save();ctx.textAlign="center";ctx.textBaseline="alphabetic";ctx.fillStyle=T.k;ctx.font='800 42px "Montserrat",sans-serif';ctx.fillText((d===0?"CHEGOU O DIA":"FALTAM").split("").join(String.fromCharCode(8202)),540,240);
-    ctx.fillStyle="#fff";ctx.shadowColor=T.a;ctx.shadowBlur=50;if(shown==null){ctx.font='400 260px "Bebas Neue",Impact,sans-serif';ctx.fillText("É HOJE!",540,500)}else{ctx.font='400 380px "Bebas Neue",Impact,sans-serif';ctx.fillText(String(shown),540,570);ctx.shadowBlur=0;ctx.font='400 110px "Bebas Neue",Impact,sans-serif';ctx.fillStyle=T.a;ctx.fillText(d===1?"DIA":"DIAS",540,675)}ctx.restore();
-    const evn=stClean(m.evName||(m.scenes[0]&&m.scenes[0].title)||"");if(evn){ctx.save();ctx.fillStyle="#fff";ctx.textAlign="center";ctx.font='800 54px "Montserrat",sans-serif';ctx.textBaseline="alphabetic";mtWrap(ctx,evn,900).slice(0,2).forEach((ln,j)=>ctx.fillText(ln,540,775+j*64));ctx.restore()}
-    const dt=stDateTxt(m);if(dt)stPill(ctx,"📅  "+dt,540,920,"rgba(255,255,255,.14)","#fff",'700 38px "Montserrat",sans-serif',mtOut((t-.6)/.4),1,34,72);
-    if(I.cta){const q=mtOut(I.cta.lt/.3);stPill(ctx,I.cta.title,540,1660,T.a,onColor(T.a),'900 52px "Montserrat",sans-serif',q,(1+.04*Math.sin(t*6))*(.85+.15*q),44,100)}
-    else if(cap)stWords(ctx,cap.ws,540,1640,960,'800 58px "Montserrat",sans-serif',70,j=>({c:j===cap.kk?(T.a==="#4da3ff"?"#7fd3ff":T.a):"#fff"}),{shadow:"#000",blur:16})}
+    stVid(ctx,el,l,0,0,W,H,1);
+    {const g=ctx.createLinearGradient(0,0,620,0);g.addColorStop(0,"rgba(0,0,0,.62)");g.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=g;ctx.fillRect(0,0,620,H)}
+    {const g2=ctx.createLinearGradient(0,1250,0,H);g2.addColorStop(0,"rgba(0,0,0,0)");g2.addColorStop(1,"rgba(0,0,0,.66)");ctx.fillStyle=g2;ctx.fillRect(0,1250,W,670)}
+    const dd=stDays(m,st),d=dd==null?7:Math.max(0,dd),spin=mtOut(t/1.1),shown=d===0?null:Math.max(d,Math.round(d+(1-spin)*Math.min(9,d+5)));
+    const q=mtOut((t-.15)/.55),cx=46-(1-q)*360,cy=250,cw=284,ch=560,mid=cx+cw/2;
+    ctx.save();ctx.globalAlpha=q;ctx.shadowColor="rgba(0,0,0,.45)";ctx.shadowBlur=40;ctx.fillStyle="rgba(10,12,22,.58)";rr(ctx,cx,cy,cw,ch,38);ctx.fill();ctx.shadowBlur=0;
+      ctx.lineWidth=2;ctx.strokeStyle=T.a+"99";rr(ctx,cx,cy,cw,ch,38);ctx.stroke();
+      ctx.fillStyle=T.a;rr(ctx,cx+cw/2-30,cy+28,60,6,3);ctx.fill();
+      ctx.textAlign="center";ctx.textBaseline="alphabetic";ctx.fillStyle=T.k;ctx.font='800 28px "Montserrat",sans-serif';ctx.fillText((d===0?"CHEGOU":"FALTAM").split("").join(String.fromCharCode(8202)),mid,cy+92);
+      if(shown==null){ctx.fillStyle="#fff";ctx.font='400 150px "Bebas Neue",Impact,sans-serif';ctx.fillText("É",mid,cy+250);ctx.fillText("HOJE",mid,cy+390)}
+      else{const fs=String(shown).length>2?190:String(shown).length>1?250:300;const gr=ctx.createLinearGradient(0,cy+120,0,cy+380);gr.addColorStop(0,"#ffffff");gr.addColorStop(1,T.k);ctx.fillStyle=gr;ctx.shadowColor=T.a;ctx.shadowBlur=36;ctx.font=`400 ${fs}px "Bebas Neue",Impact,sans-serif`;ctx.fillText(String(shown),mid,cy+372);ctx.shadowBlur=0;
+        ctx.fillStyle=T.a;ctx.font='400 84px "Bebas Neue",Impact,sans-serif';ctx.fillText(d===1?"DIA":"DIAS",mid,cy+452)}
+      ctx.fillStyle="#ffffff26";ctx.fillRect(cx+40,cy+482,cw-80,2);
+      const dt=stDateTxt(m);if(dt){ctx.fillStyle="#fff";ctx.font='700 30px "Montserrat",sans-serif';ctx.fillText(dt.toUpperCase(),mid,cy+528)}
+    ctx.restore();
+    const evn=stClean(m.evName||"");if(evn){const q2=mtOut((t-.55)/.5);ctx.save();ctx.globalAlpha=q2;ctx.font='900 58px "Montserrat",sans-serif';const ls=mtWrap(ctx,evn.toUpperCase(),880).slice(0,2),by=1330+(1-q2)*30,bh=48+ls.length*66;
+      ctx.fillStyle=T.a;rr(ctx,46,by,10,bh,5);ctx.fill();ctx.fillStyle=T.k;ctx.font='800 26px "Montserrat",sans-serif';ctx.textBaseline="alphabetic";ctx.textAlign="left";ctx.fillText("PRÓXIMO EVENTO".split("").join(String.fromCharCode(8202)),80,by+30);
+      ctx.fillStyle="#fff";ctx.shadowColor="rgba(0,0,0,.6)";ctx.shadowBlur=18;ctx.font='900 58px "Montserrat",sans-serif';ls.forEach((ln,j)=>ctx.fillText(ln,80,by+90+j*66));ctx.restore()}
+    if(I.cta){const q3=mtOut(I.cta.lt/.3);stPill(ctx,I.cta.title,540,1690,T.a,onColor(T.a),'900 52px "Montserrat",sans-serif',q3,(1+.03*Math.sin(t*6))*(.85+.15*q3),44,100)}
+    else if(cap)stWords(ctx,cap.ws,540,1660,960,'800 56px "Montserrat",sans-serif',68,j=>({c:j===cap.kk?(T.a==="#4da3ff"?"#7fd3ff":T.a):"#fff"}),{shadow:"#000",blur:16})}
   else if(k==="antes"){
     const A=m.antes&&getImg(m.antes),D=m.depois&&getImg(m.depois),top=960;
     if(A&&A.naturalWidth&&D&&D.naturalWidth){coverAny(ctx,D,D.naturalWidth,D.naturalHeight,0,0,W,top);const cyc=(t%7)/7,p=cyc<.12?0:cyc<.42?mtEase((cyc-.12)/.3):cyc<.62?1:cyc<.92?1-mtEase((cyc-.62)/.3):0,wx=W*(1-p);
@@ -3625,7 +3636,7 @@ function drawMontage(ctx,l,el,tOv,stOv,keyOv){const st=stOv||drawingStory,m=l.mo
       (s.items||[]).slice(0,3).forEach((it,k)=>{const q2=mtOut((lt-.5-k*.2)/.3);if(q2>0)mtPill(ctx,(it.e&&!mtClean?it.e+" ":"")+it.x,px+pw/2+(k-1)*310,py+720,T,q2*A,.72)})}}
   if(s.type==="produto"){const px=70,py=140,pw=940,ph=820,q=mtOut(lt/.4),im=m.prodSrc&&getImg(m.prodSrc);
     ctx.save();ctx.globalAlpha=A;ctx.shadowColor=T.a+"88";ctx.shadowBlur=44;rr(ctx,px,py+(1-q)*40,pw,ph,40);ctx.fillStyle="#ffffff10";ctx.fill();ctx.shadowBlur=0;rr(ctx,px,py+(1-q)*40,pw,ph,40);ctx.clip();
-    if(im&&im.naturalWidth){const z=1.04+.06*mtE(lt/Math.max(2,dur));const cx2=px+pw/2,cy2=py+ph/2;ctx.translate(cx2,cy2);ctx.scale(z,z);ctx.translate(-cx2,-cy2);coverAny(ctx,im,im.naturalWidth,im.naturalHeight,px,py+(1-q)*40,pw,ph);ctx.setTransform(1,0,0,1,0,0)}
+    if(im&&im.naturalWidth){const z=1;const cx2=px+pw/2,cy2=py+ph/2;ctx.translate(cx2,cy2);ctx.scale(z,z);ctx.translate(-cx2,-cy2);coverAny(ctx,im,im.naturalWidth,im.naturalHeight,px,py+(1-q)*40,pw,ph);ctx.setTransform(1,0,0,1,0,0)}
     else{ctx.fillStyle=T.b2;ctx.fillRect(px,py,pw,ph);ctx.fillStyle=T.k;ctx.font='700 34px "Montserrat",sans-serif';ctx.textAlign="center";ctx.fillText("Foto do produto",px+pw/2,py+ph/2)}
     ctx.restore();ctx.save();ctx.globalAlpha=A;const gg=ctx.createLinearGradient(0,py+ph*.45,0,py+ph);gg.addColorStop(0,"#00000000");gg.addColorStop(1,"#000000d0");rr(ctx,px,py+(1-q)*40,pw,ph,40);ctx.clip();ctx.fillStyle=gg;ctx.fillRect(px,py,pw,ph);ctx.restore();
     ctx.save();ctx.lineWidth=3;ctx.strokeStyle=T.a+"aa";ctx.globalAlpha=A;rr(ctx,px,py+(1-q)*40,pw,ph,40);ctx.stroke();ctx.restore();
@@ -3640,7 +3651,7 @@ function drawMontage(ctx,l,el,tOv,stOv,keyOv){const st=stOv||drawingStory,m=l.mo
   const bgm=m.bg||"orig",behind=false;let titleDone=false;
   const drawTitle=()=>{titleDone=true;mtOpenTitle(ctx,s,y,lt,T,A)};
   ctx.save();rr(ctx,x,y,w,h,r);ctx.clip();
-  if(el&&el.videoWidth){const z=1+.05*mtE(lt/Math.max(2,dur));ctx.translate(x+w/2,y+h/2);ctx.scale(z,z);ctx.translate(-(x+w/2),-(y+h/2));
+  if(el&&el.videoWidth){const z=1;ctx.translate(x+w/2,y+h/2);ctx.scale(z,z);ctx.translate(-(x+w/2),-(y+h/2));
     const person=(bgm!=="orig"||behind)?maskedEl(el,mkey,.4,true):null;
     if(person){
       if(bgm==="blur")mtBlurPlate(ctx,el,person,x,y,w,h)
@@ -3649,7 +3660,7 @@ function drawMontage(ctx,l,el,tOv,stOv,keyOv){const st=stOv||drawingStory,m=l.mo
       else coverVideo(ctx,el,x,y,w,h);
       if(behind){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.restore()}
       if(behind&&mtTopCov(person)>.22){/* rosto cobre o título: título vai na frente */}
-      else if(behind){ctx.restore();ctx.save();rr(ctx,x,y,w,h,r);ctx.clip();mtTitleShade(ctx,x,y,w,h,r);drawTitle();const z2=1+.05*mtE(lt/Math.max(2,dur));ctx.translate(x+w/2,y+h/2);ctx.scale(z2,z2);ctx.translate(-(x+w/2),-(y+h/2))}
+      else if(behind){ctx.restore();ctx.save();rr(ctx,x,y,w,h,r);ctx.clip();mtTitleShade(ctx,x,y,w,h,r);drawTitle();const z2=1;ctx.translate(x+w/2,y+h/2);ctx.scale(z2,z2);ctx.translate(-(x+w/2),-(y+h/2))}
       const pp=(bgm==="estudio"||bgm==="foto")?mtGraded(person,T.a):person;
 
       coverAny(ctx,pp,pp.width,pp.height,x,y,w,h)}
@@ -3776,13 +3787,13 @@ function sheetRec(){
    <div class="reclay">${MONTAGENS.map(([k,n,d])=>`<button type="button" class="txp${recLay===k?" sel":""}" data-rl="${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
    <div class="elh">Estilos prontos <span class="pnbad ativa" style="margin-left:6px">novos</span></div>
    <div class="reclay">${STYLES.map(([k,n,d])=>`<button type="button" class="txp${recLay==="st:"+k?" sel":""}" data-rl="st:${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
-   ${isStyLay()?`<label class="chk"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}> ✂️ Corte dinâmico: tira as pausas longas e dá zoom nas palavras fortes</label>`:""}
+   ${isStyLay()?`<label class="chk"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}> ✂️ Corte dinâmico: tira as pausas longas</label>`:""}
    ${recLay==="st:contagem"||recLay==="st:antes"?`<p class="note" style="margin:0">${recLay==="st:contagem"?"A data e o nome do evento você escolhe no final, depois de gravar.":"As fotos do antes e do depois você escolhe no final, depois de gravar."}</p>`:""}
    ${isProLay()&&!isStyLay()?`<div class="elh">Seu fundo (cenário)</div><div class="chips">${[["orig","Original"],["blur","Desfocado (mais natural)"],["estudio","Estúdio virtual"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="chipb${recBgMode===k?" on":""}" data-rbg="${k}">${n}</button>`).join("")}</div>${recBgMode==="foto"?`<p class="note" style="margin:0">${recBgSrc?"Foto escolhida ✓ ":""}<button type="button" class="linkbtn" data-rbg="pick">${recBgSrc?"Trocar foto do fundo":"Escolher foto do fundo"}</button></p>`:""}
      <div class="elh">Visual</div><div class="chips">${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="chipb${recTheme===k?" on":""}" data-rth="${k}">${o.n}</button>`).join("")}</div>
      <p class="note" style="margin:0">O fundo usa a IA que recorta você do vídeo. Funciona melhor com boa luz e você de frente.</p>`:""}
    ${recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay()?`<div class="elh">Foto do produto</div><div class="recph" id="recPh"><p class="note">Carregando suas imagens…</p></div>`:""}
-   <div class="fxinfo">✨ <b>Edição ao vivo</b>: enquanto você fala, o app escuta e coloca sozinho a legenda com as palavras-chave em destaque, os números grandes (“30%”, “+1.200 alunos”), emojis do assunto, a chamada (“Responde QUERO”) e um zoom quando você fala mais forte.</div>
+   <div class="fxinfo">✨ <b>Edição ao vivo</b>: enquanto você fala, o app escuta e coloca sozinho a legenda com as palavras-chave em destaque, os números grandes (“30%”, “+1.200 alunos”), emojis do assunto, a chamada (“Responde QUERO”).</div>
    <button class="btn pri" id="recOpen">🎥 Abrir câmera e gravar</button>
    <p class="note" style="margin:0">No computador usa a webcam; no celular, a câmera da frente. O navegador vai pedir permissão para câmera e microfone.</p>`;
   if(recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay())(async()=>{const box=$("#recPh");if(!box)return;const list=(await idbGet(upKey()))||[];const ths=await Promise.all(list.slice(0,18).map(x=>idbGet("upth:"+x.id)));
@@ -3905,7 +3916,7 @@ function stPickAD(m,after){const fi=document.createElement("input");fi.type="fil
 function pickAD(after){const fi=document.createElement("input");fi.type="file";fi.accept="image/*";fi.multiple=true;fi.onchange=async()=>{const fs=[...fi.files].slice(0,2);if(!fs.length)return;try{recAntes=await readImg(fs[0],1080,1080);recDepois=fs[1]?await readImg(fs[1],1080,1080):"";after()}catch(err){toast("Não consegui abrir essas fotos.")}};fi.click();toast("Escolha 2 fotos: primeiro o ANTES, depois o DEPOIS. Com 1 foto só, você vira o depois.")}
 let evT=0;document.addEventListener("input",e=>{if(!$("#recOv"))return;const t=e.target;if(t.id==="pEvD"||t.id==="pEvN"){if(t.id==="pEvD")recEvDate=t.value;else recEvName=t.value;clearTimeout(evT);evT=setTimeout(()=>{stopTakePrev();recPrep=null;showTakePro()},500)}});
 document.addEventListener("click",e=>{const b=e.target.closest("[data-pst],[data-pbg],[data-pdyn],[data-pad]");if(!b||!$("#recOv"))return;
-  if(b.dataset.pdyn){recDyn=!recDyn;toast(recDyn?"Corte dinâmico ligado: o app tira as pausas longas e dá zoom nas palavras fortes.":"Corte dinâmico desligado.");stopTakePrev();recPrep=null;postCtl();showTakePro();return}
+  if(b.dataset.pdyn){recDyn=!recDyn;toast(recDyn?"Corte dinâmico ligado: o app tira as pausas longas.":"Corte dinâmico desligado.");stopTakePrev();recPrep=null;postCtl();showTakePro();return}
   if(b.dataset.pad){pickAD(()=>{recLay="st:antes";stopTakePrev();recPrep=null;postCtl();showTakePro()});return}
   if(b.dataset.pst==="st:antes"&&!recAntes){pickAD(()=>{recLay="st:antes";stopTakePrev();recPrep=null;postCtl();showTakePro()});return}
   if(b.dataset.pst==="st:viral"&&recLay!=="st:viral")recDyn=true;
