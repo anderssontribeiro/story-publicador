@@ -3774,22 +3774,27 @@ function sheetRec(){
    <div class="reclay">${[["live","⚡ Edição ao vivo","Você já vê a edição pronta enquanto grava"],["post","🎬 Gravar e depois editar","Grava só você; no final escolhe a edição. Recorte em alta qualidade"]].map(([k,n,d])=>`<button type="button" class="txp${recFlow===k?" sel":""}" data-rfl="${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
    <div class="elh">${recFlow==="post"?"3. Edição preferida (dá para trocar no final)":"3. Como o story vai ficar"}</div>
    <div class="reclay">${MONTAGENS.map(([k,n,d])=>`<button type="button" class="txp${recLay===k?" sel":""}" data-rl="${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
-   ${isProLay()?`<div class="elh">Seu fundo (cenário)</div><div class="chips">${[["orig","Original"],["blur","Desfocado (mais natural)"],["estudio","Estúdio virtual"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="chipb${recBgMode===k?" on":""}" data-rbg="${k}">${n}</button>`).join("")}</div>${recBgMode==="foto"?`<p class="note" style="margin:0">${recBgSrc?"Foto escolhida ✓ ":""}<button type="button" class="linkbtn" data-rbg="pick">${recBgSrc?"Trocar foto do fundo":"Escolher foto do fundo"}</button></p>`:""}
+   <div class="elh">Estilos prontos <span class="pnbad ativa" style="margin-left:6px">novos</span></div>
+   <div class="reclay">${STYLES.map(([k,n,d])=>`<button type="button" class="txp${recLay==="st:"+k?" sel":""}" data-rl="st:${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
+   ${isStyLay()?`<label class="chk"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}> ✂️ Corte dinâmico: tira as pausas longas e dá zoom nas palavras fortes</label>`:""}
+   ${recLay==="st:contagem"||recLay==="st:antes"?`<p class="note" style="margin:0">${recLay==="st:contagem"?"A data e o nome do evento você escolhe no final, depois de gravar.":"As fotos do antes e do depois você escolhe no final, depois de gravar."}</p>`:""}
+   ${isProLay()&&!isStyLay()?`<div class="elh">Seu fundo (cenário)</div><div class="chips">${[["orig","Original"],["blur","Desfocado (mais natural)"],["estudio","Estúdio virtual"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="chipb${recBgMode===k?" on":""}" data-rbg="${k}">${n}</button>`).join("")}</div>${recBgMode==="foto"?`<p class="note" style="margin:0">${recBgSrc?"Foto escolhida ✓ ":""}<button type="button" class="linkbtn" data-rbg="pick">${recBgSrc?"Trocar foto do fundo":"Escolher foto do fundo"}</button></p>`:""}
      <div class="elh">Visual</div><div class="chips">${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="chipb${recTheme===k?" on":""}" data-rth="${k}">${o.n}</button>`).join("")}</div>
      <p class="note" style="margin:0">O fundo usa a IA que recorta você do vídeo. Funciona melhor com boa luz e você de frente.</p>`:""}
-   ${recLay!=="vlegenda"&&recLay!=="pro"?`<div class="elh">Foto do produto</div><div class="recph" id="recPh"><p class="note">Carregando suas imagens…</p></div>`:""}
+   ${recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay()?`<div class="elh">Foto do produto</div><div class="recph" id="recPh"><p class="note">Carregando suas imagens…</p></div>`:""}
    <div class="fxinfo">✨ <b>Edição ao vivo</b>: enquanto você fala, o app escuta e coloca sozinho a legenda com as palavras-chave em destaque, os números grandes (“30%”, “+1.200 alunos”), emojis do assunto, a chamada (“Responde QUERO”) e um zoom quando você fala mais forte.</div>
    <button class="btn pri" id="recOpen">🎥 Abrir câmera e gravar</button>
    <p class="note" style="margin:0">No computador usa a webcam; no celular, a câmera da frente. O navegador vai pedir permissão para câmera e microfone.</p>`;
-  if(recLay!=="vlegenda"&&recLay!=="pro")(async()=>{const box=$("#recPh");if(!box)return;const list=(await idbGet(upKey()))||[];const ths=await Promise.all(list.slice(0,18).map(x=>idbGet("upth:"+x.id)));
+  if(recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay())(async()=>{const box=$("#recPh");if(!box)return;const list=(await idbGet(upKey()))||[];const ths=await Promise.all(list.slice(0,18).map(x=>idbGet("upth:"+x.id)));
     box.innerHTML=`<button type="button" class="recup" data-rp="new" title="Enviar foto">+<span>Enviar</span></button>`+list.slice(0,18).map((x,i)=>`<button type="button" class="recpi${recPhoto===x.id?" sel":""}" data-rp="${x.id}"><img src="${ths[i]||""}" alt=""></button>`).join("")+`<button type="button" class="recup${!recPhoto?" sel":""}" data-rp=""><span>Pôr<br>depois</span></button>`})();
+  b.onchange=e=>{if(e.target.id==="recDynChk"){recDyn=e.target.checked}};
   b.onclick=async e=>{const t=e.target.closest("[data-rr],[data-rl],[data-rp],[data-rbg],[data-rth],[data-rfl],#recOpen");if(!t)return;
     if(t.dataset.rfl){recFlow=t.dataset.rfl;sheetRec();return}
     if(t.dataset.rth){recTheme=t.dataset.rth;sheetRec();return}
     if(t.dataset.rbg){if(t.dataset.rbg==="pick"){const fi=document.createElement("input");fi.type="file";fi.accept="image/*";fi.onchange=async()=>{const fl=fi.files[0];if(!fl)return;try{recBgSrc=await readImg(fl,1080,1920);sheetRec()}catch(err){toast("Não consegui abrir essa foto.")}};fi.click();return}
       recBgMode=t.dataset.rbg;if(recBgMode!=="orig")loadSeg();sheetRec();if(recBgMode==="foto"&&!recBgSrc){const p=b.querySelector('[data-rbg="pick"]');if(p)p.click()}return}
     if(t.dataset.rr){recR=t.dataset.rr;recScript="";sheetRec();return}
-    if(t.dataset.rl){recLay=t.dataset.rl;sheetRec();return}
+    if(t.dataset.rl){const k=t.dataset.rl;if(k==="st:viral"&&recLay!=="st:viral")recDyn=true;if(k==="st:contagem"||k==="st:antes")recFlow="post";recLay=k;sheetRec();return}
     if(t.dataset.rp!==undefined){if(t.dataset.rp==="new"){$("#fUp").click();return}recPhoto=t.dataset.rp;sheetRec();return}
     if(t.id==="recOpen"){recScript=Object.assign(new String($("#recTxt").value),{_r:recR});if(!String(recScript).trim()){toast("Escreva o que você vai falar.");return}openRecorder()}};
   b.oninput=e=>{const t=e.target;if(t.dataset.rv){recV[t.dataset.rv]=t.value;const R2=ROTEIROS.find(x=>x.id===recR),v2={};R2.f.forEach(([k,,d])=>v2[k]=recV[k]||d);recScript=Object.assign(new String(R2.t(v2)),{_r:recR});const ta=$("#recTxt");if(ta)ta.value=String(recScript)}
