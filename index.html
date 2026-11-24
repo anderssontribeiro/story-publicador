@@ -589,6 +589,81 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 @media (max-width:640px){.pnmap{height:300px}}
 @media (max-width:640px){.pnclis{grid-template-columns:1fr}.pnform.pn2,.pnform.pn3{grid-template-columns:1fr}.pnnav button{font-size:13px;padding:9px 10px}}
 @media (max-width:640px){.pnkpis{grid-template-columns:repeat(2,1fr)}.pngrid{grid-template-columns:1fr}.pnk b{font-size:26px}.pnwrap{padding:12px 12px 100px}.pnhead h2{font-size:20px}.pnline svg{height:190px}}
+
+/* ===== Gravar (layout limpo) ===== */
+.rs{display:flex;flex-direction:column;gap:22px;padding-bottom:8px}
+.rs-sec{display:flex;flex-direction:column;gap:10px}
+.rs-h{display:flex;align-items:center;gap:10px;font-family:var(--f-disp);font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.01em}
+.rs-h span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:800;color:var(--mut);border:1px solid #ffffff26;font-family:var(--f-body)}
+.rs-seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.rs-seg button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 10px;background:none;border:0;border-radius:14px;color:var(--mut);font:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
+.rs-seg button svg{width:22px;height:22px}
+.rs-seg button:hover{color:var(--tx);background:#ffffff08}
+.rs-seg button.on{color:var(--tx);background:#ffffff10}
+.rs-seg button.on svg{color:var(--ac)}
+.rs-flds{display:flex;flex-direction:column;gap:2px}
+.rs-f{display:flex;flex-direction:column;gap:2px;padding:8px 2px;border-bottom:1px solid #ffffff14}
+.rs-f span{font-size:11px;color:var(--mut);font-weight:600}
+.rs-f input{background:none;border:0;padding:2px 0;color:var(--tx);font:inherit;font-size:15px;outline:none}
+.rs-f input::placeholder{color:#8b8b9c}
+.rs-f:focus-within{border-bottom-color:var(--ac)}
+.rs-scr{border-radius:14px;background:#ffffff08}
+.rs-scr summary{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;list-style:none;font-size:14px;font-weight:700}
+.rs-scr summary::-webkit-details-marker{display:none}
+.rs-scr summary em{font-style:normal;font-weight:500;font-size:12px;color:var(--mut);flex:1}
+.rs-scr summary b{font-size:12px;color:var(--ac2);font-weight:700}
+.rs-scr[open] summary b{visibility:hidden}
+.rs-scr textarea{display:block;width:calc(100% - 20px);margin:0 10px 10px;background:transparent;border:0;border-top:1px solid #ffffff14;color:var(--tx);font:inherit;font-size:15px;line-height:1.5;padding:10px 4px;resize:vertical;outline:none}
+.rs-gal{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 6px;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 -2px}
+.rs-gal::-webkit-scrollbar{display:none}
+.rs-t{flex:0 0 72px;display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;padding:0;color:var(--mut);font:inherit;font-size:11.5px;font-weight:600;cursor:pointer;scroll-snap-align:start;text-align:center;line-height:1.2}
+.rs-t i{display:block;width:72px;height:128px;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px #ffffff14;transition:transform .2s,box-shadow .2s}
+.rs-t i svg{display:block;width:100%;height:100%}
+.rs-t:hover i{transform:translateY(-2px)}
+.rs-t.on{color:var(--tx)}
+.rs-t.on i{box-shadow:0 0 0 2px var(--bg),0 0 0 4px #f3f1ec}
+.rs-hint{margin:0;font-size:13px;color:var(--mut);line-height:1.45}
+.rs-sw{display:flex;align-items:center;gap:12px;cursor:pointer;padding:4px 0}
+.rs-sw input{position:absolute;opacity:0;pointer-events:none}
+.rs-sw i{flex:0 0 40px;height:24px;border-radius:12px;background:#ffffff1f;position:relative;transition:background .2s}
+.rs-sw i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.rs-sw input:checked+i{background:linear-gradient(135deg,var(--ac),#ff7a59)}
+.rs-sw input:checked+i::after{transform:translateX(16px)}
+.rs-sw span{display:flex;flex-direction:column;font-size:14px;font-weight:700}
+.rs-sw em{font-style:normal;font-size:12px;font-weight:500;color:var(--mut)}
+.rs-opt{display:flex;align-items:center;gap:12px}
+.rs-opt>span{flex:0 0 58px;font-size:12px;color:var(--mut);font-weight:600}
+.rs-opt>div{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1}
+.rs-opt>div>button:not(.rs-dot):not(.recup):not(.recpi){flex:0 0 auto;background:none;border:1px solid #ffffff1f;color:var(--mut);border-radius:999px;padding:7px 12px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.rs-opt>div>button.on:not(.rs-dot){background:#f3f1ec;color:#14141a;border-color:#f3f1ec}
+.rs-dot{flex:0 0 28px;width:28px;height:28px;border-radius:50%;border:0;background:var(--c);cursor:pointer;box-shadow:inset 0 0 0 2px #00000033}
+.rs-dot.on{box-shadow:0 0 0 2px var(--bg),0 0 0 4px #f3f1ec}
+.rs-optc{align-items:flex-start}.rs-optc>span{padding-top:10px}
+.rs-tog{display:grid;grid-template-columns:1fr 1fr;background:#ffffff0d;border-radius:12px;padding:3px}
+.rs-tog button{background:none;border:0;border-radius:10px;padding:10px 6px;color:var(--mut);font:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s,color .2s}
+.rs-tog button.on{background:#2c2c38;color:var(--tx);box-shadow:0 1px 3px #0006}
+.rs-go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px;border:0;border-radius:16px;background:#f3f1ec;color:#14141a;font:inherit;font-size:16px;font-weight:800;cursor:pointer;transition:transform .15s}
+.rs-go:active{transform:scale(.98)}
+.rs-go i{width:14px;height:14px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 4px #ff5a7a33}
+.rs-foot{margin:-12px 0 0;text-align:center;font-size:12px;color:var(--mut)}
+/* ===== Seleção elegante (menu e chips) ===== */
+.rail .ritem{position:relative}
+.rail .ritem.on,.rail .ritem.act{background:#ffffff0f;color:#fff;box-shadow:none}
+.rail .ritem.on .ric,.rail .ritem.act .ric{color:#fff}
+.rail .ritem.act::before,.rail .ritem.on::before{content:"";position:absolute;left:-2px;top:50%;width:3px;height:16px;margin-top:-8px;border-radius:2px;background:linear-gradient(var(--ac),var(--ac2))}
+.rail .rhot .ric{color:inherit}
+.rail .rhot .ric::after{background:var(--ac);animation:none;box-shadow:none;width:6px;height:6px;top:4px;right:3px}
+.rail .rhot .rlab{color:inherit;font-weight:600}
+.chipb.on{background:#f3f1ec;border-color:#f3f1ec;color:#14141a}
+.txp.sel{background:#ffffff0f;border-color:#ffffff40}
+@media (max-width:640px){
+ .rail .ritem.act::before,.rail .ritem.on::before{left:50%;top:auto;bottom:1px;width:16px;height:3px;margin:0 0 0 -8px}
+ .rail .ritem.on,.rail .ritem.act{background:none}
+ .rail .ritem.on .ric,.rail .ritem.act .ric{background:#ffffff14;border-radius:10px}
+ .rs-t{flex-basis:68px}.rs-t i{width:68px;height:121px}
+}
+.th.on{border-color:#f3f1ec;box-shadow:0 0 0 2px var(--bg),0 0 0 3px #f3f1ec55}
+.recpi.sel,.recup.sel{border-color:#f3f1ec}
 </style>
 </head>
 <body>
@@ -3759,7 +3834,7 @@ const ROTEIROS=[
   t:v=>`Quero te contar o que aconteceu com ${v.cliente}.\nEla ${v.resultado}.\nSe você quer um resultado assim, responde EU TAMBÉM que eu te explico como.`},
  {id:"livre",n:"Escrever do meu jeito",d:"você escreve",f:[],t:()=>""}];
 const MONTAGENS=[["pro","✨ Edição Pro","Cenas animadas que mudam com a sua fala: títulos, números, tópicos e chamada"],["pv_dividido","✨ Pro produto + você","Cenas animadas com a foto do seu produto em destaque e você falando"],["pv_sobre","Você no círculo","Foto do produto na tela toda, você num círculo"],["vlegenda","✨ Pro só você + legenda","Você na tela toda, título de abertura e legenda moderna embaixo"]];
-let recFlow="live",recKey="",recProdSrc="",recProdPick="";
+let recFlow="post",recKey="",recProdSrc="",recProdPick="";
 const isProLay=()=>recLay==="pro"||recLay==="pv_dividido"||recLay==="vlegenda"||isStyLay();
 const isStyLay=()=>String(recLay).startsWith("st:");
 let recDyn=false,recEvDate="",recEvName="",recAntes="",recDepois="";
@@ -3771,33 +3846,54 @@ function stApply(m,style,words,dur,v={}){m.style=style;m.dyn=!!recDyn;const D=mt
   return m}
 let recBgMode="blur",recBgSrc="",recTheme="azul";
 let recR="produto",recV={},recScript="",recLay="pro",recPhoto="",recPhotoTh="";
+function rsThumb(k){const P=(x,y,s=1,c="#d9cfc6",b="#7d7068")=>`<g transform="translate(${x} ${y}) scale(${s})"><circle cx="0" cy="-12" r="8" fill="${c}"/><path d="M-15 14 q15-16 30 0 v14 h-30z" fill="${b}"/></g>`;
+  const bg=(c)=>`<rect width="54" height="96" fill="${c}"/>`,photo=`<rect width="54" height="96" fill="url(#rsg)"/>`;
+  const defs=`<defs><linearGradient id="rsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b3f4a"/><stop offset="1" stop-color="#1d1f26"/></linearGradient><linearGradient id="rsa" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5a7a"/><stop offset="1" stop-color="#ffb547"/></linearGradient></defs>`;
+  const M={
+   pro:bg("#121a3a")+`<rect x="9" y="12" width="36" height="5" rx="2" fill="#fff"/><rect x="14" y="20" width="26" height="3" rx="1.5" fill="#9cc4ff"/><rect x="6" y="32" width="42" height="56" rx="6" fill="url(#rsg)" stroke="#4da3ff" stroke-width="1"/>`+P(27,66,1),
+   pv_dividido:bg("#121a3a")+`<rect x="6" y="8" width="42" height="40" rx="5" fill="url(#rsa)" opacity=".85"/><rect x="11" y="38" width="26" height="4" rx="2" fill="#fff"/><rect x="6" y="54" width="42" height="36" rx="5" fill="url(#rsg)"/>`+P(27,76,.8),
+   pv_sobre:`<rect width="54" height="96" fill="url(#rsa)" opacity=".8"/><circle cx="40" cy="78" r="11" fill="#2a2c35" stroke="#fff" stroke-width="1.5"/>`+P(40,82,.45),
+   vlegenda:photo+P(27,60,1.25)+`<rect x="10" y="80" width="34" height="4" rx="2" fill="#fff"/><rect x="16" y="12" width="22" height="4" rx="2" fill="#fff" opacity=".85"/>`,
+   viral:photo+P(27,56,1.25)+`<rect x="8" y="10" width="38" height="6" rx="1.5" fill="#fff"/><rect x="14" y="17" width="26" height="6" rx="1.5" fill="#ffe14d"/><rect x="9" y="76" width="20" height="6" rx="1" fill="#ffe14d"/><rect x="31" y="76" width="14" height="6" rx="1" fill="#fff"/>`,
+   cinema:photo+P(27,58,1.25,"#cdb79a","#5b4a3c")+`<rect width="54" height="14" fill="#000"/><rect y="82" width="54" height="14" fill="#000"/><rect x="15" y="44" width="24" height="3" rx="1.5" fill="#f3e3c3"/><rect x="18" y="87" width="18" height="2" rx="1" fill="#d9b26a"/>`,
+   mini:bg("#f2efe9")+`<rect x="6" y="10" width="42" height="54" fill="#8c8c8c"/>`+P(27,48,1,"#d6d6d6","#555")+`<rect x="6" y="70" width="30" height="4" fill="#1a1a1a"/><rect x="6" y="77" width="22" height="4" fill="#1a1a1a"/><rect x="44" y="86" width="4" height="4" fill="#1a1a1a"/>`,
+   podcast:bg("#10142a")+`<rect x="5" y="8" width="44" height="56" rx="6" fill="url(#rsg)"/>`+P(27,44,1)+`<circle cx="11" cy="13" r="2" fill="#ff3b4f"/><rect x="8" y="52" width="2" height="8" fill="#4da3ff"/><rect x="12" y="53" width="18" height="3" rx="1.5" fill="#fff"/>${[0,1,2,3,4,5,6,7,8].map(i=>`<rect x="${7+i*4.6}" y="${71-[3,6,4,8,5,7,3,6,4][i]/2}" width="2.4" height="${[3,6,4,8,5,7,3,6,4][i]}" rx="1.2" fill="#4da3ff"/>`).join("")}<rect x="12" y="82" width="30" height="3" rx="1.5" fill="#fff"/>`,
+   contagem:photo+P(31,58,1.2)+`<rect x="4" y="12" width="17" height="34" rx="4" fill="#0a0c16" opacity=".8" stroke="#4da3ff" stroke-width=".8"/><text x="12.5" y="34" text-anchor="middle" font-family="Bebas Neue,Impact,sans-serif" font-size="16" fill="#fff">7</text><rect x="4" y="70" width="2" height="9" fill="#4da3ff"/><rect x="8" y="71" width="24" height="3" rx="1.5" fill="#fff"/><rect x="8" y="76" width="16" height="3" rx="1.5" fill="#fff"/>`,
+   antes:`<rect width="54" height="48" fill="#8a8178"/><rect x="27" width="27" height="48" fill="#4da3ff"/><rect x="26.2" width="1.6" height="48" fill="#fff"/><rect y="48" width="54" height="48" fill="url(#rsg)"/>`+P(27,80,.9)+`<rect y="47" width="54" height="2" fill="#4da3ff"/>`};
+  return`<svg viewBox="0 0 54 96" aria-hidden="true">${defs}${M[k]||photo+P(27,60,1.2)}</svg>`}
+const RS_RR={produto:["Produto","M4 7h16l-1.5 12h-13z M8 7a4 4 0 0 1 8 0"],aula:["Evento","M4 6h16v14H4z M4 10h16 M8 3v5 M16 3v5"],depo:["Resultado","M5 19V11 M12 19V5 M19 19v-6"],livre:["Do meu jeito","M4 20l4-1 11-11-3-3L5 16z M14 6l3 3"]};
+const rsIco=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
 function sheetRec(){
-  const b=$("#sheetB"),R=ROTEIROS.find(x=>x.id===recR),v={};R.f.forEach(([k,,d])=>v[k]=recV[k]||d);
+  const b=$("#sheetB"),keep=b.scrollTop,keepG=(b.querySelector(".rs-gal")||{}).scrollLeft,R=ROTEIROS.find(x=>x.id===recR),v={};R.f.forEach(([k,,d])=>v[k]=recV[k]||d);
   if(!recScript||recScript._r!==recR){recScript=Object.assign(new String(R.t(v)),{_r:recR})}
   const words=String(recScript).split(/\s+/).filter(Boolean).length,sec=Math.round(words/2.5);
-  b.innerHTML=`<p class="note" style="margin:0">Você lê o texto olhando para a câmera e o app monta o story com o vídeo, a legenda e o produto.</p>
-   <div class="elh">1. O que você vai falar</div>
-   <div class="chips">${ROTEIROS.map(r=>`<button type="button" class="chipb${r.id===recR?" on":""}" data-rr="${r.id}">${esc(r.n)}</button>`).join("")}</div>
-   ${R.f.map(([k,lab,d])=>`<div class="fld"><label>${esc(lab)}</label><input type="text" data-rv="${k}" value="${esc(recV[k]||"")}" placeholder="${esc(d)}"></div>`).join("")}
-   <div class="fld"><label>Seu roteiro (pode editar)</label><textarea id="recTxt" rows="6">${esc(String(recScript))}</textarea></div>
-   <p class="note" style="margin:0" id="recEst">${words} palavras · cerca de ${sec} segundos${sec>55?" · está longo: o story aceita até 60 s":""}</p>
-   <div class="elh">2. Como você quer gravar</div>
-   <div class="reclay">${[["live","⚡ Edição ao vivo","Você já vê a edição pronta enquanto grava"],["post","🎬 Gravar e depois editar","Grava só você; no final escolhe a edição. Recorte em alta qualidade"]].map(([k,n,d])=>`<button type="button" class="txp${recFlow===k?" sel":""}" data-rfl="${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
-   <div class="elh">${recFlow==="post"?"3. Edição preferida (dá para trocar no final)":"3. Como o story vai ficar"}</div>
-   <div class="reclay">${MONTAGENS.map(([k,n,d])=>`<button type="button" class="txp${recLay===k?" sel":""}" data-rl="${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
-   <div class="elh">Estilos prontos <span class="pnbad ativa" style="margin-left:6px">novos</span></div>
-   <div class="reclay">${STYLES.map(([k,n,d])=>`<button type="button" class="txp${recLay==="st:"+k?" sel":""}" data-rl="st:${k}"><b>${n}</b><span class="note">${d}</span></button>`).join("")}</div>
-   ${isStyLay()?`<label class="chk"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}> ✂️ Corte dinâmico: tira as pausas longas</label>`:""}
-   ${recLay==="st:contagem"||recLay==="st:antes"?`<p class="note" style="margin:0">${recLay==="st:contagem"?"A data e o nome do evento você escolhe no final, depois de gravar.":"As fotos do antes e do depois você escolhe no final, depois de gravar."}</p>`:""}
-   ${isProLay()&&!isStyLay()?`<div class="elh">Seu fundo (cenário)</div><div class="chips">${[["orig","Original"],["blur","Desfocado (mais natural)"],["estudio","Estúdio virtual"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="chipb${recBgMode===k?" on":""}" data-rbg="${k}">${n}</button>`).join("")}</div>${recBgMode==="foto"?`<p class="note" style="margin:0">${recBgSrc?"Foto escolhida ✓ ":""}<button type="button" class="linkbtn" data-rbg="pick">${recBgSrc?"Trocar foto do fundo":"Escolher foto do fundo"}</button></p>`:""}
-     <div class="elh">Visual</div><div class="chips">${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="chipb${recTheme===k?" on":""}" data-rth="${k}">${o.n}</button>`).join("")}</div>
-     <p class="note" style="margin:0">O fundo usa a IA que recorta você do vídeo. Funciona melhor com boa luz e você de frente.</p>`:""}
-   ${recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay()?`<div class="elh">Foto do produto</div><div class="recph" id="recPh"><p class="note">Carregando suas imagens…</p></div>`:""}
-   <div class="fxinfo">✨ <b>Edição ao vivo</b>: enquanto você fala, o app escuta e coloca sozinho a legenda com as palavras-chave em destaque, os números grandes (“30%”, “+1.200 alunos”), emojis do assunto, a chamada (“Responde QUERO”).</div>
-   <button class="btn pri" id="recOpen">🎥 Abrir câmera e gravar</button>
-   <p class="note" style="margin:0">No computador usa a webcam; no celular, a câmera da frente. O navegador vai pedir permissão para câmera e microfone.</p>`;
+  const lays=[...MONTAGENS.map(([k,n,d])=>[k,n.replace(/^✨\s*/,""),d]),...STYLES.map(([k,n,d])=>["st:"+k,n.replace(/^\S+\s/,""),d])];
+  const cur=lays.find(x=>x[0]===recLay)||lays[0];
+  const thumbKey=k=>k.startsWith("st:")?k.slice(3):k;
+  b.innerHTML=`<div class="rs">
+   <section class="rs-sec"><div class="rs-h"><span>1</span>O que você vai falar</div>
+    <div class="rs-seg">${ROTEIROS.map(r=>{const m=RS_RR[r.id]||[r.n,""];return`<button type="button" class="${r.id===recR?"on":""}" data-rr="${r.id}">${m[1]?rsIco(m[1]):""}<span>${esc(m[0])}</span></button>`}).join("")}</div>
+    ${R.f.length?`<div class="rs-flds">${R.f.map(([k,lab,d])=>`<label class="rs-f"><span>${esc(lab)}</span><input type="text" data-rv="${k}" value="${esc(recV[k]||"")}" placeholder="${esc(d)}"></label>`).join("")}</div>`:""}
+    <details class="rs-scr"${recR==="livre"?" open":""}><summary><span>Roteiro</span><em id="recEst">${words} palavras · ~${sec} s${sec>55?" · longo demais":""}</em><b>Editar</b></summary><textarea id="recTxt" rows="6">${esc(String(recScript))}</textarea></details>
+   </section>
+   <section class="rs-sec"><div class="rs-h"><span>2</span>Estilo</div>
+    <div class="rs-gal">${lays.map(([k,n])=>`<button type="button" class="rs-t${recLay===k?" on":""}" data-rl="${k}"><i>${rsThumb(thumbKey(k))}</i><span>${esc(n)}</span></button>`).join("")}</div>
+    <p class="rs-hint">${esc(cur[2])}</p>
+    ${isStyLay()?`<label class="rs-sw"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}><i></i><span>Corte dinâmico<em>Tira as pausas longas da fala</em></span></label>`:""}
+    ${recLay==="st:contagem"||recLay==="st:antes"?`<p class="rs-hint">${recLay==="st:contagem"?"Data e nome do evento: você escolhe depois de gravar.":"Fotos do antes e do depois: você escolhe depois de gravar."}</p>`:""}
+    ${isProLay()&&!isStyLay()?`<div class="rs-opt"><span>Fundo</span><div>${[["orig","Original"],["blur","Desfocado"],["estudio","Estúdio"],["foto","Minha foto"]].map(([k,n])=>`<button type="button" class="${recBgMode===k?"on":""}" data-rbg="${k}">${n}</button>`).join("")}</div></div>${recBgMode==="foto"?`<p class="rs-hint">${recBgSrc?"Foto escolhida · ":""}<button type="button" class="linkbtn" data-rbg="pick">${recBgSrc?"trocar":"escolher foto"}</button></p>`:""}
+     <div class="rs-opt"><span>Cor</span><div>${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="rs-dot${recTheme===k?" on":""}" data-rth="${k}" title="${esc(o.n)}" style="--c:${k==="marca"?((S.brand&&S.brand.c1)||"#ff5a7a"):o.a}"></button>`).join("")}</div></div>`:""}
+    ${recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay()?`<div class="rs-opt rs-optc"><span>Produto</span><div class="recph" id="recPh"></div></div>`:""}
+   </section>
+   <section class="rs-sec"><div class="rs-h"><span>3</span>Como gravar</div>
+    <div class="rs-tog">${[["post","Gravar e editar depois"],["live","Ver a edição ao vivo"]].map(([k,n])=>`<button type="button" class="${recFlow===k?"on":""}" data-rfl="${k}">${n}</button>`).join("")}</div>
+    <p class="rs-hint">${recFlow==="post"?"Você grava à vontade e escolhe o acabamento no final, com recorte em alta qualidade.":"A edição aparece na tela enquanto você fala."}</p>
+   </section>
+   <button class="rs-go" id="recOpen"><i></i>Gravar</button>
+   <p class="rs-foot">Câmera frontal no celular · webcam no computador</p></div>`;
+  b.scrollTop=keep;{const g=b.querySelector(".rs-gal");if(g){if(keepG!=null)g.scrollLeft=keepG;else{const o=g.querySelector(".rs-t.on");if(o)g.scrollLeft=Math.max(0,o.offsetLeft-g.clientWidth/2+o.clientWidth/2)}}}
   if(recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay())(async()=>{const box=$("#recPh");if(!box)return;const list=(await idbGet(upKey()))||[];const ths=await Promise.all(list.slice(0,18).map(x=>idbGet("upth:"+x.id)));
-    box.innerHTML=`<button type="button" class="recup" data-rp="new" title="Enviar foto">+<span>Enviar</span></button>`+list.slice(0,18).map((x,i)=>`<button type="button" class="recpi${recPhoto===x.id?" sel":""}" data-rp="${x.id}"><img src="${ths[i]||""}" alt=""></button>`).join("")+`<button type="button" class="recup${!recPhoto?" sel":""}" data-rp=""><span>Pôr<br>depois</span></button>`})();
+    box.innerHTML=`<button type="button" class="recup" data-rp="new" title="Enviar foto">+<span>Enviar</span></button>`+list.slice(0,18).map((x,i)=>`<button type="button" class="recpi${recPhoto===x.id?" sel":""}" data-rp="${x.id}"><img src="${ths[i]||""}" alt=""></button>`).join("")+`<button type="button" class="recup${!recPhoto?" sel":""}" data-rp=""><span>Depois</span></button>`})();
   b.onchange=e=>{if(e.target.id==="recDynChk"){recDyn=e.target.checked}};
   b.onclick=async e=>{const t=e.target.closest("[data-rr],[data-rl],[data-rp],[data-rbg],[data-rth],[data-rfl],#recOpen");if(!t)return;
     if(t.dataset.rfl){recFlow=t.dataset.rfl;sheetRec();return}
@@ -3809,7 +3905,7 @@ function sheetRec(){
     if(t.dataset.rp!==undefined){if(t.dataset.rp==="new"){$("#fUp").click();return}recPhoto=t.dataset.rp;sheetRec();return}
     if(t.id==="recOpen"){recScript=Object.assign(new String($("#recTxt").value),{_r:recR});if(!String(recScript).trim()){toast("Escreva o que você vai falar.");return}openRecorder()}};
   b.oninput=e=>{const t=e.target;if(t.dataset.rv){recV[t.dataset.rv]=t.value;const R2=ROTEIROS.find(x=>x.id===recR),v2={};R2.f.forEach(([k,,d])=>v2[k]=recV[k]||d);recScript=Object.assign(new String(R2.t(v2)),{_r:recR});const ta=$("#recTxt");if(ta)ta.value=String(recScript)}
-    if(t.id==="recTxt"||t.dataset.rv){const w=String($("#recTxt").value).split(/\s+/).filter(Boolean).length,s2=Math.round(w/2.5);$("#recEst").textContent=`${w} palavras · cerca de ${s2} segundos${s2>55?" · está longo: o story aceita até 60 s":""}`;if(t.id==="recTxt")recScript=Object.assign(new String(t.value),{_r:recR})}};
+    if(t.id==="recTxt"||t.dataset.rv){const w=String($("#recTxt").value).split(/\s+/).filter(Boolean).length,s2=Math.round(w/2.5);$("#recEst").textContent=`${w} palavras · ~${s2} s${s2>55?" · longo demais":""}`;if(t.id==="recTxt")recScript=Object.assign(new String(t.value),{_r:recR})}};
 }
 let recStream=null,recMR=null,recChunks=[],recBlob=null,recDur=0,recFacing="user",recSpeed=1,recFont=34,recRAF=0,recT0=0,recMime="",recOff=0,recScroll=false,recLast=0,recPaused=false;
 function recBasePx(){const p=$("#recP"),box=$("#recPrompt");if(!p||!box)return 40;const est=Math.max(4,recWords()/2.5),dist=Math.max(60,p.scrollHeight-box.clientHeight*0.45);return dist/est}
