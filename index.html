@@ -233,6 +233,14 @@ body.easy #tplCard,body.easy #pLayer,body.easy #pCap,body.easy #frCard,body.easy
 .rguide{display:none;position:absolute;left:0;right:0;top:0;height:27%;z-index:5;pointer-events:none;border-bottom:3px dashed #ffd23fcc;background:linear-gradient(#ffd23f00 60%,#ffd23f22)}
 .rguide span{position:absolute;left:10px;top:calc(100% + 6px);background:#000b;color:#ffd23f;font:700 12px/1.3 inherit;font-family:inherit;padding:4px 8px;border-radius:8px;max-width:70%;text-align:right}
 .recov.proguide .rguide{display:block}
+.recprod{display:none;position:absolute;overflow:hidden;background:#0b1430;z-index:0}.recprod img{width:100%;height:100%;object-fit:cover;display:block}.recprod img:not([src]){display:none}.recprod span{position:absolute;inset:0;display:grid;place-items:center;color:#ffffffa0;font:600 13px inherit;font-family:inherit}.recprod.has span{display:none}
+.recov.lay-sobre .recprod{display:block;inset:0}
+.recov.lay-sobre .recstage video#recCam{inset:auto;left:7.4%;top:65.6%;width:40.74%;height:auto;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 3px #fff,0 8px 24px #0008;z-index:1}
+.recov.lay-div .recstage{background:radial-gradient(circle at 50% 35%,#0d2257,#050b1f)}
+.recov.lay-div .recprod{display:block;left:6.5%;top:7.3%;width:87%;height:42.7%;border-radius:14px;box-shadow:0 0 0 1px #4da3ff88}
+.recov.lay-div .recstage video#recCam{inset:auto;left:6.5%;top:54.2%;width:87%;height:39.6%;border-radius:14px;box-shadow:0 0 0 1px #4da3ff88;z-index:1}
+.recov.lay-sobre .prompt,.recov.lay-div .prompt{height:27%;background:linear-gradient(#000b 60%,#0000);z-index:2}
+
 .reccv{position:absolute;inset:0;width:100%;height:100%;display:none;z-index:2;background:#000}
 #recPrompt{z-index:4;padding-top:56px}.rctl{z-index:6}.rtime,.rcount,.recmsg{z-index:6}
 #recPlay{object-fit:cover!important}
@@ -824,6 +832,14 @@ header .clock,header #who{display:none!important}
 .stu-frame.lay-div .stu-vid{inset:auto;left:6.5%;top:54.2%;width:87%;height:39.6%;border-radius:14px;box-shadow:0 0 0 1px #4da3ff88}
 .stu-frame .stu-guide{z-index:3}.stu-frame .stu-chip,.stu-frame .stu-flip{z-index:4}
 @media (max-width:640px){.stu-stage{align-items:center}.stu-frame.lay-sobre,.stu-frame.lay-div{height:46%;width:auto;aspect-ratio:9/16;margin-top:10px;border-radius:16px;box-shadow:0 0 0 1px #ffffff1f}}
+
+.dm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.dm-r{display:flex;align-items:center;gap:10px;background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;padding:11px 12px;color:var(--tx);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left}
+.dm-r i{flex:0 0 12px;height:12px;border-radius:50%}
+.dm-r.on{background:#f3f1ec;color:#14141a;border-color:#f3f1ec}
+.pnform input[type=color]{padding:2px;height:40px}
+.hm-demo{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#ffffff0a;border:1px solid #ffffff14;border-radius:14px;padding:10px 14px;font-size:13px;color:var(--mut)}
+.hm-demo b{color:var(--tx)}.hm-demo button{background:none;border:0;color:var(--ac2);font:inherit;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
@@ -4168,9 +4184,10 @@ async function startCam(){
   try{recStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:recFacing,width:{ideal:1920},height:{ideal:1080}},audio:{echoCancellation:true,noiseSuppression:true}})}
   catch(err){const m=(err&&err.name)==="NotAllowedError"?"A câmera foi bloqueada. Toque no cadeado ao lado do endereço do site e permita câmera e microfone.":"Não consegui abrir a câmera aqui. Se estiver no link do artefato, abra o arquivo HTML direto no Chrome ou Edge.";$("#recMsg").textContent=m;$("#recMsg").style.display="block";return false}
   const v=$("#recCam");v.srcObject=recStream;v.classList.toggle("mirror",recFacing==="user");await v.play().catch(()=>{});return true}
-function openRecorder(){try{closeStudio()}catch(e){}recProdSrc="";recProdPick="";if(recPhoto)idbGet("up:"+recPhoto).then(x=>{recProdSrc=x||""});
+function recLayCls(on){const ov=$("#recOv");if(!ov)return;ov.classList.toggle("lay-sobre",!!on&&recLay==="pv_sobre");ov.classList.toggle("lay-div",!!on&&recLay==="pv_dividido");const im=$("#recProdImg");if(im){if(recProdPick)im.src=recProdPick;else im.removeAttribute("src")}const pr=$("#recProd");if(pr)pr.classList.toggle("has",!!recProdPick)}
+function openRecorder(){try{closeStudio()}catch(e){}recProdSrc=recProdPick||"";if(recPhoto)idbGet("up:"+recPhoto).then(x=>{recProdSrc=x||""});
   let ov=$("#recOv");if(!ov){ov=document.createElement("div");ov.id="recOv";ov.className="recov";document.body.appendChild(ov)}
-  ov.innerHTML=`<div class="recstage"><video id="recCam" autoplay muted playsinline></video><video id="recPlay" playsinline controls style="display:none"></video>
+  ov.innerHTML=`<div class="recstage"><div class="recprod" id="recProd"><img id="recProdImg" alt=""><span>Sem foto do produto</span></div><video id="recCam" autoplay muted playsinline></video><video id="recPlay" playsinline controls style="display:none"></video>
    <div class="prompt" id="recPrompt"><div class="ptext" id="recP" style="font-size:${recFont}px">${esc(String(recScript)).replace(/\n/g,"<br>")}</div></div>
    <div class="rguide" id="recGuide"><span>Área do título · mantenha a cabeça abaixo desta linha</span></div>
    <button type="button" class="recx" data-rc="close" aria-label="Voltar ao estúdio">‹ Voltar ao estúdio</button>
@@ -4184,7 +4201,7 @@ function openRecorder(){try{closeStudio()}catch(e){}recProdSrc="";recProdPick=""
   const camT=setTimeout(()=>{const v=$("#recCam");if(v&&!(v.srcObject&&v.videoWidth)){const m=$("#recMsg");if(m&&m.style.display!=="block"){m.textContent="A câmera ainda não apareceu. Se o navegador perguntou, toque em Permitir. No link do artefato a câmera pode ser bloqueada: abra o arquivo HTML direto no Chrome ou Edge.";m.style.display="block"}}},4000);
   startCam().then(ok=>{if(ok){clearTimeout(camT);const m=$("#recMsg");if(m)m.style.display="none"}});
 }
-function recCtlIdle(){{const ov=$("#recOv"),c=$("#recCtl"),st2=ov&&ov.querySelector(".recstage");if(ov){ov.classList.remove("postmode");ov.classList.toggle("proguide",isProLay())}if(c&&st2&&c.parentNode!==st2)st2.appendChild(c)}recScroll=false;recOff=0;recPaused=false;$("#recCtl").innerHTML=`<button class="btn sm" data-rc="close">Fechar</button><button class="btn sm" data-rc="test">▶ Testar texto</button><span class="rcg"><button class="btn sm" data-rc="slow" title="Mais devagar">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast" title="Mais rápido">🐇</button></span><span class="rcg"><button class="btn sm" data-rc="f-">A−</button><span class="rlab">Letra</span><button class="btn sm" data-rc="f+">A+</button></span><button class="rvirar" data-rc="flip" title="Virar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg><span>Virar</span></button>${recFlow==="post"?"":`<button class="btn sm fxtg${recFxOn?" on":""}" data-rc="fx" title="O app escuta a sua fala e coloca legenda, números, emojis e chamadas">✨ Edição ao vivo: ${recFxOn?"ligada":"desligada"}</button>`}<button class="recbtn" data-rc="rec" aria-label="Gravar"><span></span></button>`;
+function recCtlIdle(){{const ov=$("#recOv"),c=$("#recCtl"),st2=ov&&ov.querySelector(".recstage");if(ov){ov.classList.remove("postmode");ov.classList.toggle("proguide",isProLay()&&recLay!=="pv_dividido")}recLayCls(true);if(c&&st2&&c.parentNode!==st2)st2.appendChild(c)}recScroll=false;recOff=0;recPaused=false;$("#recCtl").innerHTML=`<button class="btn sm" data-rc="close">Fechar</button><button class="btn sm" data-rc="test">▶ Testar texto</button><span class="rcg"><button class="btn sm" data-rc="slow" title="Mais devagar">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast" title="Mais rápido">🐇</button></span><span class="rcg"><button class="btn sm" data-rc="f-">A−</button><span class="rlab">Letra</span><button class="btn sm" data-rc="f+">A+</button></span><button class="rvirar" data-rc="flip" title="Virar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg><span>Virar</span></button>${recFlow==="post"?"":`<button class="btn sm fxtg${recFxOn?" on":""}" data-rc="fx" title="O app escuta a sua fala e coloca legenda, números, emojis e chamadas">✨ Edição ao vivo: ${recFxOn?"ligada":"desligada"}</button>`}<button class="recbtn" data-rc="rec" aria-label="Gravar"><span></span></button>`;
   const cl=$("#recCapL"),pp=$("#recPop");if(cl)cl.innerHTML="";if(pp){pp.className="rfxpop";pp.innerHTML=""}
   $("#recPlay").style.display="none";$("#recCam").style.display="";$("#recPrompt").style.display="";$("#recP").style.transform="translateY(0)";
   stopTakePrev();recPrep=null;["#recLiveCv","#recPrevCv"].forEach(q=>{const c=$(q);if(c)c.style.display="none"});const fx=$("#recFx");if(fx)fx.style.display=""}
@@ -4217,7 +4234,7 @@ function beginRec(){
   $("#recCtl").innerHTML=`<span class="rlive">● Gravando</span><span class="rsrc" id="recSrcInfo">🎙 Ouvindo…</span><button class="rvirar" data-rc="flip" title="Virar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg><span>Virar</span></button><span class="rcg"><button class="btn sm" data-rc="slow">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast">🐇</button></span><button class="recbtn stop" data-rc="stop" aria-label="Parar"><span></span></button>`;
 }
 function endRec(){fxStopLive();recScroll=false;recDur=(performance.now()-recT0)/1000;if(recMR&&recMR.state!=="inactive")recMR.stop();$("#recTime").textContent=""}
-function showTake(){recScroll=false;recPrep=null;{const ov=$("#recOv");if(ov)ov.classList.remove("proguide")}const lc=$("#recLiveCv");if(lc)lc.style.display="none";
+function showTake(){recScroll=false;recPrep=null;recLayCls(false);{const ov=$("#recOv");if(ov)ov.classList.remove("proguide")}const lc=$("#recLiveCv");if(lc)lc.style.display="none";
   if(recFlow==="post"){showPostEdit();return}
   if(isProLay()){$("#recCam").style.display="none";$("#recPrompt").style.display="none";const cl=$("#recCapL"),pp=$("#recPop");if(cl)cl.innerHTML="";if(pp)pp.innerHTML="";
     $("#recCtl").innerHTML=`<button class="btn" data-rc="close">‹ Sair</button><button class="btn" data-rc="again">↺ Gravar de novo</button><span class="note" style="color:#fff">${Math.round(recDur)} s${recDur<3?" · muito curto (mínimo 3 s)":""}</span><button class="btn pri" data-rc="use"${recDur<3?" disabled":""}>Usar este vídeo</button><span class="note" style="color:#fff;flex-basis:100%;text-align:center">✨ Esta é a prévia da Edição Pro. Toque no vídeo para pausar. Você ainda pode mudar as cenas no editor.</span>`;
@@ -4233,7 +4250,7 @@ async function prepTake(){
   const R=ROTEIROS.find(x=>x.id===recR),v={};R.f.forEach(([k,,d])=>v[k]=recV[k]||d);
   const prodLay=recLay==="pv_dividido",styLay=isStyLay(),minLay=recLay==="vlegenda"||styLay;const pro=recLay==="pro"||prodLay||minLay;if(prodLay)v.__prod=true;if(minLay)v.__min=true;const st=newStory(pro?"vlegenda":recLay,recLay==="pv_dividido"?String(v.produto||"O PRODUTO").toUpperCase().slice(0,28):recLay==="pv_sobre"?(v.produto||undefined):undefined);
   const vl=st.layers.find(l=>l.type==="video"&&l.main)||st.layers.find(l=>l.type==="video");
-  let prodSrc=recProdPick||"";if(recPhoto){const src=await idbGet("up:"+recPhoto);prodSrc=src||"";const im=st.layers.find(l=>l.type==="image");if(src&&im)im.src=src}
+  let prodSrc=recProdPick||"";if(recPhoto&&!prodSrc){const src=await idbGet("up:"+recPhoto);prodSrc=src||""}if(!pro&&prodSrc){const im=st.layers.find(l=>l.type==="image");if(im)im.src=prodSrc}
   if(recLay==="pv_dividido"){const pl=st.layers.find(l=>l.type==="text");if(pl&&String(pl.text).length>12)pl.x=540}
   const ext=/mp4/.test(blob.type)?"mp4":"webm",f=new File([blob],"gravacao."+ext,{type:blob.type});
   const vid=uid();vl.vid=vid;vl.mkey=recKey||vid;vl.name=f.name;vl.start=0;vl.end=dur;vl.dur=dur;vl.sound=true;
@@ -4262,7 +4279,7 @@ const POST_OPTS=[["pro:azul","✨ Pro azul"],["pro:roxo","✨ Pro roxo"],["pro:v
 function postSrcTxt(){if(recTL&&recTL.words.length)return"🎙 Edição montada com a sua fala reconhecida";const a=alignScript(String(recScript),recEnv,Math.min(60,recDur));return a?"〰 Edição montada pelo roteiro, no ritmo real da sua voz":"📝 Edição montada pelo roteiro"}
 function postCtl(){const cur2=recLay==="pro"?"pro:"+recTheme:recLay,pr="";
   $("#recCtl").innerHTML=`<div class="postbox"><div class="posth"><b>Escolha a edição</b><span class="note" id="postProg">${pr}</span></div><span class="note" id="postSrc">${postSrcTxt()}</span>
-    <div class="postopts">${[["pro:"+(recTheme||"azul"),"Tecnológico","pro"],["vlegenda","Só você + legenda","vlegenda"],["pv_dividido","Produto + você","pv_dividido"]].map(([k,n,l])=>`<button type="button" class="chipb${recLay===l?" on":""}" data-pst="${k}">${n}</button>`).join("")}</div>
+    <div class="postopts">${[["pro:"+(recTheme||"azul"),"Tecnológico","pro"],["vlegenda","Só você + legenda","vlegenda"],["pv_dividido","Produto + você","pv_dividido"],["pv_sobre","Você no círculo","pv_sobre"]].map(([k,n,l])=>`<button type="button" class="chipb${recLay===l?" on":""}" data-pst="${k}">${n}</button>`).join("")}</div>
     ${recLay==="pro"?`<div class="postopts postdots"><span class="note">Cores</span>${Object.entries(MT_THEMES).map(([k,o])=>`<button type="button" class="rs-dot${recTheme===k?" on":""}" data-pst="pro:${k}" title="${esc(o.n)}" style="--c:${k==="marca"?((S.brand&&S.brand.c1)||"#ff5a7a"):o.a}"></button>`).join("")}</div>`:""}
     <div class="posth" style="margin-top:4px"><b>Estilos prontos</b></div>
     <div class="postopts">${STYLES.map(([k,n])=>`<button type="button" class="chipb${recLay==="st:"+k?" on":""}" data-pst="st:${k}">${n}</button>`).join("")}</div>
@@ -4273,8 +4290,8 @@ function postCtl(){const cur2=recLay==="pro"?"pro:"+recTheme:recLay,pr="";
 
     <div class="postbtns"><button class="btn" data-rc="close">‹ Sair</button><button class="btn" data-rc="again">↺ Gravar de novo</button><button class="btn" data-rc="use"${recDur<3?" disabled":""}>Usar e ajustar</button><button class="btn pri" data-rc="usepub"${recDur<3?" disabled":""}>Publicar ▸</button></div>
     ${recDur<3?`<span class="note" style="color:#fff">Muito curto (mínimo 3 s).</span>`:""}</div>`}
-function showPostEdit(){{const ov=$("#recOv"),c=$("#recCtl");if(ov&&c){ov.classList.add("postmode");ov.appendChild(c)}}$("#recCam").style.display="none";$("#recPrompt").style.display="none";const fx=$("#recFx");if(fx)fx.style.display="none";
-  if(recLay!=="pro"&&recLay!=="vlegenda"&&recLay!=="pv_dividido"&&!isStyLay())recLay="pro";
+function showPostEdit(){recLayCls(false);{const ov=$("#recOv"),c=$("#recCtl");if(ov&&c){ov.classList.add("postmode");ov.appendChild(c)}}$("#recCam").style.display="none";$("#recPrompt").style.display="none";const fx=$("#recFx");if(fx)fx.style.display="none";
+  if(recLay!=="pro"&&recLay!=="vlegenda"&&recLay!=="pv_dividido"&&recLay!=="pv_sobre"&&!isStyLay())recLay="pro";
   postCtl();showTakePro();
   }
 function stPickAD(m,after){const fi=document.createElement("input");fi.type="file";fi.accept="image/*";fi.multiple=true;fi.onchange=async()=>{const fs=[...fi.files].slice(0,2);if(!fs.length)return;try{m.antes=await readImg(fs[0],1080,1080);m.depois=fs[1]?await readImg(fs[1],1080,1080):"";after()}catch(err){toast("Não consegui abrir essas fotos.")}};fi.click();toast("Escolha 2 fotos: primeiro o ANTES, depois o DEPOIS.")}
@@ -4285,7 +4302,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-pst],[data
   if(b.dataset.pad){pickAD(()=>{recLay="st:antes";stopTakePrev();recPrep=null;postCtl();showTakePro()});return}
   if(b.dataset.pst==="st:antes"&&!recAntes){pickAD(()=>{recLay="st:antes";stopTakePrev();recPrep=null;postCtl();showTakePro()});return}
   if(b.dataset.pst==="st:viral"&&recLay!=="st:viral")recDyn=true;
-  if(b.dataset.pst){const k=b.dataset.pst;if(k.startsWith("pro:")){recLay="pro";recTheme=k.slice(4)}else{if(k==="pv_dividido"&&!recPhoto&&!recProdPick){pickProdPhoto(()=>{recLay="pv_dividido";stopTakePrev();recPrep=null;postCtl();showTakePro()});toast("Escolha a foto do produto (JPG, PNG ou WEBP, até 10 MB).");return}recLay=k}}
+  if(b.dataset.pst){const k=b.dataset.pst;if(k.startsWith("pro:")){recLay="pro";recTheme=k.slice(4)}else{if((k==="pv_dividido"||k==="pv_sobre")&&!recPhoto&&!recProdPick){pickProdPhoto(()=>{recLay=k;stopTakePrev();recPrep=null;postCtl();showTakePro()});toast("Escolha a foto do produto (JPG, PNG ou WEBP, até 10 MB).");return}recLay=k}}
   if(b.dataset.pbg){const k=b.dataset.pbg;if(k==="foto"&&!recBgSrc){const fi=document.createElement("input");fi.type="file";fi.accept="image/*";fi.onchange=async()=>{const fl=fi.files[0];if(!fl)return;try{recBgSrc=await readImg(fl,1080,1920);recBgMode="foto";stopTakePrev();recPrep=null;postCtl();showTakePro()}catch(err){toast("Não consegui abrir essa foto.")}};fi.click();return}recBgMode=k;loadSeg()}
   stopTakePrev();recPrep=null;postCtl();showTakePro()});
 /* prévia AO VIVO da Edição Pro enquanto grava */
@@ -4840,7 +4857,7 @@ setInterval(tick,15000);
     const nb=(v,t)=>items.push(`<button data-fv="${v}" class="${onV===v?"on":""}">${t}</button>`),fw=(q,t,c="")=>{const el=$(q);if(el&&!el.hidden&&el.style.display!=="none")items.push(`<button data-fw="${q}"${c?` class="${c}"`:""}>${t}</button>`)};
     nb("home","Início");nb("editor","Editor");nb("agenda","Agenda");nb("lote","Minha semana");nb("benef","Benefícios");
     items.push('<hr>');fw("#bStart","Nova sequência");fw("#bBrand","Minha marca");if(adm)items.push(`<button data-fw="#bBot">Conectar Instagram</button>`);fw("#bSub","Quero assinar");fw("#bFb","Dar opinião");fw("#bPriv","Privacidade");
-    if(adm){items.push('<hr><p class="mdrwk">Administração</p>');nb("painel","Painel");nb("aval","Avaliações");nb("pub","Guia de publicação");nb("sobre","Como vira produto")}
+    if(adm){items.push('<hr><p class="mdrwk">Administração</p>');items.push(`<button data-fw="#bDemo">${S&&S.demo?"Modo apresentação · ativo":"Modo apresentação"}</button>`);nb("painel","Painel");nb("aval","Avaliações");nb("pub","Guia de publicação");nb("sobre","Como vira produto")}
     if(document.body.classList.contains("is-demo"))items.push(`<p class="note">${esc(($("#demoTxt")||{}).textContent||"")}</p><button data-fw=".demobar [data-a=demoreset]">Recomeçar demonstração</button>`);
     items.push('<hr>');items.push(`<button data-fw="#bOut" class="out">Sair</button>`);
     list.innerHTML=items.join("");$("#mdrwWho").textContent="";drw.classList.add("on")}
@@ -5078,15 +5095,15 @@ function acctBuild(){const u=$(".usr");if(!u)return;let b=$("#acct");if(!b){b=do
   const I=(lab,attr)=>`<button type="button" ${attr}>${lab}</button>`;
   $("#acctMenu").innerHTML=`<div class="acctm-h"><span class="acct-av">${esc(ini)}</span><div><b>${esc(name)}</b><span>${adm?"Administrador":ACC&&ACC.role==="trial"?"Teste grátis":"Demonstração"}</span></div></div>
     ${I("Minha marca",'data-fw="#bBrand"')}${adm?I("Conectar Instagram",'data-fw="#bBot"'):""}${I("Privacidade",'data-fw="#bPriv"')}${I("Dar opinião",'data-fw="#bFb"')}
-    ${adm?`<hr><p>Administração</p>${I("Painel",'data-go="painel"')}${I("Avaliações",'data-go="aval"')}${I("Guia de publicação",'data-go="pub"')}${I("Como vira produto",'data-go="sobre"')}`:""}
+    ${adm?`<hr><p>Administração</p>${I(S&&S.demo?"Modo apresentação · ativo":"Modo apresentação",'data-fw="#bDemo"')}${I("Painel",'data-go="painel"')}${I("Avaliações",'data-go="aval"')}${I("Guia de publicação",'data-go="pub"')}${I("Como vira produto",'data-go="sobre"')}`:""}
     <hr>${I("Sair",'data-fw="#bOut" class="out"')}`}
 
 /* ---------- INÍCIO (estilo CapCut: escolher vídeo ou imagem) ---------- */
 const HM_I={video:"M3 7h12v10H3z M15 10l6-3v10l-6-3",img:"M3 5h18v14H3z M8.5 10.5a1.5 1.5 0 1 0 0-.01 M21 16l-5-5-9 8",lote:"M4 6h16v14H4z M4 10h16 M8 3v5 M16 3v5 M8 14h3",agenda:"M12 7v5l3 2 M12 3a9 9 0 1 0 .01 0",seq:"M5 12h14 M13 6l6 6-6 6",brand:"M12 3a9 9 0 1 0 0 18c1 0 1.5-.7 1.5-1.5 0-1-.8-1.4-.8-2.3 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z M7.5 11.5h.01 M10 7.5h.01 M14.5 7.5h.01",benef:"M4 10h16v10H4z M2 7h20v3H2z M12 7v13 M12 7c-2-4-6-3-5 0 M12 7c2-4 6-3 5 0",files:"M3 7l2-3h5l2 3h9v12H3z"};
 const hmIco=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
-function renderHome(){const B=$("#hmBody");if(!B||!S)return;const nm=(ACC&&(ACC.role==="demo"?"":String(ACC.name||"").split(" ")[0]))||"";
+function renderHome(){const B=$("#hmBody");if(!B||!S)return;if(!$("#bDemo")){const x=document.createElement("button");x.id="bDemo";x.hidden=true;x.onclick=()=>demoModal();document.body.appendChild(x)}const nm=(ACC&&(ACC.role==="demo"?"":String(ACC.name||"").split(" ")[0]))||"";
   const rec=S.stories.slice().reverse().slice(0,10);
-  B.innerHTML=`<div class="hm-hero"><p>${nm?`Olá, ${esc(nm)}`:"Olá"}</p><h1>O que vamos criar hoje?</h1></div>
+  B.innerHTML=`${S.demo?`<div class="hm-demo"><span>Apresentação para <b>${esc(S.demo.nome)}</b></span><button type="button" data-hm="demo">Ajustar</button></div>`:""}<div class="hm-hero"><p>${nm?`Olá, ${esc(nm)}`:"Olá"}</p><h1>O que vamos criar hoje?</h1></div>
    <div class="hm-main"><button type="button" class="hm-card hm-v" data-hm="video"><i>${hmIco(HM_I.video)}</i><b>Novo vídeo</b><span>Grave falando e receba editado</span></button>
      <button type="button" class="hm-card hm-i" data-hm="img"><i>${hmIco(HM_I.img)}</i><b>Story de imagem</b><span>Modelos prontos para editar</span></button></div>
    ${rec.length?`<div class="hm-sec"><div class="hm-h"><b>Recentes</b><button type="button" data-hm="files">Ver tudo</button></div><div class="hm-rec" id="hmRec"></div></div>`:""}
@@ -5100,10 +5117,52 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-hm],[data-
   if(k==="files"){show("editor");openSheet("files");return}
   if(k==="lote"||k==="agenda"||k==="benef"){show(k);return}
   if(k==="seq"){const x=$("#bStart");if(x)x.click();return}
-  if(k==="brand"){const x=$("#bBrand");if(x)x.click();return}});
+  if(k==="brand"){const x=$("#bBrand");if(x)x.click();return}
+  if(k==="demo"){demoModal();return}});
 
 /* toque duplo na imagem da câmera vira a câmera (como no Instagram) */
 (function(){let last=0;document.addEventListener("pointerup",e=>{const inStu=e.target.closest(".stu-frame")&&!e.target.closest("button"),inRec=e.target.id==="recCam"||e.target.id==="recLiveCv";if(!inStu&&!inRec)return;const n=Date.now();if(n-last<320){last=0;if(inStu){recFacing=recFacing==="user"?"environment":"user";stuCam()}else{const b=document.querySelector('[data-rc="flip"]');if(b)b.click()}}else last=n})})();
+/* ---------- MODO APRESENTAÇÃO: stories de exemplo no ramo do cliente ---------- */
+const RAMOS=[
+ {id:"edu",n:"Educação / EAD",c:"#2563eb",h:"poloead",rot:{produto:"Graduação EAD em Pedagogia",beneficio:"Você estuda no seu horário e recebe o mesmo diploma do presencial",oferta:"a matrícula está com 30% de desconto até sexta"},
+  set:[["promo","Matrícula com desconto até sexta",{n:"30%",c:"DE DESCONTO"}],["evento","Aula aberta: como escolher seu curso",{n:"05/12"}],["numero","alunos formados no nosso polo",{n:"+1.200"}],["dica","3 jeitos de estudar trabalhando"],["n_vocesabia","O diploma EAD tem o mesmo valor do presencial."]]},
+ {id:"saude",n:"Clínica / Saúde",c:"#0d9488",h:"clinicavida",rot:{produto:"Check-up completo",beneficio:"Você faz todos os exames num dia só, com resultado no WhatsApp",oferta:"a avaliação inicial está gratuita nesta semana"},
+  set:[["n_agenda","Horários livres para dezembro"],["promo","No check-up completo até sexta",{n:"20%",c:"DE DESCONTO"}],["dica","Quando fazer seu check-up"],["n_vocesabia","70% das doenças crônicas podem ser prevenidas com acompanhamento."],["n_horarios","Seg a Sex  7h às 19h\nSábado  8h às 12h"]]},
+ {id:"loja",n:"Loja / Varejo",c:"#e11d48",h:"lojamoda",rot:{produto:"a nova coleção de verão",beneficio:"Peças leves, com tecido que não amassa e entrega em 24 horas",oferta:"o frete é grátis até domingo"},
+  set:[["n_lancamento","Coleção Verão 2027"],["n_liquida","Só até domingo"],["n_frete","Em compras acima de R$ 199"],["n_trio",""],["promo","Leve 3, pague 2 em toda a loja",{n:"3x2",c:"SÓ ESTA SEMANA"}]]},
+ {id:"restaurante",n:"Restaurante / Delivery",c:"#ea580c",h:"sabordacasa",rot:{produto:"o nosso almoço executivo",beneficio:"Comida caseira, feita na hora, pronta em 15 minutos",oferta:"o combo com suco sai por R$ 29,90 hoje"},
+  set:[["n_prato","Moqueca de peixe"],["n_cardapio","SEG  Feijoada\nTER  Frango assado\nQUA  Moqueca\nQUI  Strogonoff\nSEX  Peixe grelhado"],["n_delivery","Entregamos até 23h"],["promo","Combo família com refrigerante",{n:"R$ 79",c:"SÓ HOJE"}],["n_pergunta","Qual prato você quer no cardápio?"]]},
+ {id:"beleza",n:"Salão / Estética",c:"#db2777",h:"studiobeleza",rot:{produto:"o tratamento de hidratação profunda",beneficio:"O cabelo fica macio e com brilho já na primeira sessão",oferta:"a escova sai grátis com a hidratação esta semana"},
+  set:[["n_belezapromo","Escova + hidratação R$ 89"],["n_agenda","Agenda aberta para o fim de ano"],["antesdepois","Antes e depois"],["n_pergunta","Qual sua maior dúvida sobre o seu cabelo?"],["dica","3 cuidados com o cabelo no verão"]]},
+ {id:"academia",n:"Academia / Fitness",c:"#0891b2",h:"academiaforca",rot:{produto:"o plano anual",beneficio:"Treino com acompanhamento e avaliação física todo mês",oferta:"a matrícula é grátis até o fim do mês"},
+  set:[["n_treinodia",""],["n_horarios","Seg a Sex  5h às 23h\nSábado  8h às 14h"],["promo","Matrícula grátis até o fim do mês",{n:"R$ 0",c:"DE MATRÍCULA"}],["dica","Como voltar a treinar sem lesão"],["n_vocesabia","Treinar 3 vezes por semana já melhora o sono."]]},
+ {id:"eventos",n:"Eventos / Congressos",c:"#7c3aed",h:"summit2027",rot:{produto:"o Summit de Gestão 2027",beneficio:"Dois dias com 20 palestrantes e networking com quem decide",oferta:"o primeiro lote está 40% mais barato até sexta"},
+  set:[["n_ingressos","1º lote com 40% OFF"],["n_palestrantes","QUEM VAI ESTAR LÁ"],["evento","Summit de Gestão 2027",{n:"15/03"}],["numero","palestrantes confirmados",{n:"20"}],["n_pergunta","Que tema você quer ver no palco?"]]},
+ {id:"servicos",n:"Consultoria / Serviços",c:"#16a34a",h:"consultoriapro",rot:{produto:"o diagnóstico do seu negócio",beneficio:"Em 40 minutos você sai com 3 ações para vender mais no próximo mês",oferta:"as 10 primeiras vagas são gratuitas"},
+  set:[["promo","Diagnóstico do negócio para as 10 primeiras empresas",{n:"100%",c:"GRATUITO"}],["numero","empresas atendidas",{n:"+120"}],["dica","3 erros que travam suas vendas"],["n_pergunta","Qual o maior desafio do seu negócio hoje?"],["n_vocesabia","Empresas que medem metas toda semana crescem mais."]]}];
+const demoBakKey=()=>"snp_demobak_"+(KEY||"x");
+function demoModal(){sideOff();const cur=S.demo||{};let ramo=cur.ramo||"edu";
+  const html=()=>`<h3 style="margin:0;font-family:var(--f-disp)">Modo apresentação</h3>
+   <p class="note" style="margin:0">O app cria stories de exemplo no ramo do cliente que vai assistir, com o nome, o @ e a cor dele. Seus stories ficam guardados e voltam quando você encerrar.</p>
+   <div class="dm-grid">${RAMOS.map(r=>`<button type="button" class="dm-r${r.id===ramo?" on":""}" data-dmr="${r.id}"><i style="background:${r.c}"></i>${esc(r.n)}</button>`).join("")}</div>
+   <div class="pnform pn2"><label>Nome do cliente<input id="dmNome" value="${esc(cur.nome||"")}" placeholder="Ex.: Clínica Vida"></label><label>@ do Instagram<input id="dmHandle" value="${esc(cur.handle||"")}" placeholder="@clinicavida"></label><label>Cor da marca<input id="dmCor" type="color" value="${esc(cur.cor||(RAMOS.find(r=>r.id===ramo)||RAMOS[0]).c)}"></label><label class="chk" style="align-self:end;flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="dmUseCor"${cur.useCor?" checked":""}> Pintar os stories com essa cor</label></div>
+   <div class="row"><button class="btn pri" id="dmGo">Preparar apresentação</button>${S.demo?`<button class="btn" id="dmEnd">Encerrar e voltar aos meus stories</button>`:""}<button class="btn" id="dmX">Cancelar</button></div>`;
+  const box=$("#mdlBox");box.innerHTML=html();$("#mdl").classList.add("on");{const c=$("#dmCor");if(c)c.addEventListener("input",()=>c.dataset.touched="1")}
+  box.onclick=e=>{const r=e.target.closest("[data-dmr]");if(r){ramo=r.dataset.dmr;box.querySelectorAll(".dm-r").forEach(x=>x.classList.toggle("on",x.dataset.dmr===ramo));const c=$("#dmCor");if(c&&!c.dataset.touched)c.value=(RAMOS.find(x=>x.id===ramo)||RAMOS[0]).c;return}
+    if(e.target.id==="dmX"){$("#mdl").classList.remove("on");return}
+    if(e.target.id==="dmEnd"){demoEnd();$("#mdl").classList.remove("on");return}
+    if(e.target.id==="dmGo"){demoStart(ramo,($("#dmNome").value||"").trim(),($("#dmHandle").value||"").trim().replace(/^@/,""),$("#dmCor").value,$("#dmUseCor").checked);$("#mdl").classList.remove("on")}}}
+function demoStart(ramoId,nome,handle,cor,useCor){const R=RAMOS.find(r=>r.id===ramoId)||RAMOS[0];
+  try{if(!S.demo)localStorage.setItem(demoBakKey(),JSON.stringify(S))}catch(e){toast("Sem espaço para guardar seus stories. Libere espaço antes de apresentar.");return}
+  const h=handle||R.h,nm=nome||R.n.split(" /")[0];
+  S.brand=Object.assign({},S.brand||defBrand(),{name:nm,handle:h,c1:cor||R.c,useColors:!!useCor,logo:""});
+  S.perfis=Object.assign({},S.perfis||{},{"_":{name:h}});
+  S.stories=R.set.map(([k,t,o])=>{try{const st=newStory(k,t||undefined);if(o&&o.n){const nl=st.layers.find(l=>l.type==="number");if(nl){nl.value=o.n;if(o.c!=null)nl.caption=o.c}}return st}catch(e){return null}}).filter(Boolean);
+  S.cur=S.stories[0]&&S.stories[0].id;S.demo={ramo:R.id,nome:nm,handle:h,cor:cor||R.c,useCor:!!useCor};
+  recR="produto";recV=Object.assign({},R.rot);recScript="";recScriptEdited=false;
+  thumbCache.clear();sel=null;save();show("home");renderStrip();toast(`Apresentação pronta para ${nm}: ${S.stories.length} stories de exemplo e roteiro de vídeo no ramo ${R.n}.`)}
+function demoEnd(){let bak=null;try{bak=JSON.parse(localStorage.getItem(demoBakKey())||"null")}catch(e){}
+  if(!bak){toast("Não encontrei a cópia dos seus stories.");return}S=bak;try{localStorage.removeItem(demoBakKey())}catch(e){}recV={};recScript="";thumbCache.clear();sel=null;save();show("home");renderStrip();toast("Seus stories voltaram.")}
 })();
 </script>
 </body>
