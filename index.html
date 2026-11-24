@@ -533,6 +533,62 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
   #toasts{left:12px;right:12px;top:58px;bottom:auto;max-width:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Painel (dashboard): superfície escura, uma cor para magnitude (azul), laranja só para "novas" */
+.pnwrap{--pn-s1:var(--ac);--pn-s2:var(--ac2);--pn-tx:#f0efec;--pn-tx2:#c3c2b7;--pn-grid:#ffffff14;max-width:1180px;margin:0 auto;padding:18px 16px 90px;display:flex;flex-direction:column;gap:14px;color:var(--pn-tx)}
+.pnhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}.pnhead h2{margin:0;font-family:var(--f-disp);font-size:24px}
+.pnper{display:flex;gap:6px;flex-wrap:wrap}.pntabs{margin:0 0 8px}
+.pnkpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pnk{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pnk span{font-size:12px;color:var(--pn-tx2)}.pnk b{font-family:var(--f-disp);font-size:30px;line-height:1.1;color:var(--pn-tx);font-variant-numeric:tabular-nums}.pnk i{font-style:normal;font-size:11px;color:var(--mut)}
+.pngrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pncard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}.pncard h3{margin:0 0 10px;font-size:15px;font-family:var(--f-disp)}.pnwide{grid-column:1/-1}
+.pnsetup .pnform{display:grid;gap:8px;margin:8px 0}.pnform label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--pn-tx2)}.pnform input{background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:inherit;font-size:14px}
+.pnbars{display:flex;flex-direction:column;gap:9px}.pnbl{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:4px}.pnbl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--pn-tx)}.pnbl b{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--pn-tx)}.pnbl b i{font-style:normal;font-weight:500;color:var(--pn-tx2)}
+.pnbt{height:8px;border-radius:4px;background:#ffffff0d;overflow:hidden}.pnbt i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),#ff7a59);border-radius:0 4px 4px 0}
+.pnbar:hover .pnbt i{filter:brightness(1.2)}.pnempty{margin:0}
+.pnlg{display:flex;gap:14px;font-size:12px;color:var(--pn-tx2);margin-bottom:6px}.pnlg i,.pntip i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}.s1{background:var(--pn-s1)}.s2{background:var(--pn-s2)}
+.pnline{position:relative}.pnline svg{width:100%;height:220px;display:block;touch-action:pan-y}
+.pngr{stroke:var(--pn-grid);stroke-width:1}.pnax{fill:var(--mut);font-size:11px;font-family:var(--f-body)}
+.pnarea{fill:#ff5a7a1f}.pnl1{fill:none;stroke:var(--pn-s1);stroke-width:2.2;vector-effect:non-scaling-stroke;stroke-linejoin:round}.pnl2{fill:none;stroke:var(--pn-s2);stroke-width:2.2;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.pnx{stroke:#ffffff55;stroke-width:1;vector-effect:non-scaling-stroke}.pnd1{fill:var(--pn-s1);stroke:var(--panel);stroke-width:2}.pnd2{fill:var(--pn-s2);stroke:var(--panel);stroke-width:2}
+.pntip{position:absolute;top:0;width:130px;background:#0b0c12ee;border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-size:12px;display:flex;flex-direction:column;gap:2px;pointer-events:none}.pntip b{font-size:12px}
+.pnhrs{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;height:120px;align-items:end}.pnh{display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:4px}.pnh i{display:block;background:linear-gradient(180deg,#ff7a59,var(--ac));border-radius:3px 3px 0 0;min-height:1px}.pnh span{font-size:10px;color:var(--mut);height:12px;text-align:center}
+
+.pnk{position:relative;overflow:hidden}.pnk::before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac),var(--ac2));opacity:.55}.pnk.pnhi::before{opacity:1}.pnk.pnwarn b{color:var(--warn)}
+.pncard .pnkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.pnnav{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px;overflow-x:auto;scrollbar-width:none}
+.pnnav button{flex:1 0 auto;background:none;border:0;color:var(--mut);font:inherit;font-weight:700;font-size:14px;padding:10px 14px;border-radius:10px;cursor:pointer;white-space:nowrap}
+.pnnav button.on{background:linear-gradient(135deg,var(--ac),#ff7a59);color:#fff}
+.pnfil{align-items:center}.pnfil .note{margin-right:2px}
+.pncols{display:grid;gap:4px;height:150px;align-items:end}.pnh{display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:4px;min-width:0}.pnh span{font-size:10px;color:var(--mut);height:12px;text-align:center;overflow:hidden}
+.pnbar2{display:flex;gap:8px;flex-wrap:wrap}.pnbar2 input{flex:1 1 200px;min-width:0;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px}
+.pnform.pn2{grid-template-columns:1fr 1fr}.pnform.pn3{grid-template-columns:repeat(3,1fr)}.pnform .pnfull{grid-column:1/-1}.pnform select{background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:inherit;font-size:14px}
+.pnfrm{border-color:#ff5a7a66}.pnin{margin:10px 0 8px}
+.pnclis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.pncli{display:flex;flex-direction:column;gap:8px}
+.pnclh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.pnclh b{font-size:15px}
+.pnsaldo{display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex:0 0 auto}.pnsaldo span{font-size:11px;color:var(--mut)}.pnsaldo b{font-family:var(--f-disp);font-size:20px;color:var(--ac2)}.pnsaldo i{font-style:normal;font-size:11px;color:var(--mut)}
+.pnacts{display:flex;gap:6px;flex-wrap:wrap}.pnacts .chipb{text-decoration:none}
+.pnbad{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:4px}
+.pnbad.pago{background:#3ccf8e22;color:var(--ok)}.pnbad.gratuito{background:#6aa8ff22;color:var(--info)}.pnbad.cortesia{background:#b06cff26;color:#c9a0ff}.pnbad.interno{background:#ffffff14;color:var(--mut)}
+.pnbad.atrasado{background:#ffb54726;color:var(--warn)}.pnbad.cancelado,.pnbad.pausada{background:#ffffff14;color:var(--mut)}.pnbad.ativa{background:#ff5a7a26;color:var(--ac)}
+.pnlist{display:flex;flex-direction:column}.pnrow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.pnrow:first-child{border-top:0}.pnrow>div:first-child{display:flex;flex-direction:column;min-width:0}.pnrow .note{font-size:12px}
+.pnrt{display:flex;flex-direction:column;align-items:flex-end;flex:0 0 auto}.pnstrike{text-decoration:line-through;color:var(--mut)}.pnpos{color:var(--ok)}.pnneg{color:var(--tx)}
+.pncod{font-family:"Space Mono",monospace;letter-spacing:1px;color:var(--ac2)}
+.bnwrap{max-width:640px}.bnsaldo{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:24px 14px;background:linear-gradient(135deg,#ff5a7a26,#ffb54722);border-color:#ff5a7a55}.bnsaldo span{color:var(--pn-tx2)}.bnsaldo b{font-family:var(--f-disp);font-size:44px;line-height:1.1}.bnsaldo i{font-style:normal;font-size:13px;color:var(--mut)}
+
+.pnmaph{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}.pnmaph h3{margin:0}
+.pnlive{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:var(--ac);background:#ff5a7a1a;border:1px solid #ff5a7a55;padding:4px 10px;border-radius:999px}.pnlive i{width:8px;height:8px;border-radius:50%;background:var(--ac);animation:pnblink 1.4s infinite}
+@keyframes pnblink{0%,100%{opacity:1}50%{opacity:.25}}
+.pnmapslot{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b0c12}.pnmap{height:380px;width:100%;background:#0b0c12}.pnmap.leaflet-container{background:#0b0c12}
+.pnmk1,.pnmk2{width:10px!important;height:10px!important;border-radius:50%!important}.pnmk1{background:var(--ac)}.pnmk2{background:var(--ac2)}
+.pnmap .leaflet-tooltip{background:#0b0c12;color:#f0efec;border:1px solid #2d2d3a;font-family:var(--f-body)}.pnmap .leaflet-tooltip-top:before{border-top-color:#2d2d3a}
+.pnmap .leaflet-control-attribution{background:#0b0c12cc;color:#9b9bb0}.pnmap .leaflet-control-attribution a{color:#c3c2b7}
+.pnmap .leaflet-bar a{background:#18181f;color:#ededf3;border-color:#2d2d3a}
+.pnpulse{animation:pnpulse 1.6s ease-out infinite}@keyframes pnpulse{0%{stroke-width:2;stroke-opacity:1}100%{stroke-width:14;stroke-opacity:0}}
+@media (max-width:640px){.pnmap{height:300px}}
+@media (max-width:640px){.pnclis{grid-template-columns:1fr}.pnform.pn2,.pnform.pn3{grid-template-columns:1fr}.pnnav button{font-size:13px;padding:9px 10px}}
+@media (max-width:640px){.pnkpis{grid-template-columns:repeat(2,1fr)}.pngrid{grid-template-columns:1fr}.pnk b{font-size:26px}.pnwrap{padding:12px 12px 100px}.pnhead h2{font-size:20px}.pnline svg{height:190px}}
 </style>
 </head>
 <body>
@@ -548,13 +604,18 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
     <button data-v="pub">Publicar no Instagram</button>
     <button data-v="aval">Avaliações</button>
     <button data-v="sobre">Como vira produto</button>
+    <button data-v="benef">Meus benefícios</button>
+    <button data-v="painel" style="display:none">Painel</button>
   </nav>
   <div class="clock" id="clock"></div>
-  <div class="usr"><span class="chip rascunho" id="who"></span><button class="btn sm" id="bStart">✨ Começar</button><button class="btn sm" id="bBrand">Minha marca</button><button class="btn sm" id="bBot" style="display:none">Robô</button><a class="btn sm wa" id="bSub" target="_blank" rel="noopener" style="display:none;text-decoration:none">Quero assinar</a><button class="btn sm pri" id="bFb">Dar opinião</button><button class="btn sm" id="bOut">Sair</button></div>
+  <div class="usr"><span class="chip rascunho" id="who"></span><button class="btn sm" id="bStart">✨ Começar</button><button class="btn sm" id="bBrand">Minha marca</button><button class="btn sm" id="bBot" style="display:none">Robô</button><button class="btn sm" id="bPriv">Privacidade</button><a class="btn sm wa" id="bSub" target="_blank" rel="noopener" style="display:none;text-decoration:none">Quero assinar</a><button class="btn sm pri" id="bFb">Dar opinião</button><button class="btn sm" id="bOut">Sair</button></div>
 </header>
 <div class="demobar"><span id="demoTxt">Modo demonstração: explore à vontade.</span> <button class="btn sm" data-a="demoreset">Recomeçar demonstração</button></div>
 
 <main>
+<!-- PAINEL (admin) -->
+<section class="view" id="v-painel"><div class="pnwrap" id="pnBody"></div></section>
+<section class="view" id="v-benef"><div class="pnwrap bnwrap" id="bnBody"></div></section>
 <!-- EDITOR -->
 <section class="view on" id="v-editor">
   <div class="ed">
@@ -1323,6 +1384,47 @@ const ACCOUNTS=[
 const TRIAL_MS=24*3600e3;
 const cyrb53=(str,seed=7)=>{let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);return(4294967296*(2097151&h2)+(h1>>>0)).toString(16)};
 let ACC=null,KEY=null;
+/* ---------- DADOS DE USO (para o Painel) — só com o "aceito" da pessoa (LGPD) ---------- */
+const APP_VER="2026.11.24";
+/* Endereço do banco: preencha aqui depois de criar o projeto no Supabase (só a URL e a chave pública "anon"). */
+const SB_URL="",SB_ANON="";
+const ANA_K={ok:"sp_lgpd",dev:"sp_dev",geo:"sp_geo",q:"sp_q",log:"sp_log",cfg:"sp_sb"};
+const anaLS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function sbCfg(){const c=anaLS.get(ANA_K.cfg,null);return{url:(SB_URL||(c&&c.url)||"").replace(/\/+$/,""),key:SB_ANON||(c&&c.key)||""}}
+const anaOk=()=>anaLS.get(ANA_K.ok,"")==="sim";
+function anaDev(){let d=anaLS.get(ANA_K.dev,"");if(!d){d=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2,12));anaLS.set(ANA_K.dev,d)}return d}
+const anaSess=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2)).slice(0,36);
+const anaInst=()=>{try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}};
+function anaPlat(){const u=navigator.userAgent||"";return/android/i.test(u)?"android":/iphone|ipad|ipod/i.test(u)||(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)?"ios":/windows/i.test(u)?"windows":/mac os/i.test(u)?"mac":/linux/i.test(u)?"linux":"outro"}
+function anaNav(){const u=navigator.userAgent||"";return/edg\//i.test(u)?"edge":/samsungbrowser/i.test(u)?"samsung":/opr\//i.test(u)?"opera":/crios|chrome/i.test(u)?"chrome":/fxios|firefox/i.test(u)?"firefox":/safari/i.test(u)?"safari":"outro"}
+async function anaGeo(){const g=anaLS.get(ANA_K.geo,null);if(g&&Date.now()-g.t<864e5)return g;
+  try{const r=await fetch("https://get.geojs.io/v1/ip/geo.json",{cache:"no-store"});const j=await r.json();const r1=v=>{const x=parseFloat(v);return isNaN(x)?null:Math.round(x*10)/10};const n={t:Date.now(),pais:j.country||null,estado:j.region||null,cidade:j.city||null,lat:r1(j.latitude),lon:r1(j.longitude)};anaLS.set(ANA_K.geo,n);return n}catch(e){return g||{t:0,pais:null,estado:null,cidade:null}}}
+let anaQ=[],anaTimer=0,anaGeoV=null;
+function anaEv(evento,tela){if(!anaOk())return;const g=anaGeoV||anaLS.get(ANA_K.geo,null)||{};
+  const e={aparelho:anaDev(),sessao:anaSess,evento:String(evento).slice(0,40),tela:tela?String(tela).slice(0,40):null,instalado:anaInst(),plataforma:anaPlat(),navegador:anaNav(),versao:APP_VER,conta:ACC?String(ACC.role).slice(0,20):null,acesso:ACC?(ACC.acesso||({admin:"interno",demo:"gratuito",trial:"gratuito"})[ACC.role]||"gratuito"):null,pais:g.pais||null,estado:g.estado||null,cidade:g.cidade||null,lat:g.lat!=null?g.lat:null,lon:g.lon!=null?g.lon:null};
+  anaQ.push(e);const log=anaLS.get(ANA_K.log,[]);log.push(Object.assign({em:new Date().toISOString()},e));anaLS.set(ANA_K.log,log.slice(-600));
+  clearTimeout(anaTimer);anaTimer=setTimeout(anaFlush,anaQ.length>=20?200:12000)}
+async function anaFlush(keep){const c=sbCfg();const saved=anaLS.get(ANA_K.q,[]);const batch=saved.concat(anaQ.splice(0));if(!batch.length)return;
+  if(!c.url||!c.key||!navigator.onLine){anaLS.set(ANA_K.q,batch.slice(-300));return}
+  anaLS.set(ANA_K.q,[]);
+  try{const r=await fetch(c.url+"/rest/v1/eventos",{method:"POST",keepalive:!!keep&&JSON.stringify(batch).length<60000,headers:{apikey:c.key,Authorization:"Bearer "+c.key,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify(batch)});
+    if(!r.ok)throw new Error(r.status)}catch(e){const q=anaLS.get(ANA_K.q,[]);anaLS.set(ANA_K.q,batch.concat(q).slice(-300))}}
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")anaFlush(true)});
+addEventListener("online",()=>anaFlush());
+addEventListener("appinstalled",()=>anaEv("instalar"));
+let anaStarted=false;
+async function anaStart(){if(!anaOk())return;anaGeoV=await anaGeo();if(!anaStarted){anaStarted=true;anaEv("abrir")}anaFlush()}
+function lgpdText(){return`<h3 style="margin:0;font-family:var(--f-disp)">Sua privacidade</h3>
+  <p class="note" style="margin:0">Para melhorar o Story Pronto, queremos saber, de forma <b>anônima</b>, quais telas e funções são mais usadas, se o app está instalado, o tipo de aparelho e a <b>cidade aproximada</b> (pela internet, sem GPS).</p>
+  <p class="note" style="margin:0">Não guardamos seu nome, e-mail, telefone, IP nem o conteúdo dos seus stories. Você pode mudar de ideia quando quiser em <b>Menu → Privacidade</b>.</p>`}
+function lgpdAsk(force){if(!force&&anaLS.get(ANA_K.ok,"")!=="")return;const m=$("#mdl");if(m.classList.contains("on")&&!force){setTimeout(()=>lgpdAsk(),4000);return}
+  $("#mdlBox").innerHTML=lgpdText()+`<p class="note" style="margin:0">Situação atual: <b>${anaOk()?"enviando dados anônimos":anaLS.get(ANA_K.ok,"")==="nao"?"não enviando":"ainda não escolhido"}</b>.</p>
+  <div class="row"><button class="btn pri" id="lgpdSim">Aceito ajudar</button><button class="btn" id="lgpdNao">Agora não</button></div>`;
+  m.classList.add("on");
+  $("#lgpdSim").onclick=()=>{anaLS.set(ANA_K.ok,"sim");m.classList.remove("on");anaStart();toast("Obrigado! Os dados de uso vão anônimos.")};
+  $("#lgpdNao").onclick=()=>{anaLS.set(ANA_K.ok,"nao");anaQ=[];anaLS.set(ANA_K.q,[]);m.classList.remove("on");toast("Tudo bem, nada será enviado.")}}
+setInterval(()=>{if(anaQ.length||anaLS.get(ANA_K.q,[]).length)anaFlush()},60000);
+
 let S=null, warnedQuota=false, tplKind="img", soundOn=false, recording=false;
 function seedFor(role){if(role==="trial")role="demo";
   const tm=new Date();tm.setDate(tm.getDate()+1);tm.setHours(9,0,0,0);const tm2=new Date(tm);tm2.setHours(19);
@@ -2763,8 +2865,9 @@ $("#lGo").onclick=()=>{const{lines,slots}=loteSlots();if(!lines.length||slots.le
   save();toast(`${lines.length} stories criados e agendados.`);show("agenda")};
 
 /* ---------- nav ---------- */
-function show(v){document.body.classList.toggle("ved",v==="editor");const mt=$("#mTitle");if(mt){const nb=document.querySelector(`#nav button[data-v="${v}"]`);mt.textContent=v==="editor"?"":(nb?nb.textContent:"Story Pronto")}if(v==="aval")setTimeout(renderAval,0);document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
-  if(v==="agenda")renderAgenda();if(v==="editor"){drawMain();renderPanel();renderStrip()}if(v==="lote"){lotePrev();renderWeek()}if(v==="datas")renderDatas();if(v==="pub")renderGuide();syncPlayback();window.scrollTo(0,0)}
+function show(v){try{anaEv("tela",v)}catch(e){}if(v==="painel"&&!isAdmin())v="editor";document.body.classList.toggle("ved",v==="editor");const mt=$("#mTitle");if(mt){const nb=document.querySelector(`#nav button[data-v="${v}"]`);mt.textContent=v==="editor"?"":(nb?nb.textContent:"Story Pronto")}if(v==="aval")setTimeout(renderAval,0);document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+  if(v==="agenda")renderAgenda();if(v==="editor"){drawMain();renderPanel();renderStrip()}if(v==="lote"){lotePrev();renderWeek()}if(v==="datas")renderDatas();if(v==="pub")renderGuide();if(v==="painel"){renderPainel();pnLoad()}if(v==="benef"){renderBenef();bnLoad()}syncPlayback();window.scrollTo(0,0)}
+{const bp=$("#bPriv");if(bp)bp.onclick=()=>lgpdAsk(true)}
 $("#nav").onclick=e=>{const b=e.target.closest("button");if(b)show(b.dataset.v)};
 
 function toast(m){const t=document.createElement("div");t.className="toast";t.textContent=m;$("#toasts").appendChild(t);setTimeout(()=>t.remove(),4200)}
@@ -3760,7 +3863,7 @@ async function prepTake(){
   if(pro){nfx=applyMontage(st,vl,tlw.words,dur,v);if(prodLay)vl.mont.prodSrc=prodSrc;if(recBgMode)vl.mont.bg=recBgMode;if(recBgSrc)vl.mont.bgSrc=recBgSrc;if(recTheme)vl.mont.theme=recTheme;stApply(vl.mont,styLay?recLay.slice(3):"pro",tlw.words,dur,v)}else if(recFxOn)nfx=fxApply(st,vl,tlw,dur);
   mkVideo(vid,f,dur);
   recPrep={st,vl,vid,f,ext,nfx,pro,dur};return recPrep}
-async function useTake(){track("recUsed");
+async function useTake(){track("recUsed");try{track("style_"+(isStyLay()?recLay.slice(3):recLay))}catch(e){}
   const P=recPrep||await prepTake();recPrep=null;const {st,vid,f,ext,nfx,pro,dur}=P;stopTakePrev();
   S.stories.push(st);S.cur=st.id;sel=null;idbPut(vid,f);const el=getVid(P.vl);if(el){el.pause();el.muted=true;el.currentTime=0}
   closeRecorder();closeSheet(true);show("editor");syncPlayback();drawMain();renderPanel();renderStrip();save();
@@ -4192,7 +4295,7 @@ function enter(acc,silent){
   ACC=acc;KEY=acc.key;S=loadState(KEY,acc.role);sel=null;sessSet(acc.u);
   $("#login").classList.add("off");document.body.classList.toggle("is-demo",acc.role!=="admin");
   $("#who").textContent=acc.role==="demo"?"Demonstração":acc.name;
-  boot();show("editor");syncSub();
+  boot();show("editor");syncSub();{const pb=document.querySelector('#nav button[data-v="painel"]');if(pb)pb.style.display=acc.role==="admin"?"":"none"}try{anaStart();setTimeout(()=>lgpdAsk(),2500)}catch(e){}
   if(!silent){let seen=false;try{seen=sessionStorage.getItem("snp_intent")==="1"}catch(e){}if(!seen)setTimeout(welcome,300)}
 }
 function tryLogin(u,pw){u=(u||"").trim().toLowerCase();const acc=ACCOUNTS.find(a=>a.u===u&&a.h===cyrb53(u+":"+pw));return acc||null}
@@ -4229,7 +4332,7 @@ function startIntent(seqId){track("intent_"+seqId);show("editor");galObj="seq";g
   toast("Preencha os campos: os stories mudam enquanto você digita.")}
 /* ---------- uso (métricas automáticas anexadas à opinião) ---------- */
 function usoGet(){try{return JSON.parse(localStorage.getItem("snp_uso_"+(KEY||"x"))||"null")||{t0:Date.now(),ev:{}}}catch(e){return{t0:Date.now(),ev:{}}}}
-function track(k){try{const u=usoGet();u.ev[k]=(u.ev[k]||0)+1;if(k==="publish"&&!u.pub1)u.pub1=Date.now();localStorage.setItem("snp_uso_"+(KEY||"x"),JSON.stringify(u))}catch(e){}}
+function track(k){try{anaEv(k)}catch(e){}try{const u=usoGet();u.ev[k]=(u.ev[k]||0)+1;if(k==="publish"&&!u.pub1)u.pub1=Date.now();localStorage.setItem("snp_uso_"+(KEY||"x"),JSON.stringify(u))}catch(e){}}
 /* ---------- opinião nova + código para o painel ---------- */
 const FB_FAV=[["seq","Sequências"],["thermo","Termômetro"],["rec","Gravar falando"],["tpl","Modelos prontos"],["text","Barra de texto"],["pub","Publicar/agendar"]];
 const FB_HOJE=[["canva","Canva"],["insta","Direto no Instagram"],["outro","Outro app"],["alguem","Alguém faz para mim"],["nao","Não faço stories"]];
@@ -4353,7 +4456,7 @@ setInterval(tick,15000);
   function openDrw(){const items=[];
     document.querySelectorAll("#nav button").forEach(b=>{if(vis(b))items.push(`<button data-fv="${b.dataset.v}" class="${b.classList.contains("on")?"on":""}">${esc(b.textContent)}</button>`)});
     items.push('<hr>');
-    [["#bStart","✨ Começar uma sequência"],["#bBrand","Minha marca e perfil"],["#bBot","Robô de publicação"],["#bSub","Quero assinar"],["#bFb","Dar opinião"]].forEach(([q,t])=>{const el=$(q);if(vis(el))items.push(`<button data-fw="${q}">${t}</button>`)});
+    [["#bStart","✨ Começar uma sequência"],["#bBrand","Minha marca e perfil"],["#bBot","Robô de publicação"],["#bSub","Quero assinar"],["#bFb","Dar opinião"],["#bPriv","Privacidade"]].forEach(([q,t])=>{const el=$(q);if(vis(el))items.push(`<button data-fw="${q}">${t}</button>`)});
     if(document.body.classList.contains("is-demo"))items.push(`<p class="note">${esc(($("#demoTxt")||{}).textContent||"")}</p><button data-fw=".demobar [data-a=demoreset]">Recomeçar demonstração</button>`);
     items.push(`<button data-fw="#bOut" class="out">Sair</button>`);
     list.innerHTML=items.join("");$("#mdrwWho").textContent=($("#who")||{}).textContent||"";drw.classList.add("on")}
@@ -4372,6 +4475,211 @@ try{if('serviceWorker' in navigator&&location.protocol==='https:')window.addEven
 
 /* Celular: ao abrir uma janela (ex.: Robô de publicação), pausa o vídeo do editor para o app não travar enquanto digita */
 try{new MutationObserver(()=>{const m=$("#mdl");if(m&&m.classList.contains("on")&&!recording){try{vLayers().forEach(l=>{const el=getVid(l);if(el&&!el.paused)el.pause()})}catch(e){}}}).observe($("#mdl"),{attributes:true,attributeFilter:["class"]})}catch(e){}
+
+/* ---------- PAINEL (dashboard do admin): uso, faturamento, clientes e ações de cashback/bônus ---------- */
+const PN_K={chave:"sp_pn_chave"};let pnDias=30,pnData=null,pnFonte="",pnGeo="estados",pnBusy=false,pnTab="uso",pnAcesso="",pnFin=null,pnCli=null,pnBusca="",pnForm=null,pnCamp=null;
+const PN_FN={abrir:"Abriu o app",publish:"Publicou story",recUsed:"Usou vídeo gravado",tpl:"Usou modelo pronto",seq:"Criou sequência",fix:"Corrigiu pelo termômetro",instalar:"Instalou o app",style_pro:"Estilo: Edição Pro",style_vlegenda:"Estilo: Só você + legenda",style_pv_dividido:"Estilo: Produto + você",style_pv_sobre:"Estilo: Você no círculo"};
+const PN_TELA={editor:"Editor",agenda:"Agenda",lote:"Monte minha semana",pub:"Publicar no Instagram",aval:"Avaliações",sobre:"Como vira produto",painel:"Painel",datas:"Datas",benef:"Meus benefícios"};
+const PN_PLAT={android:"Android",ios:"iPhone",windows:"Windows",mac:"Mac",linux:"Linux",outro:"Outro"};
+const PN_ACESSO={pago:"Pago",gratuito:"Gratuito",cortesia:"Cortesia",interno:"Equipe (você)"};
+const PN_ORIG={cashback:"Cashback",bonus:"Bônus",indicacao:"Indicação",uso:"Usado como desconto",ajuste:"Ajuste"};
+function pnFnName(k){if(PN_FN[k])return PN_FN[k];if(/^open_/.test(k)){const t=k.slice(5);return"Abriu "+((typeof SHEET_TITLES!=="undefined"&&SHEET_TITLES[t])||t)}if(/^style_/.test(k))return"Estilo: "+String(styleName(k.slice(6))).replace(/^\S+\s/,"");if(/^intent_/.test(k))return"Começou sequência";return k}
+const pnN=n=>Number(n||0).toLocaleString("pt-BR");
+const pnR=n=>Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const pnPct=(a,b)=>b?Math.round(a/b*100)+"%":"–";
+const pnNum=v=>{const x=parseFloat(String(v||"").replace(/\./g,"").replace(",","."));return isNaN(x)?0:x};
+const pnDate=d=>d?new Date(String(d).length<=10?d+"T12:00:00":d).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}):"";
+async function pnRpc(fn,args){const c=sbCfg();if(!c.url||!c.key)throw new Error("Banco não ligado.");
+  const r=await fetch(c.url+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:c.key,Authorization:"Bearer "+c.key,"Content-Type":"application/json"},body:JSON.stringify(args)});
+  const t=await r.text();let j=null;try{j=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw new Error((j&&(j.message||j.hint))||("Erro "+r.status));return j}
+const pnArgs=a=>Object.assign({p_chave:anaLS.get(PN_K.chave,"")},a);
+const pnBank=()=>{const c=sbCfg();return!!(c.url&&c.key&&anaLS.get(PN_K.chave,""))};
+/* prévia: mesmo formato do banco, calculado com os eventos deste aparelho */
+function pnLocal(d){const log=anaLS.get(ANA_K.log,[]).filter(x=>!pnAcesso||(x.acesso||"gratuito")===pnAcesso),now=new Date(),day=x=>{const t=new Date(x);return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0")};
+  const hoje=new Date(now.getFullYear(),now.getMonth(),now.getDate()),ini=new Date(hoje-(d-1)*864e5),e=log.filter(x=>new Date(x.em)>=ini);
+  const devs=a=>new Set(a.map(x=>x.aparelho)).size,cnt=(a,f)=>{const m={};a.forEach(x=>{const k=f(x);if(k==null)return;m[k]=m[k]||{k,n:0,p:new Set()};m[k].n++;m[k].p.add(x.aparelho)});return Object.values(m).map(o=>({k:o.k,n:o.n,pessoas:o.p.size})).sort((a,b)=>b.n-a.n)};
+  const first={};log.forEach(x=>{if(!first[x.aparelho]||x.em<first[x.aparelho])first[x.aparelho]=x.em});
+  const last={};e.forEach(x=>{last[x.aparelho]=x});const L=Object.values(last);
+  const serie=[];for(let k=0;k<d;k++){const a=new Date(ini.getTime()+k*864e5),b=new Date(a.getTime()+864e5);serie.push({dia:day(a),ativos:devs(log.filter(x=>new Date(x.em)>=a&&new Date(x.em)<b)),novos:Object.values(first).filter(f=>new Date(f)>=a&&new Date(f)<b).length})}
+  const geo=f=>cnt(L,x=>f(x)||"Não informado").map(o=>({k:o.k,n:o.n}));
+  return{periodo:d,local:true,kpi:{aparelhos:devs(log),instalados:devs(log.filter(x=>x.instalado)),ativos_hoje:devs(log.filter(x=>new Date(x.em)>=hoje)),ativos_7:devs(log.filter(x=>new Date(x.em)>=new Date(hoje-6*864e5))),ativos_30:devs(log.filter(x=>new Date(x.em)>=new Date(hoje-29*864e5))),ativos_periodo:devs(e),novos_periodo:Object.values(first).filter(f=>new Date(f)>=ini).length,publicacoes:e.filter(x=>x.evento==="publish").length,stories_gravados:e.filter(x=>x.evento==="recUsed").length,eventos:e.length},
+    serie,funcoes:cnt(e.filter(x=>!["abrir","tela","instalar"].includes(x.evento)),x=>x.evento).slice(0,15),telas:cnt(e.filter(x=>x.evento==="tela"&&x.tela),x=>x.tela).slice(0,12),
+    funil:{abriram:devs(e),gravaram:devs(e.filter(x=>["open_rec","recUsed"].includes(x.evento))),montaram:devs(e.filter(x=>["recUsed","tpl","seq"].includes(x.evento))),publicaram:devs(e.filter(x=>x.evento==="publish"))},
+    paises:geo(x=>x.pais),estados:geo(x=>x.estado),cidades:geo(x=>x.cidade?(x.cidade+(x.estado?" · "+x.estado:"")):null),acessos:cnt(L,x=>x.acesso||"gratuito").map(o=>({k:o.k,n:o.n})),agora:devs(log.filter(x=>Date.now()-new Date(x.em)<9e5)),mapa:(()=>{const m={};e.filter(x=>x.lat!=null&&x.lon!=null).forEach(x=>{const k=x.lat+","+x.lon;m[k]=m[k]||{lat:x.lat,lon:x.lon,cidade:x.cidade,estado:x.estado,p:new Set(),a:new Set(),ultimo:x.em};m[k].p.add(x.aparelho);if(Date.now()-new Date(x.em)<9e5)m[k].a.add(x.aparelho);if(x.em>m[k].ultimo)m[k].ultimo=x.em});return Object.values(m).map(o=>({lat:o.lat,lon:o.lon,cidade:o.cidade,estado:o.estado,pessoas:o.p.size,agora:o.a.size,ultimo:o.ultimo}))})(),
+    plataformas:cnt(L,x=>x.plataforma||"outro").map(o=>({k:o.k,n:o.n,instalados:L.filter(y=>(y.plataforma||"outro")===o.k&&y.instalado).length})),
+    horas:Array.from({length:24},(_,h)=>({h,n:e.filter(x=>new Date(x.em).getHours()===h).length}))}}
+async function pnLoad(quiet){if(!quiet){pnBusy=true;renderPainel()}
+  try{if(pnTab==="uso"){if(pnBank()){try{pnData=await pnRpc("painel_dados",pnArgs({p_dias:pnDias,p_acesso:pnAcesso||null}));pnFonte="banco"}catch(e){pnData=pnLocal(pnDias);pnFonte="local";toast("Não consegui ler o banco: "+e.message+" Mostrando só este aparelho.")}}else{pnData=pnLocal(pnDias);pnFonte="local"}}
+    else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="cli")pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}))}}
+  catch(e){toast(e.message)}
+  pnBusy=false;renderPainel()}
+function pnBars(list,opt={}){const L=(list||[]).filter(x=>opt.zero||x.n>0);if(!L.length||(opt.zero&&!L.some(x=>x.n>0)))return`<p class="note pnempty">Ainda sem dados.</p>`;const mx=Math.max(1,...L.map(x=>x.n)),fmt=opt.money?pnR:pnN;
+  return`<div class="pnbars">${L.map(x=>`<div class="pnbar" title="${esc((opt.name?opt.name(x.k):x.k)+": "+fmt(x.n)+(x.pessoas!=null?" ("+pnN(x.pessoas)+" pessoas)":""))}"><div class="pnbl"><span>${esc(opt.name?opt.name(x.k):x.k)}</span><b>${fmt(x.n)}${opt.sub?`<i>${opt.sub(x)}</i>`:""}</b></div><div class="pnbt"><i style="width:${Math.max(2,x.n/mx*100).toFixed(1)}%"></i></div></div>`).join("")}</div>`}
+function pnLine(serie,w=640){if(!serie||!serie.length)return"";w=Math.round(w);const h=220,pl=34,pr=10,pt=14,pb=26,n=serie.length,mx=Math.max(1,...serie.map(s=>Math.max(s.ativos,s.novos)));const nice=mx<=4?4:Math.ceil(mx/4)*4;
+  const X=i=>pl+(n===1?(w-pl-pr)/2:i*(w-pl-pr)/(n-1)),Y=v=>pt+(h-pt-pb)*(1-v/nice);
+  const path=k=>serie.map((s,i)=>(i?"L":"M")+X(i).toFixed(1)+" "+Y(s[k]).toFixed(1)).join(" ");
+  const area=`M${X(0)} ${Y(0)} `+serie.map((s,i)=>"L"+X(i).toFixed(1)+" "+Y(s.ativos).toFixed(1)).join(" ")+` L${X(n-1)} ${Y(0)} Z`;
+  const grid=[0,.5,1].map(f=>{const v=Math.round(nice*f),y=Y(v);return`<line x1="${pl}" x2="${w-pr}" y1="${y}" y2="${y}" class="pngr"/><text x="${pl-6}" y="${y+4}" class="pnax" text-anchor="end">${v}</text>`}).join("");
+  const step=Math.max(1,Math.ceil(n/6)),lab=serie.map((s,i)=>i%step===0||i===n-1?`<text x="${X(i)}" y="${h-6}" class="pnax" text-anchor="${i===n-1?"end":i===0?"start":"middle"}">${s.dia.slice(8)}/${s.dia.slice(5,7)}</text>`:"").join("");
+  return`<div class="pnlg"><span><i class="s1"></i>Pessoas ativas</span><span><i class="s2"></i>Pessoas novas</span></div>
+  <div class="pnline"><svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Pessoas ativas e novas por dia">${grid}<path d="${area}" class="pnarea"/><path d="${path("novos")}" class="pnl2"/><path d="${path("ativos")}" class="pnl1"/>${lab}<line class="pnx" x1="0" x2="0" y1="${pt}" y2="${h-pb}" style="display:none"/><circle class="pnd1" r="5" style="display:none"/><circle class="pnd2" r="5" style="display:none"/></svg><div class="pntip" style="display:none"></div></div>`}
+function pnLineHover(box,serie){if(!box)return;const svg=box.querySelector("svg");if(!svg)return;const tip=box.querySelector(".pntip"),w=+svg.viewBox.baseVal.width||640,h=220,pl=34,pr=10,pt=14,pb=26,n=serie.length,mx=Math.max(1,...serie.map(s=>Math.max(s.ativos,s.novos))),nice=mx<=4?4:Math.ceil(mx/4)*4;
+  const X=i=>pl+(n===1?(w-pl-pr)/2:i*(w-pl-pr)/(n-1)),Y=v=>pt+(h-pt-pb)*(1-v/nice);
+  const mv=ev=>{const r=svg.getBoundingClientRect(),cx=((ev.touches?ev.touches[0].clientX:ev.clientX)-r.left)/r.width*w;let i=Math.round((cx-pl)/((w-pl-pr)/Math.max(1,n-1)));i=Math.max(0,Math.min(n-1,i));const s=serie[i];
+    const ln=svg.querySelector(".pnx"),d1=svg.querySelector(".pnd1"),d2=svg.querySelector(".pnd2");ln.setAttribute("x1",X(i));ln.setAttribute("x2",X(i));ln.style.display="";d1.setAttribute("cx",X(i));d1.setAttribute("cy",Y(s.ativos));d1.style.display="";d2.setAttribute("cx",X(i));d2.setAttribute("cy",Y(s.novos));d2.style.display="";
+    tip.innerHTML=`<b>${s.dia.slice(8)}/${s.dia.slice(5,7)}</b><span><i class="s1"></i>${pnN(s.ativos)} ativas</span><span><i class="s2"></i>${pnN(s.novos)} novas</span>`;tip.style.display="";const px=X(i)/w*r.width;tip.style.left=Math.min(r.width-130,Math.max(0,px-65))+"px"};
+  const out=()=>{tip.style.display="none";svg.querySelectorAll(".pnx,.pnd1,.pnd2").forEach(z=>z.style.display="none")};
+  svg.addEventListener("pointermove",mv);svg.addEventListener("pointerdown",mv);svg.addEventListener("pointerleave",out)}
+function pnCols(list,lab,fmt){if(!list||!list.length)return"";const mx=Math.max(1,...list.map(x=>x.n));
+  return`<div class="pncols" style="grid-template-columns:repeat(${list.length},1fr)">${list.map(x=>`<div class="pnh" title="${esc(lab(x)+": "+fmt(x.n))}"><i style="height:${Math.max(x.n?3:1,x.n/mx*100).toFixed(0)}%"></i><span>${lab(x)}</span></div>`).join("")}</div>`}
+function pnHours(hs){if(!hs||!hs.length)return"";const best=hs.reduce((a,b)=>b.n>a.n?b:a,hs[0]);
+  return pnCols(hs.map(x=>({n:x.n,h:x.h})),x=>x.h%3===0?x.h+"h":"",v=>pnN(v)+" ações").replace(/title="[^"]*"/g,m=>m)+(best.n?`<p class="note" style="margin:6px 0 0">Horário de mais uso: <b>${best.h}h às ${best.h+1}h</b>.</p>`:"")}
+function pnKpis(tiles){return`<div class="pnkpis">${tiles.map(([n,v,s,cls])=>`<div class="pnk${cls?" "+cls:""}"><span>${n}</span><b>${v}</b>${s?`<i>${s}</i>`:""}</div>`).join("")}</div>`}
+const pnBadge=(k,map)=>`<span class="pnbad ${esc(k)}">${esc((map||PN_ACESSO)[k]||k)}</span>`;
+function pnSetup(){const c=sbCfg(),ch=anaLS.get(PN_K.chave,"");return`<div class="pncard pnsetup"><h3>Ligar o painel ao banco</h3><p class="note">Sem o banco, a aba Uso mostra só o que aconteceu <b>neste aparelho</b>, e Faturamento, Clientes e Ações ficam desligados. Rode o arquivo <b>storypronto-painel.sql</b> no Supabase e preencha abaixo.</p>
+    <div class="pnform"><label>Project URL<input id="pnUrl" placeholder="https://xxxx.supabase.co" value="${esc(c.url)}"${SB_URL?" disabled":""}></label><label>Chave pública (anon)<input id="pnKey" placeholder="eyJ…" value="${esc(c.key)}"${SB_ANON?" disabled":""}></label><label>Chave do painel (a senha que você pôs no SQL)<input id="pnCh" type="password" value="${esc(ch)}" autocomplete="off"></label><button class="btn pri" id="pnSave">Salvar e carregar</button></div>
+    <p class="note" style="margin:0">Nunca coloque aqui a chave <b>service_role</b> nem a senha do banco.</p></div>`}
+function pnUso(){const D=pnData;let h=`<div class="pnper pnfil"><span class="note">Quem:</span>${[["","Todos"],["pago","Pagos"],["gratuito","Gratuitos"],["cortesia","Cortesia"]].map(([k,n])=>`<button type="button" class="chipb${pnAcesso===k?" on":""}" data-pnac="${k}">${n}</button>`).join("")}</div>`;
+  if(!D)return h;const K=D.kpi||{},F=D.funil||{};
+  h+=pnKpis([["Pessoas que usaram",pnN(K.aparelhos),"desde o começo"],["App instalado",pnN(K.instalados),pnPct(K.instalados,K.aparelhos)+" das pessoas"],["Ativas hoje",pnN(K.ativos_hoje),""],["Ativas em 7 dias",pnN(K.ativos_7),""],["Ativas em 30 dias",pnN(K.ativos_30),""],["Novas no período",pnN(K.novos_periodo),`últimos ${D.periodo} dias`],["Vídeos gravados",pnN(K.stories_gravados),`últimos ${D.periodo} dias`],["Publicações",pnN(K.publicacoes),`últimos ${D.periodo} dias`]])+`
+  <div class="pngrid">
+   <div class="pncard pnwide pnmapc"><div class="pnmaph"><h3>Mapa de acessos</h3><span class="pnlive"><i></i>${pnN(D.agora||0)} usando agora</span></div><div id="pnMapSlot" class="pnmapslot"></div><div class="pnlg"><span><i class="pnmk1"></i>Usando agora (últimos 15 min)</span><span><i class="pnmk2"></i>Usou no período</span></div><p class="note" style="margin:4px 0 0">Ponto aproximado da cidade (cerca de 10 km). Atualiza sozinho a cada 30 segundos.</p></div>
+   <div class="pncard pnwide" data-pnline="1"><h3>Uso por dia</h3>${pnLine(D.serie)}</div>
+   <div class="pncard"><h3>Tipo de acesso</h3>${pnBars(D.acessos,{name:k=>PN_ACESSO[k]||k,sub:x=>" "+pnPct(x.n,(D.acessos||[]).reduce((a,b)=>a+b.n,0))})}<p class="note" style="margin:6px 0 0">Pessoas ativas no período, pelo tipo de conta.</p></div>
+   <div class="pncard"><h3>Do primeiro acesso à publicação</h3>${pnBars([{k:"Abriram o app",n:F.abriram},{k:"Foram gravar",n:F.gravaram},{k:"Montaram um story",n:F.montaram},{k:"Publicaram",n:F.publicaram}].map(x=>Object.assign(x,{n:x.n||0})),{zero:true,sub:x=>" "+pnPct(x.n,F.abriram)})}</div>
+   <div class="pncard"><h3>Funções mais usadas</h3>${pnBars(D.funcoes,{name:pnFnName,sub:x=>x.pessoas!=null?` · ${pnN(x.pessoas)} pess.`:""})}</div>
+   <div class="pncard"><h3>Telas mais abertas</h3>${pnBars(D.telas,{name:k=>PN_TELA[k]||k,sub:x=>x.pessoas!=null?` · ${pnN(x.pessoas)} pess.`:""})}</div>
+   <div class="pncard"><h3>De onde são</h3><div class="pnper pntabs">${[["paises","Países"],["estados","Estados"],["cidades","Cidades"]].map(([k,n])=>`<button type="button" class="chipb${pnGeo===k?" on":""}" data-pngeo="${k}">${n}</button>`).join("")}</div>${pnBars(D[pnGeo],{sub:x=>" "+pnPct(x.n,(D[pnGeo]||[]).reduce((a,b)=>a+b.n,0))})}<p class="note" style="margin:6px 0 0">Local aproximado pela internet. Cada pessoa conta uma vez.</p></div>
+   <div class="pncard"><h3>Aparelhos</h3>${pnBars(D.plataformas,{name:k=>PN_PLAT[k]||k,sub:x=>` · ${pnN(x.instalados||0)} com app`})}</div>
+   <div class="pncard pnwide"><h3>Horário de uso</h3>${pnHours(D.horas)}</div>
+  </div>`;return h}
+function pnFinTab(){const F=pnFin;if(!F)return"";const K=F.kpi||{},dif=K.receita_mes_anterior?Math.round((K.receita_mes-K.receita_mes_anterior)/K.receita_mes_anterior*100):null;
+  const meses=(F.receita_mensal||[]).map(x=>({n:+x.valor,m:x.mes}));const MES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+  return pnKpis([["Receita do mês",pnR(K.receita_mes),dif==null?"sem mês anterior":(dif>=0?"▲ ":"▼ ")+Math.abs(dif)+"% vs mês passado","pnhi"],["Receita recorrente (mês)",pnR(K.mrr),"soma das mensalidades ativas"],["Assinantes pagos",pnN(K.pagantes),""],["Ticket médio",pnR(K.ticket_medio),"últimos 90 dias"],["Gratuitos",pnN(K.gratuitos),"cadastrados"],["Cortesias",pnN(K.cortesias),"cadastradas"],["Em atraso",pnN(K.atrasados),"",K.atrasados?"pnwarn":""],["Cancelaram",pnN(K.cancelados_30),"últimos 30 dias"]])+`
+  <div class="pngrid">
+   <div class="pncard pnwide"><h3>Receita por mês</h3>${meses.some(x=>x.n)?pnCols(meses,x=>MES[+x.m.slice(5)-1],pnR):`<p class="note pnempty">Nenhum pagamento registrado ainda. Registre na aba Clientes.</p>`}</div>
+   <div class="pncard"><h3>Programa de benefícios</h3>${pnKpis([["Créditos dados no mês",pnR(K.cashback_mes),"cashback + bônus"],["Usado como desconto",pnR(K.usado_mes),"neste mês"],["Saldo em aberto",pnR(K.saldo_aberto),"que os clientes podem usar"]])}</div>
+   <div class="pncard"><h3>Receita por plano</h3>${pnBars(F.por_plano,{money:true,sub:x=>` · ${pnN(x.pessoas)} cli.`})}<p class="note" style="margin:6px 0 0">Últimos 90 dias.</p></div>
+   <div class="pncard"><h3>Receita por estado</h3>${pnBars(F.por_estado,{money:true,sub:x=>` · ${pnN(x.pessoas)} cli.`})}</div>
+   <div class="pncard"><h3>Últimos pagamentos</h3>${(F.ultimos||[]).length?`<div class="pnlist">${F.ultimos.map(p=>`<div class="pnrow"><div><b>${esc(p.nome)}</b><span class="note">${pnDate(p.pago_em)} · ${esc(p.plano||"")}${p.metodo?" · "+esc(p.metodo):""}</span></div><div class="pnrt"><b class="${p.status==="estornado"?"pnstrike":""}">${pnR(p.valor)}</b>${p.status==="pago"?`<button type="button" class="linkbtn" data-pnest="${p.id}">estornar</button>`:`<span class="note">estornado</span>`}</div></div>`).join("")}</div>`:`<p class="note pnempty">Ainda sem pagamentos.</p>`}</div>
+  </div>`}
+function pnCliForm(c){c=c||{};return`<div class="pncard pnfrm" id="pnCliF"><h3>${c.id?"Editar cliente":"Novo cliente"}</h3><div class="pnform pn2">
+  <label>Nome<input name="nome" value="${esc(c.nome||"")}" maxlength="120"></label><label>WhatsApp ou e-mail<input name="contato" value="${esc(c.contato||"")}" maxlength="120"></label>
+  <label>Cidade<input name="cidade" value="${esc(c.cidade||"")}" maxlength="80"></label><label>Estado<input name="estado" value="${esc(c.estado||"")}" maxlength="60" placeholder="Ceará"></label>
+  <label>Tipo de acesso<select name="acesso">${[["pago","Pago"],["gratuito","Gratuito"],["cortesia","Cortesia"]].map(([k,n])=>`<option value="${k}"${(c.acesso||"pago")===k?" selected":""}>${n}</option>`).join("")}</select></label>
+  <label>Plano<input name="plano" value="${esc(c.plano||"")}" maxlength="40" placeholder="Essencial, Pro, Polo…"></label>
+  <label>Valor por mês (R$)<input name="valor_mensal" inputmode="decimal" value="${c.valor_mensal!=null?String(c.valor_mensal).replace(".",","):""}" placeholder="49,90"></label>
+  <label>Cobrança<select name="ciclo"><option value="mensal"${c.ciclo!=="anual"?" selected":""}>Mensal</option><option value="anual"${c.ciclo==="anual"?" selected":""}>Anual</option></select></label>
+  ${c.id?`<label>Situação<select name="status">${[["ativo","Em dia"],["atrasado","Em atraso"],["cancelado","Cancelado"]].map(([k,n])=>`<option value="${k}"${c.status===k?" selected":""}>${n}</option>`).join("")}</select></label>`:`<label>Código de quem indicou (opcional)<input name="indicado_codigo" maxlength="8" placeholder="Ex.: A32F65E0"></label>`}
+  </div><div class="row"><button class="btn pri" data-pncsave="${esc(c.id||"")}">Salvar cliente</button><button class="btn" data-pnfx="1">Cancelar</button></div></div>`}
+function pnCliTab(){let h=`<div class="pnbar2"><input id="pnBusca" placeholder="Buscar por nome, cidade ou código" value="${esc(pnBusca)}"><button class="btn" data-pnbusca="1">Buscar</button><button class="btn pri" data-pnnovo="1">+ Novo cliente</button></div>`;
+  if(pnForm&&pnForm.t==="cli")h+=pnCliForm(pnForm.c);
+  const L=pnCli||[];if(!L.length)return h+`<div class="pncard"><p class="note pnempty">Nenhum cliente ainda. Cadastre quem assina, quem usa grátis e quem tem cortesia: assim o painel separa os três.</p></div>`;
+  h+=`<div class="pnclis">${L.map(c=>`<div class="pncard pncli"><div class="pnclh"><div><b>${esc(c.nome)}</b> ${pnBadge(c.acesso)}${c.status!=="ativo"?" "+pnBadge(c.status,{atrasado:"Em atraso",cancelado:"Cancelado"}):""}<div class="note">${esc([c.plano,c.valor_mensal>0?pnR(c.valor_mensal)+(c.ciclo==="anual"?"/mês (anual)":"/mês"):"",[c.cidade,c.estado].filter(Boolean).join(" · ")].filter(Boolean).join(" · "))}</div></div><div class="pnsaldo"><span>Saldo</span><b>${pnR(c.saldo)}</b></div></div>
+    <div class="note">Código: <b class="pncod">${esc(c.codigo)}</b> · total pago ${pnR(c.total_pago)}${c.ultimo_pagamento?" · último "+pnDate(c.ultimo_pagamento):""}</div>
+    ${pnForm&&pnForm.id===c.id&&pnForm.t==="pag"?`<div class="pnform pn2 pnin"><label>Valor (R$)<input id="pnPV" inputmode="decimal" value="${String(c.valor_mensal||"").replace(".",",")}"></label><label>Data<input id="pnPD" type="date" value="${new Date().toISOString().slice(0,10)}"></label><label>Forma<select id="pnPM"><option>pix</option><option>cartão</option><option>boleto</option><option>dinheiro</option></select></label></div><div class="row"><button class="btn pri" data-pnpag="${c.id}">Confirmar pagamento</button><button class="btn" data-pnfx="1">Cancelar</button></div>`:""}
+    ${pnForm&&pnForm.id===c.id&&pnForm.t==="cred"?`<div class="pnform pn2 pnin"><label>O que fazer<select id="pnCT"><option value="bonus">Dar bônus</option><option value="uso">Usar saldo como desconto</option></select></label><label>Valor (R$)<input id="pnCV" inputmode="decimal" placeholder="10,00"></label><label class="pnfull">Motivo<input id="pnCM" maxlength="160" placeholder="Ex.: Desconto na mensalidade de dezembro"></label></div><div class="row"><button class="btn pri" data-pncred="${c.id}">Confirmar</button><button class="btn" data-pnfx="1">Cancelar</button></div>`:""}
+    <div class="pnacts"><button type="button" class="chipb" data-pnfp="${c.id}">💰 Registrar pagamento</button><button type="button" class="chipb" data-pnfc="${c.id}">🎁 Bônus / usar saldo</button><button type="button" class="chipb" data-pnedit="${c.id}">✏️ Editar</button>${/\d{10,}/.test(String(c.contato||"").replace(/\D/g,""))?`<a class="chipb" target="_blank" rel="noopener" href="https://wa.me/${(String(c.contato).replace(/\D/g,"").length<=11?"55":"")+String(c.contato).replace(/\D/g,"")}?text=${encodeURIComponent(`Oi, ${String(c.nome).split(" ")[0]}! Seu código de benefícios do Story Pronto é ${c.codigo}. Veja seu saldo de cashback em storypronto.com.br → Menu → Meus benefícios. Indique um amigo com esse código e ganhe bônus quando ele assinar!`)}">📲 Enviar código</a>`:""}</div></div>`).join("")}</div>`;return h}
+const PN_IDEIAS=[["Cashback em dobro no meu estado",{tipo:"cashback",percentual:"5",publico:"pagos",estado:"Ceará",descricao:"Quem assina no estado ganha o dobro de cashback neste mês."}],["Bônus de boas-vindas",{tipo:"bonus",valor:"10",publico:"pagos",descricao:"R$ 10 de crédito para quem já assina."}],["Fidelidade de fim de ano",{tipo:"bonus",valor:"15",publico:"pagos",descricao:"Presente de fim de ano para quem está com a gente."}],["Cashback extra na minha cidade",{tipo:"cashback",percentual:"3",publico:"pagos",cidade:"Fortaleza",descricao:"Cashback extra para assinantes da cidade."}]];
+function pnCampForm(k){k=k||{};const t=k.tipo||"cashback";return`<div class="pncard pnfrm" id="pnCampF"><h3>${k.id?"Editar ação":"Nova ação"}</h3><div class="pnform pn2">
+  <label class="pnfull">Nome da ação<input name="nome" value="${esc(k.nome||"")}" maxlength="80"></label>
+  <label>Tipo<select name="tipo"><option value="cashback"${t==="cashback"?" selected":""}>Cashback extra (%) nos pagamentos</option><option value="bonus"${t==="bonus"?" selected":""}>Bônus em R$ (crédito na hora)</option></select></label>
+  <label>${t==="bonus"?"Valor do bônus (R$)":"Cashback extra (%)"}<input name="${t==="bonus"?"valor":"percentual"}" inputmode="decimal" value="${esc(String((t==="bonus"?k.valor:k.percentual)||"").replace(".",","))}"></label>
+  <label>Para quem<select name="publico"><option value="pagos"${k.publico!=="todos"?" selected":""}>Só quem paga</option><option value="todos"${k.publico==="todos"?" selected":""}>Todos os clientes</option></select></label>
+  <label>Estado (vazio = todos)<input name="estado" value="${esc(k.estado||"")}" maxlength="60"></label><label>Cidade (vazio = todas)<input name="cidade" value="${esc(k.cidade||"")}" maxlength="80"></label>
+  <label>Começa em<input name="inicio" type="date" value="${esc(k.inicio||new Date().toISOString().slice(0,10))}"></label><label>Termina em (opcional)<input name="fim" type="date" value="${esc(k.fim||"")}"></label>
+  <label class="pnfull">Descrição para o cliente<input name="descricao" value="${esc(k.descricao||"")}" maxlength="300"></label>
+  </div><div class="row"><button class="btn pri" data-pnksave="${esc(k.id||"")}">Salvar ação</button><button class="btn" data-pnfx="1">Cancelar</button></div></div>`}
+function pnAcoesTab(){const F=pnFin;if(!F)return"";const C=F.config||{};let h=`<div class="pncard"><h3>Regras do programa</h3><p class="note">Valem para todo pagamento registrado. O cashback vira crédito que o cliente usa como desconto na mensalidade.</p><div class="pnform pn3">
+   <label>Cashback base (%)<input id="pnCfC" inputmode="decimal" value="${String(C.cashback_pct??5).replace(".",",")}"></label><label>Bônus por indicação (R$)<input id="pnCfI" inputmode="decimal" value="${String(C.bonus_indicacao??20).replace(".",",")}"></label><label>Validade dos créditos (dias)<input id="pnCfV" inputmode="numeric" value="${C.validade_dias??180}"></label></div><button class="btn" data-pncfg="1">Salvar regras</button></div>
+   <div class="pncard"><h3>Ideias prontas</h3><div class="pnacts">${PN_IDEIAS.map(([n],i)=>`<button type="button" class="chipb" data-pnideia="${i}">${esc(n)}</button>`).join("")}<button type="button" class="chipb on" data-pnkn="1">+ Criar do zero</button></div></div>`;
+  if(pnForm&&pnForm.t==="camp")h+=pnCampForm(pnForm.k);
+  const L=F.campanhas||[];h+=L.length?`<div class="pnclis">${L.map(k=>`<div class="pncard pncli"><div class="pnclh"><div><b>${esc(k.nome)}</b> ${k.ativa?pnBadge("ativa",{ativa:"Ativa"}):pnBadge("pausada",{pausada:"Pausada"})}<div class="note">${k.tipo==="bonus"?"Bônus de "+pnR(k.valor):"+"+String(k.percentual).replace(".",",")+"% de cashback"} · ${k.publico==="todos"?"todos":"só quem paga"}${k.estado?" · "+esc(k.estado):""}${k.cidade?" · "+esc(k.cidade):""} · ${pnDate(k.inicio)}${k.fim?" a "+pnDate(k.fim):" em diante"}</div>${k.descricao?`<div class="note">${esc(k.descricao)}</div>`:""}</div><div class="pnsaldo"><span>Concedido</span><b>${pnR(k.concedido)}</b><i>${pnN(k.clientes)} cli.</i></div></div>
+     <div class="pnacts">${k.tipo==="bonus"&&k.ativa?`<button type="button" class="chipb" data-pnapl="${k.id}">🎁 Aplicar bônus agora</button>`:""}<button type="button" class="chipb" data-pnkon="${k.id}">${k.ativa?"⏸ Pausar":"▶ Ativar"}</button><button type="button" class="chipb" data-pnked="${k.id}">✏️ Editar</button></div></div>`).join("")}</div>`:`<div class="pncard"><p class="note pnempty">Nenhuma ação ainda. Comece por uma das ideias acima.</p></div>`;return h}
+function renderPainel(){const B=$("#pnBody");if(!B)return;const bank=pnBank(),D=pnData;
+  let h=`<div class="pnhead"><div><h2>Painel do Story Pronto</h2><p class="note" style="margin:0">${pnBusy?"Carregando…":pnTab==="uso"&&D?(pnFonte==="banco"?`Dados de todos os usuários · ${new Date(D.gerado_em||Date.now()).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`:"Prévia: só os dados deste aparelho"):bank?"Banco ligado":"Banco não ligado"}</p></div>
+    <div class="pnper">${pnTab==="uso"?[7,30,90].map(d=>`<button type="button" class="chipb${pnDias===d?" on":""}" data-pnd="${d}">${d} dias</button>`).join(""):""}<button type="button" class="chipb" data-pnr="1" aria-label="Atualizar">⟳</button></div></div>
+   <div class="pnnav">${[["uso","📊 Uso"],["fin","💰 Faturamento"],["cli","👥 Clientes"],["acoes","🎁 Ações e cashback"]].map(([k,n])=>`<button type="button" class="${pnTab===k?"on":""}" data-pntab="${k}">${n}</button>`).join("")}</div>`;
+  if(!bank)h+=pnSetup();
+  if(!anaOk()&&pnTab==="uso")h+=`<div class="pncard"><p class="note" style="margin:0">Este aparelho ainda não está enviando dados de uso. <button class="linkbtn" data-pnpriv="1">Ver aviso de privacidade</button></p></div>`;
+  if(pnTab==="uso")h+=pnUso();else if(!bank)h+=`<div class="pncard"><p class="note pnempty">Esta parte precisa do banco ligado (Supabase), porque guarda clientes e pagamentos com segurança.</p></div>`;else if(pnTab==="fin")h+=pnFinTab();else if(pnTab==="cli")h+=pnCliTab();else h+=pnAcoesTab();
+  B.innerHTML=h;if(pnTab==="uso"&&D)pnMapMount(D.mapa||[]);if(pnTab==="uso"&&D){const card=B.querySelector("[data-pnline]");if(card){const lw=Math.max(280,card.clientWidth-28);card.innerHTML=`<h3>Uso por dia</h3>${pnLine(D.serie,lw)}`}pnLineHover(B.querySelector(".pnline"),D.serie||[])}}
+function pnConfirm(b){if(b.dataset.ok)return true;b.dataset.ok="1";const t=b.textContent;b.textContent="Toque de novo para confirmar";setTimeout(()=>{if(b.isConnected){delete b.dataset.ok;b.textContent=t}},3000);return false}
+
+/* mapa em tempo real (Leaflet + mapa escuro do OpenStreetMap/CARTO, carregados só quando o painel abre) */
+let pnMap=null,pnMapEl=null,pnMapLayer=null,pnMapFit=false,pnLeaf=null;
+function pnLeaflet(){if(window.L)return Promise.resolve(window.L);if(pnLeaf)return pnLeaf;pnLeaf=new Promise((res,rej)=>{const c=document.createElement("link");c.rel="stylesheet";c.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";document.head.appendChild(c);
+  const sc=document.createElement("script");sc.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";sc.onload=()=>res(window.L);sc.onerror=()=>{pnLeaf=null;rej(new Error("mapa"))};document.head.appendChild(sc)});return pnLeaf}
+async function pnMapMount(pts){const slot=$("#pnMapSlot");if(!slot)return;if(!pnMapEl){pnMapEl=document.createElement("div");pnMapEl.className="pnmap"}slot.appendChild(pnMapEl);
+  let L;try{L=await pnLeaflet()}catch(e){pnMapEl.innerHTML=`<p class="note pnempty" style="padding:20px">Não consegui carregar o mapa agora (sem internet?).</p>`;return}
+  if(!pnMap){pnMap=L.map(pnMapEl,{zoomControl:true,attributionControl:true,worldCopyJump:true}).setView([-14.5,-52],4);pnMap.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{maxZoom:12,subdomains:"abcd",attribution:'&copy; OpenStreetMap &copy; CARTO'}).addTo(pnMap);pnMapLayer=L.layerGroup().addTo(pnMap)}
+  pnMapLayer.clearLayers();const mx=Math.max(1,...pts.map(p=>p.pessoas||0));
+  pts.slice().sort((a,b)=>(a.agora>0)-(b.agora>0)).forEach(p=>{const r=6+16*Math.sqrt((p.pessoas||0)/mx),live=p.agora>0;
+    const m=L.circleMarker([+p.lat,+p.lon],{radius:r,color:live?"#ff5a7a":"#ffb547",weight:live?2:1,fillColor:live?"#ff5a7a":"#ffb547",fillOpacity:live?.55:.32,className:live?"pnpulse":""});
+    m.bindTooltip(`<b>${esc(p.cidade||"Local aproximado")}${p.estado?" · "+esc(p.estado):""}</b><br>${pnN(p.pessoas)} pessoa${p.pessoas>1?"s":""} no período${live?`<br><span style="color:#ff5a7a">● ${pnN(p.agora)} usando agora</span>`:""}`,{direction:"top"});pnMapLayer.addLayer(m)});
+  setTimeout(()=>{pnMap.invalidateSize();if(!pnMapFit&&pts.length&&pnMapEl.clientWidth){pnMapFit=true;const b=L.latLngBounds(pts.map(p=>[+p.lat,+p.lon]));if(pts.length===1)pnMap.setView(b.getCenter(),7);else pnMap.fitBounds(b.pad(.25),{maxZoom:7})}},120)}
+setInterval(()=>{const v=$("#v-painel");if(v&&v.classList.contains("on")&&pnTab==="uso"&&document.visibilityState==="visible"&&!pnBusy&&!(document.activeElement&&document.activeElement.closest&&document.activeElement.closest("#v-painel input")))pnLoad(true)},30000);
+
+function pnFormVals(id){const o={};document.querySelectorAll(`#${id} [name]`).forEach(i=>o[i.name]=i.value.trim());return o}
+async function pnDo(fn,args,okMsg,reload=true){try{const r=await pnRpc(fn,pnArgs(args));if(okMsg)toast(typeof okMsg==="function"?okMsg(r):okMsg);pnForm=null;if(reload)await pnLoad();return r}catch(e){toast(e.message);return null}}
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-pnd],[data-pnr],[data-pngeo],#pnSave,[data-pnpriv],[data-pntab],[data-pnac],[data-pnest],[data-pnbusca],[data-pnnovo],[data-pnfx],[data-pncsave],[data-pnfp],[data-pnfc],[data-pnedit],[data-pnpag],[data-pncred],[data-pncfg],[data-pnideia],[data-pnkn],[data-pnksave],[data-pnapl],[data-pnkon],[data-pnked]");if(!b||!$("#v-painel")||!b.closest("#v-painel"))return;
+  const d=b.dataset;
+  if(d.pntab){pnTab=d.pntab;pnForm=null;pnLoad();return}
+  if(d.pnd){pnDias=+d.pnd;pnLoad();return}
+  if(d.pnac!=null){pnAcesso=d.pnac;pnLoad();return}
+  if(d.pnr){pnLoad();return}
+  if(d.pngeo){pnGeo=d.pngeo;renderPainel();return}
+  if(d.pnpriv){lgpdAsk(true);return}
+  if(d.pnfx){pnForm=null;renderPainel();return}
+  if(b.id==="pnSave"){const u=($("#pnUrl")||{}).value||"",k=($("#pnKey")||{}).value||"",ch=($("#pnCh")||{}).value||"";
+    if(u&&!/^https:\/\/[\w-]+\.supabase\.co\/?$/.test(u.trim())){toast("A Project URL tem este formato: https://xxxx.supabase.co");return}
+    let secret=/^sb_secret_/.test(k.trim());try{const pl=JSON.parse(atob(k.split(".")[1].replace(/-/g,"+").replace(/_/g,"/")));if(pl.role==="service_role")secret=true}catch(err){}if(secret){toast("Essa é a chave SECRETA. Apague e use a chave pública (anon ou publishable).");$("#pnKey").value="";return}
+    if(!SB_URL||!SB_ANON)anaLS.set(ANA_K.cfg,{url:u.trim(),key:k.trim()});anaLS.set(PN_K.chave,ch);anaFlush();pnLoad();return}
+  if(d.pnest){if(!pnConfirm(b))return;pnDo("painel_estornar",{p_pagamento:d.pnest},"Pagamento estornado e o cashback dele foi retirado.");return}
+  if(d.pnbusca){pnBusca=($("#pnBusca")||{}).value||"";pnLoad();return}
+  if(d.pnnovo){pnForm={t:"cli",c:null};renderPainel();setTimeout(()=>{const f=$("#pnCliF");if(f)f.scrollIntoView({behavior:"smooth",block:"start"})},50);return}
+  if(d.pnedit){pnForm={t:"cli",c:(pnCli||[]).find(x=>x.id===d.pnedit)};renderPainel();setTimeout(()=>{const f=$("#pnCliF");if(f)f.scrollIntoView({behavior:"smooth",block:"start"})},50);return}
+  if(d.pncsave!=null){const v=pnFormVals("pnCliF");if(v.nome.length<2){toast("Escreva o nome do cliente.");return}v.valor_mensal=String(pnNum(v.valor_mensal));if(d.pncsave)v.id=d.pncsave;
+    pnDo("painel_cliente_salvar",{p:v},r=>d.pncsave?"Cliente atualizado.":`Cliente cadastrado. Código de benefícios: ${r&&r.codigo}`);return}
+  if(d.pnfp){pnForm={t:"pag",id:d.pnfp};renderPainel();return}
+  if(d.pnfc){pnForm={t:"cred",id:d.pnfc};renderPainel();return}
+  if(d.pnpag){const v=pnNum($("#pnPV").value);if(v<=0){toast("Digite o valor pago.");return}b.disabled=true;
+    pnDo("painel_pagamento",{p_cliente:d.pnpag,p_valor:v,p_pago_em:$("#pnPD").value||null,p_metodo:$("#pnPM").value},r=>`Pagamento de ${pnR(v)} registrado. Cashback: ${pnR(r.cashback)} (${String(r.percentual).replace(".",",")}%).${r.bonus_indicacao>0?" Quem indicou ganhou "+pnR(r.bonus_indicacao)+".":""}`);return}
+  if(d.pncred){const v=pnNum($("#pnCV").value);if(v<=0){toast("Digite o valor.");return}const uso=$("#pnCT").value==="uso";
+    pnDo("painel_credito",{p_cliente:d.pncred,p_valor:uso?-v:v,p_motivo:$("#pnCM").value||null},r=>(uso?"Desconto lançado.":"Bônus dado.")+" Saldo agora: "+pnR(r.saldo));return}
+  if(d.pncfg){const c=pnNum($("#pnCfC").value),i=pnNum($("#pnCfI").value),vd=parseInt($("#pnCfV").value,10)||180;if(c>50){toast("O cashback base vai de 0 a 50%.");return}
+    pnDo("painel_config_salvar",{p_cashback:c,p_bonus_indicacao:i,p_validade:vd},"Regras salvas.");return}
+  if(d.pnideia!=null){const [n,o]=PN_IDEIAS[+d.pnideia];pnForm={t:"camp",k:Object.assign({nome:n},o)};renderPainel();setTimeout(()=>{const f=$("#pnCampF");if(f)f.scrollIntoView({behavior:"smooth",block:"start"})},50);return}
+  if(d.pnkn){pnForm={t:"camp",k:null};renderPainel();return}
+  if(d.pnked){pnForm={t:"camp",k:((pnFin&&pnFin.campanhas)||[]).find(x=>x.id===d.pnked)};renderPainel();return}
+  if(d.pnksave!=null){const v=pnFormVals("pnCampF");if(v.nome.length<2){toast("Dê um nome para a ação.");return}if(v.percentual!=null)v.percentual=String(pnNum(v.percentual));if(v.valor!=null)v.valor=String(pnNum(v.valor));if(d.pnksave)v.id=d.pnksave;
+    if(v.tipo==="cashback"&&!(+v.percentual>0)){toast("Diga quanto de cashback extra (%).");return}if(v.tipo==="bonus"&&!(+v.valor>0)){toast("Diga o valor do bônus.");return}
+    pnDo("painel_campanha_salvar",{p:v},v.tipo==="bonus"?"Ação salva. Toque em “Aplicar bônus agora” para creditar.":"Ação salva. Vale nos próximos pagamentos.");return}
+  if(d.pnkon){const k=((pnFin&&pnFin.campanhas)||[]).find(x=>x.id===d.pnkon);if(!k)return;pnDo("painel_campanha_salvar",{p:Object.assign({},k,{ativa:!k.ativa})},k.ativa?"Ação pausada.":"Ação ativada.");return}
+  if(d.pnapl){if(!pnConfirm(b))return;pnDo("painel_campanha_aplicar",{p_campanha:d.pnapl},r=>r.clientes?`Bônus creditado para ${r.clientes} cliente${r.clientes>1?"s":""} (${pnR(r.total)}).`:"Todos desse público já tinham recebido este bônus.");return}
+});
+document.addEventListener("change",e=>{const t=e.target;if(t.name==="tipo"&&t.closest("#pnCampF")){const v=pnFormVals("pnCampF");pnForm={t:"camp",k:Object.assign({},pnForm&&pnForm.k,v)};renderPainel()}});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="pnBusca"){pnBusca=e.target.value;pnLoad()}});
+let pnRz=0;addEventListener("resize",()=>{clearTimeout(pnRz);pnRz=setTimeout(()=>{const v=$("#v-painel");if(v&&v.classList.contains("on")&&pnData&&pnTab==="uso"&&!document.activeElement.closest("#v-painel input"))renderPainel()},250)});
+/* ---------- MEUS BENEFÍCIOS (cliente): saldo de cashback, bônus e indicação ---------- */
+let bnData=null,bnBusy=false;
+async function bnLoad(){const cod=anaLS.get("sp_cod","");if(!cod){bnData=null;renderBenef();return}bnBusy=true;renderBenef();
+  try{bnData=await pnRpc("meus_beneficios",{p_codigo:cod})}catch(e){bnData=null;toast(/Código/.test(e.message)?"Código não encontrado. Confira com quem te atende.":/não ligado/.test(e.message)?"Os benefícios ainda não estão disponíveis neste app.":e.message)}bnBusy=false;renderBenef()}
+function renderBenef(){const B=$("#bnBody");if(!B)return;const c=sbCfg(),D=bnData;let h=`<div class="pnhead"><div><h2>Meus benefícios</h2><p class="note" style="margin:0">Cashback, bônus e indicações de quem assina o Story Pronto.</p></div></div>`;
+  if(!c.url||!c.key)h+=`<div class="pncard"><p class="note pnempty">Em breve: aqui você vai ver seu saldo de cashback e bônus.</p></div>`;
+  else if(!D)h+=`<div class="pncard"><h3>Digite seu código</h3><p class="note">Você recebe o código quando assina (8 letras e números).</p><div class="pnbar2"><input id="bnCod" maxlength="8" placeholder="Ex.: A32F65E0" value="${esc(anaLS.get("sp_cod",""))}" style="text-transform:uppercase"><button class="btn pri" data-bnok="1"${bnBusy?" disabled":""}>${bnBusy?"Abrindo…":"Ver meus benefícios"}</button></div></div>`;
+  else{const hist=D.historico||[];h+=`<div class="pncard bnsaldo"><span>Olá, ${esc(D.nome)}! Seu saldo</span><b>${pnR(D.saldo)}</b><i>para usar como desconto na mensalidade</i></div>
+    ${pnKpis([["Cashback em cada pagamento",String(D.cashback_pct).replace(".",",")+"%",D.acesso==="pago"?"já vale para você":"vale quando você assinar"],["Indique e ganhe",pnR(D.bonus_indicacao),"quando a pessoa assinar"]])}
+    ${(D.campanhas||[]).length?`<div class="pncard"><h3>Ações para você agora</h3><div class="pnlist">${D.campanhas.map(k=>`<div class="pnrow"><div><b>${esc(k.nome)}</b><span class="note">${esc(k.descricao||"")}${k.fim?" · até "+pnDate(k.fim):""}</span></div><div class="pnrt"><b>${k.tipo==="bonus"?pnR(k.valor):"+"+String(k.percentual).replace(".",",")+"%"}</b></div></div>`).join("")}</div></div>`:""}
+    <div class="pncard"><h3>Indique um amigo</h3><p class="note">Passe seu código <b class="pncod">${esc(D.codigo)}</b>. Quando a pessoa assinar, você ganha ${pnR(D.bonus_indicacao)} de crédito.</p><a class="btn pri" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Estou usando o Story Pronto para fazer meus stories em minutos. Assina com o meu código ${D.codigo}: storypronto.com.br`)}">Convidar pelo WhatsApp</a></div>
+    <div class="pncard"><h3>Histórico</h3>${hist.length?`<div class="pnlist">${hist.map(x=>`<div class="pnrow"><div><b>${esc(x.motivo||PN_ORIG[x.origem]||x.origem)}</b><span class="note">${PN_ORIG[x.origem]||x.origem} · ${pnDate(x.em)}${x.expira_em&&x.valor>0?" · vale até "+pnDate(x.expira_em):""}</span></div><div class="pnrt"><b class="${x.valor<0?"pnneg":"pnpos"}">${x.valor<0?"−":"+"}${pnR(Math.abs(x.valor))}</b></div></div>`).join("")}</div>`:`<p class="note pnempty">Ainda sem movimentações.</p>`}</div>
+    <button class="linkbtn" data-bnsair="1">Usar outro código</button>`}
+  B.innerHTML=h}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-bnok],[data-bnsair]");if(!b||!b.closest("#v-benef"))return;
+  if(b.dataset.bnok){const v=(($("#bnCod")||{}).value||"").trim().toUpperCase();if(v.length<6){toast("Digite o código completo.");return}anaLS.set("sp_cod",v);bnLoad();return}
+  if(b.dataset.bnsair){anaLS.set("sp_cod","");bnData=null;renderBenef()}});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="bnCod"){const b=document.querySelector("[data-bnok]");if(b)b.click()}});
 })();
 </script>
 </body>
