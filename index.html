@@ -736,6 +736,21 @@ body.stuon{overflow:hidden}
 .mdrwl button.out{color:#ff8fa3}
 header .clock,header #who{display:none!important}
 @media (max-width:640px){.stu-set{max-height:52%}.stu-set .rs-sec:nth-of-type(2){order:-1}}
+
+.rs-h{position:relative}
+.rs-all{margin-left:auto;background:none;border:0;color:var(--ac2);font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:4px 2px}
+.rs-galw{position:relative}
+.rs-galw::after{content:"";position:absolute;right:-2px;top:0;bottom:36px;width:46px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--rsbg,#18181f));transition:opacity .2s}
+.rs-galw.atend::after,.rs-galw.all::after{opacity:0}
+#stu .rs-galw{--rsbg:#0e0e14}
+.rs-nav{position:absolute;top:46px;width:32px;height:32px;border-radius:50%;border:0;background:#f3f1ec;color:#14141a;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px #0008;z-index:2;transition:opacity .2s}
+.rs-nav svg{width:16px;height:16px}
+.rs-nav.l{left:-6px}.rs-nav.r{right:-6px}
+.rs-galw.atstart .rs-nav.l,.rs-galw.atend .rs-nav.r{opacity:0;pointer-events:none}
+.rs-gal.all{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:16px 10px;overflow:visible}
+.rs-gal.all .rs-t{flex:none;width:100%}
+.rs-gal.all .rs-t i{width:100%;height:auto;aspect-ratio:9/16}
+@media (hover:none){.rs-nav{display:none}}
 </style>
 </head>
 <body>
@@ -3960,6 +3975,8 @@ function openStudio(){track("open_rec");let ov=$("#stu");if(!ov){ov=document.cre
     ov.addEventListener("click",e=>{const b=e.target.closest("[data-stu]");if(!b)return;if(b.dataset.stu==="close")closeStudio();else{const go=$("#stuSet #recOpen");if(go)go.click()}})}
   ov.classList.add("on");document.body.classList.add("stuon");sheetRec($("#stuSet"));stuSync();stuCam()}
 function closeStudio(){stuStop();const ov=$("#stu");if(ov)ov.classList.remove("on");document.body.classList.remove("stuon");renderRail()}
+let recGalAll=false;
+function rsNavSync(g){if(!g)return;const w=g.parentNode;if(!w)return;w.classList.toggle("atstart",g.scrollLeft<8);w.classList.toggle("atend",g.scrollLeft+g.clientWidth>=g.scrollWidth-8)}
 function sheetRec(target){
   const b=target||(($("#stu")&&$("#stu").classList.contains("on"))?$("#stuSet"):$("#sheetB")),keep=b.scrollTop,keepG=(b.querySelector(".rs-gal")||{}).scrollLeft,R=ROTEIROS.find(x=>x.id===recR),v={};R.f.forEach(([k,,d])=>v[k]=recV[k]||d);
   if(!recScript||recScript._r!==recR){recScript=Object.assign(new String(R.t(v)),{_r:recR})}
@@ -3973,8 +3990,8 @@ function sheetRec(target){
     ${R.f.length?`<div class="rs-flds">${R.f.map(([k,lab,d])=>`<label class="rs-f"><span>${esc(lab)}</span><input type="text" data-rv="${k}" value="${esc(recV[k]||"")}" placeholder="${esc(d)}"></label>`).join("")}</div>`:""}
     <details class="rs-scr"${recR==="livre"?" open":""}><summary><span>Roteiro</span><em id="recEst">${words} palavras · ~${sec} s${sec>55?" · longo demais":""}</em><b>Editar</b></summary><textarea id="recTxt" rows="6">${esc(String(recScript))}</textarea></details>
    </section>
-   <section class="rs-sec"><div class="rs-h"><span>2</span>Estilo</div>
-    <div class="rs-gal">${lays.map(([k,n])=>`<button type="button" class="rs-t${recLay===k?" on":""}" data-rl="${k}"><i>${rsThumb(thumbKey(k))}</i><span>${esc(n)}</span></button>`).join("")}</div>
+   <section class="rs-sec"><div class="rs-h"><span>2</span>Estilo<button type="button" class="rs-all" data-rsall="1">${recGalAll?"Mostrar menos":"Ver tudo"}</button></div>
+    <div class="rs-galw${recGalAll?" all":""}"><div class="rs-gal${recGalAll?" all":""}">${lays.map(([k,n])=>`<button type="button" class="rs-t${recLay===k?" on":""}" data-rl="${k}"><i>${rsThumb(thumbKey(k))}</i><span>${esc(n)}</span></button>`).join("")}</div>${recGalAll?"":`<button type="button" class="rs-nav l" data-rsnav="-1" aria-label="Anteriores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button><button type="button" class="rs-nav r" data-rsnav="1" aria-label="Próximos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>`}</div>
     <p class="rs-hint">${esc(cur[2])}</p>
     ${isStyLay()?`<label class="rs-sw"><input type="checkbox" id="recDynChk"${recDyn?" checked":""}><i></i><span>Corte dinâmico<em>Tira as pausas longas da fala</em></span></label>`:""}
     ${recLay==="st:contagem"||recLay==="st:antes"?`<p class="rs-hint">${recLay==="st:contagem"?"Data e nome do evento: você escolhe depois de gravar.":"Fotos do antes e do depois: você escolhe depois de gravar."}</p>`:""}
@@ -3988,11 +4005,13 @@ function sheetRec(target){
    </section>
    <button class="rs-go" id="recOpen"><i></i>Gravar</button>
    <p class="rs-foot">Câmera frontal no celular · webcam no computador</p></div>`;
-  try{stuSync()}catch(e){}b.scrollTop=keep;{const g=b.querySelector(".rs-gal");if(g){if(keepG!=null)g.scrollLeft=keepG;else{const o=g.querySelector(".rs-t.on");if(o)g.scrollLeft=Math.max(0,o.offsetLeft-g.clientWidth/2+o.clientWidth/2)}}}
+  try{stuSync()}catch(e){}b.scrollTop=keep;{const g=b.querySelector(".rs-gal");if(g&&!recGalAll){if(keepG!=null)g.scrollLeft=keepG;else{const o=g.querySelector(".rs-t.on");if(o)g.scrollLeft=Math.max(0,o.offsetLeft-g.clientWidth/2+o.clientWidth/2)}g.addEventListener("scroll",()=>rsNavSync(g),{passive:true});rsNavSync(g)}}
   if(recLay!=="vlegenda"&&recLay!=="pro"&&!isStyLay())(async()=>{const box=$("#recPh");if(!box)return;const list=(await idbGet(upKey()))||[];const ths=await Promise.all(list.slice(0,18).map(x=>idbGet("upth:"+x.id)));
     box.innerHTML=`<button type="button" class="recup" data-rp="new" title="Enviar foto">+<span>Enviar</span></button>`+list.slice(0,18).map((x,i)=>`<button type="button" class="recpi${recPhoto===x.id?" sel":""}" data-rp="${x.id}"><img src="${ths[i]||""}" alt=""></button>`).join("")+`<button type="button" class="recup${!recPhoto?" sel":""}" data-rp=""><span>Depois</span></button>`})();
   b.onchange=e=>{if(e.target.id==="recDynChk"){recDyn=e.target.checked}};
-  b.onclick=async e=>{const t=e.target.closest("[data-rr],[data-rl],[data-rp],[data-rbg],[data-rth],[data-rfl],#recOpen");if(!t)return;
+  b.onclick=async e=>{const t=e.target.closest("[data-rr],[data-rl],[data-rp],[data-rbg],[data-rth],[data-rfl],[data-rsall],[data-rsnav],#recOpen");if(!t)return;
+    if(t.dataset.rsall){recGalAll=!recGalAll;sheetRec();return}
+    if(t.dataset.rsnav){const g=b.querySelector(".rs-gal");if(g)g.scrollBy({left:+t.dataset.rsnav*Math.max(160,g.clientWidth*.8),behavior:"smooth"});return}
     if(t.dataset.rfl){recFlow=t.dataset.rfl;sheetRec();return}
     if(t.dataset.rth){recTheme=t.dataset.rth;sheetRec();return}
     if(t.dataset.rbg){if(t.dataset.rbg==="pick"){const fi=document.createElement("input");fi.type="file";fi.accept="image/*";fi.onchange=async()=>{const fl=fi.files[0];if(!fl)return;try{recBgSrc=await readImg(fl,1080,1920);sheetRec()}catch(err){toast("Não consegui abrir essa foto.")}};fi.click();return}
