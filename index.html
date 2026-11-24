@@ -1758,7 +1758,10 @@ function draw(ctx,st,showSel){
   if(showSel&&(safeOn||(typeof drag!=="undefined"&&drag&&drag.moved)||(typeof rsz!=="undefined"&&rsz&&rsz.moved)))drawSafe(ctx);
 }
 const cv=$("#cv"),cx=cv.getContext("2d");
-function drawMain(){showArtLabel=true;try{draw(cx,cur(),true)}finally{showArtLabel=false}}
+/* Enquanto digita numa janela (ex.: chave do robô) no celular, não redesenha o story atrás: era isso que travava o teclado */
+function typingInModal(){const m=$("#mdl");if(!m||!m.classList.contains("on")||m.classList.contains("side"))return false;const a=document.activeElement;return !!(a&&m.contains(a)&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))}
+let dmPending=false;
+function drawMain(){if(typingInModal()){if(!dmPending){dmPending=true;const go=()=>{if(typingInModal())return;document.removeEventListener("focusout",h);dmPending=false;requestAnimationFrame(()=>drawMain())},h=()=>setTimeout(go,50);document.addEventListener("focusout",h)}return}showArtLabel=true;try{draw(cx,cur(),true)}finally{showArtLabel=false}}
 const off=document.createElement("canvas");off.width=W;off.height=H;const ox=off.getContext("2d");
 function thumbInto(canvas,st){canvas.width=180;canvas.height=320;draw(ox,st,false);canvas.getContext("2d").drawImage(off,0,0,180,320)}
 (function loop(){if($("#v-editor").classList.contains("on")&&!document.hidden&&!$("#mdl").classList.contains("on")&&vLayers().some(l=>{const el=getVid(l);return el&&!el.paused}))drawMain();requestAnimationFrame(loop)})();
@@ -4224,7 +4227,7 @@ setInterval(tick,15000);
   document.addEventListener("keydown",e=>{if(!(e.ctrlKey||e.metaKey)||e.key.toLowerCase()!=="z")return;const t=document.activeElement;if(t&&(/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)||t.isContentEditable))return;if(!$("#v-editor").classList.contains("on"))return;e.preventDefault();e.shiftKey?redo():undo()});
   document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="y"&&$("#v-editor").classList.contains("on")){const t=document.activeElement;if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;e.preventDefault();redo()}});
   document.body.classList.toggle("ved",$("#v-editor").classList.contains("on"));
-  window.addEventListener("resize",()=>{if(mq.matches)requestAnimationFrame(()=>{try{drawMain()}catch(e){}})});
+  let rzT=0;window.addEventListener("resize",()=>{if(!mq.matches)return;clearTimeout(rzT);rzT=setTimeout(()=>{if($("#mdl").classList.contains("on")&&!$("#mdl").classList.contains("side"))return;try{drawMain()}catch(e){}},250)});
 })();
 
 /* App instalável: registra o service worker só no site publicado (https) */
