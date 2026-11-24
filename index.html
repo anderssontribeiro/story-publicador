@@ -4511,9 +4511,9 @@ function pnLocal(d){const log=anaLS.get(ANA_K.log,[]).filter(x=>!pnAcesso||(x.ac
     plataformas:cnt(L,x=>x.plataforma||"outro").map(o=>({k:o.k,n:o.n,instalados:L.filter(y=>(y.plataforma||"outro")===o.k&&y.instalado).length})),
     horas:Array.from({length:24},(_,h)=>({h,n:e.filter(x=>new Date(x.em).getHours()===h).length}))}}
 async function pnLoad(quiet){if(!quiet){pnBusy=true;renderPainel()}
-  try{if(pnTab==="uso"){if(pnBank()){try{pnData=await pnRpc("painel_dados",pnArgs({p_dias:pnDias,p_acesso:pnAcesso||null}));pnFonte="banco"}catch(e){pnData=pnLocal(pnDias);pnFonte="local";toast("Não consegui ler o banco: "+e.message+" Mostrando só este aparelho.")}}else{pnData=pnLocal(pnDias);pnFonte="local"}}
+  try{if(pnTab==="uso"){if(pnBank()){try{pnData=await pnRpc("painel_dados",pnArgs({p_dias:pnDias,p_acesso:pnAcesso||null}));pnFonte="banco"}catch(e){pnData=pnLocal(pnDias);pnFonte="local";if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast("Não consegui ler o banco: "+e.message+" Mostrando só este aparelho.")}}else{pnData=pnLocal(pnDias);pnFonte="local"}}
     else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="cli")pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}))}}
-  catch(e){toast(e.message)}
+  catch(e){if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast(e.message)}
   pnBusy=false;renderPainel()}
 function pnBars(list,opt={}){const L=(list||[]).filter(x=>opt.zero||x.n>0);if(!L.length||(opt.zero&&!L.some(x=>x.n>0)))return`<p class="note pnempty">Ainda sem dados.</p>`;const mx=Math.max(1,...L.map(x=>x.n)),fmt=opt.money?pnR:pnN;
   return`<div class="pnbars">${L.map(x=>`<div class="pnbar" title="${esc((opt.name?opt.name(x.k):x.k)+": "+fmt(x.n)+(x.pessoas!=null?" ("+pnN(x.pessoas)+" pessoas)":""))}"><div class="pnbl"><span>${esc(opt.name?opt.name(x.k):x.k)}</span><b>${fmt(x.n)}${opt.sub?`<i>${opt.sub(x)}</i>`:""}</b></div><div class="pnbt"><i style="width:${Math.max(2,x.n/mx*100).toFixed(1)}%"></i></div></div>`).join("")}</div>`}
@@ -4600,7 +4600,7 @@ function pnAcoesTab(){const F=pnFin;if(!F)return"";const C=F.config||{};let h=`<
      <div class="pnacts">${k.tipo==="bonus"&&k.ativa?`<button type="button" class="chipb" data-pnapl="${k.id}">🎁 Aplicar bônus agora</button>`:""}<button type="button" class="chipb" data-pnkon="${k.id}">${k.ativa?"⏸ Pausar":"▶ Ativar"}</button><button type="button" class="chipb" data-pnked="${k.id}">✏️ Editar</button></div></div>`).join("")}</div>`:`<div class="pncard"><p class="note pnempty">Nenhuma ação ainda. Comece por uma das ideias acima.</p></div>`;return h}
 function renderPainel(){const B=$("#pnBody");if(!B)return;const bank=pnBank(),D=pnData;
   let h=`<div class="pnhead"><div><h2>Painel do Story Pronto</h2><p class="note" style="margin:0">${pnBusy?"Carregando…":pnTab==="uso"&&D?(pnFonte==="banco"?`Dados de todos os usuários · ${new Date(D.gerado_em||Date.now()).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`:"Prévia: só os dados deste aparelho"):bank?"Banco ligado":"Banco não ligado"}</p></div>
-    <div class="pnper">${pnTab==="uso"?[7,30,90].map(d=>`<button type="button" class="chipb${pnDias===d?" on":""}" data-pnd="${d}">${d} dias</button>`).join(""):""}<button type="button" class="chipb" data-pnr="1" aria-label="Atualizar">⟳</button></div></div>
+    <div class="pnper">${pnTab==="uso"?[7,30,90].map(d=>`<button type="button" class="chipb${pnDias===d?" on":""}" data-pnd="${d}">${d} dias</button>`).join(""):""}<button type="button" class="chipb" data-pnr="1" aria-label="Atualizar">⟳</button>${bank?`<button type="button" class="chipb" data-pnkey="1" title="Trocar a chave do painel">🔑</button>`:""}</div></div>
    <div class="pnnav">${[["uso","📊 Uso"],["fin","💰 Faturamento"],["cli","👥 Clientes"],["acoes","🎁 Ações e cashback"]].map(([k,n])=>`<button type="button" class="${pnTab===k?"on":""}" data-pntab="${k}">${n}</button>`).join("")}</div>`;
   if(!bank)h+=pnSetup();
   if(!anaOk()&&pnTab==="uso")h+=`<div class="pncard"><p class="note" style="margin:0">Este aparelho ainda não está enviando dados de uso. <button class="linkbtn" data-pnpriv="1">Ver aviso de privacidade</button></p></div>`;
@@ -4625,12 +4625,13 @@ setInterval(()=>{const v=$("#v-painel");if(v&&v.classList.contains("on")&&pnTab=
 
 function pnFormVals(id){const o={};document.querySelectorAll(`#${id} [name]`).forEach(i=>o[i.name]=i.value.trim());return o}
 async function pnDo(fn,args,okMsg,reload=true){try{const r=await pnRpc(fn,pnArgs(args));if(okMsg)toast(typeof okMsg==="function"?okMsg(r):okMsg);pnForm=null;if(reload)await pnLoad();return r}catch(e){toast(e.message);return null}}
-document.addEventListener("click",async e=>{const b=e.target.closest("[data-pnd],[data-pnr],[data-pngeo],#pnSave,[data-pnpriv],[data-pntab],[data-pnac],[data-pnest],[data-pnbusca],[data-pnnovo],[data-pnfx],[data-pncsave],[data-pnfp],[data-pnfc],[data-pnedit],[data-pnpag],[data-pncred],[data-pncfg],[data-pnideia],[data-pnkn],[data-pnksave],[data-pnapl],[data-pnkon],[data-pnked]");if(!b||!$("#v-painel")||!b.closest("#v-painel"))return;
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-pnd],[data-pnr],[data-pnkey],[data-pngeo],#pnSave,[data-pnpriv],[data-pntab],[data-pnac],[data-pnest],[data-pnbusca],[data-pnnovo],[data-pnfx],[data-pncsave],[data-pnfp],[data-pnfc],[data-pnedit],[data-pnpag],[data-pncred],[data-pncfg],[data-pnideia],[data-pnkn],[data-pnksave],[data-pnapl],[data-pnkon],[data-pnked]");if(!b||!$("#v-painel")||!b.closest("#v-painel"))return;
   const d=b.dataset;
   if(d.pntab){pnTab=d.pntab;pnForm=null;pnLoad();return}
   if(d.pnd){pnDias=+d.pnd;pnLoad();return}
   if(d.pnac!=null){pnAcesso=d.pnac;pnLoad();return}
   if(d.pnr){pnLoad();return}
+  if(d.pnkey){anaLS.set(PN_K.chave,"");pnData=null;renderPainel();toast("Digite a chave do painel de novo.");return}
   if(d.pngeo){pnGeo=d.pngeo;renderPainel();return}
   if(d.pnpriv){lgpdAsk(true);return}
   if(d.pnfx){pnForm=null;renderPainel();return}
