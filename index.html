@@ -3933,19 +3933,19 @@ const HC_HEART=new Path2D("M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.6 1
 const HC_COM=[["madrinhas","Que casal lindo! Felicidades"],["familia.da.noiva","Chorando aqui de emoção"],["padrinhos","O pôr do sol caprichou hoje"],["amigos.do.noivo","Já quero a festa!"],["tia.querida","Que festa linda!"]];
 function drawWedding(ctx,l,el,t,st,m,cap){const k=m.style,Q=hcInfo(m),serif='"Playfair Display",Georgia,serif',sans='"Montserrat",sans-serif';
   if(k==="hcpolaroid"){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#f7f1e8");g.addColorStop(1,HC.sand2);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-    hcTxt(ctx,"WEDDING  "+Q.mono,540,205,`500 30px ${sans}`,HC.gold,12);
-    hcWave(ctx,1535,420,22,1.3,2.2+t*.35,HC.foam,.55);hcWave(ctx,1620,340,20,1.7,.3+t*.25,HC.sea,.95);
-    ctx.save();ctx.translate(540,850);ctx.rotate(-2.5*Math.PI/180);const pw=780,ph=975,p=pw*.06,cw=pw+2*p,ch=ph+p+p*3.6;
+    hcTxt(ctx,"WEDDING  "+Q.mono,540,150,`500 30px ${sans}`,HC.gold,12);
+    hcWave(ctx,1590,380,22,1.3,2.2+t*.35,HC.foam,.55);hcWave(ctx,1670,300,20,1.7,.3+t*.25,HC.sea,.95);
+    ctx.save();ctx.translate(540,905);ctx.rotate(-2.5*Math.PI/180);const pw=920,ph=1180,p=40,cw=pw+2*p,ch=ph+p+130;
     ctx.save();ctx.shadowColor="rgba(29,59,63,.28)";ctx.shadowBlur=40;ctx.shadowOffsetY=14;ctx.fillStyle="#ffffff";ctx.fillRect(-cw/2,-ch/2,cw,ch);ctx.restore();
     stVid(ctx,el,l,-pw/2,-ch/2+p,pw,ph,1);
-    hcTxt(ctx,Q.n+(Q.dm?" · "+Q.dm:""),0,-ch/2+p+ph+p*1.8,`700 62px "Caveat",cursive`,HC.ink,0,{max:cw-60,size:62,min:36});ctx.restore();
-    hcTxt(ctx,[Q.l.toUpperCase(),Q.d].filter(Boolean).join("  ·  "),540,1822,`500 38px ${sans}`,HC.ivory,7,{max:980,size:38,min:24})}
+    hcTxt(ctx,Q.n+(Q.dm?" · "+Q.dm:""),0,-ch/2+p+ph+65,`700 62px "Caveat",cursive`,HC.ink,0,{max:cw-60,size:62,min:36});ctx.restore();
+    hcTxt(ctx,[Q.l.toUpperCase(),Q.d].filter(Boolean).join("  ·  "),540,1835,`500 36px ${sans}`,HC.ivory,7,{max:980,size:36,min:24})}
   else if(k==="hcano"){stVid(ctx,el,l,0,0,W,H,1);const g=ctx.createLinearGradient(0,980,0,H);g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.42,"rgba(255,255,255,.78)");g.addColorStop(1,"rgba(255,255,255,1)");ctx.fillStyle=g;ctx.fillRect(0,980,W,H-980);
     hcTxt(ctx,[Q.l.toUpperCase(),Q.d].filter(Boolean).join("  ·  "),540,1250,`500 28px ${sans}`,"#8f7650",8,{max:980,size:28,min:20});
     hcTxt(ctx,"CASAMENTO",540,1375,`700 150px ${serif}`,HC.gold,4,{max:1020,size:150,min:90});hcTxt(ctx,"DO ANO",540,1520,`700 150px ${serif}`,HC.gold,6);
     hcTxt(ctx,Q.e,540,1650,`italic 700 66px ${serif}`,HC.gold2,0,{max:980,size:66,min:40})}
-  else if(k==="hcareia"){stVid(ctx,el,l,0,0,W,H,1);hcWave(ctx,1215,720,24,1.1,t*.3,HC.sea,.5);hcWave(ctx,1305,640,20,1.5,1.6+t*.22,HC.sand,1);hcLine(ctx,540,1352,1080,9,2.4,HC.gold,3);
-    hcTxt(ctx,"WEDDING",540,1445,`500 30px ${sans}`,HC.gold,12);hcTxt(ctx,Q.n,540,1555,`italic 700 116px ${serif}`,HC.ink,0,{max:1000,size:116,min:64});hcTxt(ctx,Q.d,540,1665,`500 32px ${sans}`,HC.ink,8)}
+  else if(k==="hcareia"){stVid(ctx,el,l,0,0,W,H,1);hcWave(ctx,1420,520,22,1.1,t*.3,HC.sea,.5);hcWave(ctx,1470,470,18,1.5,1.6+t*.22,HC.sand,1);hcLine(ctx,540,1512,1080,8,2.4,HC.gold,3);
+    hcTxt(ctx,"WEDDING",540,1578,`500 26px ${sans}`,HC.gold,11);hcTxt(ctx,Q.n,540,1662,`italic 700 92px ${serif}`,HC.ink,0,{max:980,size:92,min:56});hcTxt(ctx,Q.d,540,1748,`500 28px ${sans}`,HC.ink,8)}
   else if(k==="hclive"){stVid(ctx,el,l,0,0,W,H,1);
     {const g=ctx.createLinearGradient(0,0,0,500);g.addColorStop(0,"rgba(0,0,0,.6)");g.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=g;ctx.fillRect(0,0,W,500)}
     {const g=ctx.createLinearGradient(0,1140,0,H);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,"rgba(0,0,0,.78)");ctx.fillStyle=g;ctx.fillRect(0,1140,W,H-1140)}
@@ -5084,19 +5084,19 @@ function evtStory(tpl,bg,layers){layers.forEach(l=>{if(l.evMedia&&!l.src){l.src=
 function evtStories(E){const C=EVC,lab=(y,t,c,o)=>T(Object.assign({y,text:t,font:"Montserrat",size:30,weight:500,color:c,ls:12,shadow:false},o||{}));
   const a=evtStory("evt_chegada",{c1:C.deep,c2:C.deep},[
     I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
-    SH({kind:"wave",x:540,y:1575,w:1200,h:720,color:C.sea,op:.5,amp:24,n:1.1,ph:0}),
-    SH({kind:"wave",x:540,y:1625,w:1200,h:640,color:C.sand,op:1,amp:20,n:1.5,ph:1.6}),
-    SH({kind:"waveline",x:540,y:1352,w:1080,h:30,color:C.gold,stroke:3,amp:9,n:2.4,ph:.4,fill:false}),
-    lab(1445,"WEDDING",C.gold),
-    T({y:1555,text:E.nome,font:"Playfair Display",italic:true,size:116,weight:700,color:C.ink,shadow:false,maxW:1000}),
-    lab(1665,E.data,C.ink,{size:32,ls:8})]);
+    SH({kind:"wave",x:540,y:1680,w:1200,h:520,color:C.sea,op:.5,amp:22,n:1.1,ph:0}),
+    SH({kind:"wave",x:540,y:1705,w:1200,h:470,color:C.sand,op:1,amp:18,n:1.5,ph:1.6}),
+    SH({kind:"waveline",x:540,y:1512,w:1080,h:26,color:C.gold,stroke:3,amp:8,n:2.4,ph:.4,fill:false}),
+    lab(1578,"WEDDING",C.gold,{size:26,ls:11}),
+    T({y:1662,text:E.nome,font:"Playfair Display",italic:true,size:92,weight:700,color:C.ink,shadow:false,maxW:980}),
+    lab(1748,E.data,C.ink,{size:28,ls:8})]);
   const b=evtStory("evt_polaroid",{type:"gradient",c1:"#f7f1e8",c2:C.sand2},[
-    lab(205,"WEDDING  "+E.mono,C.gold),
-    SH({kind:"wave",x:540,y:1745,w:1200,h:420,color:C.foam,op:.55,amp:22,n:1.3,ph:2.2}),
-    SH({kind:"wave",x:540,y:1790,w:1200,h:340,color:C.sea,op:.95,amp:20,n:1.7,ph:.3}),
-    I({x:540,y:850,w:780,ratio:"4:5",shape:"polaroid",bcolor:"#ffffff",fshadow:true,rot:-2.5,evMedia:true}),
-    T({x:562,y:1368,rot:-2.5,text:E.nome+" · "+E.data.replace(/ · 20\d\d$/,"").replace(/ · /g,"."),font:"Caveat",size:62,weight:700,color:C.ink,shadow:false,maxW:740}),
-    lab(1822,E.lugar.toUpperCase()+"  ·  "+E.data,C.ivory,{size:38,ls:7,weight:500})]);
+    lab(150,"WEDDING  "+E.mono,C.gold),
+    SH({kind:"wave",x:540,y:1780,w:1200,h:380,color:C.foam,op:.55,amp:22,n:1.3,ph:2.2}),
+    SH({kind:"wave",x:540,y:1820,w:1200,h:300,color:C.sea,op:.95,amp:20,n:1.7,ph:.3}),
+    I({x:540,y:890,w:880,ratio:"3:4",shape:"polaroid",bcolor:"#ffffff",fshadow:true,rot:-2.5,evMedia:true}),
+    T({x:567,y:1503,rot:-2.5,text:E.nome+" · "+E.data.replace(/ · 20\d\d$/,"").replace(/ · /g,"."),font:"Caveat",size:62,weight:700,color:C.ink,shadow:false,maxW:740}),
+    lab(1835,E.lugar.toUpperCase()+"  ·  "+E.data,C.ivory,{size:36,ls:7,weight:500})]);
   const c=evtStory("evt_ano",{c1:"#ffffff",c2:"#ffffff"},[
     I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
     SH({kind:"fade",x:540,y:1450,w:1080,h:940,color:"#ffffff",mid:.42}),
