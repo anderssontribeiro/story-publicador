@@ -3940,10 +3940,10 @@ function drawWedding(ctx,l,el,t,st,m,cap){const k=m.style,Q=hcInfo(m),serif='"Pl
     stVid(ctx,el,l,-pw/2,-ch/2+p,pw,ph,1);
     hcTxt(ctx,Q.n+(Q.dm?" · "+Q.dm:""),0,-ch/2+p+ph+65,`700 62px "Caveat",cursive`,HC.ink,0,{max:cw-60,size:62,min:36});ctx.restore();
     hcTxt(ctx,[Q.l.toUpperCase(),Q.d].filter(Boolean).join("  ·  "),540,1835,`500 36px ${sans}`,HC.ivory,7,{max:980,size:36,min:24})}
-  else if(k==="hcano"){stVid(ctx,el,l,0,0,W,H,1);const g=ctx.createLinearGradient(0,980,0,H);g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.42,"rgba(255,255,255,.78)");g.addColorStop(1,"rgba(255,255,255,1)");ctx.fillStyle=g;ctx.fillRect(0,980,W,H-980);
-    hcTxt(ctx,[Q.l.toUpperCase(),Q.d].filter(Boolean).join("  ·  "),540,1250,`500 28px ${sans}`,"#8f7650",8,{max:980,size:28,min:20});
-    hcTxt(ctx,"CASAMENTO",540,1375,`700 150px ${serif}`,HC.gold,4,{max:1020,size:150,min:90});hcTxt(ctx,"DO ANO",540,1520,`700 150px ${serif}`,HC.gold,6);
-    hcTxt(ctx,Q.e,540,1650,`italic 700 66px ${serif}`,HC.gold2,0,{max:980,size:66,min:40})}
+  else if(k==="hcano"){stVid(ctx,el,l,0,0,W,H,1);const g=ctx.createLinearGradient(0,1250,0,H);g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.4,"rgba(255,255,255,.8)");g.addColorStop(1,"rgba(255,255,255,1)");ctx.fillStyle=g;ctx.fillRect(0,1250,W,H-1250);
+    hcTxt(ctx,[Q.l.toUpperCase(),Q.d].filter(Boolean).join("  ·  "),540,1472,`500 24px ${sans}`,"#8f7650",7,{max:960,size:24,min:18});
+    hcTxt(ctx,"CASAMENTO",540,1562,`700 108px ${serif}`,HC.gold,3,{max:960,size:108,min:70});hcTxt(ctx,"DO ANO",540,1668,`700 108px ${serif}`,HC.gold,5);
+    hcTxt(ctx,Q.e,540,1762,`italic 700 50px ${serif}`,HC.gold2,0,{max:960,size:50,min:34})}
   else if(k==="hcareia"){stVid(ctx,el,l,0,0,W,H,1);hcWave(ctx,1420,520,22,1.1,t*.3,HC.sea,.5);hcWave(ctx,1470,470,18,1.5,1.6+t*.22,HC.sand,1);hcLine(ctx,540,1512,1080,8,2.4,HC.gold,3);
     hcTxt(ctx,"WEDDING",540,1578,`500 26px ${sans}`,HC.gold,11);hcTxt(ctx,Q.n,540,1662,`italic 700 92px ${serif}`,HC.ink,0,{max:980,size:92,min:56});hcTxt(ctx,Q.d,540,1748,`500 28px ${sans}`,HC.ink,8)}
   else if(k==="hclive"){stVid(ctx,el,l,0,0,W,H,1);
@@ -5099,11 +5099,11 @@ function evtStories(E){const C=EVC,lab=(y,t,c,o)=>T(Object.assign({y,text:t,font
     lab(1835,E.lugar.toUpperCase()+"  ·  "+E.data,C.ivory,{size:36,ls:7,weight:500})]);
   const c=evtStory("evt_ano",{c1:"#ffffff",c2:"#ffffff"},[
     I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
-    SH({kind:"fade",x:540,y:1450,w:1080,h:940,color:"#ffffff",mid:.42}),
-    lab(1250,E.lugar.toUpperCase()+"  ·  "+E.data,"#8f7650",{size:28,ls:8}),
-    T({y:1375,text:"CASAMENTO",font:"Playfair Display",size:150,weight:700,color:C.gold,ls:4,shadow:false,maxW:1040}),
-    T({y:1520,text:"DO ANO",font:"Playfair Display",size:150,weight:700,color:C.gold,ls:6,shadow:false,maxW:1040}),
-    T({y:1650,text:E.nome.replace(" & "," e "),font:"Playfair Display",italic:true,size:66,weight:700,color:"#8a6a3c",shadow:false})]);
+    SH({kind:"fade",x:540,y:1585,w:1080,h:670,color:"#ffffff",mid:.4}),
+    lab(1472,E.lugar.toUpperCase()+"  ·  "+E.data,"#8f7650",{size:24,ls:7}),
+    T({y:1562,text:"CASAMENTO",font:"Playfair Display",size:108,weight:700,color:C.gold,ls:3,shadow:false,maxW:1040}),
+    T({y:1668,text:"DO ANO",font:"Playfair Display",size:108,weight:700,color:C.gold,ls:5,shadow:false,maxW:1040}),
+    T({y:1762,text:E.nome.replace(" & "," e "),font:"Playfair Display",italic:true,size:50,weight:700,color:"#8a6a3c",shadow:false})]);
   const EYE="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z M12 9a3 3 0 1 0 0.01 0z",HEART="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.6 1.1 5.2 3 1.6-1.9 3.2-3 5.2-3 3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z";
   const wt=(x,y,t,o)=>T(Object.assign({x,y,text:t,anchor:"left",align:"left",font:"Montserrat",size:30,weight:500,color:"#ffffff",shadow:true,maxW:760},o||{}));
   const com=(y,h,m,cor)=>[SH({kind:"ellipse",x:96,y:y+18,w:52,h:52,color:cor,fill:true}),wt(140,y,h,{size:25,weight:800,shadow:true}),wt(140,y+38,m,{size:31})];
