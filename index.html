@@ -775,6 +775,10 @@ header .clock,header #who{display:none!important}
 .fmtr{width:22px;flex:0 0 22px;border:2px solid var(--mut);border-radius:4px;max-height:38px}
 .fmtl{display:flex;flex-wrap:wrap;gap:6px}
 .fmtb{border:1px solid var(--line);background:none;color:var(--tx);border-radius:999px;padding:7px 12px;font:inherit;font-size:12.5px;cursor:pointer}
+.shl{display:flex;flex-direction:column;gap:6px}.shl>b{font-size:13px}
+.shb{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:#ffffff06;color:var(--tx);border-radius:12px;padding:11px 14px;font:inherit;font-size:14px;cursor:pointer}
+#mdlBox .shb{display:flex;flex-direction:row;justify-content:space-between;text-align:left;width:100%;min-height:0}
+.shb i{font-style:normal;font-size:12px;font-weight:700;color:var(--ac)}.shb.ok{border-color:#3ddc97;background:#3ddc9714}.shb.ok i{color:#3ddc97}
 .fmtb.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#111;border-color:transparent;font-weight:700}
 
 /* ===== Início ===== */
@@ -2998,23 +3002,27 @@ function ghModal(){sideOff();
 }
 function syncBot(){const b=$("#bBot");if(!b)return;b.style.display=isAdmin()?"":"none";b.textContent=ghOk()?"Robô ✓":"Robô"}
 let expSt=null;
-const isStoryOut=()=>expFmt.id==="v"&&expPlat==="Story do Instagram";
+const isStoryOut=()=>expFmt.id==="v"&&expPlats.includes("Story do Instagram");
+const otherPlats=()=>expPlats.filter(n=>!(expFmt.id==="v"&&n==="Story do Instagram"));
 function canShareFile(blob,fname){try{return !!(navigator.canShare&&navigator.canShare({files:[new File([blob],fname,{type:blob.type})]}))}catch(e){return false}}
 function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();
   const st=expSt,ext=fname.split(".").pop();
   const when=/(^|__)agora/.test(fname)?"assim que o robô rodar (em até 10 minutos)":"no horário agendado";
-  $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">${expFmt.id==="v"&&expPlat==="Story do Instagram"?"Story pronto":"Pronto para "+esc(expPlat)} (${expFmt.w}×${expFmt.h})</h3>${mediaHtml}${extra}
-   ${canShareFile(blob,fname)?`<button class="btn pri" id="shr">Compartilhar no app (${esc(expPlat)})</button>`:""}
-   ${isAdmin()&&st&&expPlat==="Story do Instagram"?(ghOk()?`<button class="btn pri" id="ghSend">Publicar no Instagram</button>`:`<button class="btn" id="ghSetup">Ligar o robô para enviar direto, sem abrir o GitHub</button>`):""}
+  $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">${expPlats.length>1?`Pronto para ${expPlats.length} redes`:expFmt.id==="v"&&expPlat==="Story do Instagram"?"Story pronto":"Pronto para "+esc(expPlat)} (${expFmt.w}×${expFmt.h})</h3>${mediaHtml}${extra}
+   ${otherPlats().length?`<div class="shl"><b>${canShareFile(blob,fname)?"Toque em cada rede para enviar":"Poste este arquivo em"}</b>${otherPlats().map((n,i)=>`<button type="button" class="shb" data-shr="${i}"><span>${esc(n)}</span><i>${canShareFile(blob,fname)?"Compartilhar":"Marcar como feito"}</i></button>`).join("")}</div>`:""}
+   ${isAdmin()&&st&&isStoryOut()?(ghOk()?`<button class="btn pri" id="ghSend">Publicar no Instagram</button>`:`<button class="btn" id="ghSetup">Ligar o robô para enviar direto, sem abrir o GitHub</button>`):""}
    ${canSave()?`<button class="btn${isAdmin()&&ghOk()?"":" pri"}" id="sv">Baixar arquivo</button>`:`<p class="note" style="margin:0">Toque e segure para salvar. Para baixar o arquivo, abra o HTML direto no navegador.</p>`}
    ${isAdmin()&&st&&isStoryOut()?`<div class="fld"><label for="mConta">Publicar na conta</label><select id="mConta" style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px">${IG_CONTAS.map(c=>`<option value="${c}"${c===contaDe(st)?" selected":""}>@${c}</option>`).join("")}</select></div>`:""}
-   ${!isStoryOut()?`<div class="callout" style="align-items:stretch"><b>Como postar em ${esc(expPlat)}</b><span>Toque em <b>Compartilhar no app</b> e escolha ${esc(expPlat)}. Ou baixe o arquivo e envie pelo app da rede.</span></div>`:isAdmin()?`<div class="callout" style="align-items:stretch"><b>Para publicar sozinho no Instagram</b><span>${isAdmin()&&ghOk()?"Clique em <b>Publicar no Instagram</b>. Ele publica":"Suba o arquivo baixado na pasta <b>fila</b> do seu robô no GitHub. Ele publica"} ${when}<span id="mContaTxt">${isAdmin()&&st?` em <b>@${contaDe(st)}</b>`:""}</span>.</span><span class="note" style="color:inherit">Nome do arquivo: <code id="mFname">${esc(fname)}</code></span></div>`:`<div class="callout" style="align-items:stretch"><b>Publicação automática</b><span>Na versão por assinatura, o Story Pronto publica sozinho no seu Instagram no horário agendado. Aqui no teste, baixe o arquivo e poste pelo app do Instagram.</span></div>`}
+   ${otherPlats().length?`<p class="note" style="margin:0">Ao tocar numa rede, o Android abre a lista de apps: escolha o app dessa rede. Cada envio fica marcado ✓.</p>`:""}${!isStoryOut()?"":isAdmin()?`<div class="callout" style="align-items:stretch"><b>Para publicar sozinho no Instagram</b><span>${isAdmin()&&ghOk()?"Clique em <b>Publicar no Instagram</b>. Ele publica":"Suba o arquivo baixado na pasta <b>fila</b> do seu robô no GitHub. Ele publica"} ${when}<span id="mContaTxt">${isAdmin()&&st?` em <b>@${contaDe(st)}</b>`:""}</span>.</span><span class="note" style="color:inherit">Nome do arquivo: <code id="mFname">${esc(fname)}</code></span></div>`:`<div class="callout" style="align-items:stretch"><b>Publicação automática</b><span>Na versão por assinatura, o Story Pronto publica sozinho no seu Instagram no horário agendado. Aqui no teste, baixe o arquivo e poste pelo app do Instagram.</span></div>`}
    <div class="row"><button class="btn" id="cls">Fechar</button></div>`;
   $("#mdl").classList.add("on");
   $("#cls").onclick=closeModal;
   if($("#mConta"))$("#mConta").onchange=e=>{st.conta=e.target.value;S.lastConta=st.conta;save();fname=queueName(st,ext);$("#mFname").textContent=fname;$("#mContaTxt").innerHTML=` em <b>@${esc(st.conta)}</b>`};
   if($("#sv"))$("#sv").onclick=()=>saveFile(fname,blob);
-  if($("#shr"))$("#shr").onclick=async()=>{try{await navigator.share({files:[new File([blob],fname,{type:blob.type})],title:"Story Pronto"});try{anaEv("compartilhar",expPlat)}catch(e){}}catch(e){if(e&&e.name!=="AbortError")toast("Não consegui abrir o compartilhamento. Use Baixar arquivo e poste pelo app.")}};
+  const shOk=canShareFile(blob,fname),ops=otherPlats();
+  $("#mdlBox").querySelectorAll("[data-shr]").forEach(b=>b.onclick=async()=>{const n=ops[+b.dataset.shr];const done=()=>{b.classList.add("ok");b.querySelector("i").textContent="Enviado ✓"};
+    if(!shOk){done();return}
+    try{await navigator.share({files:[new File([blob],fname,{type:blob.type})],title:"Story Pronto"});done();try{anaEv("compartilhar",n)}catch(e){}}catch(e){if(e&&e.name!=="AbortError")toast("Não consegui abrir o compartilhamento. Use Baixar arquivo e poste pelo app.")}});
   if($("#ghSetup"))$("#ghSetup").onclick=()=>ghModal();
   if($("#ghSend"))$("#ghSend").onclick=async()=>{
     if(!/\.(jpe?g|mp4|mov)$/i.test(fname)){toast("O Instagram só aceita JPG ou MP4 pela API. Este navegador gerou "+ext.toUpperCase()+": use o Chrome ou o Edge para exportar vídeo em MP4.");return}
@@ -3026,24 +3034,29 @@ function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();
 function closeModal(){if(recording)return;$("#mdl").classList.remove("on");const v=$("#mdlBox video");if(v)v.pause()}
 /* ---------- formatos para outras plataformas ---------- */
 const FMTS=[
- {id:"v",w:1080,h:1920,n:"Vertical 9:16",d:"O mesmo vídeo serve para todas, sem cortar nada",pl:[["Story do Instagram",60,"Até 60 s por story. Acima disso o Instagram divide em partes."],["Reels",180,"Até 3 min para aparecer como Reels."],["TikTok",600,"Até 10 min."],["YouTube Shorts",180,"Até 3 min para contar como Shorts."],["Status do WhatsApp",60,"Até 60 s (em alguns aparelhos, 90 s). Acima disso o WhatsApp corta."],["Kwai",0,"Público forte no Norte e Nordeste. Vídeo real, feito no celular, funciona melhor."],["Facebook Reels",90,"Até 90 s quando publicado por ferramenta de agendamento."]]},
+ {id:"v",w:1080,h:1920,n:"Vertical 9:16",d:"O mesmo vídeo serve para todas, sem cortar nada",pl:[["Story do Instagram",60,"Até 60 s por story. Acima disso o Instagram divide em partes."],["Reels",180,"Até 3 min para aparecer como Reels."],["TikTok",600,"Até 10 min."],["YouTube Shorts",180,"Até 3 min para contar como Shorts."],["Status do WhatsApp",60,"Até 60 s (em alguns aparelhos, 90 s). Acima disso o WhatsApp corta."],["Kwai",0,"Público forte no Norte e Nordeste. Vídeo real, feito no celular, funciona melhor."],["Facebook Reels",90,"Até 90 s quando publicado por ferramenta de agendamento."],["LinkedIn",0,"O LinkedIn aceita vídeo vertical, mas no feed do computador ele aparece cortado. Para o feed, o 4:5 fica melhor."]]},
  {id:"f",w:1080,h:1350,n:"Feed 4:5",d:"Seu story inteiro no centro, com o fundo desfocado nas laterais",pl:[["Feed do Instagram",0,""],["Facebook",0,""],["LinkedIn",0,""],["Threads",0,""]]},
  {id:"q",w:1080,h:1080,n:"Quadrado 1:1",d:"Bom para grupos, anúncios e LinkedIn",pl:[["Grupos de WhatsApp",0,""],["Anúncios",0,""],["LinkedIn",0,""]]}];
-let expFmt=FMTS[0],expPlat="Story do Instagram",fmtCv=null;
+let expFmt=FMTS[0],expPlat="Story do Instagram",expPlats=["Story do Instagram"],fmtCv=null;
 function drawOut(rx,st){if(expFmt.id==="v"){draw(rx,st,false);return}
   if(!fmtCv){fmtCv=document.createElement("canvas");fmtCv.width=W;fmtCv.height=H}const fx=fmtCv.getContext("2d");draw(fx,st,false);
   const ow=expFmt.w,oh=expFmt.h;rx.save();rx.fillStyle="#000";rx.fillRect(0,0,ow,oh);
   const cs=Math.max(ow/W,oh/H),cw=W*cs,ch=H*cs;try{rx.filter="blur(40px) brightness(.55)"}catch(e){}rx.drawImage(fmtCv,(ow-cw)/2,(oh-ch)/2,cw,ch);rx.filter="none";
   if(!("filter" in rx)){rx.fillStyle="#000a";rx.fillRect(0,0,ow,oh)}
   const fs=oh/H,fw=W*fs;rx.shadowColor="#0009";rx.shadowBlur=30;rx.drawImage(fmtCv,(ow-fw)/2,0,fw,oh);rx.restore()}
-function fmtName(st,ext){const p=expPlat.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return `storypronto_${p}_${st.id.slice(0,4)}.${ext}`}
+function fmtName(st,ext){const p=(expPlats.length>1?expFmt.n:expPlat).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return `storypronto_${p}_${st.id.slice(0,4)}.${ext}`}
 function pickFormat(st,go){sideOff();const isV=!!vLayer(st);
   $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">Onde você vai postar?</h3><p class="note" style="margin:0">O Story Pronto ajusta o tamanho para cada rede.</p>
-   <div class="fmt">${FMTS.map(F=>`<div class="fmtg"><div class="fmth"><span class="fmtr" style="height:${Math.round(22*F.h/F.w)}px"></span><div><b>${F.n}</b><span>${F.w}×${F.h} · ${F.d}</span></div></div><div class="fmtl">${F.pl.map(([n])=>`<button type="button" class="fmtb${n===expPlat?" on":""}" data-fmt="${F.id}" data-pl="${esc(n)}">${esc(n)}</button>`).join("")}</div></div>`).join("")}</div>
+   <div class="fmt">${FMTS.map(F=>`<div class="fmtg"><div class="fmth"><span class="fmtr" style="height:${Math.round(22*F.h/F.w)}px"></span><div><b>${F.n}</b><span>${F.w}×${F.h} · ${F.d}</span></div></div><div class="fmtl">${F.pl.map(([n])=>`<button type="button" class="fmtb${F.id===expFmt.id&&expPlats.includes(n)?" on":""}" data-fmt="${F.id}" data-pl="${esc(n)}">${esc(n)}</button>`).join("")}</div></div>`).join("")}</div><p class="note" id="fmtN" style="margin:0"></p>
    <div class="row"><button class="btn" id="fmtX">Cancelar</button><button class="btn pri" id="fmtGo">${isV?"Gerar vídeo":"Gerar imagem"}</button></div>`;
-  $("#mdl").classList.add("on");let F=expFmt,P=expPlat;
-  $("#mdlBox").querySelectorAll("[data-fmt]").forEach(b=>b.onclick=()=>{$("#mdlBox").querySelectorAll(".fmtb").forEach(x=>x.classList.remove("on"));b.classList.add("on");F=FMTS.find(x=>x.id===b.dataset.fmt);P=b.dataset.pl});
-  $("#fmtX").onclick=closeModal;$("#fmtGo").onclick=()=>{expFmt=F;expPlat=P;try{anaEv("formato",P)}catch(e){}go()}}
+  $("#mdl").classList.add("on");let F=expFmt,P=expPlats.slice();
+  const paint=()=>{$("#mdlBox").querySelectorAll(".fmtb").forEach(x=>x.classList.toggle("on",x.dataset.fmt===F.id&&P.includes(x.dataset.pl)));
+    $("#fmtN").textContent=P.length>1?`${P.length} redes marcadas · um só arquivo ${F.n} para todas`:"Toque em mais redes do mesmo formato para postar em várias de uma vez.";
+    $("#fmtGo").textContent=(isV?"Gerar vídeo":"Gerar imagem")+(P.length>1?` para ${P.length} redes`:"")};
+  $("#mdlBox").querySelectorAll("[data-fmt]").forEach(b=>b.onclick=()=>{const nf=FMTS.find(x=>x.id===b.dataset.fmt),pl=b.dataset.pl;
+    if(nf.id!==F.id){F=nf;P=[pl]}else if(P.includes(pl)){if(P.length>1)P=P.filter(x=>x!==pl)}else P.push(pl);paint()});
+  paint();
+  $("#fmtX").onclick=closeModal;$("#fmtGo").onclick=()=>{expFmt=F;expPlats=P.slice();expPlat=P[0];try{anaEv("formato",P.join(", "))}catch(e){}go()}}
 function exportPng(st){expSt=st;
   let cv=off,cx=ox;if(expFmt.id!=="v"){cv=document.createElement("canvas");cv.width=expFmt.w;cv.height=expFmt.h;cx=cv.getContext("2d")}drawOut(cx,st);const url=cv.toDataURL("image/jpeg",0.92);
   cv.toBlob(blob=>modalResult(`<img src="${url}" alt="Story exportado">`,blob,expFmt.id==="v"?queueName(st,"jpg"):fmtName(st,"jpg"),payloadOf(st,false)),"image/jpeg",0.92);
@@ -3051,7 +3064,9 @@ function exportPng(st){expSt=st;
 function pickMime(){if(typeof MediaRecorder==="undefined")return null;
   const c=["video/mp4;codecs=avc1.42E01E,mp4a.40.2","video/mp4;codecs=avc1,mp4a","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
   return c.find(m=>{try{return MediaRecorder.isTypeSupported(m)}catch(e){return false}})||null}
-function fmtTip(len){const F=expFmt,pl=F.pl.find(x=>x[0]===expPlat);if(!pl)return"";const[n,max,t]=pl;const over=max&&len>max+0.5;return t||over?`<div class="${over?"warn":"note"}" style="margin:0">${over?`Seu vídeo tem ${Math.round(len)} s e o limite em ${esc(n)} é ${max>=60?(max/60).toString().replace(".",",")+" min":max+" s"}. `:""}${esc(t)}</div>`:""}
+function fmtTip(len){const F=expFmt,ls=expPlats.map(n=>F.pl.find(x=>x[0]===n)).filter(Boolean);const fm=m=>m>=60?(m/60).toString().replace(".",",")+" min":m+" s";
+  const over=ls.filter(([,m])=>m&&len>m+0.5);if(over.length)return `<div class="warn" style="margin:0">Seu vídeo tem ${Math.round(len)} s. Passa do limite em: ${over.map(([n,m])=>`<b>${esc(n)}</b> (${fm(m)})`).join(", ")}.</div>`;
+  return ls.length===1&&ls[0][2]?`<div class="note" style="margin:0">${esc(ls[0][2])}</div>`:""}
 async function exportVideo(st){expSt=st;
   const l=vLayer(st),el=getVid(l);
   const vp=videoProblem(st);if(vp){toast(vp);return}
