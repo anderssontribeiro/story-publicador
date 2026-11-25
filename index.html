@@ -4410,7 +4410,7 @@ function drawUninter(ctx,l,el,t,st,m,cap){const k=m.style,sans='"Montserrat",san
     {const b=unE(t,2.2,.9);if(b>0&&b<1){ctx.save();ctx.globalCompositeOperation="lighter";for(let i=0;i<60;i++){const a=unH(i)*Math.PI*2,v=80+unH(i+7)*380,x=540+Math.cos(a)*v*b,y=1360+Math.sin(a)*v*b*.7+90*b*b;ctx.fillStyle=`rgba(255,${200+Math.floor(unH(i+3)*55)},120,${(1-b)*.9})`;ctx.fillRect(x,y,4,4)}ctx.restore()}}
     {const u=unE(t,2.7,.7);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"Que 2027 seja o ano de tirar",540,1540,`500 34px ${sans}`,"#fff",0,{shadow:"rgba(0,0,0,.6)",blur:10});hcTxt(ctx,"os seus planos do papel.",540,1586,`500 34px ${sans}`,"#fff",0,{shadow:"rgba(0,0,0,.6)",blur:10});ctx.restore()}}
     return}
-  if(k==="unmeta"){stVid(ctx,el,l,0,0,W,H,1,"contrast(1.04)");unHead(ctx,unE(t,.1,.6));
+  if(k==="unmeta"){ctx.fillStyle=UN_C.deep;ctx.fillRect(0,0,W,H);stVid(ctx,el,l,0,384,W,H-384,1,"contrast(1.04)");unHead(ctx,unE(t,.1,.6));ctx.fillStyle=UN_C.gold;ctx.fillRect(0,384,W,4);
     {const g=ctx.createLinearGradient(0,900,0,H);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(.35,"rgba(0,10,30,.55)");g.addColorStop(1,"rgba(0,10,30,.88)");ctx.fillStyle=g;ctx.fillRect(0,900,W,H-900)}
     unLetters(ctx,"Minhas metas para",540,1130,`500 44px ${sans}`,"#fff",t,.2,.03,{shadow:"rgba(0,0,0,.5)",blur:10,rise:20});
     unLetters(ctx,"2027",540,1250,`800 120px ${sans}`,()=>unGold(ctx,1250,110),t,.7,.12,{shadow:"rgba(0,0,0,.45)",blur:16});
@@ -4507,7 +4507,7 @@ function drawFotoEvento(ctx,l,el,t,st,m){const k=m.style,sans='"Montserrat",sans
     hcTxt(ctx,E.nome.toUpperCase()+"  ·  "+E.data,540,1622,`600 26px ${sans}`,C.ink,6);return}
   // Uninter
   const crs=String((m.ds&&m.ds.pv)||"").trim();
-  if(k==="unfoto_aula"){stVid(ctx,el,l,0,0,W,H,1,"contrast(1.05)");unHead(ctx,1);
+  if(k==="unfoto_aula"){ctx.fillStyle=UN_C.deep;ctx.fillRect(0,0,W,H);stVid(ctx,el,l,0,384,W,H-384,1,"contrast(1.05)");unHead(ctx,1);ctx.fillStyle=UN_C.gold;ctx.fillRect(0,384,W,4);
     {const g=ctx.createLinearGradient(0,1040,0,H);g.addColorStop(0,"rgba(0,27,61,0)");g.addColorStop(.45,"rgba(0,27,61,.72)");g.addColorStop(1,"rgba(0,27,61,.95)");ctx.fillStyle=g;ctx.fillRect(0,1040,W,H-1040)}
     hcTxt(ctx,"Primeiro dia",80,1360,`800 112px ${sans}`,"#fff",-1,{align:"left",shadow:"rgba(0,0,0,.35)",blur:12,max:920,size:112,min:70});
     hcTxt(ctx,"de aula.",80,1476,`800 112px ${sans}`,UN_C.gold,-1,{align:"left",shadow:"rgba(0,0,0,.35)",blur:12});
@@ -4528,8 +4528,8 @@ function drawFotoEvento(ctx,l,el,t,st,m){const k=m.style,sans='"Montserrat",sans
     hcTxt(ctx,"CERIMÔNIA DO",540,1430,`700 28px ${sans}`,UN_C.navy,12);
     hcTxt(ctx,"Jaleco",540,1530,`700 120px ${serif}`,UN_C.navy,0);
     ctx.strokeStyle=UN_C.gold;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(430,1580);ctx.lineTo(650,1580);ctx.stroke();
-    hcTxt(ctx,crs||"O começo de uma nova jornada na saúde.",540,1632,`600 30px ${sans}`,"#33405a",0,{max:900,size:30,min:20});
-    if(crs)hcTxt(ctx,"Uninter · Polo Fortaleza Centro",540,1678,`500 22px ${sans}`,"#6a7486",3);return}}
+    hcTxt(ctx,crs||"O começo de uma nova jornada na saúde.",540,1642,`700 ${crs?46:36}px ${sans}`,crs?UN_C.navy:"#33405a",0,{max:920,size:crs?46:36,min:24});
+    if(crs)hcTxt(ctx,"Uninter · Polo Fortaleza Centro",540,1702,`600 30px ${sans}`,"#55617a",2);return}}
 function drawStyle(ctx,l,el,t,st,m){if(/^(wdfoto|unfoto)_/.test(m.style||"")){ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFotoEvento(ctx,l,el,t,st,m);ctx.restore();return}if(/^(dsfoto|rzfoto)_/.test(m.style||"")){ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFotoCorrida(ctx,l,el,t,st,m);ctx.restore();return}if(/^un(live|natal|2027|meta|matri)$/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawUninter(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="resultado"||m.style==="rzres"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawResultado(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^rz\d/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawRevezo(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="desafio"||m.style==="sobrevivi"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawDesafio(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^cam/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawCam(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="faqlive"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFaqLive(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^hc/.test(m.style)){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawWedding(ctx,l,el,t,st,m,cap);ctx.restore();return}const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m,t),dur=Math.max(1,(l.end||0)-(l.start||0)||(m.scenes[m.scenes.length-1].t1-.5)),cap=m.caps!==false?stCap(st,t):null;
   ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);
   const k=m.style;
