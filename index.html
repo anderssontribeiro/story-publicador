@@ -864,6 +864,37 @@ header .clock,header #who{display:none!important}
 .pnform input[type=color]{padding:2px;height:40px}
 .hm-demo{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#ffffff0a;border:1px solid #ffffff14;border-radius:14px;padding:10px 14px;font-size:13px;color:var(--mut)}
 .hm-demo b{color:var(--tx)}.hm-demo button{background:none;border:0;color:var(--ac2);font:inherit;font-weight:700;cursor:pointer}
+
+/* ---------- modo evento (casamento) ---------- */
+#evt{position:fixed;inset:0;z-index:65;display:none;flex-direction:column;background:#f6f1e8;color:#1d3b3f;overflow:auto;-webkit-overflow-scrolling:touch;font-family:var(--f-body)}
+#evt.on{display:flex}body.evton{overflow:hidden}
+.evh{display:flex;align-items:center;gap:14px;padding:calc(18px + env(safe-area-inset-top)) 22px 16px;border-bottom:1px solid #1d3b3f14;position:sticky;top:0;background:rgba(246,241,232,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);z-index:2}
+.evmono{width:46px;height:46px;flex:0 0 46px;border:1px solid #b08d57;border-radius:50%;display:grid;place-items:center;font:italic 700 17px/1 "Playfair Display",serif;color:#b08d57}
+.evh b{display:block;font:italic 700 19px/1.2 "Playfair Display",serif}.evh span{font-size:12.5px;color:#5d6f70;letter-spacing:.02em}
+.evlist{padding:22px 18px 30px;max-width:760px;margin:0 auto;width:100%}
+.evk{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#b08d57;margin:0 0 14px;font-weight:600}
+.evcards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:560px){.evcards{grid-template-columns:1fr 1fr}.evcard:last-child{grid-column:1/-1}.evcard:last-child canvas{width:60%;margin:0 auto}}
+.evcard{display:flex;flex-direction:column;gap:6px;text-align:left;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
+.evcard canvas{width:100%;height:auto;aspect-ratio:9/16;border-radius:14px;box-shadow:0 1px 0 #ffffff inset,0 10px 26px #1d3b3f26;background:#e6d8c2;transition:transform .25s}
+.evcard:active canvas{transform:scale(.98)}
+.evcard b{font:italic 700 17px/1.2 "Playfair Display",serif;margin-top:4px}.evcard span{font-size:12.5px;color:#5d6f70;line-height:1.4}
+.evfoot{margin:26px 0 0;text-align:center;font-size:12px;color:#7d8b8c}.evfoot a{color:#1d3b3f;text-underline-offset:3px}
+.evedit{flex:1;display:flex;flex-direction:column;min-height:0;max-width:560px;margin:0 auto;width:100%;padding:10px 18px calc(18px + env(safe-area-inset-bottom))}
+.evedit[hidden],.evlist[hidden]{display:none}
+.evtop{display:flex;align-items:center;justify-content:space-between;padding:4px 0 10px}
+.evtop span{font:italic 700 17px/1 "Playfair Display",serif}
+.evback{display:flex;align-items:center;gap:4px;background:none;border:0;color:#1d3b3f;font:inherit;font-size:14px;padding:6px 0;cursor:pointer}
+.evstage{flex:1;min-height:0;display:flex;justify-content:center;align-items:center}
+#evCv{height:100%;max-height:62vh;width:auto;aspect-ratio:9/16;border-radius:16px;box-shadow:0 14px 36px #1d3b3f33;background:#e6d8c2}
+.evact{display:flex;flex-direction:column;gap:10px;padding-top:14px}
+.evact .btn{min-height:50px;border-radius:14px;font-size:15.5px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.evact .evpick{background:#ffffff;border:1px solid #1d3b3f26;color:#1d3b3f;font-weight:600}
+.evact .evpick.pri,.evact #evGo.pri{background:#1d3b3f;border:0;color:#fbf7f0}
+.evact #evGo:not(.pri){background:#ffffff;border:1px solid #1d3b3f26;color:#1d3b3f}
+.evact .evpick[hidden],.evmsg[hidden]{display:none}
+.evmsg{display:flex;flex-direction:column;gap:6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#b08d57;font-weight:600}
+.evmsg textarea{font:italic 400 17px/1.4 "Playfair Display",serif;text-transform:none;letter-spacing:0;color:#1d3b3f;background:#ffffff;border:1px solid #1d3b3f26;border-radius:12px;padding:12px 14px;resize:none}
 </style>
 </head>
 <body>
@@ -2053,6 +2084,8 @@ function drawShape(ctx,l){
   if(l.kind==="line"){ctx.fillRect(-w/2,-h/2,w,h)}
   else{if(l.kind==="ellipse"){ctx.beginPath();ctx.ellipse(0,0,w/2,h/2,0,0,Math.PI*2)}else if(l.kind==="triangle"){ctx.beginPath();ctx.moveTo(0,-h/2);ctx.lineTo(w/2,h/2);ctx.lineTo(-w/2,h/2);ctx.closePath();ctx.lineJoin="round"}
     else if(l.kind==="path"&&l.d){const sx=w/24,sy=h/24;ctx.scale(sx,sy);ctx.translate(-12,-12);ctx.lineJoin="round";ctx.lineCap="round";ctx.lineWidth=(l.stroke||4)/((sx+sy)/2);const pth=new Path2D(l.d);l.fill?ctx.fill(pth):ctx.stroke(pth);ctx.restore();return{w:Math.max(w,30),h:Math.max(h,30)}}
+    else if(l.kind==="wave"||l.kind==="waveline"){const a=l.amp||20,n=l.n||1.5,ph=l.ph||0,st=64;ctx.beginPath();for(let i=0;i<=st;i++){const x=-w/2+w*i/st,y=(l.kind==="wave"?-h/2+a:0)+a*Math.sin(ph+i/st*n*Math.PI*2);i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
+      if(l.kind==="wave"){ctx.lineTo(w/2,h/2);ctx.lineTo(-w/2,h/2);ctx.closePath();ctx.fill()}else{ctx.lineCap="round";ctx.lineJoin="round";ctx.stroke()}ctx.restore();return{w,h:Math.max(h,30)}}
     else rr(ctx,-w/2,-h/2,w,h,l.radius||0);l.fill?ctx.fill():ctx.stroke()}
   ctx.restore();return{w:Math.max(w,30),h:Math.max(h,30)};
 }
@@ -3017,13 +3050,13 @@ function ghModal(){sideOff();
 }
 function syncBot(){const b=$("#bBot");if(!b)return;b.style.display=isAdmin()?"":"none";b.textContent=ghOk()?"Robô ✓":"Robô"}
 let expSt=null;
-const isStoryOut=()=>expFmt.id==="v"&&expPlats.includes("Story do Instagram");
-const otherPlats=()=>expPlats.filter(n=>!(expFmt.id==="v"&&n==="Story do Instagram"));
+const isStoryOut=()=>!EVT&&expFmt.id==="v"&&expPlats.includes("Story do Instagram");
+const otherPlats=()=>EVT?expPlats.slice():expPlats.filter(n=>!(expFmt.id==="v"&&n==="Story do Instagram"));
 function canShareFile(blob,fname){try{return !!(navigator.canShare&&navigator.canShare({files:[new File([blob],fname,{type:blob.type})]}))}catch(e){return false}}
 function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();
   const st=expSt,ext=fname.split(".").pop();
   const when=/(^|__)agora/.test(fname)?"assim que o robô rodar (em até 10 minutos)":"no horário agendado";
-  $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">${expPlats.length>1?`Pronto para ${expPlats.length} redes`:expFmt.id==="v"&&expPlat==="Story do Instagram"?"Story pronto":"Pronto para "+esc(expPlat)} (${expFmt.w}×${expFmt.h})</h3>${mediaHtml}${extra}
+  $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">${EVT?"Seu story está pronto":expPlats.length>1?`Pronto para ${expPlats.length} redes`:expFmt.id==="v"&&expPlat==="Story do Instagram"?"Story pronto":"Pronto para "+esc(expPlat)} (${expFmt.w}×${expFmt.h})</h3>${mediaHtml}${extra}
    ${otherPlats().length?`<div class="shl"><span class="shk">${canShareFile(blob,fname)?"Enviar para":"Poste este arquivo em"}</span><div class="shg">${otherPlats().map((n,i)=>`<button type="button" class="shb" data-shr="${i}"><span>${esc(n)}</span><i>${canShareFile(blob,fname)?"Enviar":"Marcar como feito"}<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="ar" d="M6 3.5 10.5 8 6 12.5"/><path class="ck" d="M3.5 8.5 6.5 11.5 12.5 4.5"/></svg></i></button>`).join("")}</div><p class="note" style="margin:0">Ao tocar numa rede, o celular abre a lista de apps. Escolha o app dessa rede.</p></div>`:""}
    ${isAdmin()&&st&&isStoryOut()?(ghOk()?`<button class="btn pri" id="ghSend">Publicar no Instagram</button>`:`<button class="btn lnk" id="ghSetup">Ligar o robô para enviar direto, sem abrir o GitHub</button>`):""}
    ${canSave()?`<button class="btn${isAdmin()&&ghOk()?"":" pri"}" id="sv">Baixar arquivo</button>`:`<p class="note" style="margin:0">Toque e segure para salvar. Para baixar o arquivo, abra o HTML direto no navegador.</p>`}
@@ -4959,12 +4992,94 @@ $("#v-pub").addEventListener("change",e=>{const c=e.target;if(!c.dataset.g)retur
 $("#v-pub").addEventListener("click",async e=>{const b=e.target.closest("[data-copy]");if(!b)return;try{await navigator.clipboard.writeText(ROBO[b.dataset.copy]);const t=b.textContent;b.textContent="Copiado!";setTimeout(()=>b.textContent=t,1800)}catch(err){
   $("#mdlBox").innerHTML=`<h3 style="margin:0">Copie o conteúdo</h3><p class="note" style="margin:0">A cópia automática foi bloqueada. Selecione tudo abaixo e copie.</p><textarea style="width:100%;height:50vh;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px;font-family:monospace;font-size:12px">${esc(ROBO[b.dataset.copy])}</textarea><button class="btn" id="cls2">Fechar</button>`;$("#mdl").classList.add("on");$("#cls2").onclick=()=>$("#mdl").classList.remove("on")}});
 
+/* ---------- MODO EVENTO (convidados postam sem cadastro) ---------- */
+const EVENTOS={"hannah-caio":{nome:"Hannah & Caio",mono:"H&C",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"pé na areia",foto:"hannah-caio.jpg",
+  msg:"Que o amor de vocês seja como o mar: imenso, sereno e sem fim."}};
+let EVT=null,evtRAF=0,evtSt=null;
+const EVC={sand:"#f3ece1",sand2:"#e6d8c2",sea:"#2c6a70",deep:"#173f45",foam:"#8fbcb8",gold:"#b08d57",ink:"#1d3b3f",ivory:"#fbf7f0"};
+let evtPhSrc="";function evtPh(){if(evtPhSrc)return evtPhSrc;const c=document.createElement("canvas");c.width=540;c.height=960;const x=c.getContext("2d");
+  let g=x.createLinearGradient(0,0,0,600);g.addColorStop(0,"#f3d9c6");g.addColorStop(1,"#eadfd2");x.fillStyle=g;x.fillRect(0,0,540,600);
+  x.fillStyle="#fbf1e2";x.globalAlpha=.9;x.beginPath();x.arc(270,330,70,0,7);x.fill();x.globalAlpha=1;
+  g=x.createLinearGradient(0,560,0,960);g.addColorStop(0,"#7fa9a6");g.addColorStop(1,"#2c6a70");x.fillStyle=g;x.fillRect(0,560,540,400);
+  x.strokeStyle="#ffffff";x.globalAlpha=.35;x.lineWidth=2;for(let k=0;k<5;k++){x.beginPath();for(let i=0;i<=40;i++){const px=i*540/40,py=620+k*62+6*Math.sin(i/3+k);i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke()}
+  x.globalAlpha=1;x.fillStyle="#ffffff";x.font='600 22px "Montserrat",sans-serif';x.textAlign="center";if("letterSpacing" in x)x.letterSpacing="5px";x.globalAlpha=.85;x.fillText("SUA FOTO OU VÍDEO AQUI",270,500);
+  return evtPhSrc=c.toDataURL("image/jpeg",.85)}
+function evtStory(tpl,bg,layers){layers.forEach(l=>{if(l.evMedia&&!l.src){l.src=evtPh();l.evPh=true}});const cap=defCap();cap.on=false;return{id:uid(),status:"rascunho",at:"",tpl,cap,bg:Object.assign({type:"solid",c1:"#000",c2:"#000",angle:180,img:"",ov:0},bg),layers}}
+function evtStories(E){const C=EVC,lab=(y,t,c,o)=>T(Object.assign({y,text:t,font:"Montserrat",size:30,weight:500,color:c,ls:12,shadow:false},o||{}));
+  const a=evtStory("evt_chegada",{c1:C.deep,c2:C.deep},[
+    I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
+    SH({kind:"wave",x:540,y:1575,w:1200,h:720,color:C.sea,op:.5,amp:24,n:1.1,ph:0}),
+    SH({kind:"wave",x:540,y:1625,w:1200,h:640,color:C.sand,op:1,amp:20,n:1.5,ph:1.6}),
+    SH({kind:"waveline",x:540,y:1352,w:1080,h:30,color:C.gold,stroke:3,amp:9,n:2.4,ph:.4,fill:false}),
+    lab(1445,"WEDDING",C.gold),
+    T({y:1555,text:E.nome,font:"Playfair Display",italic:true,size:116,weight:700,color:C.ink,shadow:false,maxW:1000}),
+    lab(1665,E.data,C.ink,{size:32,ls:8})]);
+  const b=evtStory("evt_polaroid",{type:"gradient",c1:"#f7f1e8",c2:C.sand2},[
+    lab(205,"WEDDING  "+E.mono,C.gold),
+    SH({kind:"wave",x:540,y:1745,w:1200,h:420,color:C.foam,op:.55,amp:22,n:1.3,ph:2.2}),
+    SH({kind:"wave",x:540,y:1790,w:1200,h:340,color:C.sea,op:.95,amp:20,n:1.7,ph:.3}),
+    I({x:540,y:850,w:780,ratio:"4:5",shape:"polaroid",bcolor:"#ffffff",fshadow:true,rot:-2.5,evMedia:true}),
+    T({x:562,y:1368,rot:-2.5,text:E.nome+" · "+E.data.replace(/ · 20\d\d$/,"").replace(/ · /g,"."),font:"Caveat",size:62,weight:700,color:C.ink,shadow:false,maxW:740}),
+    lab(1835,E.lugar.toUpperCase()+"  ·  "+E.data,C.ivory,{size:26,ls:6})]);
+  const c=evtStory("evt_recado",{type:"gradient",c1:C.deep,c2:C.sea},[
+    lab(170,"WEDDING",C.gold),
+    T({y:262,text:E.nome,font:"Playfair Display",italic:true,size:76,weight:700,color:C.ivory,shadow:false}),
+    I({x:540,y:770,w:600,ratio:"3:4",shape:"arch",border:8,bcolor:C.gold,fshadow:true,evCasal:true}),
+    lab(1262,"UM DESEJO PARA OS NOIVOS",C.gold,{size:26,ls:8}),
+    T({y:1420,text:E.msg,font:"Playfair Display",italic:true,size:60,weight:700,color:C.ivory,shadow:false,maxW:880,evMsg:true}),
+    SH({kind:"waveline",x:540,y:1610,w:360,h:24,color:C.gold,stroke:3,amp:7,n:2,ph:0,fill:false}),
+    SH({kind:"wave",x:540,y:1830,w:1200,h:300,color:C.sand,op:.1,amp:18,n:1.4,ph:1}),
+    lab(1725,E.data,C.ivory,{size:28,ls:8,op:.85})]);
+  return[a,b,c]}
+const EVT_INFO=[["Cheguei!","Sua foto ou vídeo em tela cheia, com a areia e o nome dos noivos."],["Polaroid","Seu momento numa foto revelada, com o mar embaixo."],["Recado","Escreva um desejo para os noivos, com a foto do casal."]];
+async function evtCasalFoto(E,st){const l=st.layers.find(x=>x.evCasal);if(!l)return;
+  try{const r=await fetch(E.foto,{cache:"no-cache"});if(!r.ok)throw 0;const bl=await r.blob();if(!/^image\//.test(bl.type))throw 0;l.src=await readImg(new File([bl],"casal",{type:bl.type}),1200,1600)}
+  catch(e){const i=st.layers.indexOf(l);st.layers.splice(i,1,SH({kind:"ellipse",x:540,y:770,w:520,h:520,color:EVC.gold,fill:false,stroke:3,op:.7}),T({y:770,text:E.mono,font:"Playfair Display",italic:true,size:200,weight:700,color:EVC.ivory,shadow:false}))}}
+function evtRender(cv,st){const x=cv.getContext("2d");if(cv.width===W){draw(x,st,false);return}const t=evtRender.t||(evtRender.t=Object.assign(document.createElement("canvas"),{width:W,height:H}));draw(t.getContext("2d"),st,false);x.clearRect(0,0,cv.width,cv.height);x.drawImage(t,0,0,cv.width,cv.height)}
+function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign({id},E);
+  ACC={u:"evt:"+id,role:"evento",name:"Convidado"};KEY=null;S=normalize({stories:evtStories(E),cur:""});S.easy=true;S.cur=S.stories[0].id;
+  S.stories.forEach(st=>st.cap.on=false);
+  $("#login").classList.add("off");document.body.classList.add("evton");document.title=`Wedding ${E.mono} · Story Pronto`;
+  let ov=$("#evt");if(!ov){ov=document.createElement("div");ov.id="evt";document.body.appendChild(ov)}
+  ov.innerHTML=`<div class="evh"><span class="evmono">${esc(E.mono)}</span><div><b>Wedding ${esc(E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div></div>
+   <section class="evlist" id="evList"><p class="evk">Escolha o seu story</p><div class="evcards">${S.stories.map((st,i)=>`<button type="button" class="evcard" data-evi="${i}"><canvas width="270" height="480"></canvas><b>${EVT_INFO[i][0]}</b><span>${EVT_INFO[i][1]}</span></button>`).join("")}</div>
+   <p class="evfoot">Stories para momentos especiais · <a href="/?cadastro&origem=evento-${esc(id)}">Story Pronto</a></p></section>
+   <section class="evedit" id="evEdit" hidden><div class="evtop"><button type="button" class="evback" data-ev="back"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg>Modelos</button><span id="evName"></span></div>
+    <div class="evstage"><canvas id="evCv" width="540" height="960"></canvas></div>
+    <div class="evact"><label class="evmsg" id="evMsgW" hidden><span>Seu recado para os noivos</span><textarea id="evMsg" rows="2" maxlength="140"></textarea></label>
+     <label class="btn evpick" id="evPickW"><input type="file" id="evFile" accept="image/*,video/*" hidden><span id="evPickT">Adicionar foto ou vídeo</span></label>
+     <button type="button" class="btn pri" id="evGo">Postar</button></div></section>`;
+  ov.classList.add("on");
+  const ready=()=>ov.querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]));
+  evtCasalFoto(E,S.stories[2]).then(ready);ready();document.fonts.ready.then(()=>setTimeout(ready,150));setTimeout(ready,1200);
+  ov.onclick=e=>{const c=e.target.closest("[data-evi]");if(c){evtOpen(+c.dataset.evi);return}const b=e.target.closest("[data-ev]");if(b&&b.dataset.ev==="back")evtClose()};
+  $("#evFile").onchange=evtMedia;$("#evMsg").oninput=e=>{const l=evtSt&&evtSt.layers.find(x=>x.evMsg);if(l){l.text=e.target.value.trim()||EVT.msg}};
+  $("#evGo").onclick=evtPost;
+  try{track("evento_"+id)}catch(e){}
+  return true}
+function evtOpen(i){const st=S.stories[i];evtSt=st;S.cur=st.id;$("#evList").hidden=true;$("#evEdit").hidden=false;$("#evName").textContent=EVT_INFO[i][0];
+  const hasMedia=st.layers.some(l=>l.evMedia),msg=st.layers.find(l=>l.evMsg);$("#evPickW").hidden=!hasMedia;$("#evMsgW").hidden=!msg;if(msg)$("#evMsg").value=msg.text===EVT.msg?"":msg.text;
+  $("#evPickT").textContent=evtHasMedia(st)?"Trocar foto ou vídeo":"Adicionar foto ou vídeo";$("#evPickW").classList.toggle("pri",hasMedia&&!evtHasMedia(st));$("#evGo").classList.toggle("pri",!hasMedia||evtHasMedia(st));
+  cancelAnimationFrame(evtRAF);const cv=$("#evCv");(function loop(){if($("#evEdit").hidden)return;const vl=st.layers.find(l=>l.type==="video"&&l.evMedia),el=vl&&getVid(vl);if(el&&!recording){el.muted=true;if(el.paused||el.ended){if(el.ended||el.currentTime>=(vl.end||1e9))el.currentTime=vl.start||0;el.play().catch(()=>{})}}evtRender(cv,st);evtRAF=requestAnimationFrame(loop)})()}
+const evtHasMedia=st=>st.layers.some(l=>l.evMedia&&(l.type==="video"?!!l.vid:!!l.src&&!l.evPh));
+function evtClose(){cancelAnimationFrame(evtRAF);vids.forEach(r=>{if(r.el)r.el.pause()});$("#evEdit").hidden=true;$("#evList").hidden=false;$("#evt").querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]))}
+async function evtMedia(e){const f=e.target.files[0];e.target.value="";if(!f)return;const st=evtSt,i=st.layers.findIndex(l=>l.evMedia),old=st.layers[i];if(i<0)return;
+  const geo={x:old.x,y:old.y,w:old.w,ratio:old.ratio,shape:old.shape,radius:old.radius,border:old.border,bcolor:old.bcolor,fshadow:old.fshadow,rot:old.rot||0,evMedia:true};
+  if(/^video\//.test(f.type)){if(f.size>200*1024*1024){toast("Vídeo muito grande. Escolha um trecho menor, de até 1 minuto.");return}
+    const vid=uid(),full=old.w>=W&&old.ratio==="9:16";const l=V(Object.assign(geo,{main:true,vid,name:f.name,mode:full?"tela":"moldura",dim:0,sound:true}));st.layers.splice(i,1,l);mkVideo(vid,f)}
+  else{try{const src=await readImg(f,1440,2560);const l=old.type==="image"?old:I(geo);l.src=src;delete l.evPh;l.zoom=1;l.ox=0;l.oy=0;st.layers.splice(i,1,l)}catch(err){toast("Não consegui abrir essa foto. Tente outra.");return}}
+  evtOpen(S.stories.indexOf(st))}
+function evtPost(){const st=evtSt;if(!st)return;if(st.layers.some(l=>l.evMedia)&&!evtHasMedia(st)){toast("Primeiro, adicione sua foto ou vídeo.");return}
+  cancelAnimationFrame(evtRAF);expFmt=FMTS[0];expPlats=["Story do Instagram","Status do WhatsApp"];expPlat=expPlats[0];try{track("evento_post")}catch(e){}
+  const done=()=>{const ed=$("#evEdit");if(ed&&!ed.hidden)evtOpen(S.stories.indexOf(st))};
+  const vl=st.layers.find(l=>l.type==="video"&&l.vid);if(vl){const el=getVid(vl);if(el){el.muted=false;el.pause()}exportVideo(st).then(done)}else{exportPng(st);setTimeout(done,600)}}
+
 /* ---------- boot ---------- */
 const tmr=new Date();tmr.setDate(tmr.getDate()+1);$("#lIni").value=toDate(tmr);
 buildFrameGallery();
 function boot(){if(!S)return;setTimeout(updateThermo,600);S.stories.forEach(st=>st.layers.forEach(x=>{if(x.font)ensureFont(x.font)}));document.body.classList.toggle("easy",S.easy!==false);renderRail();renderTpls();drawMain();renderPanel();renderStrip();lotePrev();tick();syncPlayback()}
 boot();
-(()=>{const h=location.hash.replace("#","");const su=sessGet();
+(()=>{const h=location.hash.replace("#","");const su=sessGet();const evq=new URLSearchParams(location.search).get("evento");if(evq&&enterEvent(evq.toLowerCase()))return;
   if(h==="demo")enter(ACCOUNTS.find(a=>a.role==="demo"));
   else if(su&&su.startsWith("sb:")){const a=authGet();if(a&&"sb:"+a.id===su){enter(accFromAuth(a),true);authFresh().then(x=>{if(!x){sessSet(null);ACC=null;KEY=null;$("#login").classList.remove("off");lgSet("in");$("#lgErr").textContent="Sua sessão expirou. Entre de novo."}else perfilPing()})}else sessSet(null)}
   else if(su){const acc=ACCOUNTS.find(a=>a.u===su);if(acc)enter(acc,true)}
