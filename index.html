@@ -769,6 +769,13 @@ header .clock,header #who{display:none!important}
 @media (max-width:640px){.stu-flip{top:auto;bottom:calc(52% + 12px)}}
 .postopts.postin textarea{flex:1 1 100%;min-width:0;background:#0b0c12;color:#fff;border:1px solid #ffffff33;border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;resize:vertical}
 .mdl{z-index:70}
+.fmt{display:flex;flex-direction:column;gap:12px;max-height:56vh;overflow:auto}
+.fmtg{border:1px solid var(--line);border-radius:14px;padding:12px;background:#ffffff05}
+.fmth{display:flex;gap:12px;align-items:center;margin-bottom:10px}.fmth b{display:block;font-size:14px}.fmth span{font-size:12px;color:var(--mut)}
+.fmtr{width:22px;flex:0 0 22px;border:2px solid var(--mut);border-radius:4px;max-height:38px}
+.fmtl{display:flex;flex-wrap:wrap;gap:6px}
+.fmtb{border:1px solid var(--line);background:none;color:var(--tx);border-radius:999px;padding:7px 12px;font:inherit;font-size:12.5px;cursor:pointer}
+.fmtb.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#111;border-color:transparent;font-weight:700}
 
 /* ===== Início ===== */
 .hm{max-width:760px;margin:0 auto;padding:28px 20px 100px;display:flex;flex-direction:column;gap:26px}
@@ -2991,19 +2998,23 @@ function ghModal(){sideOff();
 }
 function syncBot(){const b=$("#bBot");if(!b)return;b.style.display=isAdmin()?"":"none";b.textContent=ghOk()?"Robô ✓":"Robô"}
 let expSt=null;
+const isStoryOut=()=>expFmt.id==="v"&&expPlat==="Story do Instagram";
+function canShareFile(blob,fname){try{return !!(navigator.canShare&&navigator.canShare({files:[new File([blob],fname,{type:blob.type})]}))}catch(e){return false}}
 function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();
   const st=expSt,ext=fname.split(".").pop();
   const when=/(^|__)agora/.test(fname)?"assim que o robô rodar (em até 10 minutos)":"no horário agendado";
-  $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">Story pronto (1080×1920)</h3>${mediaHtml}${extra}
-   ${isAdmin()&&st?(ghOk()?`<button class="btn pri" id="ghSend">Publicar no Instagram</button>`:`<button class="btn" id="ghSetup">Ligar o robô para enviar direto, sem abrir o GitHub</button>`):""}
+  $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">${expFmt.id==="v"&&expPlat==="Story do Instagram"?"Story pronto":"Pronto para "+esc(expPlat)} (${expFmt.w}×${expFmt.h})</h3>${mediaHtml}${extra}
+   ${canShareFile(blob,fname)?`<button class="btn pri" id="shr">Compartilhar no app (${esc(expPlat)})</button>`:""}
+   ${isAdmin()&&st&&expPlat==="Story do Instagram"?(ghOk()?`<button class="btn pri" id="ghSend">Publicar no Instagram</button>`:`<button class="btn" id="ghSetup">Ligar o robô para enviar direto, sem abrir o GitHub</button>`):""}
    ${canSave()?`<button class="btn${isAdmin()&&ghOk()?"":" pri"}" id="sv">Baixar arquivo</button>`:`<p class="note" style="margin:0">Toque e segure para salvar. Para baixar o arquivo, abra o HTML direto no navegador.</p>`}
-   ${isAdmin()&&st?`<div class="fld"><label for="mConta">Publicar na conta</label><select id="mConta" style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px">${IG_CONTAS.map(c=>`<option value="${c}"${c===contaDe(st)?" selected":""}>@${c}</option>`).join("")}</select></div>`:""}
-   ${isAdmin()?`<div class="callout" style="align-items:stretch"><b>Para publicar sozinho no Instagram</b><span>${isAdmin()&&ghOk()?"Clique em <b>Publicar no Instagram</b>. Ele publica":"Suba o arquivo baixado na pasta <b>fila</b> do seu robô no GitHub. Ele publica"} ${when}<span id="mContaTxt">${isAdmin()&&st?` em <b>@${contaDe(st)}</b>`:""}</span>.</span><span class="note" style="color:inherit">Nome do arquivo: <code id="mFname">${esc(fname)}</code></span></div>`:`<div class="callout" style="align-items:stretch"><b>Publicação automática</b><span>Na versão por assinatura, o Story Pronto publica sozinho no seu Instagram no horário agendado. Aqui no teste, baixe o arquivo e poste pelo app do Instagram.</span></div>`}
+   ${isAdmin()&&st&&isStoryOut()?`<div class="fld"><label for="mConta">Publicar na conta</label><select id="mConta" style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px">${IG_CONTAS.map(c=>`<option value="${c}"${c===contaDe(st)?" selected":""}>@${c}</option>`).join("")}</select></div>`:""}
+   ${!isStoryOut()?`<div class="callout" style="align-items:stretch"><b>Como postar em ${esc(expPlat)}</b><span>Toque em <b>Compartilhar no app</b> e escolha ${esc(expPlat)}. Ou baixe o arquivo e envie pelo app da rede.</span></div>`:isAdmin()?`<div class="callout" style="align-items:stretch"><b>Para publicar sozinho no Instagram</b><span>${isAdmin()&&ghOk()?"Clique em <b>Publicar no Instagram</b>. Ele publica":"Suba o arquivo baixado na pasta <b>fila</b> do seu robô no GitHub. Ele publica"} ${when}<span id="mContaTxt">${isAdmin()&&st?` em <b>@${contaDe(st)}</b>`:""}</span>.</span><span class="note" style="color:inherit">Nome do arquivo: <code id="mFname">${esc(fname)}</code></span></div>`:`<div class="callout" style="align-items:stretch"><b>Publicação automática</b><span>Na versão por assinatura, o Story Pronto publica sozinho no seu Instagram no horário agendado. Aqui no teste, baixe o arquivo e poste pelo app do Instagram.</span></div>`}
    <div class="row"><button class="btn" id="cls">Fechar</button></div>`;
   $("#mdl").classList.add("on");
   $("#cls").onclick=closeModal;
   if($("#mConta"))$("#mConta").onchange=e=>{st.conta=e.target.value;S.lastConta=st.conta;save();fname=queueName(st,ext);$("#mFname").textContent=fname;$("#mContaTxt").innerHTML=` em <b>@${esc(st.conta)}</b>`};
   if($("#sv"))$("#sv").onclick=()=>saveFile(fname,blob);
+  if($("#shr"))$("#shr").onclick=async()=>{try{await navigator.share({files:[new File([blob],fname,{type:blob.type})],title:"Story Pronto"});try{anaEv("compartilhar",expPlat)}catch(e){}}catch(e){if(e&&e.name!=="AbortError")toast("Não consegui abrir o compartilhamento. Use Baixar arquivo e poste pelo app.")}};
   if($("#ghSetup"))$("#ghSetup").onclick=()=>ghModal();
   if($("#ghSend"))$("#ghSend").onclick=async()=>{
     if(!/\.(jpe?g|mp4|mov)$/i.test(fname)){toast("O Instagram só aceita JPG ou MP4 pela API. Este navegador gerou "+ext.toUpperCase()+": use o Chrome ou o Edge para exportar vídeo em MP4.");return}
@@ -3013,13 +3024,34 @@ function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();
     catch(e){toast(e.message);b.disabled=false;b.textContent="Publicar no Instagram"}};
 }
 function closeModal(){if(recording)return;$("#mdl").classList.remove("on");const v=$("#mdlBox video");if(v)v.pause()}
+/* ---------- formatos para outras plataformas ---------- */
+const FMTS=[
+ {id:"v",w:1080,h:1920,n:"Vertical 9:16",d:"O mesmo vídeo serve para todas, sem cortar nada",pl:[["Story do Instagram",60,"Até 60 s por story. Acima disso o Instagram divide em partes."],["Reels",180,"Até 3 min para aparecer como Reels."],["TikTok",600,"Até 10 min."],["YouTube Shorts",180,"Até 3 min para contar como Shorts."],["Status do WhatsApp",60,"Até 60 s (em alguns aparelhos, 90 s). Acima disso o WhatsApp corta."],["Kwai",0,"Público forte no Norte e Nordeste. Vídeo real, feito no celular, funciona melhor."],["Facebook Reels",90,"Até 90 s quando publicado por ferramenta de agendamento."]]},
+ {id:"f",w:1080,h:1350,n:"Feed 4:5",d:"Seu story inteiro no centro, com o fundo desfocado nas laterais",pl:[["Feed do Instagram",0,""],["Facebook",0,""],["LinkedIn",0,""],["Threads",0,""]]},
+ {id:"q",w:1080,h:1080,n:"Quadrado 1:1",d:"Bom para grupos, anúncios e LinkedIn",pl:[["Grupos de WhatsApp",0,""],["Anúncios",0,""],["LinkedIn",0,""]]}];
+let expFmt=FMTS[0],expPlat="Story do Instagram",fmtCv=null;
+function drawOut(rx,st){if(expFmt.id==="v"){draw(rx,st,false);return}
+  if(!fmtCv){fmtCv=document.createElement("canvas");fmtCv.width=W;fmtCv.height=H}const fx=fmtCv.getContext("2d");draw(fx,st,false);
+  const ow=expFmt.w,oh=expFmt.h;rx.save();rx.fillStyle="#000";rx.fillRect(0,0,ow,oh);
+  const cs=Math.max(ow/W,oh/H),cw=W*cs,ch=H*cs;try{rx.filter="blur(40px) brightness(.55)"}catch(e){}rx.drawImage(fmtCv,(ow-cw)/2,(oh-ch)/2,cw,ch);rx.filter="none";
+  if(!("filter" in rx)){rx.fillStyle="#000a";rx.fillRect(0,0,ow,oh)}
+  const fs=oh/H,fw=W*fs;rx.shadowColor="#0009";rx.shadowBlur=30;rx.drawImage(fmtCv,(ow-fw)/2,0,fw,oh);rx.restore()}
+function fmtName(st,ext){const p=expPlat.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return `storypronto_${p}_${st.id.slice(0,4)}.${ext}`}
+function pickFormat(st,go){sideOff();const isV=!!vLayer(st);
+  $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">Onde você vai postar?</h3><p class="note" style="margin:0">O Story Pronto ajusta o tamanho para cada rede.</p>
+   <div class="fmt">${FMTS.map(F=>`<div class="fmtg"><div class="fmth"><span class="fmtr" style="height:${Math.round(22*F.h/F.w)}px"></span><div><b>${F.n}</b><span>${F.w}×${F.h} · ${F.d}</span></div></div><div class="fmtl">${F.pl.map(([n])=>`<button type="button" class="fmtb${n===expPlat?" on":""}" data-fmt="${F.id}" data-pl="${esc(n)}">${esc(n)}</button>`).join("")}</div></div>`).join("")}</div>
+   <div class="row"><button class="btn" id="fmtX">Cancelar</button><button class="btn pri" id="fmtGo">${isV?"Gerar vídeo":"Gerar imagem"}</button></div>`;
+  $("#mdl").classList.add("on");let F=expFmt,P=expPlat;
+  $("#mdlBox").querySelectorAll("[data-fmt]").forEach(b=>b.onclick=()=>{$("#mdlBox").querySelectorAll(".fmtb").forEach(x=>x.classList.remove("on"));b.classList.add("on");F=FMTS.find(x=>x.id===b.dataset.fmt);P=b.dataset.pl});
+  $("#fmtX").onclick=closeModal;$("#fmtGo").onclick=()=>{expFmt=F;expPlat=P;try{anaEv("formato",P)}catch(e){}go()}}
 function exportPng(st){expSt=st;
-  draw(ox,st,false);const url=off.toDataURL("image/jpeg",0.92);
-  off.toBlob(blob=>modalResult(`<img src="${url}" alt="Story exportado">`,blob,queueName(st,"jpg"),payloadOf(st,false)),"image/jpeg",0.92);
+  let cv=off,cx=ox;if(expFmt.id!=="v"){cv=document.createElement("canvas");cv.width=expFmt.w;cv.height=expFmt.h;cx=cv.getContext("2d")}drawOut(cx,st);const url=cv.toDataURL("image/jpeg",0.92);
+  cv.toBlob(blob=>modalResult(`<img src="${url}" alt="Story exportado">`,blob,expFmt.id==="v"?queueName(st,"jpg"):fmtName(st,"jpg"),payloadOf(st,false)),"image/jpeg",0.92);
 }
 function pickMime(){if(typeof MediaRecorder==="undefined")return null;
   const c=["video/mp4;codecs=avc1.42E01E,mp4a.40.2","video/mp4;codecs=avc1,mp4a","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
   return c.find(m=>{try{return MediaRecorder.isTypeSupported(m)}catch(e){return false}})||null}
+function fmtTip(len){const F=expFmt,pl=F.pl.find(x=>x[0]===expPlat);if(!pl)return"";const[n,max,t]=pl;const over=max&&len>max+0.5;return t||over?`<div class="${over?"warn":"note"}" style="margin:0">${over?`Seu vídeo tem ${Math.round(len)} s e o limite em ${esc(n)} é ${max>=60?(max/60).toString().replace(".",",")+" min":max+" s"}. `:""}${esc(t)}</div>`:""}
 async function exportVideo(st){expSt=st;
   const l=vLayer(st),el=getVid(l);
   const vp=videoProblem(st);if(vp){toast(vp);return}
@@ -3027,7 +3059,7 @@ async function exportVideo(st){expSt=st;
   if(!el||all.some(x=>!x.el)){toast("Os vídeos ainda estão carregando. Tente em alguns segundos.");return}
   const mime=pickMime();const rc=document.createElement("canvas");
   if(!mime||!rc.captureStream){toast("Este navegador não consegue gravar vídeo. Use Chrome ou Edge no computador, ou Safari atualizado.");return}
-  rc.width=W;rc.height=H;const rx=rc.getContext("2d");
+  rc.width=expFmt.w;rc.height=expFmt.h;const rx=rc.getContext("2d");
   all.forEach(x=>x.g=ensureAudio(x.el));const g=all.find(x=>x.el===el).g;
   const stream=rc.captureStream(30);
   if(g&&adest){const at=adest.stream.getAudioTracks()[0];if(at)stream.addTrack(at)}
@@ -3041,20 +3073,20 @@ async function exportVideo(st){expSt=st;
   try{rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:8e6})}catch(e){rec=new MediaRecorder(stream)}
   rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
   const stopped=new Promise(res=>rec.onstop=res);
-  draw(rx,st,false);
+  drawOut(rx,st);
   rec.start(250);
   await Promise.all(all.map(x=>x.el.play().catch(()=>{})));
   const len=l.end-l.start;
-  await new Promise(res=>{(function f(){draw(rx,st,false);const p=Math.max(0,Math.min(1,(el.currentTime-l.start)/len));
+  await new Promise(res=>{(function f(){drawOut(rx,st);const p=Math.max(0,Math.min(1,(el.currentTime-l.start)/len));
     const pg=$("#pg");if(pg){pg.style.width=(p*100).toFixed(0)+"%";$("#pgt").textContent=(p*100).toFixed(0)+"%"}
     if(el.currentTime>=l.end||el.ended)res();else requestAnimationFrame(f)})()});
-  draw(rx,st,false);
+  drawOut(rx,st);
   rec.stop();all.forEach(x=>x.el.pause());await stopped;
   recording=false;recMainEl=null;all.forEach(x=>{if(x.g)x.g.spk.gain.value=1;x.el.currentTime=x.l.start||0});
   const type=(rec.mimeType||mime).split(";")[0],ext=type.includes("mp4")?"mp4":"webm";
   const blob=new Blob(chunks,{type}),url=URL.createObjectURL(blob);
   const extra=ext==="webm"?`<div class="warn">Este navegador gerou o vídeo em WEBM, que o Instagram não aceita. Para gerar MP4, use o Chrome ou o Edge atualizados no computador.</div>`:"";
-  modalResult(`<video src="${url}" controls playsinline></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB • ${sec(Math.max(1,len-((l.mont&&l.mont.dyn&&l.mont.cuts)?l.mont.cuts.reduce((a,c)=>a+Math.max(0,Math.min(l.end,c[1])-Math.max(l.start||0,c[0])),0):0)))} • ${ext.toUpperCase()}</p>`,blob,queueName(st,ext),payloadOf(st,true),extra);
+  modalResult(`<video src="${url}" controls playsinline></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB • ${sec(Math.max(1,len-((l.mont&&l.mont.dyn&&l.mont.cuts)?l.mont.cuts.reduce((a,c)=>a+Math.max(0,Math.min(l.end,c[1])-Math.max(l.start||0,c[0])),0):0)))} • ${ext.toUpperCase()}</p>`,blob,expFmt.id==="v"?queueName(st,ext):fmtName(st,ext),payloadOf(st,true),extra+fmtTip(len));
   syncPlayback();
 }
 $("#bExp").onclick=()=>publishNow(false);
@@ -3590,7 +3622,7 @@ function renderThermoSheet(){
 }
 function publishNow(force){track("publish");const st=cur();sel=null;drawMain();renderPanel();
   if(!force){const r=analyzeStory(st);thermoLast=r;if(r.items.some(i=>i.lv==="bad")){thermoForce=true;if(sheetTool==="thermo")renderThermoSheet();else openSheet("thermo");toast("Antes de publicar, veja os pontos do termômetro.");return}}
-  thermoForce=false;if(vLayer(st))exportVideo(st);else exportPng(st)}
+  thermoForce=false;pickFormat(st,()=>{if(vLayer(st))exportVideo(st);else exportPng(st)})}
 /* ---------- SEQUÊNCIAS: roteiros de stories que vendem ---------- */
 const SEQ_VIS={escuro:{n:"Escuro",b1:"#0f0f14",b2:"#24243a",fg:"#ffffff",ac:"#facc15",af:"#111111"},vibrante:{n:"Vibrante",b1:"#6d28d9",b2:"#db2777",fg:"#ffffff",ac:"#fde047",af:"#111111"},claro:{n:"Claro",b1:"#fff7ed",b2:"#fde4cf",fg:"#1f2937",ac:"#ea580c",af:"#ffffff"},verde:{n:"Natureza",b1:"#052e2b",b2:"#0f5132",fg:"#ffffff",ac:"#a3e635",af:"#111111"}};
 function seqPal(k){if(k==="marca"){const b=S.brand||defBrand();return{n:"Minha marca",b1:b.c2||"#1f1f2e",b2:b.c2||"#1f1f2e",fg:"#ffffff",ac:b.c1||"#ff5a7a",af:"#ffffff"}}return SEQ_VIS[k]||SEQ_VIS.escuro}
@@ -4710,7 +4742,7 @@ function enter(acc,silent){
   $("#login").classList.add("off");document.body.classList.toggle("is-demo",acc.role!=="admin");
   $("#who").textContent=acc.role==="demo"?"Demonstração":acc.name;
   boot();show("editor");syncSub();try{acctBuild()}catch(e){}{const pb=document.querySelector('#nav button[data-v="painel"]');if(pb)pb.style.display=acc.role==="admin"?"":"none"}try{anaStart();setTimeout(()=>lgpdAsk(),2500)}catch(e){}
-  try{show("home")}catch(e){}
+  try{show("home")}catch(e){}setTimeout(()=>{try{if(document.querySelector("#v-home.on"))renderHome()}catch(e){}},0)
 }
 function tryLogin(u,pw){u=(u||"").trim().toLowerCase();const acc=ACCOUNTS.find(a=>a.u===u&&a.h===cyrb53(u+":"+pw));return acc||null}
 $("#lgForm").addEventListener("submit",e=>{e.preventDefault();const acc=tryLogin($("#lgUser").value,$("#lgPass").value);
