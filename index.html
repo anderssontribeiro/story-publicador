@@ -4414,15 +4414,15 @@ function unBlackLayer(ctx,t,of,still){const sans='"Montserrat",sans-serif',an='"
   // O MAIOR DESCONTO DO ANO
   {const u=e(1.0,.4);if(u>0){ctx.save();ctx.translate(600,712);ctx.rotate(-7*Math.PI/180);const s=.6+.4*u+(still?0:Math.sin(Math.min(1,(t-1)/.4)*Math.PI)*.08);ctx.scale(s,s);ctx.globalAlpha=Math.min(1,u*1.5);ctx.fillStyle=UB.gold;ctx.font=`400 84px ${an}`;ctx.textBaseline="alphabetic";ctx.shadowColor="rgba(0,0,0,.45)";ctx.shadowBlur=16;
     ["O MAIOR","DESCONTO","DO ANO"].forEach((ln,i)=>ctx.fillText(ln,0,i*84));ctx.restore()}}
-  // oferta
-  const pill=(cx,cy,w,u)=>{if(u<=0)return;ctx.save();ctx.globalAlpha=Math.min(1,u*1.3);const h=64;ctx.strokeStyle=UB.gold;ctx.lineWidth=4;rr(ctx,cx-w/2,cy-h/2,w,h,h/2);ctx.stroke();hcTxt(ctx,"EAD ou SEMIPRESENCIAL",cx,cy+2,`400 38px ${an}`,UB.gold,1,{max:w-40,size:38,min:26});
-    const st=still?1:((t*.6)%1),sx=cx+w/2-20,sy=cy-h/2+4,sz=10+6*Math.abs(Math.sin(t*3));ctx.fillStyle="#fff";ctx.shadowColor="#fff";ctx.shadowBlur=14;ctx.beginPath();ctx.moveTo(sx,sy-sz);ctx.lineTo(sx+3,sy-3);ctx.lineTo(sx+sz,sy);ctx.lineTo(sx+3,sy+3);ctx.lineTo(sx,sy+sz);ctx.lineTo(sx-3,sy+3);ctx.lineTo(sx-sz,sy);ctx.lineTo(sx-3,sy-3);ctx.closePath();ctx.fill();ctx.restore()};
+  // oferta (bloco compacto, embaixo)
+  const pill=(cx,cy,w,u)=>{if(u<=0)return;ctx.save();ctx.globalAlpha=Math.min(1,u*1.3);const h=52;ctx.strokeStyle=UB.gold;ctx.lineWidth=3.5;rr(ctx,cx-w/2,cy-h/2,w,h,h/2);ctx.stroke();hcTxt(ctx,"EAD ou SEMIPRESENCIAL",cx,cy+2,`400 31px ${an}`,UB.gold,1,{max:w-36,size:31,min:22});
+    const sx=cx+w/2-18,sy=cy-h/2+4,sz=8+5*Math.abs(Math.sin((still?1:t)*3));ctx.fillStyle="#fff";ctx.shadowColor="#fff";ctx.shadowBlur=12;ctx.beginPath();ctx.moveTo(sx,sy-sz);ctx.lineTo(sx+3,sy-3);ctx.lineTo(sx+sz,sy);ctx.lineTo(sx+3,sy+3);ctx.lineTo(sx,sy+sz);ctx.lineTo(sx-3,sy+3);ctx.lineTo(sx-sz,sy);ctx.lineTo(sx-3,sy-3);ctx.closePath();ctx.fill();ctx.restore()};
   const mix=(y,parts,u)=>{if(u<=0)return;ctx.save();ctx.globalAlpha=Math.min(1,u*1.4);ctx.translate((1-u)*-40,0);ctx.textBaseline="middle";let tot=0;parts.forEach(p=>{ctx.font=p.f;tot+=ctx.measureText(p.t).width});let x=540-tot/2;parts.forEach(p=>{ctx.font=p.f;ctx.fillStyle=p.c;ctx.shadowColor="rgba(0,0,0,.5)";ctx.shadowBlur=12;ctx.fillText(p.t,x,y);x+=ctx.measureText(p.t).width});ctx.restore()};
-  if(of==="pos"){mix(1270,[{t:"PÓS",f:`900 128px ${sans}`,c:UB.gold}],e(1.6,.45));pill(540,1366,560,e(2.0,.45));mix(1462,[{t:"FAÇA 2, PAGUE 1*",f:`900 86px ${sans}`,c:"#fff"}],e(2.2,.5))}
-  else{mix(1270,[{t:"FAÇA UMA ",f:`italic 300 70px ${sans}`,c:"#fff"},{t:"GRADUAÇÃO,",f:`900 70px ${sans}`,c:"#fff"}],e(1.6,.45));mix(1356,[{t:"GANHE UMA ",f:`italic 300 70px ${sans}`,c:UB.gold},{t:"PÓS*",f:`900 70px ${sans}`,c:UB.gold}],e(1.9,.45));pill(540,1448,560,e(2.2,.45))}
+  if(of==="pos"){mix(1410,[{t:"PÓS",f:`900 96px ${sans}`,c:UB.gold}],e(1.6,.45));pill(540,1484,450,e(2.0,.45));mix(1556,[{t:"FAÇA 2, PAGUE 1*",f:`900 70px ${sans}`,c:"#fff"}],e(2.2,.5))}
+  else{mix(1424,[{t:"FAÇA UMA ",f:`italic 300 54px ${sans}`,c:"#fff"},{t:"GRADUAÇÃO,",f:`900 54px ${sans}`,c:"#fff"}],e(1.6,.45));mix(1490,[{t:"GANHE UMA ",f:`italic 300 54px ${sans}`,c:UB.gold},{t:"PÓS*",f:`900 54px ${sans}`,c:UB.gold}],e(1.9,.45));pill(540,1560,450,e(2.2,.45))}
   // assinatura
-  {const u=e(2.7,.5);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"INSCREVA-SE JÁ!",540,1548,`800 30px ${sans}`,"#fff",3);const lw=380,lh=unLogoH(ctx,540-lw/2,1570,lw,"branca");hcTxt(ctx,"POLO FORTALEZA CENTRO · LINK NA BIO",540,1570+(lh||84)+24,`700 22px ${sans}`,"rgba(255,255,255,.8)",4);ctx.restore()}}
-  {const u=e(3.0,.5);if(u>0){ctx.save();ctx.globalAlpha=u*.75;hcTxt(ctx,"*Oferta da campanha Black Week Uninter. Condições e vigência em uninter.com/regulamentos",540,1714,`500 17px ${sans}`,"#fff",0,{max:960,size:17,min:13});ctx.restore()}}}
+  {const u=e(2.7,.5);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"INSCREVA-SE JÁ!",540,1626,`800 24px ${sans}`,"#fff",3);const lw=300;unLogoH(ctx,540-lw/2,1646,lw,"branca");ctx.restore()}}}
+
 function drawUninter(ctx,l,el,t,st,m,cap){if(m.style==="unblack"){unBlackBg(ctx,el,l,false);unBlackLayer(ctx,t,m.of||"grad",false);return}const k=m.style,sans='"Montserrat",sans-serif',serif='"Playfair Display",serif',hole=el==="HOLE";
   if(k==="unlive"){drawFaqLive(ctx,l,el,t,st,Object.assign({},m,{fq:UN_FQ}),cap);return}
   if(k==="unnatal"){stVid(ctx,el,l,0,0,W,H,1,"contrast(1.04) saturate(1.05) sepia(.12)");
