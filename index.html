@@ -4406,14 +4406,13 @@ function unGlobe(ctx,cx,cy,r,u,col){ctx.save();ctx.translate(cx,cy);ctx.rotate(-
   if(u>.85){ctx.fillStyle=col;ctx.beginPath();ctx.arc(r*.06,r*.5,r*.1,0,7);ctx.fill()}ctx.restore()}
 function unBlackLayer(ctx,t,of,still){const sans='"Montserrat",sans-serif',an='"Anton",sans-serif',e=(a,d)=>still?1:unE(t,a,d);
   // BLACK WEEK
-  ctx.save();ctx.translate(110,470);ctx.rotate(-7*Math.PI/180);
+  ctx.save();ctx.translate(110,415);ctx.rotate(-7*Math.PI/180);
   [["BLACK",0,.15],["WEEK",186,.4]].forEach(([w,dy,a0])=>{const u=e(a0,.45);if(u<=0)return;ctx.save();ctx.globalAlpha=Math.min(1,u*1.4);ctx.translate(0,dy);const s=1+(1-u)*.35;ctx.scale(s,s);ctx.font=`900 204px ${sans}`;if("letterSpacing" in ctx)ctx.letterSpacing="-6px";ctx.textBaseline="alphabetic";
     const g=ctx.createLinearGradient(0,-190,0,10);g.addColorStop(0,UB.blue1);g.addColorStop(1,UB.blue2);ctx.fillStyle=g;ctx.shadowColor="rgba(0,10,40,.6)";ctx.shadowBlur=30;ctx.fillText(w,0,0);
     if(!still){const ph=((t-1.4)%4.5+4.5)%4.5;if(t>1.4&&ph<.8){ctx.save();ctx.globalCompositeOperation="source-atop";const x=-200+ph/.8*1100,sg=ctx.createLinearGradient(x-90,0,x+90,0);sg.addColorStop(0,"rgba(255,255,255,0)");sg.addColorStop(.5,"rgba(255,255,255,.55)");sg.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=sg;ctx.shadowBlur=0;ctx.fillRect(x-100,-230,200,260);ctx.restore()}}
     ctx.restore()});ctx.restore();
-  unGlobe(ctx,900,596,96,still?1:Math.max(0,(t-.7)/.9),"#3f7fe0");
   // O MAIOR DESCONTO DO ANO
-  {const u=e(1.0,.4);if(u>0){ctx.save();ctx.translate(610,786);ctx.rotate(-7*Math.PI/180);const s=.6+.4*u+(still?0:Math.sin(Math.min(1,(t-1)/.4)*Math.PI)*.08);ctx.scale(s,s);ctx.globalAlpha=Math.min(1,u*1.5);ctx.fillStyle=UB.gold;ctx.font=`400 84px ${an}`;ctx.textBaseline="alphabetic";ctx.shadowColor="rgba(0,0,0,.45)";ctx.shadowBlur=16;
+  {const u=e(1.0,.4);if(u>0){ctx.save();ctx.translate(600,712);ctx.rotate(-7*Math.PI/180);const s=.6+.4*u+(still?0:Math.sin(Math.min(1,(t-1)/.4)*Math.PI)*.08);ctx.scale(s,s);ctx.globalAlpha=Math.min(1,u*1.5);ctx.fillStyle=UB.gold;ctx.font=`400 84px ${an}`;ctx.textBaseline="alphabetic";ctx.shadowColor="rgba(0,0,0,.45)";ctx.shadowBlur=16;
     ["O MAIOR","DESCONTO","DO ANO"].forEach((ln,i)=>ctx.fillText(ln,0,i*84));ctx.restore()}}
   // oferta
   const pill=(cx,cy,w,u)=>{if(u<=0)return;ctx.save();ctx.globalAlpha=Math.min(1,u*1.3);const h=64;ctx.strokeStyle=UB.gold;ctx.lineWidth=4;rr(ctx,cx-w/2,cy-h/2,w,h,h/2);ctx.stroke();hcTxt(ctx,"EAD ou SEMIPRESENCIAL",cx,cy+2,`400 38px ${an}`,UB.gold,1,{max:w-40,size:38,min:26});
@@ -4564,14 +4563,14 @@ function drawFotoEvento(ctx,l,el,t,st,m){const k=m.style,sans='"Montserrat",sans
     ctx.fillStyle="#f2d27a";ctx.fillRect(470,1536,140,3);
     hcTxt(ctx,crs?crs:"Uninter · Polo Fortaleza Centro",540,1604,`800 ${crs?58:36}px ${sans}`,"#fff",crs?1:2,{shadow:"rgba(0,0,0,.45)",blur:10,max:940,size:crs?58:36,min:30});
     if(crs)hcTxt(ctx,"Uninter · Polo Fortaleza Centro",540,1670,`600 30px ${sans}`,"rgba(255,255,255,.85)",3,{shadow:"rgba(0,0,0,.45)",blur:8});return}
-  if(k==="unfoto_jaleco"){stVid(ctx,el,l,0,0,W,1340,1,"contrast(1.04) brightness(1.03)");
-    ctx.fillStyle="#fbfaf6";ctx.fillRect(0,1300,W,H-1300);ctx.fillStyle=UN_C.gold;ctx.fillRect(0,1300,W,6);
-    unLogo(ctx,540,1300,58);
-    hcTxt(ctx,"CERIMÔNIA DO",540,1430,`700 28px ${sans}`,UN_C.navy,12);
-    hcTxt(ctx,"Jaleco",540,1530,`700 120px ${serif}`,UN_C.navy,0);
-    ctx.strokeStyle=UN_C.gold;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(430,1580);ctx.lineTo(650,1580);ctx.stroke();
-    hcTxt(ctx,crs||"O começo de uma nova jornada na saúde.",540,1642,`700 ${crs?46:36}px ${sans}`,crs?UN_C.navy:"#33405a",0,{max:920,size:crs?46:36,min:24});
-    if(crs)hcTxt(ctx,"Uninter · Polo Fortaleza Centro",540,1702,`600 30px ${sans}`,"#55617a",2);return}}
+  if(k==="unfoto_jaleco"){stVid(ctx,el,l,0,0,W,1220,1,"contrast(1.04) brightness(1.03)");
+    ctx.fillStyle="#fbfaf6";ctx.fillRect(0,1180,W,H-1180);ctx.fillStyle=UN_C.gold;ctx.fillRect(0,1180,W,7);
+    unLogo(ctx,540,1180,92);
+    hcTxt(ctx,"CERIMÔNIA DO",540,1338,`700 40px ${sans}`,UN_C.navy,14);
+    hcTxt(ctx,"Jaleco",540,1458,`700 172px ${serif}`,UN_C.navy,0);
+    ctx.strokeStyle=UN_C.gold;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(400,1530);ctx.lineTo(680,1530);ctx.stroke();
+    hcTxt(ctx,crs||"O começo de uma nova jornada na saúde.",540,1598,`800 ${crs?66:42}px ${sans}`,crs?UN_C.navy:"#33405a",0,{max:960,size:crs?66:42,min:30});
+    hcTxt(ctx,"Uninter · Polo Fortaleza Centro",540,1672,`700 38px ${sans}`,"#55617a",1,{max:960,size:38,min:26});return}}
 function drawStyle(ctx,l,el,t,st,m){if(/^(wdfoto|unfoto)_/.test(m.style||"")){ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFotoEvento(ctx,l,el,t,st,m);ctx.restore();return}if(/^(dsfoto|rzfoto)_/.test(m.style||"")){ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFotoCorrida(ctx,l,el,t,st,m);ctx.restore();return}if(/^un(live|natal|2027|meta|matri|black)$/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawUninter(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="resultado"||m.style==="rzres"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawResultado(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^rz\d/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawRevezo(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="desafio"||m.style==="sobrevivi"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawDesafio(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^cam/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawCam(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="faqlive"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFaqLive(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^hc/.test(m.style)){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawWedding(ctx,l,el,t,st,m,cap);ctx.restore();return}const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m,t),dur=Math.max(1,(l.end||0)-(l.start||0)||(m.scenes[m.scenes.length-1].t1-.5)),cap=m.caps!==false?stCap(st,t):null;
   ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);
   const k=m.style;
