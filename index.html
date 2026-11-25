@@ -107,7 +107,7 @@ body.sheeton .rail .rgrp+.rgrp,body.railmin .rail .rgrp+.rgrp{border-top:1px sol
 details summary{cursor:pointer}
 .fxbox{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
 .usr{display:flex;gap:6px;align-items:center}
-.demobar{display:none;background:#2a2418;color:#ffe2b0;border-bottom:1px solid #4a3d22;padding:8px 16px;font-size:13px;align-items:center;gap:10px;flex-wrap:wrap}
+.demobar{display:none;background:#ffffff06;color:var(--mut);border-bottom:1px solid #ffffff12;padding:8px 16px;font-size:13px;align-items:center;gap:10px;flex-wrap:wrap}
 body.is-demo .demobar{display:flex}
 body:not(.is-demo) .simwarn{display:none}
 body.is-demo button[data-v="aval"],body.is-demo #v-aval,body.is-demo button[data-v="pub"],body.is-demo button[data-v="sobre"],body.is-demo #v-pub,body.is-demo #v-sobre{display:none!important}
@@ -122,7 +122,13 @@ body.is-demo button[data-v="aval"],body.is-demo #v-aval,body.is-demo button[data
 .lgform input{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px;width:100%}
 .lgform .btn{padding:11px;font-size:15px}
 .lgor{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:12px}.lgor::before,.lgor::after{content:"";flex:1;height:1px;background:var(--line)}
-.lgdemo{border-color:var(--ac2);color:var(--ac2);background:#2a2418}
+.lgform .lgonly-up:not(.lgonly-in),.lgform .lgonly-esq:not(.lgonly-in){display:none}.lgform.m-up .lgonly-in:not(.lgonly-up),.lgform.m-esq .lgonly-in:not(.lgonly-esq){display:none}.lgform.m-up .lgonly-up{display:flex}.lgform.m-esq .lgonly-esq{display:flex}
+.lgsub{margin:-4px 0 2px!important;font-size:13.5px}
+.lgchk{gap:10px;align-items:flex-start;font-size:12.5px;color:var(--mut);line-height:1.45;cursor:pointer}.lgform .lgchk input{width:16px!important;height:16px;min-height:0;padding:0;margin:2px 0 0;accent-color:var(--ac);flex:0 0 16px}.lgchk span{flex:1;min-width:0}.lgchk a{color:var(--tx);text-underline-offset:2px}
+.lglinks{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.lglk{background:none;border:0;color:var(--mut);font:inherit;font-size:13px;padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#ffffff33}.lglk:hover{color:var(--tx)}
+.lgfoot{display:flex;justify-content:center;gap:14px;font-size:12px}.lgfoot a{color:var(--mut);text-decoration:none}.lgfoot a:hover{color:var(--tx)}
+.pnacc{display:flex;flex-direction:column}.pnaccr{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #ffffff0f}.pnaccr:first-child{border-top:0}.pnaccr select{background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:7px 8px;font:inherit;font-size:13px}
+.lgdemo{display:flex;align-items:center;justify-content:center;gap:8px;background:#ffffff06;border:1px solid #ffffff1f;color:var(--tx);font-weight:500;letter-spacing:.01em;transition:background .2s,border-color .2s}.lgdemo:hover{background:#ffffff0d;border-color:#ffffff33}.lgdemo svg{opacity:.7}
 .stars{display:flex;gap:4px}.stars button{background:none;border:none;font-size:34px;color:#4a4a5a;padding:0 2px;line-height:1}.stars button.on{color:var(--ac2)}
 .btn.wa{background:#1fa855;border:none;color:#fff;text-decoration:none}
 .wl{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;line-height:1.45;font-size:14px}
@@ -1069,15 +1075,20 @@ Depoimento: "Consegui estudar e trabalhar ao mesmo tempo"
         <li>Agenda da semana inteira de uma vez</li>
       </ul>
     </div>
-    <form class="lgform" id="lgForm" autocomplete="on">
-      <h2>Entrar</h2>
-      <div class="fld"><label for="lgUser">Usuário</label><input type="text" id="lgUser" autocomplete="username" autocapitalize="none"></div>
-      <div class="fld"><label for="lgPass">Senha</label><input type="password" id="lgPass" autocomplete="current-password"></div>
+    <form class="lgform" id="lgForm" autocomplete="on" novalidate>
+      <h2 id="lgTitle">Entrar</h2>
+      <p class="note lgsub" id="lgSub">Use o e-mail e a senha da sua conta.</p>
+      <div class="fld lgonly-up"><label for="lgNome">Seu nome</label><input type="text" id="lgNome" autocomplete="name" maxlength="80"></div>
+      <div class="fld"><label for="lgUser">E-mail</label><input type="text" id="lgUser" autocomplete="username" autocapitalize="none" inputmode="email" spellcheck="false"></div>
+      <div class="fld lgonly-in lgonly-up"><label for="lgPass">Senha</label><input type="password" id="lgPass" autocomplete="current-password"></div>
+      <label class="lgchk lgonly-up"><input type="checkbox" id="lgAceite"><span>Li e aceito os <a href="termos.html" target="_blank" rel="noopener">Termos de uso</a> e a <a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a>.</span></label>
       <p class="note" id="lgErr" style="margin:0;color:#ffb3b3"></p>
-      <button class="btn pri" type="submit">Entrar</button>
-      <div class="lgor"><span>ou</span></div>
-      <button class="btn lgdemo" type="button" id="lgDemo">Experimentar a demonstração</button>
-      <p class="note" style="margin:0;text-align:center">Acesso demo: usuário <b>demo</b> · senha <b>demo2026</b></p>
+      <p class="note" id="lgOk" style="margin:0;color:var(--tx)"></p>
+      <button class="btn pri" type="submit" id="lgGo">Entrar</button>
+      <div class="lglinks"><button type="button" class="lglk lgonly-in" data-lg="up">Criar conta grátis</button><button type="button" class="lglk lgonly-in" data-lg="esq">Esqueci a senha</button><button type="button" class="lglk lgonly-up lgonly-esq" data-lg="in">Já tenho conta · Entrar</button></div>
+      <div class="lgor lgonly-in"><span>ou</span></div>
+      <button class="btn lgdemo lgonly-in" type="button" id="lgDemo">Conhecer o app sem cadastro<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+      <div class="lgfoot"><a href="privacidade.html" target="_blank" rel="noopener">Privacidade</a><a href="termos.html" target="_blank" rel="noopener">Termos de uso</a></div>
     </form>
     <div class="lgform" id="lgEnd" style="display:none">
       <h2>Seu teste de 1 dia terminou</h2>
@@ -4760,16 +4771,62 @@ function enter(acc,silent){
     const end=new Date(st+TRIAL_MS);$("#demoTxt").textContent=`Teste de 1 dia: vale até ${end.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})} às ${end.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}. Nada é publicado de verdade e o que você cria fica só neste navegador.`}
   else $("#demoTxt").textContent="Modo demonstração: explore à vontade. Nada é publicado de verdade e o que você cria fica só neste navegador.";
   ACC=acc;KEY=acc.key;S=loadState(KEY,acc.role);sel=null;sessSet(acc.u);
-  $("#login").classList.add("off");document.body.classList.toggle("is-demo",acc.role!=="admin");
+  $("#login").classList.add("off");document.body.classList.toggle("is-demo",acc.role==="demo"||acc.role==="trial");
   $("#who").textContent=acc.role==="demo"?"Demonstração":acc.name;
   boot();show("editor");syncSub();try{acctBuild()}catch(e){}{const pb=document.querySelector('#nav button[data-v="painel"]');if(pb)pb.style.display=acc.role==="admin"?"":"none"}try{anaStart();setTimeout(()=>lgpdAsk(),2500)}catch(e){}
   try{show("home")}catch(e){}setTimeout(()=>{try{if(document.querySelector("#v-home.on"))renderHome()}catch(e){}},0)
 }
+/* ---------- contas de clientes (Supabase Auth: e-mail e senha) ---------- */
+const TERMOS_VER="2026-11";
+const authGet=()=>anaLS.get("sp_auth",null),authSet=v=>{if(v)anaLS.set("sp_auth",v);else try{localStorage.removeItem("sp_auth")}catch(e){}};
+const authMsg=(j,st)=>{const m=String((j&&(j.msg||j.error_description||j.message||j.error_code||j.error))||"");
+  if(/invalid login|invalid_credentials/i.test(m))return"E-mail ou senha incorretos.";
+  if(/already registered|user_already_exists|already been registered/i.test(m))return"Este e-mail já tem conta. Toque em “Já tenho conta” e entre.";
+  if(/password.*(least|short|weak)|weak_password/i.test(m))return"A senha precisa ter pelo menos 8 caracteres, com letras e números.";
+  if(/not confirmed|email_not_confirmed/i.test(m))return"Confirme seu e-mail pelo link que enviamos e depois entre.";
+  if(/not authorized|email_address_not_authorized/i.test(m))return"Não conseguimos enviar o e-mail agora.";
+  if(/rate|too many|over_.*limit/i.test(m)||st===429)return"Muitas tentativas seguidas. Espere um minuto e tente de novo.";
+  if(/invalid.*email|email_address_invalid|validate email/i.test(m))return"Confira o e-mail digitado.";
+  if(/signup.*disabled|signups not allowed/i.test(m))return"Cadastros fechados no momento.";
+  return m||"Não deu certo agora. Confira a internet e tente de novo."};
+async function sbAuth(path,body,token){const r=await fetch(SB_URL+"/auth/v1/"+path,{method:"POST",headers:Object.assign({apikey:SB_ANON,"Content-Type":"application/json"},token?{Authorization:"Bearer "+token}:{}),body:JSON.stringify(body||{})});
+  let j=null;try{j=await r.json()}catch(e){}if(!r.ok){const er=new Error(authMsg(j,r.status));er.st=r.status;throw er}return j}
+const authFrom=j=>({at:j.access_token,rt:j.refresh_token,exp:Date.now()+(+j.expires_in||3600)*1000,id:j.user.id,email:j.user.email,nome:((j.user.user_metadata||{}).nome)||""});
+const accFromAuth=a=>({u:"sb:"+a.id,role:"cliente",name:a.nome||String(a.email||"").split("@")[0],key:"sp_u_"+a.id,email:a.email,acesso:a.acesso||"gratuito",sb:true});
+async function authFresh(){const a=authGet();if(!a)return null;if(a.exp-60e3>Date.now())return a;
+  try{const j=await sbAuth("token?grant_type=refresh_token",{refresh_token:a.rt});const n=Object.assign(authFrom(j),{nome:a.nome||authFrom(j).nome,acesso:a.acesso});authSet(n);return n}
+  catch(e){if(e.st&&e.st<500){authSet(null);return null}return a}}
+async function perfilPing(){try{const a=await authFresh();if(!a)return;const r=await fetch(SB_URL+"/rest/v1/rpc/perfil_ping",{method:"POST",headers:{apikey:SB_ANON,Authorization:"Bearer "+a.at,"Content-Type":"application/json"},body:"{}"});if(!r.ok)return;const p=await r.json();
+  const n=Object.assign(authGet()||a,{nome:p.nome||a.nome,acesso:p.acesso||"gratuito"});authSet(n);if(ACC&&ACC.sb){ACC.acesso=n.acesso;if(p.nome){ACC.name=p.nome;const w=$("#who");if(w)w.textContent=p.nome;try{acctBuild()}catch(e){}}}}catch(e){}}
+let lgMode="in";
+function lgSet(m){lgMode=m;const f=$("#lgForm");f.classList.toggle("m-up",m==="up");f.classList.toggle("m-esq",m==="esq");$("#lgErr").textContent="";$("#lgOk").textContent="";
+  $("#lgTitle").textContent=m==="up"?"Criar sua conta":m==="esq"?"Recuperar senha":"Entrar";
+  $("#lgSub").textContent=m==="up"?"Grátis. Leva menos de um minuto.":m==="esq"?"Digite o e-mail da sua conta. Enviamos um link para criar uma senha nova.":"Use o e-mail e a senha da sua conta.";
+  $("#lgGo").textContent=m==="up"?"Criar conta":m==="esq"?"Enviar link":"Entrar";
+  $("#lgPass").autocomplete=m==="up"?"new-password":"current-password";
+  setTimeout(()=>{const el=m==="up"?$("#lgNome"):$("#lgUser");try{el.focus({preventScroll:true})}catch(e){}},50)}
+$("#lgForm").addEventListener("click",e=>{const b=e.target.closest("[data-lg]");if(b)lgSet(b.dataset.lg)});
+async function lgCloud(){const em=$("#lgUser").value.trim().toLowerCase(),pw=$("#lgPass").value,go=$("#lgGo"),err=$("#lgErr"),ok=$("#lgOk");err.textContent="";ok.textContent="";
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){err.textContent="Digite um e-mail válido.";return}
+  if(lgMode==="up"){const nm=$("#lgNome").value.trim();if(nm.length<2){err.textContent="Digite seu nome.";return}
+    if(pw.length<8||!/[a-zA-Z]/.test(pw)||!/\d/.test(pw)){err.textContent="A senha precisa ter pelo menos 8 caracteres, com letras e números.";return}
+    if(!$("#lgAceite").checked){err.textContent="Para criar a conta, aceite os Termos e a Política de privacidade.";return}}
+  else if(lgMode==="in"&&!pw){err.textContent="Digite sua senha.";return}
+  const lbl=go.textContent;go.disabled=true;go.textContent="Aguarde…";
+  try{
+    if(lgMode==="esq"){await sbAuth("recover",{email:em});ok.textContent="Se o e-mail tiver conta, o link chega em alguns minutos. Confira também o spam.";return}
+    let j;if(lgMode==="up"){const nm=$("#lgNome").value.trim();j=await sbAuth("signup",{email:em,password:pw,data:{nome:nm,aceite:"sim",termos:TERMOS_VER,origem:(new URLSearchParams(location.search).get("origem")||"app").slice(0,60)}});
+      if(!j.access_token){ok.textContent="Conta criada! Enviamos um link para o seu e-mail. Confirme e depois entre.";lgSet("in");$("#lgUser").value=em;return}
+      try{track("signup")}catch(e){}}
+    else j=await sbAuth("token?grant_type=password",{email:em,password:pw});
+    const a=authFrom(j);if(lgMode==="up")a.nome=$("#lgNome").value.trim();authSet(a);$("#lgPass").value="";enter(accFromAuth(a));perfilPing()}
+  catch(e){err.textContent=e.message+(lgMode==="esq"&&FEEDBACK_WA?" Se não chegar, fale com a gente no WhatsApp: (85) 98617-3355.":"")}
+  finally{go.disabled=false;go.textContent=lbl}}
 function tryLogin(u,pw){u=(u||"").trim().toLowerCase();const acc=ACCOUNTS.find(a=>a.u===u&&a.h===cyrb53(u+":"+pw));return acc||null}
-$("#lgForm").addEventListener("submit",e=>{e.preventDefault();const acc=tryLogin($("#lgUser").value,$("#lgPass").value);
+$("#lgForm").addEventListener("submit",e=>{e.preventDefault();if(lgMode!=="in"||$("#lgUser").value.includes("@")){lgCloud();return}const acc=tryLogin($("#lgUser").value,$("#lgPass").value);
   if(!acc){$("#lgErr").textContent="Usuário ou senha incorretos. Confira e tente de novo.";return}$("#lgErr").textContent="";enter(acc)});
 $("#lgDemo").onclick=()=>enter(ACCOUNTS.find(a=>a.role==="demo"));
-$("#bOut").onclick=()=>{sessSet(null);ACC=null;KEY=null;vids.forEach(r=>r.el&&r.el.pause());$("#lgPass").value="";$("#login").classList.remove("off");if(location.hash)history.replaceState(null,"",location.pathname+location.search)};
+$("#bOut").onclick=()=>{const au=authGet();if(au){fetch(SB_URL+"/auth/v1/logout",{method:"POST",headers:{apikey:SB_ANON,Authorization:"Bearer "+au.at}}).catch(()=>{});authSet(null)}lgSet("in");sessSet(null);ACC=null;KEY=null;vids.forEach(r=>r.el&&r.el.pause());$("#lgPass").value="";$("#login").classList.remove("off");if(location.hash)history.replaceState(null,"",location.pathname+location.search)};
 $("#bFb").onclick=()=>feedback();
 const waSub=()=>FEEDBACK_WA?`https://wa.me/${FEEDBACK_WA}?text=${encodeURIComponent("Olá! Testei o Story Pronto e quero saber como assinar.")}`:"";
 function syncSub(){syncBot();const b=$("#bSub");if(!b)return;const u=waSub();b.style.display=u&&ACC&&ACC.role!=="admin"?"":"none";if(u)b.href=u}
@@ -4909,7 +4966,9 @@ function boot(){if(!S)return;setTimeout(updateThermo,600);S.stories.forEach(st=>
 boot();
 (()=>{const h=location.hash.replace("#","");const su=sessGet();
   if(h==="demo")enter(ACCOUNTS.find(a=>a.role==="demo"));
-  else if(su){const acc=ACCOUNTS.find(a=>a.u===su);if(acc)enter(acc,true)}})();
+  else if(su&&su.startsWith("sb:")){const a=authGet();if(a&&"sb:"+a.id===su){enter(accFromAuth(a),true);authFresh().then(x=>{if(!x){sessSet(null);ACC=null;KEY=null;$("#login").classList.remove("off");lgSet("in");$("#lgErr").textContent="Sua sessão expirou. Entre de novo."}else perfilPing()})}else sessSet(null)}
+  else if(su){const acc=ACCOUNTS.find(a=>a.u===su);if(acc)enter(acc,true)}
+  if(new URLSearchParams(location.search).get("cadastro")!==null&&!ACC)lgSet("up")})();
 Promise.all(FONTS.map(([,f])=>document.fonts.load(`700 40px "${f}"`).catch(()=>{})).concat([document.fonts.load('italic 700 40px "Playfair Display"').catch(()=>{}),document.fonts.load('800 40px "Montserrat"').catch(()=>{})])).then(()=>document.fonts.ready).then(boot);
 setInterval(tick,15000);
 /* ---------- celular: barra de cima, menu e encaixe ---------- */
@@ -4945,7 +5004,7 @@ try{if('serviceWorker' in navigator&&location.protocol==='https:')window.addEven
 try{new MutationObserver(()=>{const m=$("#mdl");if(m&&m.classList.contains("on")&&!recording){try{vLayers().forEach(l=>{const el=getVid(l);if(el&&!el.paused)el.pause()})}catch(e){}}}).observe($("#mdl"),{attributes:true,attributeFilter:["class"]})}catch(e){}
 
 /* ---------- PAINEL (dashboard do admin): uso, faturamento, clientes e ações de cashback/bônus ---------- */
-const PN_K={chave:"sp_pn_chave"};let pnDias=30,pnData=null,pnFonte="",pnGeo="estados",pnBusy=false,pnTab="uso",pnAcesso="",pnFin=null,pnCli=null,pnBusca="",pnForm=null,pnCamp=null;
+const PN_K={chave:"sp_pn_chave"};let pnContas=null,pnDias=30,pnData=null,pnFonte="",pnGeo="estados",pnBusy=false,pnTab="uso",pnAcesso="",pnFin=null,pnCli=null,pnBusca="",pnForm=null,pnCamp=null;
 const PN_FN={abrir:"Abriu o app",publish:"Publicou story",recUsed:"Usou vídeo gravado",tpl:"Usou modelo pronto",seq:"Criou sequência",fix:"Corrigiu pelo termômetro",instalar:"Instalou o app",style_pro:"Estilo: Edição Pro",style_vlegenda:"Estilo: Só você + legenda",style_pv_dividido:"Estilo: Produto + você",style_pv_sobre:"Estilo: Você no círculo"};
 const PN_TELA={editor:"Editor",agenda:"Agenda",lote:"Monte minha semana",pub:"Publicar no Instagram",aval:"Avaliações",sobre:"Como vira produto",painel:"Painel",datas:"Datas",benef:"Meus benefícios"};
 const PN_PLAT={android:"Android",ios:"iPhone",windows:"Windows",mac:"Mac",linux:"Linux",outro:"Outro"};
@@ -4978,7 +5037,7 @@ function pnLocal(d){const log=anaLS.get(ANA_K.log,[]).filter(x=>!pnAcesso||(x.ac
     horas:Array.from({length:24},(_,h)=>({h,n:e.filter(x=>new Date(x.em).getHours()===h).length}))}}
 async function pnLoad(quiet){if(!quiet){pnBusy=true;renderPainel()}
   try{if(pnTab==="uso"){if(pnBank()){try{pnData=await pnRpc("painel_dados",pnArgs({p_dias:pnDias,p_acesso:pnAcesso||null}));pnFonte="banco"}catch(e){pnData=pnLocal(pnDias);pnFonte="local";if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast("Não consegui ler o banco: "+e.message+" Mostrando só este aparelho.")}}else{pnData=pnLocal(pnDias);pnFonte="local"}}
-    else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="cli")pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}))}}
+    else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="cli"){pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}));try{pnContas=await pnRpc("painel_contas",pnArgs({}))}catch(e){pnContas=null}}}}
   catch(e){if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast(e.message)}
   pnBusy=false;renderPainel()}
 function pnBars(list,opt={}){const L=(list||[]).filter(x=>opt.zero||x.n>0);if(!L.length||(opt.zero&&!L.some(x=>x.n>0)))return`<p class="note pnempty">Ainda sem dados.</p>`;const mx=Math.max(1,...L.map(x=>x.n)),fmt=opt.money?pnR:pnN;
@@ -5040,14 +5099,17 @@ function pnCliForm(c){c=c||{};return`<div class="pncard pnfrm" id="pnCliF"><h3>$
   <label>Cobrança<select name="ciclo"><option value="mensal"${c.ciclo!=="anual"?" selected":""}>Mensal</option><option value="anual"${c.ciclo==="anual"?" selected":""}>Anual</option></select></label>
   ${c.id?`<label>Situação<select name="status">${[["ativo","Em dia"],["atrasado","Em atraso"],["cancelado","Cancelado"]].map(([k,n])=>`<option value="${k}"${c.status===k?" selected":""}>${n}</option>`).join("")}</select></label>`:`<label>Código de quem indicou (opcional)<input name="indicado_codigo" maxlength="8" placeholder="Ex.: A32F65E0"></label>`}
   </div><div class="row"><button class="btn pri" data-pncsave="${esc(c.id||"")}">Salvar cliente</button><button class="btn" data-pnfx="1">Cancelar</button></div></div>`}
-function pnCliTab(){let h=`<div class="pnbar2"><input id="pnBusca" placeholder="Buscar por nome, cidade ou código" value="${esc(pnBusca)}"><button class="btn" data-pnbusca="1">Buscar</button><button class="btn pri" data-pnnovo="1">+ Novo cliente</button></div>`;
+function pnContasCard(){const L=pnContas;if(!L)return`<div class="pncard"><h3>Cadastros no app</h3><p class="note pnempty">Rode o arquivo <b>storypronto-contas.sql</b> no Supabase para ver aqui quem criou conta.</p></div>`;
+  const fd=v=>v?new Date(v).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}):"—";
+  return `<div class="pncard"><h3>Cadastros no app <span class="note">${L.length}</span></h3>${L.length?`<div class="pnacc">${L.map(c=>`<div class="pnaccr"><div><b>${esc(c.nome||"Sem nome")}</b><div class="note">${esc(c.email||"")} · criou ${fd(c.criado_em)} · último acesso ${fd(c.ultimo_acesso)}</div></div><select data-pnacc="${esc(c.id)}">${[["gratuito","Gratuito"],["cortesia","Cortesia"],["pago","Pago"]].map(([k,n])=>`<option value="${k}"${c.acesso===k?" selected":""}>${n}</option>`).join("")}</select></div>`).join("")}</div>`:`<p class="note pnempty">Ninguém se cadastrou ainda. Envie o link storypronto.com.br/?cadastro para quem vai testar.</p>`}</div>`}
+function pnCliTab(){let h=pnContasCard()+`<div class="pnbar2"><input id="pnBusca" placeholder="Buscar por nome, cidade ou código" value="${esc(pnBusca)}"><button class="btn" data-pnbusca="1">Buscar</button><button class="btn pri" data-pnnovo="1">+ Novo cliente</button></div>`;
   if(pnForm&&pnForm.t==="cli")h+=pnCliForm(pnForm.c);
   const L=pnCli||[];if(!L.length)return h+`<div class="pncard"><p class="note pnempty">Nenhum cliente ainda. Cadastre quem assina, quem usa grátis e quem tem cortesia: assim o painel separa os três.</p></div>`;
   h+=`<div class="pnclis">${L.map(c=>`<div class="pncard pncli"><div class="pnclh"><div><b>${esc(c.nome)}</b> ${pnBadge(c.acesso)}${c.status!=="ativo"?" "+pnBadge(c.status,{atrasado:"Em atraso",cancelado:"Cancelado"}):""}<div class="note">${esc([c.plano,c.valor_mensal>0?pnR(c.valor_mensal)+(c.ciclo==="anual"?"/mês (anual)":"/mês"):"",[c.cidade,c.estado].filter(Boolean).join(" · ")].filter(Boolean).join(" · "))}</div></div><div class="pnsaldo"><span>Saldo</span><b>${pnR(c.saldo)}</b></div></div>
     <div class="note">Código: <b class="pncod">${esc(c.codigo)}</b> · total pago ${pnR(c.total_pago)}${c.ultimo_pagamento?" · último "+pnDate(c.ultimo_pagamento):""}</div>
     ${pnForm&&pnForm.id===c.id&&pnForm.t==="pag"?`<div class="pnform pn2 pnin"><label>Valor (R$)<input id="pnPV" inputmode="decimal" value="${String(c.valor_mensal||"").replace(".",",")}"></label><label>Data<input id="pnPD" type="date" value="${new Date().toISOString().slice(0,10)}"></label><label>Forma<select id="pnPM"><option>pix</option><option>cartão</option><option>boleto</option><option>dinheiro</option></select></label></div><div class="row"><button class="btn pri" data-pnpag="${c.id}">Confirmar pagamento</button><button class="btn" data-pnfx="1">Cancelar</button></div>`:""}
     ${pnForm&&pnForm.id===c.id&&pnForm.t==="cred"?`<div class="pnform pn2 pnin"><label>O que fazer<select id="pnCT"><option value="bonus">Dar bônus</option><option value="uso">Usar saldo como desconto</option></select></label><label>Valor (R$)<input id="pnCV" inputmode="decimal" placeholder="10,00"></label><label class="pnfull">Motivo<input id="pnCM" maxlength="160" placeholder="Ex.: Desconto na mensalidade de dezembro"></label></div><div class="row"><button class="btn pri" data-pncred="${c.id}">Confirmar</button><button class="btn" data-pnfx="1">Cancelar</button></div>`:""}
-    <div class="pnacts"><button type="button" class="chipb" data-pnfp="${c.id}">💰 Registrar pagamento</button><button type="button" class="chipb" data-pnfc="${c.id}">🎁 Bônus / usar saldo</button><button type="button" class="chipb" data-pnedit="${c.id}">✏️ Editar</button>${/\d{10,}/.test(String(c.contato||"").replace(/\D/g,""))?`<a class="chipb" target="_blank" rel="noopener" href="https://wa.me/${(String(c.contato).replace(/\D/g,"").length<=11?"55":"")+String(c.contato).replace(/\D/g,"")}?text=${encodeURIComponent(`Oi, ${String(c.nome).split(" ")[0]}! Seu código de benefícios do Story Pronto é ${c.codigo}. Veja seu saldo de cashback em storypronto.com.br → Menu → Meus benefícios. Indique um amigo com esse código e ganhe bônus quando ele assinar!`)}">📲 Enviar código</a>`:""}</div></div>`).join("")}</div>`;return h}
+    <div class="pnacts"><button type="button" class="chipb" data-pnfp="${c.id}">Registrar pagamento</button><button type="button" class="chipb" data-pnfc="${c.id}">Bônus / usar saldo</button><button type="button" class="chipb" data-pnedit="${c.id}">Editar</button>${/\d{10,}/.test(String(c.contato||"").replace(/\D/g,""))?`<a class="chipb" target="_blank" rel="noopener" href="https://wa.me/${(String(c.contato).replace(/\D/g,"").length<=11?"55":"")+String(c.contato).replace(/\D/g,"")}?text=${encodeURIComponent(`Oi, ${String(c.nome).split(" ")[0]}! Seu código de benefícios do Story Pronto é ${c.codigo}. Veja seu saldo de cashback em storypronto.com.br → Menu → Meus benefícios. Indique um amigo com esse código e ganhe bônus quando ele assinar!`)}">📲 Enviar código</a>`:""}</div></div>`).join("")}</div>`;return h}
 const PN_IDEIAS=[["Cashback em dobro no meu estado",{tipo:"cashback",percentual:"5",publico:"pagos",estado:"Ceará",descricao:"Quem assina no estado ganha o dobro de cashback neste mês."}],["Bônus de boas-vindas",{tipo:"bonus",valor:"10",publico:"pagos",descricao:"R$ 10 de crédito para quem já assina."}],["Fidelidade de fim de ano",{tipo:"bonus",valor:"15",publico:"pagos",descricao:"Presente de fim de ano para quem está com a gente."}],["Cashback extra na minha cidade",{tipo:"cashback",percentual:"3",publico:"pagos",cidade:"Fortaleza",descricao:"Cashback extra para assinantes da cidade."}]];
 function pnCampForm(k){k=k||{};const t=k.tipo||"cashback";return`<div class="pncard pnfrm" id="pnCampF"><h3>${k.id?"Editar ação":"Nova ação"}</h3><div class="pnform pn2">
   <label class="pnfull">Nome da ação<input name="nome" value="${esc(k.nome||"")}" maxlength="80"></label>
@@ -5063,7 +5125,7 @@ function pnAcoesTab(){const F=pnFin;if(!F)return"";const C=F.config||{};let h=`<
    <div class="pncard"><h3>Ideias prontas</h3><div class="pnacts">${PN_IDEIAS.map(([n],i)=>`<button type="button" class="chipb" data-pnideia="${i}">${esc(n)}</button>`).join("")}<button type="button" class="chipb on" data-pnkn="1">+ Criar do zero</button></div></div>`;
   if(pnForm&&pnForm.t==="camp")h+=pnCampForm(pnForm.k);
   const L=F.campanhas||[];h+=L.length?`<div class="pnclis">${L.map(k=>`<div class="pncard pncli"><div class="pnclh"><div><b>${esc(k.nome)}</b> ${k.ativa?pnBadge("ativa",{ativa:"Ativa"}):pnBadge("pausada",{pausada:"Pausada"})}<div class="note">${k.tipo==="bonus"?"Bônus de "+pnR(k.valor):"+"+String(k.percentual).replace(".",",")+"% de cashback"} · ${k.publico==="todos"?"todos":"só quem paga"}${k.estado?" · "+esc(k.estado):""}${k.cidade?" · "+esc(k.cidade):""} · ${pnDate(k.inicio)}${k.fim?" a "+pnDate(k.fim):" em diante"}</div>${k.descricao?`<div class="note">${esc(k.descricao)}</div>`:""}</div><div class="pnsaldo"><span>Concedido</span><b>${pnR(k.concedido)}</b><i>${pnN(k.clientes)} cli.</i></div></div>
-     <div class="pnacts">${k.tipo==="bonus"&&k.ativa?`<button type="button" class="chipb" data-pnapl="${k.id}">🎁 Aplicar bônus agora</button>`:""}<button type="button" class="chipb" data-pnkon="${k.id}">${k.ativa?"⏸ Pausar":"▶ Ativar"}</button><button type="button" class="chipb" data-pnked="${k.id}">✏️ Editar</button></div></div>`).join("")}</div>`:`<div class="pncard"><p class="note pnempty">Nenhuma ação ainda. Comece por uma das ideias acima.</p></div>`;return h}
+     <div class="pnacts">${k.tipo==="bonus"&&k.ativa?`<button type="button" class="chipb" data-pnapl="${k.id}">🎁 Aplicar bônus agora</button>`:""}<button type="button" class="chipb" data-pnkon="${k.id}">${k.ativa?"⏸ Pausar":"▶ Ativar"}</button><button type="button" class="chipb" data-pnked="${k.id}">Editar</button></div></div>`).join("")}</div>`:`<div class="pncard"><p class="note pnempty">Nenhuma ação ainda. Comece por uma das ideias acima.</p></div>`;return h}
 function renderPainel(){const B=$("#pnBody");if(!B)return;const bank=pnBank(),D=pnData;
   let h=`<div class="pnhead"><div><h2>Painel do Story Pronto</h2><p class="note" style="margin:0">${pnBusy?"Carregando…":pnTab==="uso"&&D?(pnFonte==="banco"?`Dados de todos os usuários · ${new Date(D.gerado_em||Date.now()).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`:"Prévia: só os dados deste aparelho"):bank?"Banco ligado":"Banco não ligado"}</p></div>
     <div class="pnper">${pnTab==="uso"?[7,30,90].map(d=>`<button type="button" class="chipb${pnDias===d?" on":""}" data-pnd="${d}">${d} dias</button>`).join(""):""}<button type="button" class="chipb" data-pnr="1" aria-label="Atualizar">⟳</button>${bank?`<button type="button" class="chipb" data-pnkey="1" title="Trocar a chave do painel">🔑</button>`:""}</div></div>
@@ -5071,7 +5133,7 @@ function renderPainel(){const B=$("#pnBody");if(!B)return;const bank=pnBank(),D=
   if(!bank)h+=pnSetup();
   if(!anaOk()&&pnTab==="uso")h+=`<div class="pncard"><p class="note" style="margin:0">Este aparelho ainda não está enviando dados de uso. <button class="linkbtn" data-pnpriv="1">Ver aviso de privacidade</button></p></div>`;
   if(pnTab==="uso")h+=pnUso();else if(!bank)h+=`<div class="pncard"><p class="note pnempty">Esta parte precisa do banco ligado (Supabase), porque guarda clientes e pagamentos com segurança.</p></div>`;else if(pnTab==="fin")h+=pnFinTab();else if(pnTab==="cli")h+=pnCliTab();else h+=pnAcoesTab();
-  B.innerHTML=h;if(pnTab==="uso"&&D)pnMapMount(D.mapa||[]);if(pnTab==="uso"&&D){const card=B.querySelector("[data-pnline]");if(card){const lw=Math.max(280,card.clientWidth-28);card.innerHTML=`<h3>Uso por dia</h3>${pnLine(D.serie,lw)}`}pnLineHover(B.querySelector(".pnline"),D.serie||[])}}
+  B.innerHTML=h;B.querySelectorAll("[data-pnacc]").forEach(sl=>sl.onchange=()=>pnDo("painel_conta_acesso",{p_id:sl.dataset.pnacc,p_acesso:sl.value},"Tipo de acesso atualizado.",false));if(pnTab==="uso"&&D)pnMapMount(D.mapa||[]);if(pnTab==="uso"&&D){const card=B.querySelector("[data-pnline]");if(card){const lw=Math.max(280,card.clientWidth-28);card.innerHTML=`<h3>Uso por dia</h3>${pnLine(D.serie,lw)}`}pnLineHover(B.querySelector(".pnline"),D.serie||[])}}
 function pnConfirm(b){if(b.dataset.ok)return true;b.dataset.ok="1";const t=b.textContent;b.textContent="Toque de novo para confirmar";setTimeout(()=>{if(b.isConnected){delete b.dataset.ok;b.textContent=t}},3000);return false}
 
 /* mapa em tempo real (Leaflet + mapa escuro do OpenStreetMap/CARTO, carregados só quando o painel abre) */
