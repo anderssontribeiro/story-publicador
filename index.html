@@ -956,6 +956,36 @@ a.hm-card{text-decoration:none}
 @media(max-width:640px){.evh{row-gap:12px}.evnav{order:5;width:100%;justify-content:space-between}.evnav a{flex:1;justify-content:center;padding:9px 6px;font-size:13px}}
 .evlogin{margin-left:auto;padding:8px 14px;border-radius:999px;border:1px solid currentColor;color:inherit;opacity:.7;text-decoration:none;font-size:13px;font-weight:600}.evlogin:hover{opacity:1}
 .evrow{display:flex;gap:10px}.evrow>label{flex:1;min-width:0}.evrow:not(:has(label:not([hidden]))){display:none}
+.hm-evsec .hm-main{grid-template-columns:repeat(3,1fr)}
+.hm-er{background:#03045E;color:#fff;font-family:"Onest",var(--f-body)}
+.hm-er i{width:auto!important;height:auto!important;background:none!important;border-radius:0!important;top:22px!important;left:18px!important}
+.hm-er i svg{width:112px!important;height:auto!important}
+.hm-er b{font-family:"Onest",var(--f-disp)}
+.hm-er span{color:#c9cbe8;opacity:1}
+@media(max-width:640px){.hm-evsec .hm-main{grid-template-columns:1fr 1fr}.hm-er{grid-column:1/-1;min-height:120px}}
+#evt.evrz{background:#03045E;color:#fff;font-family:"Onest",var(--f-body)}
+#evt.evrz .evh{background:rgba(3,4,94,.92);border-bottom-color:#ffffff1f}
+.evlogo{display:flex;align-items:center;flex:0 0 auto;padding-right:4px}
+.evlogoc{align-self:center;padding:6px 0 4px}
+#evt.evrz .evh b,#evt.evrz .evtop span{font:700 18px/1.2 "Onest",sans-serif;font-style:normal}
+#evt.evrz .evh span,#evt.evrz .evcard span{color:#c9cbe8}
+#evt.evrz .evk{color:#00B4D8}
+#evt.evrz .evcard b{font:700 16px/1.2 "Onest",sans-serif;font-style:normal}
+#evt.evrz .evcard canvas{background:#0b0c6e;box-shadow:0 10px 26px #0000004d}
+#evt.evrz .evfoot{color:#a9abd6}#evt.evrz .evfoot a{color:#fff}
+#evt.evrz .evback,#evt.evrz .evcx,#evt.evrz .evflip{color:#fff}
+#evt.evrz .evact .btn.pri,#evt.evrz .evact .evpick.pri,#evt.evrz .evact #evGo.pri{background:#fff;color:#03045E}
+#evt.evrz .evact .evpick,#evt.evrz .evact #evGo:not(.pri),#evt.evrz .evact .btn:not(.pri){background:#ffffff12;border:1px solid #ffffff33;color:#fff}
+#evt.evrz .evnav{background:#ffffff14}#evt.evrz .evnav a:hover{background:#ffffff1f}#evt.evrz .evhome:hover{background:#ffffff14}
+#evt.evrz .evrb{border-color:#fff}#evt.evrz .evtm{background:#03045Ed9;color:#fff}
+#evt.evrz .evcad{background:rgba(2,2,40,.55)}
+#evt.evrz .evcadb{background:#03045E;color:#fff;font-family:"Onest",var(--f-body)}
+#evt.evrz .evcadb h2{color:#c9cbe8}#evt.evrz .evcadb h2 em{font:700 24px/1.2 "Onest",sans-serif;font-style:normal;color:#fff}
+#evt.evrz .evcadb label span{color:#ffffffb3}
+#evt.evrz .evcadb input:not([type=checkbox]){background:#ffffff12;border-color:#ffffff33;color:#fff}
+#evt.evrz .evcadb a{color:#fff}
+#evt.evrz .evgo{background:#fff;color:#03045E}
+#evt.evrz .evmsg{color:#ffffffb3}
 .hmevt{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#f6f1e8;color:#1d3b3f;text-decoration:none}
 .hmevt .evmono{width:42px;height:42px;flex:0 0 42px;font-size:15px}.hmevt div{flex:1;min-width:0}.hmevt b{display:block;font:italic 700 16px/1.25 "Playfair Display",serif}.hmevt span{font-size:12px;color:#5d6f70;word-break:break-all}.hmevt i{font-style:normal;font-size:13px;font-weight:600;white-space:nowrap}
 
@@ -5373,14 +5403,17 @@ const wedModel=k=>({hcareia:"Pé na areia",hcpolaroid:"Polaroid",hcano:"Casament
 const EVENTOS={"hannah-caio":{kind:"wedding",titulo:"Wedding Hannah & Caio",dataISO:"2026-12-19",nome:"Hannah & Caio",mono:"H&C",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"pé na areia",foto:"hannah-caio.jpg",
   msg:"Que o amor de vocês seja como o mar: imenso, sereno e sem fim."},
  "desafio-fortaleza-japao":{kind:"corrida",titulo:"Desafio Fortaleza - Japão",dataISO:"2026-12-19",nome:"Desafio Fortaleza - Japão",mono:"ST",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"Stark · Fortaleza à Praia do Japão",
-  cad:"Para usar os stories da prova, deixe seu contato. Leva 20 segundos."}};
+  cad:"Para usar os stories da prova, deixe seu contato. Leva 20 segundos."},
+ "revezo":{kind:"marca",tema:"rz",titulo:"Revezô Sports",nome:"Revezô",mono:"rz",dataLonga:"Stories dos atletas",lugar:"@revezo.sports",
+  cad:"Para usar os stories da Revezô, deixe seu contato. Leva 20 segundos.",
+  models:[["rz5","Revezô 5K","A marca e a distância de 5 km subindo por alguns segundos.",1640],["rz10","Revezô 10K","A marca e a distância de 10 km subindo por alguns segundos.",1640],["rz21","Revezô 21K","Para a meia maratona: a marca e os 21,1 km subindo.",1640],["rz42","Revezô 42K","Para a maratona: a marca e os 42,2 km subindo.",1640],["faqlive","Live Esportiva","Como se você estivesse ao vivo no perfil da Revezô, com as dúvidas aparecendo.",960]]}};
 const EVT_RUN_INFO=[["Desafio","Seu vídeo com a rota até a Praia do Japão e a contagem para a largada."],["Eu sobrevivi","Para depois da chegada: carimbo, medalha e o seu tempo, se quiser mostrar."],["Meu resultado","Sua distância, ritmo e tempo subindo na tela, com a rota da prova."]],EVT_RUN_MOD=["Desafio","Eu sobrevivi","Meu resultado"];
-const evRun=()=>!!(EVT&&EVT.kind==="corrida"),evInfo=()=>evRun()?EVT_RUN_INFO:EVT_INFO,evMod=i=>(evRun()?EVT_RUN_MOD:EVT_MOD)[i];
+const evRun=()=>!!(EVT&&EVT.kind==="corrida"),evInfo=()=>EVT&&EVT.models?EVT.models.map(x=>[x[1],x[2]]):evRun()?EVT_RUN_INFO:EVT_INFO,evMod=i=>EVT&&EVT.models?(EVT.models[i]||[])[1]:(evRun()?EVT_RUN_MOD:EVT_MOD)[i];
 let evRunTm="",evRunKm="",evThumbing=false;
 function drawEvDs(ctx,st){const l=st.layers.find(x=>x.evMedia);let el=null,t=0;const rec=!!(evCam&&evCam.mr);
   if(l&&l.type==="video"){el=getVid(l);t=l.vid==="evcam"?(rec?(Date.now()-evtLiveT0)/1000:((Date.now()-evtLiveT0)/1000)%12):(el?el.currentTime:0)}
-  else if(l){const im=getImg(l.src);if(im&&im.naturalWidth){im.videoWidth=im.naturalWidth;im.videoHeight=im.naturalHeight;el=im}t=l.evPh?((Date.now()-evtLiveT0)/1000)%12:6+((Date.now()-evtLiveT0)/1000)%8}
-  ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);drawStyle(ctx,l||{},el,t,null,{style:st.evDs,caps:false,ds:Object.assign(dsDef(),st.evDs==="sobrevivi"?{tm:evRunTm}:st.evDs==="resultado"?(evThumbing&&!evRunKm?{tm:"2:48:30",km:"32,4"}:{tm:evRunTm,km:evRunKm}):{}),scenes:[{t0:0,t1:999,type:"fala"}]});ctx.restore()}
+  else if(l){const im=getImg(l.src);if(im&&im.naturalWidth){im.videoWidth=im.naturalWidth;im.videoHeight=im.naturalHeight;el=im}{const sec=(Date.now()-evtLiveT0)/1000,rzS=/^rz\d/.test(st.evDs);t=l.evPh?(rzS?(evThumbing?2.6+sec%3.2:sec%9):sec%12):rzS?3.2+sec%2.5:6+sec%(st.evDs==="faqlive"?40:8)}}
+  ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);drawStyle(ctx,l||{},el,t,null,{style:st.evDs,caps:false,fq:st.evDs==="faqlive"?FQ_REVEZO:undefined,ds:Object.assign(dsDef(),st.evDs==="sobrevivi"?{tm:evRunTm}:st.evDs==="resultado"?(evThumbing&&!evRunKm?{tm:"2:48:30",km:"32,4"}:{tm:evRunTm,km:evRunKm}):{}),scenes:[{t0:0,t1:999,type:"fala"}]});ctx.restore()}
 let EVT=null,evtRAF=0,evtSt=null;
 const EVC={sand:"#f3ece1",sand2:"#e6d8c2",sea:"#2c6a70",deep:"#173f45",foam:"#8fbcb8",gold:"#b08d57",ink:"#1d3b3f",ivory:"#fbf7f0"};
 let evtPhSrc="";function evtPh(){if(evtPhSrc)return evtPhSrc;if(evRun())return evtPhSrc=evtPhRun();const c=document.createElement("canvas");c.width=540;c.height=960;const x=c.getContext("2d");
@@ -5392,14 +5425,15 @@ let evtPhSrc="";function evtPh(){if(evtPhSrc)return evtPhSrc;if(evRun())return e
   x.shadowColor="rgba(23,63,69,.35)";x.shadowBlur=24;x.shadowOffsetY=6;x.fillStyle="#1d3b3f";x.beginPath();x.roundRect?x.roundRect(270-tw/2,444,tw,84,42):x.rect(270-tw/2,444,tw,84);x.fill();x.shadowColor="transparent";
   x.fillStyle="#fbf7f0";x.fillText(tx,270,488);
   return evtPhSrc=c.toDataURL("image/jpeg",.85)}
-const evtPhRunC={};function evtPhRun(py){py=py||488;if(evtPhRunC[py])return evtPhRunC[py];const c=document.createElement("canvas");c.width=540;c.height=960;const x=c.getContext("2d");
-  let g=x.createLinearGradient(0,0,0,960);g.addColorStop(0,"#2a3550");g.addColorStop(.55,"#4b5873");g.addColorStop(1,"#1a2238");x.fillStyle=g;x.fillRect(0,0,540,960);
+const evtPhRunC={};function evtPhRun(py,tema){py=py||488;const key=py+(tema||"");if(evtPhRunC[key])return evtPhRunC[key];const rz=tema==="rz";const c=document.createElement("canvas");c.width=540;c.height=960;const x=c.getContext("2d");
+  let g=x.createLinearGradient(0,0,0,960);g.addColorStop(0,rz?"#2b3a55":"#2a3550");g.addColorStop(.55,rz?"#4f6078":"#4b5873");g.addColorStop(1,rz?"#16213a":"#1a2238");x.fillStyle=g;x.fillRect(0,0,540,960);
   x.fillStyle="#ffffff";x.globalAlpha=.08;x.beginPath();x.ellipse(270,560,150,210,0,0,7);x.fill();x.beginPath();x.arc(270,330,95,0,7);x.fill();x.globalAlpha=1;
   x.textAlign="center";x.textBaseline="middle";if("letterSpacing" in x)x.letterSpacing="1px";x.font='800 36px "Montserrat",sans-serif';const tx="Clique, grave e poste",tw=x.measureText(tx).width+56;
-  x.fillStyle="#f3e6c8";x.beginPath();x.roundRect?x.roundRect(270-tw/2,py-44,tw,84,42):x.rect(270-tw/2,py-44,tw,84);x.fill();x.fillStyle="#141238";x.fillText(tx,270,py);
-  return evtPhRunC[py]=c.toDataURL("image/jpeg",.85)}
+  x.fillStyle=rz?"#ffffff":"#f3e6c8";x.beginPath();x.roundRect?x.roundRect(270-tw/2,py-44,tw,84,42):x.rect(270-tw/2,py-44,tw,84);x.fill();x.fillStyle=rz?"#03045E":"#141238";x.fillText(tx,270,py);
+  return evtPhRunC[key]=c.toDataURL("image/jpeg",.85)}
 function evtStory(tpl,bg,layers){layers.forEach(l=>{if(l.evMedia&&!l.src){l.src=evtPh();l.evPh=true}});const cap=defCap();cap.on=false;return{id:uid(),status:"rascunho",at:"",tpl,cap,bg:Object.assign({type:"solid",c1:"#000",c2:"#000",angle:180,img:"",ov:0},bg),layers}}
-function evtStories(E){if(E.kind==="corrida"){const a=evtStory("evt_desafio",{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]),b=evtStory("evt_sobrevivi",{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]);const c=evtStory("evt_resultado",{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]);a.evDs="desafio";b.evDs="sobrevivi";c.evDs="resultado";a.layers[0].src=evtPhRun(470);b.layers[0].src=evtPhRun(660);c.layers[0].src=evtPhRun(770);return[a,b,c]}
+function evtStories(E){if(E.models)return E.models.map(([sty,,,py])=>{const st=evtStory("evt_"+sty,{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]);st.evDs=sty;st.layers[0].src=evtPhRun(Math.round(py/2),E.tema);return st});
+  if(E.kind==="corrida"){const a=evtStory("evt_desafio",{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]),b=evtStory("evt_sobrevivi",{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]);const c=evtStory("evt_resultado",{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]);a.evDs="desafio";b.evDs="sobrevivi";c.evDs="resultado";a.layers[0].src=evtPhRun(470);b.layers[0].src=evtPhRun(660);c.layers[0].src=evtPhRun(770);return[a,b,c]}
   const C=EVC,lab=(y,t,c,o)=>T(Object.assign({y,text:t,font:"Montserrat",size:30,weight:500,color:c,ls:12,shadow:false},o||{}));
   const a=evtStory("evt_chegada",{c1:C.deep,c2:C.deep},[
     I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
@@ -5443,10 +5477,10 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
   S.stories.forEach(st=>st.cap.on=false);
   $("#login").classList.add("off");document.body.classList.add("evton");document.title=`${E.titulo||E.nome} · Story Pronto`;
   let ov=$("#evt");if(!ov){ov=document.createElement("div");ov.id="evt";document.body.appendChild(ov)}
-  ov.classList.toggle("evrun",E.kind==="corrida");const own=(()=>{try{return !!sessGet()}catch(e){return false}})();EVT.own=own;const IC={home:'<path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/>',ed:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',stu:'<rect x="3" y="6.5" width="13" height="11" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>'},ic=k=>`<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
-  ov.innerHTML=`<div class="evh">${own?`<a class="evhome" href="/?ir=inicio" aria-label="Voltar ao início"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg></a>`:""}<span class="evmono">${esc(E.mono)}</span><div class="evht"><b>${esc(E.titulo||E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div>
+  ov.classList.toggle("evrun",E.kind==="corrida");ov.classList.toggle("evrz",E.tema==="rz");const own=(()=>{try{return !!sessGet()}catch(e){return false}})();EVT.own=own;const IC={home:'<path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/>',ed:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',stu:'<rect x="3" y="6.5" width="13" height="11" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>'},ic=k=>`<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
+  ov.innerHTML=`<div class="evh">${own?`<a class="evhome" href="/?ir=inicio" aria-label="Voltar ao início"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg></a>`:""}${E.tema==="rz"?`<span class="evlogo"><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" height="26" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></span>`:`<span class="evmono">${esc(E.mono)}</span>`}<div class="evht"><b>${esc(E.titulo||E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div>
    ${own?`<nav class="evnav" aria-label="Story Pronto"><a href="/?ir=inicio">${ic("home")}<span>Início</span></a><a href="/?ir=editor">${ic("ed")}<span>Editor</span></a><a href="/?ir=estudio">${ic("stu")}<span>Estúdio</span></a></nav>`:`<a class="evlogin" href="/?ir=inicio">Entrar</a>`}</div>
-   <section class="evlist" id="evList"><p class="evk">${E.kind==="corrida"?"Escolha o seu story da prova":"Escolha o seu story"}</p><div class="evcards">${S.stories.map((st,i)=>`<button type="button" class="evcard" data-evi="${i}"><canvas width="270" height="480"></canvas><b>${evInfo()[i][0]}</b><span>${evInfo()[i][1]}</span></button>`).join("")}</div>
+   <section class="evlist" id="evList"><p class="evk">${E.kind==="corrida"?"Escolha o seu story da prova":E.kind==="marca"?"Escolha o seu story":"Escolha o seu story"}</p><div class="evcards">${S.stories.map((st,i)=>`<button type="button" class="evcard" data-evi="${i}"><canvas width="270" height="480"></canvas><b>${evInfo()[i][0]}</b><span>${evInfo()[i][1]}</span></button>`).join("")}</div>
    <p class="evfoot">Stories para momentos especiais · <a href="/?cadastro&origem=evento-${esc(id)}">Story Pronto</a></p></section>
    <section class="evedit" id="evEdit" hidden><div class="evtop"><button type="button" class="evback" data-ev="back"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg>Modelos</button><span id="evName"></span></div>
     <div class="evstage"><canvas id="evCv" width="540" height="960"></canvas></div>
@@ -5459,7 +5493,7 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
      <button type="button" class="evflip" data-ev="flip" aria-label="Virar câmera"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13.5a3 3 0 0 0 5 1.5M14.5 12.5a3 3 0 0 0-5-1.5M15 15.5v-1.5h-1.5M9 10.5V12h1.5"/></svg><span>Virar</span></button></div></section>`;
   ov.classList.add("on");
   const ready=()=>{evThumbing=true;try{ov.querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]))}finally{evThumbing=false}};
-  (function liveThumb(){const cs=[...ov.querySelectorAll('.evcard canvas')];if(!cs.length||!document.body.contains(cs[0]))return;if(!$("#evList").hidden&&!$("#evCad")){evThumbing=true;try{cs.forEach((cv,i)=>{const st=S.stories[i];if(st&&(st.evLive||st.evDs))evtRender(cv,st)})}finally{evThumbing=false}}setTimeout(liveThumb,120)})();
+  (function liveThumb(){const cs=[...ov.querySelectorAll('.evcard canvas')];if(!cs.length||!document.body.contains(cs[0]))return;if(!$("#evList").hidden&&!$("#evCad")){evThumbing=true;try{const vh=innerHeight;cs.forEach((cv,i)=>{const st=S.stories[i];if(!st||!(st.evLive||st.evDs))return;const r=cv.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;evtRender(cv,st)})}finally{evThumbing=false}}setTimeout(liveThumb,120)})();
   ready();ready();document.fonts.ready.then(()=>setTimeout(ready,150));setTimeout(ready,1200);
   ov.onclick=e=>{const c=e.target.closest("[data-evi]");if(c){evtOpen(+c.dataset.evi);return}const b=e.target.closest("[data-ev]");if(!b)return;const k=b.dataset.ev;if(k==="back"){evtCamOff();evtClose()}else if(k==="camx")evtCamOff(true);else if(k==="flip")evtFlip()};
   $("#evRecB").onclick=evtCamOn;$("#evRb").onclick=()=>{if(evCam&&evCam.mr)evtRecStop();else evtRecStart()};
@@ -5478,7 +5512,7 @@ function evCadSend(id,d){return fetch(SB_URL+"/rest/v1/evento_cadastros",{method
 function evCadRetry(id){let q=null;try{q=JSON.parse(localStorage.getItem(evCadK(id)+"_fila")||"null")}catch(e){}if(!q)return;evCadSend(id,q).then(()=>{try{localStorage.removeItem(evCadK(id)+"_fila")}catch(e){}}).catch(()=>{})}
 function evtCadastro(id){let done=false;try{done=!!localStorage.getItem(evCadK(id))}catch(e){}if(done){evCadRetry(id);return}
   const E=EVENTOS[id],ov=$("#evt");if(!ov)return;const m=document.createElement("div");m.className="evcad";m.id="evCad";
-  m.innerHTML=`<form class="evcadb" novalidate><span class="evmono">${esc(E.mono)}</span><h2>Bem-vindo ao<br><em>${esc(E.titulo||E.nome)}</em></h2><p>${esc(E.cad||"Para usar os stories do casamento, deixe seu contato. Leva 20 segundos.")}</p>
+  m.innerHTML=`<form class="evcadb" novalidate>${E.tema==="rz"?`<span class="evlogo evlogoc"><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" height="34" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></span>`:`<span class="evmono">${esc(E.mono)}</span>`}<h2>Bem-vindo ao<br><em>${esc(E.titulo||E.nome)}</em></h2><p>${esc(E.cad||"Para usar os stories do casamento, deixe seu contato. Leva 20 segundos.")}</p>
    <label><span>Seu nome</span><input id="ecN" autocomplete="name" maxlength="80"></label>
    <label><span>E-mail</span><input id="ecE" type="email" inputmode="email" autocomplete="email" autocapitalize="none" maxlength="120"></label>
    <label><span>WhatsApp</span><input id="ecT" type="tel" inputmode="tel" autocomplete="tel" placeholder="(85) 90000-0000" maxlength="16"></label>
@@ -5847,6 +5881,7 @@ function renderHome(){const B=$("#hmBody");if(!B||!S)return;if(!$("#bDemo")){con
    ${ACC&&ACC.role!=="evento"?`<div class="hm-sec hm-evsec"><div class="hm-h"><b>Eventos</b></div><div class="hm-main">
      <a class="hm-card hm-ew" href="/?evento=hannah-caio"><i class="evmono">H&amp;C</i><b>Wedding Hannah &amp; Caio</b><span>Stories dos convidados · 19/12</span></a>
      <a class="hm-card hm-ed" href="/?evento=desafio-fortaleza-japao"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 17c3 0 4-3 7-3s3-6 7-7"/><circle cx="4" cy="17" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="7" r="2" fill="#ec2b3a" stroke="none"/></svg></i><b>Desafio Fortaleza - Japão</b><span>Stark · stories dos atletas · 19/12</span></a>
+     <a class="hm-card hm-er" href="/?evento=revezo"><i><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></i><b>Revezô Sports</b><span>Stories e Live Esportiva</span></a>
    </div></div>`:""}
    <div class="hm-sec"><div class="hm-h"><b>Atalhos</b></div><div class="hm-tools">${[["lote","Minha semana",HM_I.lote],["agenda","Agendados",HM_I.agenda],["seq","Sequência pronta",HM_I.seq],["brand","Minha marca",HM_I.brand],["benef","Benefícios",HM_I.benef],["files","Meus arquivos",HM_I.files]].map(([k,n,d])=>`<button type="button" data-hm="${k}"><i>${hmIco(d)}</i><span>${n}</span></button>`).join("")}</div></div>`;
   const R=$("#hmRec");if(R)rec.forEach(st=>{const b=document.createElement("button");b.type="button";b.className="hm-th";b.dataset.hmst=st.id;const c=document.createElement("canvas");try{thumbInto(c,st)}catch(e){}b.appendChild(c);
