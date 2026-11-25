@@ -1097,6 +1097,18 @@ body:not(.edvid) #galKind button[data-k="vid"],body:not(.edvid) #galKind button[
 .evk2{margin-top:30px!important}
 .evof{gap:8px}.evofb{display:flex;gap:8px}.evofb button{flex:1;min-height:46px;border-radius:12px;border:1px solid #ffffff33;background:#ffffff12;color:#fff;font:inherit;font-size:14px;font-weight:700;text-transform:none;letter-spacing:0;cursor:pointer}
 .evofb button.on{background:#f2b705;border-color:#f2b705;color:#00316a}
+.shm .shsel{gap:12px;justify-content:flex-start}
+.shm .shsel span{flex:1;text-align:left}
+.shbx{width:22px;height:22px;flex:0 0 22px;border-radius:6px;border:2px solid #8d8a86;display:grid;place-items:center;transition:all .15s}
+.shsel.on .shbx{background:#efece6;border-color:#efece6}
+.shsel.on .shbx::after{content:"";width:6px;height:11px;border:solid #1c1b19;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.shsel.ok .shbx{background:#efece6;border-color:#efece6}.shsel.ok span{opacity:.6}
+.shsel.skip{opacity:.5}
+.shsel.cur{outline:2px solid #efece6;outline-offset:-2px}
+.shst{font-style:normal;font-size:13px;color:#8d8a86}.shsel.ok .shst{color:#efece6;font-weight:700;letter-spacing:.02em}
+.shgo{margin-top:10px;min-height:52px;font-size:16px}
+.shgo.fim{background:transparent!important;color:#efece6!important;border:1px solid #efece666!important;opacity:1}
+.shskip{align-self:center;padding:6px 0 0!important}
 .hmevt{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#f6f1e8;color:#1d3b3f;text-decoration:none}
 .hmevt .evmono{width:42px;height:42px;flex:0 0 42px;font-size:15px}.hmevt div{flex:1;min-width:0}.hmevt b{display:block;font:italic 700 16px/1.25 "Playfair Display",serif}.hmevt span{font-size:12px;color:#5d6f70;word-break:break-all}.hmevt i{font-style:normal;font-size:13px;font-weight:600;white-space:nowrap}
 
@@ -3295,7 +3307,7 @@ function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();setTimeout
   const st=expSt,ext=fname.split(".").pop();
   const when=/(^|__)agora/.test(fname)?"assim que o robô rodar (em até 10 minutos)":"no horário agendado";
   $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">${EVT?"Seu story está pronto":expPlats.length>1?`Pronto para ${expPlats.length} redes`:expFmt.id==="v"&&expPlat==="Story do Instagram"?"Story pronto":"Pronto para "+esc(expPlat)} (${expFmt.w}×${expFmt.h})</h3>${mediaHtml}${extra}
-   ${otherPlats().length?`<div class="shl"><span class="shk">${canShareFile(blob,fname)?"Enviar para":"Poste este arquivo em"}</span><div class="shg">${otherPlats().map((n,i)=>`<button type="button" class="shb" data-shr="${i}"><span>${esc(n)}</span><i>${canShareFile(blob,fname)?"Enviar":"Marcar como feito"}<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="ar" d="M6 3.5 10.5 8 6 12.5"/><path class="ck" d="M3.5 8.5 6.5 11.5 12.5 4.5"/></svg></i></button>`).join("")}</div><p class="note" style="margin:0">Ao tocar numa rede, o celular abre a lista de apps. Escolha o app dessa rede.</p></div>`:""}
+   ${otherPlats().length?(canShareFile(blob,fname)?`<div class="shl shm"><span class="shk">Marque onde quer postar</span><div class="shg">${otherPlats().map((n,i)=>`<button type="button" class="shb shsel on" data-shm="${i}"><b class="shbx"></b><span>${esc(n)}</span><i class="shst"></i></button>`).join("")}</div><button type="button" class="btn pri shgo" id="shGo"></button><button type="button" class="linkbtn shskip" id="shSkip" hidden>Pular esta rede</button><p class="note" style="margin:0" id="shTip">Para cada rede o celular abre a lista de apps: escolha o app dela e publique. Ao voltar, a rede ganha o ✓ e a próxima já fica pronta.</p></div>`:`<div class="shl"><span class="shk">Poste este arquivo em</span><div class="shg">${otherPlats().map((n,i)=>`<button type="button" class="shb" data-shr="${i}"><span>${esc(n)}</span><i>Marcar como feito<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="ar" d="M6 3.5 10.5 8 6 12.5"/><path class="ck" d="M3.5 8.5 6.5 11.5 12.5 4.5"/></svg></i></button>`).join("")}</div><p class="note" style="margin:0">Baixe o arquivo e poste em cada rede. Marque aqui o que já foi feito.</p></div>`):""}
    ${isAdmin()&&st&&isStoryOut()?(ghOk()?`<button class="btn pri" id="ghSend">Publicar no Instagram</button>`:`<button class="btn lnk" id="ghSetup">Ligar o robô para enviar direto, sem abrir o GitHub</button>`):""}
    ${canSave()?`<button class="btn${isAdmin()&&ghOk()?"":" pri"}" id="sv">Baixar arquivo</button>`:`<p class="note" style="margin:0">Toque e segure para salvar. Para baixar o arquivo, abra o HTML direto no navegador.</p>`}
    ${isAdmin()&&st&&isStoryOut()?`<div class="fld"><label for="mConta">Publicar na conta</label><select id="mConta" style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px">${IG_CONTAS.map(c=>`<option value="${c}"${c===contaDe(st)?" selected":""}>@${c}</option>`).join("")}</select></div>`:""}
@@ -3310,6 +3322,21 @@ function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();setTimeout
     const evN=EVT?EVT.id:(()=>{const vl=expSt&&vLayer(expSt),m=vl&&vl.mont;return m&&/^hc/.test(m.style||"")?(m.wN||"Hannah & Caio"):""})();const evP=()=>{if(evN)evCount(evN,"postou",{rede:String(n).slice(0,40),origem:EVT?"link":"estudio"})};
     if(!shOk){done();evP();return}
     try{await navigator.share({files:[new File([blob],fname,{type:blob.type})],title:"Story Pronto"});done();evP();try{anaEv("compartilhar",n)}catch(e){}}catch(e){if(e&&e.name!=="AbortError")toast("Não consegui abrir o compartilhamento. Use Baixar arquivo e poste pelo app.")}});
+  if($("#shGo")){const rows=[...$("#mdlBox").querySelectorAll("[data-shm]")],st2=ops.map(()=>"");let cur=-1;
+    const evN=EVT?EVT.id:(()=>{const vl=expSt&&vLayer(expSt),m=vl&&vl.mont;return m&&/^hc/.test(m.style||"")?(m.wN||"Hannah & Caio"):""})();
+    const sel=i=>rows[i].classList.contains("on"),next=()=>ops.findIndex((n,i)=>sel(i)&&!st2[i]),total=()=>ops.filter((n,i)=>sel(i)).length,feitas=()=>ops.filter((n,i)=>sel(i)&&st2[i]==="ok").length;
+    const paint=()=>{rows.forEach((r,i)=>{r.classList.toggle("ok",st2[i]==="ok");r.classList.toggle("skip",st2[i]==="skip");r.querySelector(".shst").textContent=st2[i]==="ok"?"Postado":st2[i]==="skip"?"Pulado":sel(i)?"":"—"});
+      const g=$("#shGo"),k=next(),tt=total(),f=feitas();$("#shSkip").hidden=!(k>=0&&cur>=0);
+      if(!tt){g.textContent="Marque pelo menos uma rede";g.disabled=true;return}g.disabled=false;
+      if(k<0){g.textContent=f?`✓ Postado em ${f} de ${tt} redes`:"Nenhuma rede enviada";g.disabled=true;g.classList.add("fim");return}g.classList.remove("fim");
+      g.textContent=cur<0?(tt>1?`Enviar para ${tt} redes`:`Enviar para ${ops[k]}`):`Próxima: ${ops[k]} (${f+1} de ${tt})`};
+    rows.forEach((r,i)=>r.onclick=()=>{if(st2[i])return;r.classList.toggle("on");paint()});
+    $("#shSkip").onclick=()=>{const k=next();if(k>=0){st2[k]="skip";paint()}};
+    $("#shGo").onclick=async()=>{const k=next();if(k<0)return;cur=k;rows[k].classList.add("cur");
+      try{await navigator.share({files:[new File([blob],fname,{type:blob.type})],title:"Story Pronto"});st2[k]="ok";if(evN)evCount(evN,"postou",{rede:String(ops[k]).slice(0,40),origem:EVT?"link":"estudio"});try{anaEv("compartilhar",ops[k])}catch(e){}}
+      catch(e){if(e&&e.name!=="AbortError")toast("Não consegui abrir o compartilhamento. Use Baixar arquivo e poste pelo app.")}
+      rows[k].classList.remove("cur");paint()};
+    paint()}
   if($("#ghSetup"))$("#ghSetup").onclick=()=>ghModal();
   if($("#ghSend"))$("#ghSend").onclick=async()=>{
     if(!/\.(jpe?g|mp4|mov)$/i.test(fname)){toast("O Instagram só aceita JPG ou MP4 pela API. Este navegador gerou "+ext.toUpperCase()+": use o Chrome ou o Edge para exportar vídeo em MP4.");return}
