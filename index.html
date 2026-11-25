@@ -2372,7 +2372,8 @@ function drawTag(ctx,l){
   lines.forEach((ln,i)=>{let x=tx;const y=top+pad+nh+lh*i+lh/2;ln.words.forEach((wd,j)=>{ctx.font=fontStr(l,s,wd.hl?900:500);ctx.fillStyle=wd.hl&&l.hl?l.hl:l.color;ctx.fillText(wd.t,x,y);x+=wd.w+wd.sp})});
   return{w,h};
 }
-function draw(ctx,st,showSel){if(st&&st.evLive){drawEvLive(ctx,st);return}if(st&&st.evDs){drawEvDs(ctx,st);return}
+function draw(ctx,st,showSel){drawCore(ctx,st,showSel);if(EVT&&st&&/^evt_/.test(st.tpl||""))evWM(ctx)}
+function drawCore(ctx,st,showSel){if(st&&st.evLive){drawEvLive(ctx,st);return}if(st&&st.evDs){drawEvDs(ctx,st);return}
   drawingStory=st;ctx.clearRect(0,0,W,H);drawBg(ctx,st.bg);
   for(const l of st.layers){
     if(skipLayerId&&l.id===skipLayerId)continue;
@@ -7349,6 +7350,9 @@ function evQrPng(id){const E=EVENTOS[id],url=evUrl(id),T=E.tema==="rz"?{bg:"#030
   x.font='600 24px "Manrope",sans-serif';x.fillText("Clique, grave e poste · Story Pronto",540,1270);
   return new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(),"image/png"))}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-evsh]");if(!b)return;e.preventDefault();e.stopPropagation();evShare(b.dataset.evsh)},true);
+const evPlats=()=>["Story do Instagram","TikTok","Facebook","YouTube Shorts"].concat(EVT&&EVT.id==="uninter-fortaleza"?["LinkedIn"]:[]).concat(["Status do WhatsApp"]);
+/* marca d'água discreta nos stories dos eventos: texto fino na lateral direita, longe dos rostos e dos controles do Instagram */
+function evWM(ctx){ctx.save();ctx.translate(1048,820);ctx.rotate(-Math.PI/2);ctx.globalAlpha=.55;ctx.font='600 20px "Manrope","Montserrat",sans-serif';if("letterSpacing" in ctx)ctx.letterSpacing="3px";ctx.textAlign="center";ctx.textBaseline="middle";ctx.shadowColor="rgba(0,0,0,.55)";ctx.shadowBlur=6;ctx.fillStyle="#fff";ctx.fillText("FEITO COM STORYPRONTO.COM.BR",0,0);ctx.restore()}
 let evCam=null;
 /* tempo pelo teclado numérico: só números, os dois-pontos entram sozinhos (13625 → 1:36:25) */
 function tmMask(v){const d=String(v||"").replace(/\D/g,"").replace(/^0+(?=\d{3})/,"").slice(0,6);if(d.length<=2)return d;if(d.length<=4)return d.slice(0,-2)+":"+d.slice(-2);return d.slice(0,-4)+":"+d.slice(-4,-2)+":"+d.slice(-2)}
@@ -7382,7 +7386,7 @@ function evtRecStart(){const C=evCam;if(!C||!C.out)return;const mime=pickMime();
   C.mr=mr;C.t0=Date.now();evtLiveT0=Date.now();mr.start(250);$("#evRb").classList.add("on");try{navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>C.wl=w).catch(()=>{})}catch(e){}try{track("evento_gravar")}catch(e){}}
 function evtRecStop(){const C=evCam;if(!C||!C.mr||C.mr.state==="inactive")return;const el=(Date.now()-C.t0)/1000;if(el<1){return}C.mr.stop();$("#evRb").classList.remove("on")}
 function evtRecDone(blob,type){const C=evCam;if(!C)return;const st=C.st;evtCamOff(true);const ext=type.includes("mp4")?"mp4":"webm";
-  expFmt=FMTS[0];expPlats=["Story do Instagram","Status do WhatsApp"];expPlat=expPlats[0];expSt=st;if(expUrl)try{URL.revokeObjectURL(expUrl)}catch(e){}const url=URL.createObjectURL(blob);expUrl=url;
+  expFmt=FMTS[0];expPlats=evPlats();expPlat=expPlats[0];expSt=st;if(expUrl)try{URL.revokeObjectURL(expUrl)}catch(e){}const url=URL.createObjectURL(blob);expUrl=url;
   const extra=ext==="webm"?`<div class="warn">Este celular gravou em WEBM. Se o Instagram recusar, use o Status do WhatsApp ou grave pelo Chrome atualizado.</div>`:"";
   evCount(EVT.id,"gravou",{modelo:evMod(S.stories.indexOf(st)),origem:"link"});modalResult(`<video src="${url}" controls playsinline autoplay muted loop></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB · ${ext.toUpperCase()}</p>`,blob,fmtName(st,ext),payloadOf(st,true),extra);try{track("evento_video")}catch(e){}}
 function evtCamOff(back){const C=evCam;if(!C)return;evCam=null;cancelAnimationFrame(evtRAF);try{if(C.mr&&C.mr.state!=="inactive"){C.mr.onstop=null;C.mr.stop()}}catch(e){}
@@ -7397,7 +7401,7 @@ async function evtMedia(e){const f=e.target.files[0];e.target.value="";if(!f)ret
   else{try{const src=await readImg(f,1440,2560);const l=old.type==="image"?old:I(geo);l.src=src;delete l.evPh;l.zoom=1;l.ox=0;l.oy=0;st.layers.splice(i,1,l)}catch(err){toast("Não consegui abrir essa foto. Tente outra.");return}}
   evCount(EVT.id,"galeria",{modelo:evMod(S.stories.indexOf(st)),origem:"link"});evtOpen(S.stories.indexOf(st),true)}
 function evtPost(){const st=evtSt;if(!st)return;if(!evResOk(st))return;if(st.layers.some(l=>l.evMedia)&&!evtHasMedia(st)){toast("Primeiro, adicione sua foto ou vídeo.");return}
-  cancelAnimationFrame(evtRAF);expFmt=FMTS[0];expPlats=["Story do Instagram","Status do WhatsApp"];expPlat=expPlats[0];try{track("evento_post")}catch(e){}
+  cancelAnimationFrame(evtRAF);expFmt=FMTS[0];expPlats=evPlats();expPlat=expPlats[0];try{track("evento_post")}catch(e){}
   const done=()=>{const ed=$("#evEdit");if(ed&&!ed.hidden)evtOpen(S.stories.indexOf(st),true)};
   const vl=st.layers.find(l=>l.type==="video"&&l.vid);if(vl){const el=getVid(vl);if(el){el.muted=false;el.pause()}exportVideo(st).then(done)}else{exportPng(st);setTimeout(done,600)}}
 
