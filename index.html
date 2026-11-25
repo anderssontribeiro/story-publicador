@@ -873,8 +873,8 @@ header .clock,header #who{display:none!important}
 .evh b{display:block;font:italic 700 19px/1.2 "Playfair Display",serif}.evh span{font-size:12.5px;color:#5d6f70;letter-spacing:.02em}
 .evlist{padding:22px 18px 30px;max-width:760px;margin:0 auto;width:100%}
 .evk{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#b08d57;margin:0 0 14px;font-weight:600}
-.evcards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:560px){.evcards{grid-template-columns:1fr 1fr}.evcard:last-child{grid-column:1/-1}.evcard:last-child canvas{width:60%;margin:0 auto}}
+.evcards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:560px){.evcards{grid-template-columns:1fr 1fr;row-gap:20px}}
 .evcard{display:flex;flex-direction:column;gap:6px;text-align:left;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
 .evcard canvas{width:100%;height:auto;aspect-ratio:9/16;border-radius:14px;box-shadow:0 1px 0 #ffffff inset,0 10px 26px #1d3b3f26;background:#e6d8c2;transition:transform .25s}
 .evcard:active canvas{transform:scale(.98)}
@@ -2084,6 +2084,8 @@ function drawShape(ctx,l){
   if(l.kind==="line"){ctx.fillRect(-w/2,-h/2,w,h)}
   else{if(l.kind==="ellipse"){ctx.beginPath();ctx.ellipse(0,0,w/2,h/2,0,0,Math.PI*2)}else if(l.kind==="triangle"){ctx.beginPath();ctx.moveTo(0,-h/2);ctx.lineTo(w/2,h/2);ctx.lineTo(-w/2,h/2);ctx.closePath();ctx.lineJoin="round"}
     else if(l.kind==="path"&&l.d){const sx=w/24,sy=h/24;ctx.scale(sx,sy);ctx.translate(-12,-12);ctx.lineJoin="round";ctx.lineCap="round";ctx.lineWidth=(l.stroke||4)/((sx+sy)/2);const pth=new Path2D(l.d);l.fill?ctx.fill(pth):ctx.stroke(pth);ctx.restore();return{w:Math.max(w,30),h:Math.max(h,30)}}
+    else if(l.kind==="fade"){const c=l.color||"#000000",n=parseInt(c.slice(1),16),rgb=`${n>>16&255},${n>>8&255},${n&255}`,up=l.dir!=="down",g=ctx.createLinearGradient(0,up?-h/2:h/2,0,up?h/2:-h/2);
+      g.addColorStop(0,`rgba(${rgb},0)`);g.addColorStop(l.mid||.45,`rgba(${rgb},.75)`);g.addColorStop(1,`rgba(${rgb},1)`);ctx.fillStyle=g;ctx.fillRect(-w/2,-h/2,w,h);ctx.restore();return{w,h}}
     else if(l.kind==="wave"||l.kind==="waveline"){const a=l.amp||20,n=l.n||1.5,ph=l.ph||0,st=64;ctx.beginPath();for(let i=0;i<=st;i++){const x=-w/2+w*i/st,y=(l.kind==="wave"?-h/2+a:0)+a*Math.sin(ph+i/st*n*Math.PI*2);i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
       if(l.kind==="wave"){ctx.lineTo(w/2,h/2);ctx.lineTo(-w/2,h/2);ctx.closePath();ctx.fill()}else{ctx.lineCap="round";ctx.lineJoin="round";ctx.stroke()}ctx.restore();return{w,h:Math.max(h,30)}}
     else rr(ctx,-w/2,-h/2,w,h,l.radius||0);l.fill?ctx.fill():ctx.stroke()}
@@ -5020,21 +5022,42 @@ function evtStories(E){const C=EVC,lab=(y,t,c,o)=>T(Object.assign({y,text:t,font
     SH({kind:"wave",x:540,y:1790,w:1200,h:340,color:C.sea,op:.95,amp:20,n:1.7,ph:.3}),
     I({x:540,y:850,w:780,ratio:"4:5",shape:"polaroid",bcolor:"#ffffff",fshadow:true,rot:-2.5,evMedia:true}),
     T({x:562,y:1368,rot:-2.5,text:E.nome+" · "+E.data.replace(/ · 20\d\d$/,"").replace(/ · /g,"."),font:"Caveat",size:62,weight:700,color:C.ink,shadow:false,maxW:740}),
-    lab(1835,E.lugar.toUpperCase()+"  ·  "+E.data,C.ivory,{size:26,ls:6})]);
-  const c=evtStory("evt_recado",{type:"gradient",c1:C.deep,c2:C.sea},[
-    lab(170,"WEDDING",C.gold),
-    T({y:262,text:E.nome,font:"Playfair Display",italic:true,size:76,weight:700,color:C.ivory,shadow:false}),
-    I({x:540,y:770,w:600,ratio:"3:4",shape:"arch",border:8,bcolor:C.gold,fshadow:true,evCasal:true}),
-    lab(1262,"UM DESEJO PARA OS NOIVOS",C.gold,{size:26,ls:8}),
-    T({y:1420,text:E.msg,font:"Playfair Display",italic:true,size:60,weight:700,color:C.ivory,shadow:false,maxW:880,evMsg:true}),
-    SH({kind:"waveline",x:540,y:1610,w:360,h:24,color:C.gold,stroke:3,amp:7,n:2,ph:0,fill:false}),
-    SH({kind:"wave",x:540,y:1830,w:1200,h:300,color:C.sand,op:.1,amp:18,n:1.4,ph:1}),
-    lab(1725,E.data,C.ivory,{size:28,ls:8,op:.85})]);
-  return[a,b,c]}
-const EVT_INFO=[["Cheguei!","Sua foto ou vídeo em tela cheia, com a areia e o nome dos noivos."],["Polaroid","Seu momento numa foto revelada, com o mar embaixo."],["Recado","Escreva um desejo para os noivos, com a foto do casal."]];
-async function evtCasalFoto(E,st){const l=st.layers.find(x=>x.evCasal);if(!l)return;
+    lab(1822,E.lugar.toUpperCase()+"  ·  "+E.data,C.ivory,{size:38,ls:7,weight:500})]);
+  const c=evtStory("evt_ano",{c1:"#ffffff",c2:"#ffffff"},[
+    I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
+    SH({kind:"fade",x:540,y:1450,w:1080,h:940,color:"#ffffff",mid:.42}),
+    lab(1250,E.lugar.toUpperCase()+"  ·  "+E.data,"#8f7650",{size:28,ls:8}),
+    T({y:1375,text:"CASAMENTO",font:"Playfair Display",size:150,weight:700,color:C.gold,ls:4,shadow:false,maxW:1040}),
+    T({y:1520,text:"DO ANO",font:"Playfair Display",size:150,weight:700,color:C.gold,ls:6,shadow:false,maxW:1040}),
+    T({y:1650,text:E.nome.replace(" & "," e "),font:"Playfair Display",italic:true,size:66,weight:700,color:"#8a6a3c",shadow:false})]);
+  const EYE="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z M12 9a3 3 0 1 0 0.01 0z",HEART="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.6 1.1 5.2 3 1.6-1.9 3.2-3 5.2-3 3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z";
+  const wt=(x,y,t,o)=>T(Object.assign({x,y,text:t,anchor:"left",align:"left",font:"Montserrat",size:30,weight:500,color:"#ffffff",shadow:true,maxW:760},o||{}));
+  const com=(y,h,m,cor)=>[SH({kind:"ellipse",x:96,y:y+18,w:52,h:52,color:cor,fill:true}),wt(140,y,h,{size:25,weight:800,shadow:true}),wt(140,y+38,m,{size:31})];
+  const d=evtStory("evt_live",{c1:"#000",c2:"#000"},[
+    I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
+    SH({kind:"fade",x:540,y:250,w:1080,h:500,color:"#000000",dir:"down",mid:.5,op:.6}),
+    SH({kind:"fade",x:540,y:1530,w:1080,h:780,color:"#000000",mid:.5}),
+    I({x:104,y:285,w:92,ratio:"1:1",shape:"circle",border:5,bcolor:"#ff3b6b",evCasal:true}),
+    wt(168,266,E.nome,{size:34,weight:800}),wt(168,306,"Casamento · "+E.lugar,{size:24,op:.85}),
+    SH({kind:"rect",x:792,y:285,w:156,h:58,radius:12,color:"#ff2d55",fill:true}),
+    T({x:792,y:286,text:"AO VIVO",font:"Montserrat",size:26,weight:800,color:"#ffffff",ls:2,shadow:false}),
+    SH({kind:"rect",x:962,y:285,w:168,h:58,radius:12,color:"#000000",fill:true,op:.45}),
+    SH({kind:"path",d:EYE,x:910,y:285,w:34,h:34,color:"#ffffff",fill:false,stroke:2}),
+    wt(936,286,"12,8 mil",{size:26,weight:800,shadow:false}),
+    ...com(1175,"@madrinhas","Que casal lindo! Felicidades","#d8a7b1"),
+    ...com(1300,"@familia.da.noiva","Chorando aqui de emoção","#b08d57"),
+    ...com(1425,"@padrinhos","O pôr do sol caprichou hoje","#7fa9a6"),
+    ...com(1550,"@amigos.do.noivo","Já quero a festa!","#c9b79c"),
+    SH({kind:"path",d:HEART,x:990,y:1600,w:84,h:84,color:"#ff3b6b",fill:true}),
+    SH({kind:"path",d:HEART,x:1004,y:1505,w:64,h:64,color:"#ff8fab",fill:true,op:.92}),
+    SH({kind:"path",d:HEART,x:982,y:1428,w:50,h:50,color:"#ffffff",fill:true,op:.85}),
+    SH({kind:"path",d:HEART,x:1000,y:1368,w:38,h:38,color:"#ff3b6b",fill:true,op:.7}),
+    SH({kind:"path",d:HEART,x:986,y:1322,w:28,h:28,color:"#ff8fab",fill:true,op:.5})]);
+  return[a,b,c,d]}
+const EVT_INFO=[["Cheguei!","Sua foto ou vídeo em tela cheia, com a areia e o nome dos noivos."],["Polaroid","Seu momento numa foto revelada, com o mar embaixo."],["Casamento do Ano","Sua foto com degradê branco e letras douradas."],["Ao vivo","Como se você estivesse transmitindo o casamento ao vivo."]];
+async function evtCasalFoto(E,st){const l=st.layers.find(x=>x.evCasal);if(!l)return;const fs=Math.round(l.w*.36);
   try{const r=await fetch(E.foto,{cache:"no-cache"});if(!r.ok)throw 0;const bl=await r.blob();if(!/^image\//.test(bl.type))throw 0;l.src=await readImg(new File([bl],"casal",{type:bl.type}),1200,1600)}
-  catch(e){const i=st.layers.indexOf(l);st.layers.splice(i,1,SH({kind:"ellipse",x:540,y:770,w:520,h:520,color:EVC.gold,fill:false,stroke:3,op:.7}),T({y:770,text:E.mono,font:"Playfair Display",italic:true,size:200,weight:700,color:EVC.ivory,shadow:false}))}}
+  catch(e){const i=st.layers.indexOf(l);st.layers.splice(i,1,SH({kind:"ellipse",x:l.x,y:l.y,w:l.w+l.border*2,h:l.w+l.border*2,color:l.bcolor,fill:true}),SH({kind:"ellipse",x:l.x,y:l.y,w:l.w,h:l.w,color:EVC.deep,fill:true}),T({x:l.x,y:l.y+2,text:E.mono,font:"Playfair Display",italic:true,size:fs,weight:700,color:EVC.ivory,shadow:false}))}}
 function evtRender(cv,st){const x=cv.getContext("2d");if(cv.width===W){draw(x,st,false);return}const t=evtRender.t||(evtRender.t=Object.assign(document.createElement("canvas"),{width:W,height:H}));draw(t.getContext("2d"),st,false);x.clearRect(0,0,cv.width,cv.height);x.drawImage(t,0,0,cv.width,cv.height)}
 function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign({id},E);
   ACC={u:"evt:"+id,role:"evento",name:"Convidado"};KEY=null;S=normalize({stories:evtStories(E),cur:""});S.easy=true;S.cur=S.stories[0].id;
@@ -5051,7 +5074,7 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
      <button type="button" class="btn pri" id="evGo">Postar</button></div></section>`;
   ov.classList.add("on");
   const ready=()=>ov.querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]));
-  evtCasalFoto(E,S.stories[2]).then(ready);ready();document.fonts.ready.then(()=>setTimeout(ready,150));setTimeout(ready,1200);
+  evtCasalFoto(E,S.stories[3]).then(ready);ready();document.fonts.ready.then(()=>setTimeout(ready,150));setTimeout(ready,1200);
   ov.onclick=e=>{const c=e.target.closest("[data-evi]");if(c){evtOpen(+c.dataset.evi);return}const b=e.target.closest("[data-ev]");if(b&&b.dataset.ev==="back")evtClose()};
   $("#evFile").onchange=evtMedia;$("#evMsg").oninput=e=>{const l=evtSt&&evtSt.layers.find(x=>x.evMsg);if(l){l.text=e.target.value.trim()||EVT.msg}};
   $("#evGo").onclick=evtPost;
