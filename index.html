@@ -1037,6 +1037,59 @@ a.hm-card{text-decoration:none}
  .hm-evsec .hm-card{min-height:184px}
 }
 body:not(.edvid) #galKind button[data-k="vid"],body:not(.edvid) #galKind button[data-k="todos"]{display:none}
+.hm-evsec .hm-main.hm-ev1{grid-template-columns:1fr}.hm-evsec .hm-main.hm-ev2{grid-template-columns:1fr 1fr}
+.evshb1{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;border:1px solid currentColor;background:none;color:inherit;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;opacity:.85;margin-left:auto}
+.evshb1:hover{opacity:1}
+.evh .evlogin{margin-left:0}
+.evinv{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:26px 0 0;padding:16px 18px;border-radius:16px;border:1px solid #1d3b3f26}
+#evt.evrun .evinv,#evt.evrz .evinv{border-color:#ffffff29}
+.evinv div{display:flex;flex-direction:column;gap:3px}.evinv b{font-size:15px}.evinv span{font-size:12.5px;opacity:.75;line-height:1.4}
+.evinv button{flex:0 0 auto;padding:11px 18px;border-radius:999px;border:0;font:inherit;font-weight:700;font-size:14px;cursor:pointer;background:#1d3b3f;color:#fbf7f0}
+#evt.evrun .evinv button{background:#f3e6c8;color:#141238}#evt.evrz .evinv button{background:#fff;color:#03045E}
+.evsh{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,10,10,.45);opacity:0;transition:opacity .25s}
+.evsh.on{opacity:1}
+.evshb{width:100%;max-width:460px;background:#1c1b19;color:#efece6;border-radius:22px 22px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px;transform:translateY(30px);transition:transform .25s}
+.evsh.on .evshb{transform:none}
+.evshb>b{font:700 18px/1.25 var(--f-disp);letter-spacing:-.01em}.evshb>p{margin:0 0 8px;font-size:13px;opacity:.7;line-height:1.45}
+.evshb button{display:flex;align-items:center;gap:12px;min-height:52px;padding:0 16px;border-radius:14px;border:1px solid #ffffff1f;background:#ffffff0a;color:inherit;font:inherit;font-size:15px;font-weight:600;cursor:pointer;text-align:left}
+.evshb button:hover{background:#ffffff14}
+.evshb .evshx{justify-content:center;border:0;background:none;opacity:.7;margin-top:4px}
+.evsh-wd .evshb{background:#f6f1e8;color:#1d3b3f}.evsh-wd .evshb button{border-color:#1d3b3f26;background:#fff}.evsh-wd .evshb .evshx{background:none}.evsh-wd .evshb>b{font:italic 700 20px/1.25 "Playfair Display",serif}
+.evsh-run .evshb{background:#141238;color:#f3e6c8}.evsh-rz .evshb{background:#03045E;color:#fff;font-family:"Onest",var(--f-body)}
+.hm-evsh{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 35%,transparent);background:none;color:inherit;cursor:pointer;opacity:.8}
+@media(max-width:640px){.hm-ed i svg{width:84px!important}}
+.hm-evsh:hover{opacity:1}
+@media(min-width:900px){.evsh{align-items:center}.evshb{border-radius:22px}}
+@media(max-width:640px){.evshb1 span{display:none}.evshb1{padding:9px;border-color:transparent}.evinv{flex-direction:column;align-items:stretch}.evinv button{min-height:46px}}
+.hm-eu{background:#00316a;color:#fff}
+.hm-eu i{background:none!important;width:52px!important;height:52px!important;border-radius:50%!important;overflow:hidden;box-shadow:0 0 0 2px #ffffff40}
+.hm-eu i img{width:100%;height:100%;display:block}
+.hm-eu span{color:#c7d3e6;opacity:1}
+.hm-evsec .hm-main.hm-ev4{grid-template-columns:1fr 1fr}
+@media(min-width:641px){.hm-evsec .hm-main.hm-ev4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.hm-evsec .hm-main.hm-ev4 .hm-er{grid-column:auto}.hm-er i svg{width:92px!important}.hm-er i{top:26px!important}}
+#evt.evun{background:#001b3d;color:#fff}
+#evt.evun .evh{background:rgba(0,27,61,.92);border-bottom-color:#ffffff1f}
+#evt.evun .evh b,#evt.evun .evtop span{font:800 17px/1.2 "Montserrat",sans-serif;font-style:normal}
+#evt.evun .evh span,#evt.evun .evcard span{color:#c7d3e6}
+#evt.evun .evk{color:#f2b705}
+#evt.evun .evcard b{font:800 16px/1.2 "Montserrat",sans-serif;font-style:normal}
+#evt.evun .evcard canvas{background:#0a2a55;box-shadow:0 10px 26px #00000059}
+#evt.evun .evfoot{color:#9fb0c9}#evt.evun .evfoot a{color:#fff}
+#evt.evun .evback,#evt.evun .evcx,#evt.evun .evflip{color:#fff}
+#evt.evun .evact .btn.pri,#evt.evun .evact .evpick.pri,#evt.evun .evact #evGo.pri{background:#f2b705;color:#00316a}
+#evt.evun .evact .evpick,#evt.evun .evact #evGo:not(.pri),#evt.evun .evact .btn:not(.pri){background:#ffffff12;border:1px solid #ffffff33;color:#fff}
+#evt.evun .evnav{background:#ffffff14}#evt.evun .evnav a:hover{background:#ffffff1f}
+#evt.evun .evrb{border-color:#fff}#evt.evun .evtm{background:#001b3dd9;color:#fff}
+#evt.evun .evcad{background:rgba(0,10,25,.6)}
+#evt.evun .evcadb{background:#00316a;color:#fff}
+#evt.evun .evcadb h2{color:#c7d3e6}#evt.evun .evcadb h2 em{font:800 23px/1.2 "Montserrat",sans-serif;font-style:normal;color:#fff}
+#evt.evun .evcadb label span{color:#ffffffb3}
+#evt.evun .evcadb input:not([type=checkbox]){background:#ffffff12;border-color:#ffffff33;color:#fff}
+#evt.evun .evcadb a{color:#fff}
+#evt.evun .evgo{background:#f2b705;color:#00316a}
+#evt.evun .evinv{border-color:#ffffff29}#evt.evun .evinv button{background:#f2b705;color:#00316a}
+.evsh-un .evshb{background:#00316a;color:#fff}
 .hmevt{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#f6f1e8;color:#1d3b3f;text-decoration:none}
 .hmevt .evmono{width:42px;height:42px;flex:0 0 42px;font-size:15px}.hmevt div{flex:1;min-width:0}.hmevt b{display:block;font:italic 700 16px/1.25 "Playfair Display",serif}.hmevt span{font-size:12px;color:#5d6f70;word-break:break-all}.hmevt i{font-style:normal;font-size:13px;font-weight:600;white-space:nowrap}
 
@@ -4302,7 +4355,74 @@ function drawResultado(ctx,l,el,t,st,m,cap){const rz=m.style==="rzres",q=m.ds||d
   if(rz){const u=ease(2.3,.6);if(u>0){ctx.save();ctx.globalAlpha=u;const pv=String(q.pv||"").trim();if(pv)hcTxt(ctx,pv.toUpperCase(),CX,1300,`700 28px ${f}`,"#fff",5,{shadow:sh,blur:8,max:520,size:28,min:18});const lw=290;rzLogo(ctx,CX-lw/2,1390-lw/RZ_LOGO.W*RZ_LOGO.H/2,lw,99,0);ctx.restore()}}
   else{const u=ease(2.3,.6);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,[q.ti,q.ro].filter(Boolean).join(" ").toUpperCase()||"DESAFIO",CX,1300,`800 28px ${f}`,"#fff",5,{shadow:sh,blur:8,max:520,size:28,min:18});dsLogo(ctx,q,CX,1382,66);ctx.restore()}}
   if(cap&&!hole)stWords(ctx,cap.ws,540,1600,940,`800 50px ${f}`,60,j=>j===cap.kk?{c:"#fff",s:1.04}:{c:"rgba(255,255,255,.92)",s:1},{shadow:"rgba(0,0,0,.75)",blur:14})}
-function drawStyle(ctx,l,el,t,st,m){if(m.style==="resultado"||m.style==="rzres"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawResultado(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^rz\d/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawRevezo(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="desafio"||m.style==="sobrevivi"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawDesafio(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^cam/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawCam(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="faqlive"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFaqLive(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^hc/.test(m.style)){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawWedding(ctx,l,el,t,st,m,cap);ctx.restore();return}const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m,t),dur=Math.max(1,(l.end||0)-(l.start||0)||(m.scenes[m.scenes.length-1].t1-.5)),cap=m.caps!==false?stCap(st,t):null;
+/* ---------- UNINTER FORTALEZA CENTRO · live, Natal, 2027, metas e matrículas ---------- */
+const UN_C={navy:"#00316a",deep:"#001b3d",gold:"#f2b705",cream:"#fbf3dc",ink:"#0b1630"};
+const UN_FQ={h:"uninterfortalezacentrooficial",n:"Uninter Fortaleza Centro",f:"1529",v:false,logo:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCADwAPADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD4Xooor9gPzIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAC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iV4l0zWPhl41HhfRbTR7iLxPFba4Fk3yTxiYbZRk9Cfyrd+Iukz+Ob740+F9GaG716+s9OktrMzKjSgRrnaTwcVyt3+yXpVp498Mor6hN4W1nSnuLgrcHel0sQcBm9CTkZ9K4b4W/AeLxv8AC/xn4mku7xNftJJYtHaOdlLmIAtn14OPwrNKjy3jLb/P/gFOVW9nHf8AT/hyn+1Tbtoll8N9CumiGqaXoSQ3lvHIH8l89CR3rwOvTfFPgXT7L4H+FPF6vcSaxquo3NtctLIWUqnTAPQ15lX0GESVOyd7Hi4lt1LtBRRRXYcoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUnqB9Q/Cz4reFdC8LfCW1v9XSCfR9RvZ75DGx8hXUhCcDnPtUXiX496R4w/Z08S+G7+8DeIo9RjWzZkJa6thKGU7sfwgY5r5lU4FLmvOeApuXO3re/wCp3LGTUeVHuHi7x7oOpeF/gdaW2orJcaBCi6kgVgbcidWOeOeB2r0H4veOPD+u+M7bxDa/FU6ppK6tbXKeHhBIEhVWXLAlewBNfJ2aTI9qbwULpp7X/EFipWaaPrD4p/tAaZ8Q9D+Jugy+I8W66jDeaHMsbKt3CNu6E4GcZyfmrsdE/am8M6f8RbzT7jVY5/DFzocKw3ZjYi3u0hCsMYzz049K+Hs0uaj+zqPLy9P+G/yL+vVL8x9e+BP2g/A/w207wL4cjt4tXt/309/qgZ0FjJOSJBsx8+FNY8d98LfGPhDSNA1XxhHpdp4d1y7uPLe2dhfWzuSuwgcZHrXy1mjP0oWAhF80ZNMTxs3pKKsfTVn8W/A3h7wZb22kM0FraeN11O300KTItmo+/np+HWtLxl43+H3hzRfibqej+LV16/8AGcsbQafHbOjWw3hjvYjBxg18pZoyPam8BBu/MxLGTXQ+4/D37UvhjTPiHf6fc6rHN4ZuNEiEF4yNtgu0hKlQMZ54H4Vz/gf9oPwH8ObXwN4eWKLVbYCeTUNXUun2N52beNmPmwpUV8eZo49qj+zKO2pSx9RH07qK/Drxv8K9P8MzePbXQm0rWb65iL2sknmxOx2YwOMjFfM1zFHDczRxSieNHZUlAwHAPBx70zP0pCeK7KND2N0pXRy1avtbNobRRRXUYBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH//2Q==",
+ qa:"O diploma EAD vale igual ao presencial? | Vale sim! O diploma é o mesmo do presencial, sem nenhuma diferença.\nVocês têm pós-graduação EAD? | Temos! Graduação e pós EAD, no seu ritmo e com apoio aqui no polo.\nTem curso da área da saúde? | Tem sim, no formato semipresencial, com as práticas acompanhadas pelo polo.\nOnde fica o polo? | Rua do Pocinho, 20, Edifício Clóvis Rolim, no Centro de Fortaleza.\nComo faço minha matrícula? | Chama a gente no WhatsApp do link da bio que a gente te ajuda em poucos minutos."};
+const unH=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+const unE=(t,a,d)=>mtOut(Math.max(0,Math.min(1,(t-a)/d)));
+function unLogo(ctx,cx,cy,r){const im=getImg(UN_FQ.logo);ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.closePath();ctx.fillStyle=UN_C.navy;ctx.fill();if(im&&im.naturalWidth){ctx.clip();ctx.drawImage(im,cx-r,cy-r,2*r,2*r)}ctx.restore();ctx.save();ctx.strokeStyle="rgba(255,255,255,.5)";ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,r+5,0,7);ctx.stroke();ctx.restore()}
+function unSign(ctx,y,a,dark){ctx.save();ctx.globalAlpha=a;unLogo(ctx,404,y,34);hcTxt(ctx,"Uninter Fortaleza Centro",460,y-12,'700 30px "Montserrat",sans-serif',dark?UN_C.ink:"#fff",0,{align:"left",shadow:dark?"":"rgba(0,0,0,.45)",blur:8});hcTxt(ctx,"@uninterfortalezacentrooficial",460,y+22,'500 22px "Montserrat",sans-serif',dark?"#33405a":"rgba(255,255,255,.8)",0,{align:"left",shadow:dark?"":"rgba(0,0,0,.45)",blur:8});ctx.restore()}
+// letras aparecendo uma a uma, com leve subida
+function unLetters(ctx,txt,cx,y,font,fill,t,t0,step,o){o=o||{};ctx.save();ctx.font=font;ctx.textBaseline="alphabetic";ctx.textAlign="left";if(o.ls)setLS(ctx,o.ls);const ch=[...txt],ws=ch.map(c=>ctx.measureText(c).width),tot=ws.reduce((a,b)=>a+b,0);let x=cx-tot/2;
+  ch.forEach((c,i)=>{const u=unE(t,t0+i*step,.55);if(u>0){ctx.save();ctx.globalAlpha=u;ctx.translate(x+ws[i]/2,y+(1-u)*(o.rise||40));ctx.scale(.92+.08*u,.92+.08*u);if(o.shadow){ctx.shadowColor=o.shadow;ctx.shadowBlur=o.blur||18}ctx.fillStyle=typeof fill==="function"?fill(x,tot):fill;ctx.fillText(c,-ws[i]/2,0);ctx.restore()}x+=ws[i]});ctx.restore();return tot}
+const unGold=(ctx,y,h)=>{const g=ctx.createLinearGradient(0,y-h,0,y+h*.2);g.addColorStop(0,"#fff3c4");g.addColorStop(.45,"#f2c94c");g.addColorStop(.8,"#c8901a");g.addColorStop(1,"#f6d77a");return g};
+function unBokeh(ctx,t,n,warm){ctx.save();ctx.globalCompositeOperation="lighter";for(let i=0;i<n;i++){const s=18+unH(i+3)*70,sp=10+unH(i+9)*26,x=unH(i)*W+Math.sin(t*.3+i)*30,y=((unH(i+50)*H-t*sp)%H+H)%H,a=(.10+.22*unH(i+77))*(.55+.45*Math.sin(t*1.3+i*2.1));
+  const g=ctx.createRadialGradient(x,y,0,x,y,s);const c=warm?(i%3?"255,214,150":"255,240,210"):(i%3?"255,226,160":"200,220,255");g.addColorStop(0,`rgba(${c},${a})`);g.addColorStop(.7,`rgba(${c},${a*.6})`);g.addColorStop(1,`rgba(${c},0)`);ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,s,0,7);ctx.fill()}ctx.restore()}
+function unFireworks(ctx,t){ctx.save();ctx.globalCompositeOperation="lighter";const pts=[[210,420],[880,360],[760,620],[300,700],[540,300],[150,560],[930,560]];
+  for(let j=0;j<pts.length;j++){const per=4.2,off=.6+j*.85,lt=((t-off)%per+per)%per;if(t<off||lt>2)continue;const [cx,cy]=pts[j],col=j%3===0?"255,232,170":j%3===1?"255,255,255":"242,183,5";
+    if(lt<.35){const u=lt/.35;ctx.strokeStyle=`rgba(${col},${.7*(1-u)})`;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx,cy+260*(1-u)+20);ctx.lineTo(cx,cy+260*(1-u)+60);ctx.stroke();continue}
+    const u=(lt-.35)/1.65,N=34;for(let k=0;k<N;k++){const a=k/N*Math.PI*2+j,v=(150+90*unH(j*40+k))*(1-Math.pow(1-u,2)),g=120*u*u,x=cx+Math.cos(a)*v,y=cy+Math.sin(a)*v+g,al=Math.max(0,1-u)*.95;
+      const tx=cx+Math.cos(a)*v*.82,ty=cy+Math.sin(a)*v*.82+g*.8;ctx.strokeStyle=`rgba(${col},${al*.55})`;ctx.lineWidth=2.4;ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();ctx.fillStyle=`rgba(${col},${al})`;ctx.beginPath();ctx.arc(x,y,3.2,0,7);ctx.fill()}}ctx.restore()}
+function drawUninter(ctx,l,el,t,st,m,cap){const k=m.style,sans='"Montserrat",sans-serif',serif='"Playfair Display",serif',hole=el==="HOLE";
+  if(k==="unlive"){drawFaqLive(ctx,l,el,t,st,Object.assign({},m,{fq:UN_FQ}),cap);return}
+  if(k==="unnatal"){stVid(ctx,el,l,0,0,W,H,1,"contrast(1.04) saturate(1.05) sepia(.12)");
+    {const g=ctx.createLinearGradient(0,980,0,H);g.addColorStop(0,"rgba(20,10,0,0)");g.addColorStop(.5,"rgba(20,10,0,.55)");g.addColorStop(1,"rgba(12,6,0,.85)");ctx.fillStyle=g;ctx.fillRect(0,980,W,H-980)}
+    unBokeh(ctx,t,26,true);
+    {const u=unE(t,.2,.8);ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"UNINTER  ·  POLO FORTALEZA CENTRO",540,250,`700 24px ${sans}`,"#fff",8,{shadow:"rgba(0,0,0,.5)",blur:8});ctx.restore()}
+    // estrela desenhada em traço fino dourado
+    {const u=unE(t,.5,1.4);if(u>0){ctx.save();ctx.translate(540,1150);ctx.strokeStyle="#f2c94c";ctx.lineWidth=3;ctx.shadowColor="rgba(255,210,120,.9)";ctx.shadowBlur=18*(.6+.4*Math.sin(t*2));ctx.beginPath();const P=[];for(let i=0;i<16;i++){const r=i%2?10:46,a=-Math.PI/2+i*Math.PI/8;P.push([r*Math.cos(a),r*Math.sin(a)])}P.push(P[0]);const n=Math.floor(u*16);P.slice(0,n+1).forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));if(n<16){const a=P[n],b=P[n+1],f=u*16-n;ctx.lineTo(a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f)}ctx.stroke();ctx.restore()}}
+    unLetters(ctx,"Feliz",540,1300,`italic 400 96px ${serif}`,"#fbf3dc",t,.9,.09,{shadow:"rgba(0,0,0,.5)",blur:14});
+    unLetters(ctx,"Natal",540,1470,`700 200px ${serif}`,()=>unGold(ctx,1470,190),t,1.3,.12,{shadow:"rgba(60,30,0,.55)",blur:22,rise:60});
+    {const u=unE(t,2.4,.6);if(u>0){ctx.save();ctx.globalAlpha=u;ctx.strokeStyle="#f2c94c";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(540-220*u,1520);ctx.lineTo(540+220*u,1520);ctx.stroke();ctx.restore()}}
+    {const u=unE(t,2.8,.7);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"Que a sua história continue",540,1580,`500 34px ${sans}`,"#fbf3dc",0,{shadow:"rgba(0,0,0,.5)",blur:10});hcTxt(ctx,"ganhando novos capítulos.",540,1626,`500 34px ${sans}`,"#fbf3dc",0,{shadow:"rgba(0,0,0,.5)",blur:10});ctx.restore()}}
+    return}
+  if(k==="un2027"){stVid(ctx,el,l,0,0,W,H,1,"contrast(1.08) saturate(.95) brightness(.92)");
+    {const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"rgba(0,10,30,.55)");g.addColorStop(.35,"rgba(0,10,30,0)");g.addColorStop(.6,"rgba(0,10,30,0)");g.addColorStop(1,"rgba(0,10,30,.85)");ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+    unFireworks(ctx,t);
+    {const u=unE(t,.2,.8);ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"UNINTER  ·  POLO FORTALEZA CENTRO",540,250,`700 24px ${sans}`,"#fff",8,{shadow:"rgba(0,0,0,.5)",blur:8});ctx.restore()}
+    unLetters(ctx,"Feliz",540,1250,`italic 400 92px ${serif}`,"#fff",t,.5,.08,{shadow:"rgba(0,0,0,.5)",blur:14});
+    // contador: 2026 vira 2027
+    {const a=unE(t,.8,.6);if(a>0){const Y=1440,font=`800 230px ${sans}`;ctx.save();ctx.globalAlpha=a;ctx.font=font;setLS(ctx,-6);ctx.textBaseline="alphabetic";const w3=ctx.measureText("202").width,wd=ctx.measureText("7").width,x0=540-(w3+wd)/2;
+      ctx.fillStyle=unGold(ctx,Y,220);ctx.shadowColor="rgba(0,0,0,.45)";ctx.shadowBlur=20;ctx.textAlign="left";ctx.fillText("202",x0,Y);
+      const r=t<1.7?0:t>2.4?1:(()=>{const v=(t-1.7)/.7,c1=.9,c3=c1+1;return 1+c3*Math.pow(v-1,3)+c1*Math.pow(v-1,2)})();ctx.save();ctx.beginPath();ctx.rect(x0+w3-10,Y-200,wd+30,240);ctx.clip();
+      ctx.fillText("6",x0+w3,Y-r*230);ctx.fillText("7",x0+w3,Y+230-r*230);ctx.restore();ctx.restore()}}
+    {const b=unE(t,2.2,.9);if(b>0&&b<1){ctx.save();ctx.globalCompositeOperation="lighter";for(let i=0;i<60;i++){const a=unH(i)*Math.PI*2,v=80+unH(i+7)*380,x=540+Math.cos(a)*v*b,y=1360+Math.sin(a)*v*b*.7+90*b*b;ctx.fillStyle=`rgba(255,${200+Math.floor(unH(i+3)*55)},120,${(1-b)*.9})`;ctx.fillRect(x,y,4,4)}ctx.restore()}}
+    {const u=unE(t,2.7,.7);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"Que 2027 seja o ano de tirar",540,1540,`500 34px ${sans}`,"#fff",0,{shadow:"rgba(0,0,0,.6)",blur:10});hcTxt(ctx,"os seus planos do papel.",540,1586,`500 34px ${sans}`,"#fff",0,{shadow:"rgba(0,0,0,.6)",blur:10});ctx.restore()}}
+    return}
+  if(k==="unmeta"){stVid(ctx,el,l,0,0,W,H,1,"contrast(1.04)");
+    {const g=ctx.createLinearGradient(0,900,0,H);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(.35,"rgba(0,10,30,.55)");g.addColorStop(1,"rgba(0,10,30,.88)");ctx.fillStyle=g;ctx.fillRect(0,900,W,H-900)}
+    unLetters(ctx,"Minhas metas para",540,1130,`500 44px ${sans}`,"#fff",t,.2,.03,{shadow:"rgba(0,0,0,.5)",blur:10,rise:20});
+    unLetters(ctx,"2027",540,1250,`800 120px ${sans}`,()=>unGold(ctx,1250,110),t,.7,.12,{shadow:"rgba(0,0,0,.45)",blur:16});
+    const items=[["Começar minha faculdade",true],["Ler um livro por mês",false],["Cuidar mais da saúde",false]];
+    items.forEach(([txt,done],i)=>{const y=1340+i*84,t0=1.5+i*.5,u=unE(t,t0,.45);if(u<=0)return;ctx.save();ctx.globalAlpha=u;ctx.translate((1-u)*-30,0);
+      ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=3;rr(ctx,200,y-30,44,44,10);ctx.stroke();
+      ctx.font=`600 38px ${sans}`;ctx.fillStyle="#fff";ctx.textAlign="left";ctx.textBaseline="middle";ctx.shadowColor="rgba(0,0,0,.5)";ctx.shadowBlur=8;ctx.fillText(txt,272,y-6);ctx.shadowBlur=0;const tw=ctx.measureText(txt).width;
+      if(done){const c=unE(t,t0+.9,.45);if(c>0){ctx.strokeStyle=UN_C.gold;ctx.lineWidth=7;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();const p=[[208,y-10],[220,y+4],[250,y-34]];ctx.moveTo(p[0][0],p[0][1]);if(c<.4)ctx.lineTo(p[0][0]+(p[1][0]-p[0][0])*c/.4,p[0][1]+(p[1][1]-p[0][1])*c/.4);else{ctx.lineTo(p[1][0],p[1][1]);const f=(c-.4)/.6;ctx.lineTo(p[1][0]+(p[2][0]-p[1][0])*f,p[1][1]+(p[2][1]-p[1][1])*f)}ctx.stroke()}
+        const s=unE(t,t0+1.4,.5);if(s>0){ctx.fillStyle=UN_C.gold;ctx.font=`700 24px ${sans}`;ctx.globalAlpha=u*s;ctx.fillText("MATRÍCULA FEITA",272+tw+20,y-6)}}
+      ctx.restore()});
+    {const u=unE(t,3.6,.6);if(u>0)unSign(ctx,1660,u,false)}
+    return}
+  if(k==="unmatri"){stVid(ctx,el,l,0,0,W,H,1,"contrast(1.05)");
+    {const g=ctx.createLinearGradient(0,880,0,H);g.addColorStop(0,"rgba(0,49,106,0)");g.addColorStop(.4,"rgba(0,40,90,.7)");g.addColorStop(1,"rgba(0,27,61,.95)");ctx.fillStyle=g;ctx.fillRect(0,880,W,H-880)}
+    {const u=unE(t,.2,.6);if(u>0){ctx.save();ctx.globalAlpha=u;ctx.fillStyle=UN_C.gold;ctx.fillRect(120,1086,80*u,6);ctx.restore()}}
+    unLetters(ctx,"MATRÍCULAS",540,1200,`800 104px ${sans}`,"#fff",t,.3,.05,{shadow:"rgba(0,0,0,.45)",blur:14,ls:2});
+    unLetters(ctx,"ABERTAS",540,1300,`800 104px ${sans}`,UN_C.gold,t,.8,.06,{shadow:"rgba(0,0,0,.45)",blur:14,ls:2});
+    {const u=unE(t,1.5,.6);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"2027.1",540,1376,`600 40px ${sans}`,"#fff",10,{shadow:"rgba(0,0,0,.5)",blur:8});ctx.restore()}}
+    const mods=["Graduação EAD","Pós-graduação","Saúde semipresencial"];mods.forEach((m2,i)=>{const u=unE(t,1.9+i*.35,.45);if(u<=0)return;ctx.save();ctx.globalAlpha=u;const y=1460+i*58;ctx.translate(0,(1-u)*20);hcTxt(ctx,m2,540,y,`600 36px ${sans}`,"#fff",0,{shadow:"rgba(0,0,0,.5)",blur:8});ctx.restore()});
+    {const u=unE(t,3.2,.5);if(u>0){ctx.save();ctx.globalAlpha=u;hcTxt(ctx,"Fale com o polo pelo link da bio",540,1680,`700 30px ${sans}`,UN_C.gold,1,{shadow:"rgba(0,0,0,.5)",blur:8});ctx.restore()}}
+    return}}
+function drawStyle(ctx,l,el,t,st,m){if(/^un(live|natal|2027|meta|matri)$/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawUninter(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="resultado"||m.style==="rzres"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawResultado(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^rz\d/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawRevezo(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="desafio"||m.style==="sobrevivi"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawDesafio(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^cam/.test(m.style||"")){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawCam(ctx,l,el,t,st,m,cap);ctx.restore();return}if(m.style==="faqlive"){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawFaqLive(ctx,l,el,t,st,m,cap);ctx.restore();return}if(/^hc/.test(m.style)){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawWedding(ctx,l,el,t,st,m,cap);ctx.restore();return}const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m,t),dur=Math.max(1,(l.end||0)-(l.start||0)||(m.scenes[m.scenes.length-1].t1-.5)),cap=m.caps!==false?stCap(st,t):null;
   ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);
   const k=m.style;
   if(k==="viral"){
@@ -5457,11 +5577,1618 @@ function evCount(evento,acao,extra){try{if(EVT&&EVT.own)return;const ev=evSlug(e
 const EVT_MOD=["Pé na areia","Polaroid","Casamento do Ano","Ao vivo"];
 const wedModel=k=>({hcareia:"Pé na areia",hcpolaroid:"Polaroid",hcano:"Casamento do Ano",hclive:"Ao vivo"})[k]||k;
 /* ---------- MODO EVENTO (convidados postam sem cadastro) ---------- */
-const EVENTOS={"hannah-caio":{kind:"wedding",titulo:"Wedding Hannah & Caio",dataISO:"2026-12-19",nome:"Hannah & Caio",mono:"H&C",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"pé na areia",foto:"hannah-caio.jpg",
+/* QR Code Generator for JavaScript · Copyright (c) 2009 Kazuhiko Arase · MIT license · 'QR Code' é marca registrada da DENSO WAVE */
+var qrcode = function() {
+var qrcode = function(typeNumber, errorCorrectionLevel) {
+var PAD0 = 0xEC;
+var PAD1 = 0x11;
+var _typeNumber = typeNumber;
+var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+var _modules = null;
+var _moduleCount = 0;
+var _dataCache = null;
+var _dataList = [];
+var _this = {};
+var makeImpl = function(test, maskPattern) {
+_moduleCount = _typeNumber * 4 + 17;
+_modules = function(moduleCount) {
+var modules = new Array(moduleCount);
+for (var row = 0; row < moduleCount; row += 1) {
+modules[row] = new Array(moduleCount);
+for (var col = 0; col < moduleCount; col += 1) {
+modules[row][col] = null;
+}
+}
+return modules;
+}(_moduleCount);
+setupPositionProbePattern(0, 0);
+setupPositionProbePattern(_moduleCount - 7, 0);
+setupPositionProbePattern(0, _moduleCount - 7);
+setupPositionAdjustPattern();
+setupTimingPattern();
+setupTypeInfo(test, maskPattern);
+if (_typeNumber >= 7) {
+setupTypeNumber(test);
+}
+if (_dataCache == null) {
+_dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+}
+mapData(_dataCache, maskPattern);
+};
+var setupPositionProbePattern = function(row, col) {
+for (var r = -1; r <= 7; r += 1) {
+if (row + r <= -1 || _moduleCount <= row + r) continue;
+for (var c = -1; c <= 7; c += 1) {
+if (col + c <= -1 || _moduleCount <= col + c) continue;
+if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+|| (0 <= c && c <= 6 && (r == 0 || r == 6) )
+|| (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+_modules[row + r][col + c] = true;
+} else {
+_modules[row + r][col + c] = false;
+}
+}
+}
+};
+var getBestMaskPattern = function() {
+var minLostPoint = 0;
+var pattern = 0;
+for (var i = 0; i < 8; i += 1) {
+makeImpl(true, i);
+var lostPoint = QRUtil.getLostPoint(_this);
+if (i == 0 || minLostPoint > lostPoint) {
+minLostPoint = lostPoint;
+pattern = i;
+}
+}
+return pattern;
+};
+var setupTimingPattern = function() {
+for (var r = 8; r < _moduleCount - 8; r += 1) {
+if (_modules[r][6] != null) {
+continue;
+}
+_modules[r][6] = (r % 2 == 0);
+}
+for (var c = 8; c < _moduleCount - 8; c += 1) {
+if (_modules[6][c] != null) {
+continue;
+}
+_modules[6][c] = (c % 2 == 0);
+}
+};
+var setupPositionAdjustPattern = function() {
+var pos = QRUtil.getPatternPosition(_typeNumber);
+for (var i = 0; i < pos.length; i += 1) {
+for (var j = 0; j < pos.length; j += 1) {
+var row = pos[i];
+var col = pos[j];
+if (_modules[row][col] != null) {
+continue;
+}
+for (var r = -2; r <= 2; r += 1) {
+for (var c = -2; c <= 2; c += 1) {
+if (r == -2 || r == 2 || c == -2 || c == 2
+|| (r == 0 && c == 0) ) {
+_modules[row + r][col + c] = true;
+} else {
+_modules[row + r][col + c] = false;
+}
+}
+}
+}
+}
+};
+var setupTypeNumber = function(test) {
+var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+for (var i = 0; i < 18; i += 1) {
+var mod = (!test && ( (bits >> i) & 1) == 1);
+_modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+}
+for (var i = 0; i < 18; i += 1) {
+var mod = (!test && ( (bits >> i) & 1) == 1);
+_modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+}
+};
+var setupTypeInfo = function(test, maskPattern) {
+var data = (_errorCorrectionLevel << 3) | maskPattern;
+var bits = QRUtil.getBCHTypeInfo(data);
+for (var i = 0; i < 15; i += 1) {
+var mod = (!test && ( (bits >> i) & 1) == 1);
+if (i < 6) {
+_modules[i][8] = mod;
+} else if (i < 8) {
+_modules[i + 1][8] = mod;
+} else {
+_modules[_moduleCount - 15 + i][8] = mod;
+}
+}
+for (var i = 0; i < 15; i += 1) {
+var mod = (!test && ( (bits >> i) & 1) == 1);
+if (i < 8) {
+_modules[8][_moduleCount - i - 1] = mod;
+} else if (i < 9) {
+_modules[8][15 - i - 1 + 1] = mod;
+} else {
+_modules[8][15 - i - 1] = mod;
+}
+}
+_modules[_moduleCount - 8][8] = (!test);
+};
+var mapData = function(data, maskPattern) {
+var inc = -1;
+var row = _moduleCount - 1;
+var bitIndex = 7;
+var byteIndex = 0;
+var maskFunc = QRUtil.getMaskFunction(maskPattern);
+for (var col = _moduleCount - 1; col > 0; col -= 2) {
+if (col == 6) col -= 1;
+while (true) {
+for (var c = 0; c < 2; c += 1) {
+if (_modules[row][col - c] == null) {
+var dark = false;
+if (byteIndex < data.length) {
+dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+}
+var mask = maskFunc(row, col - c);
+if (mask) {
+dark = !dark;
+}
+_modules[row][col - c] = dark;
+bitIndex -= 1;
+if (bitIndex == -1) {
+byteIndex += 1;
+bitIndex = 7;
+}
+}
+}
+row += inc;
+if (row < 0 || _moduleCount <= row) {
+row -= inc;
+inc = -inc;
+break;
+}
+}
+}
+};
+var createBytes = function(buffer, rsBlocks) {
+var offset = 0;
+var maxDcCount = 0;
+var maxEcCount = 0;
+var dcdata = new Array(rsBlocks.length);
+var ecdata = new Array(rsBlocks.length);
+for (var r = 0; r < rsBlocks.length; r += 1) {
+var dcCount = rsBlocks[r].dataCount;
+var ecCount = rsBlocks[r].totalCount - dcCount;
+maxDcCount = Math.max(maxDcCount, dcCount);
+maxEcCount = Math.max(maxEcCount, ecCount);
+dcdata[r] = new Array(dcCount);
+for (var i = 0; i < dcdata[r].length; i += 1) {
+dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+}
+offset += dcCount;
+var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+var modPoly = rawPoly.mod(rsPoly);
+ecdata[r] = new Array(rsPoly.getLength() - 1);
+for (var i = 0; i < ecdata[r].length; i += 1) {
+var modIndex = i + modPoly.getLength() - ecdata[r].length;
+ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+}
+}
+var totalCodeCount = 0;
+for (var i = 0; i < rsBlocks.length; i += 1) {
+totalCodeCount += rsBlocks[i].totalCount;
+}
+var data = new Array(totalCodeCount);
+var index = 0;
+for (var i = 0; i < maxDcCount; i += 1) {
+for (var r = 0; r < rsBlocks.length; r += 1) {
+if (i < dcdata[r].length) {
+data[index] = dcdata[r][i];
+index += 1;
+}
+}
+}
+for (var i = 0; i < maxEcCount; i += 1) {
+for (var r = 0; r < rsBlocks.length; r += 1) {
+if (i < ecdata[r].length) {
+data[index] = ecdata[r][i];
+index += 1;
+}
+}
+}
+return data;
+};
+var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+var buffer = qrBitBuffer();
+for (var i = 0; i < dataList.length; i += 1) {
+var data = dataList[i];
+buffer.put(data.getMode(), 4);
+buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+data.write(buffer);
+}
+var totalDataCount = 0;
+for (var i = 0; i < rsBlocks.length; i += 1) {
+totalDataCount += rsBlocks[i].dataCount;
+}
+if (buffer.getLengthInBits() > totalDataCount * 8) {
+throw 'code length overflow. ('
++ buffer.getLengthInBits()
++ '>'
++ totalDataCount * 8
++ ')';
+}
+if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+buffer.put(0, 4);
+}
+while (buffer.getLengthInBits() % 8 != 0) {
+buffer.putBit(false);
+}
+while (true) {
+if (buffer.getLengthInBits() >= totalDataCount * 8) {
+break;
+}
+buffer.put(PAD0, 8);
+if (buffer.getLengthInBits() >= totalDataCount * 8) {
+break;
+}
+buffer.put(PAD1, 8);
+}
+return createBytes(buffer, rsBlocks);
+};
+_this.addData = function(data, mode) {
+mode = mode || 'Byte';
+var newData = null;
+switch(mode) {
+case 'Numeric' :
+newData = qrNumber(data);
+break;
+case 'Alphanumeric' :
+newData = qrAlphaNum(data);
+break;
+case 'Byte' :
+newData = qr8BitByte(data);
+break;
+case 'Kanji' :
+newData = qrKanji(data);
+break;
+default :
+throw 'mode:' + mode;
+}
+_dataList.push(newData);
+_dataCache = null;
+};
+_this.isDark = function(row, col) {
+if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+throw row + ',' + col;
+}
+return _modules[row][col];
+};
+_this.getModuleCount = function() {
+return _moduleCount;
+};
+_this.make = function() {
+if (_typeNumber < 1) {
+var typeNumber = 1;
+for (; typeNumber < 40; typeNumber++) {
+var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+var buffer = qrBitBuffer();
+for (var i = 0; i < _dataList.length; i++) {
+var data = _dataList[i];
+buffer.put(data.getMode(), 4);
+buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+data.write(buffer);
+}
+var totalDataCount = 0;
+for (var i = 0; i < rsBlocks.length; i++) {
+totalDataCount += rsBlocks[i].dataCount;
+}
+if (buffer.getLengthInBits() <= totalDataCount * 8) {
+break;
+}
+}
+_typeNumber = typeNumber;
+}
+makeImpl(false, getBestMaskPattern() );
+};
+_this.createTableTag = function(cellSize, margin) {
+cellSize = cellSize || 2;
+margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+var qrHtml = '';
+qrHtml += '<table style="';
+qrHtml += ' border-width: 0px; border-style: none;';
+qrHtml += ' border-collapse: collapse;';
+qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+qrHtml += '">';
+qrHtml += '<tbody>';
+for (var r = 0; r < _this.getModuleCount(); r += 1) {
+qrHtml += '<tr>';
+for (var c = 0; c < _this.getModuleCount(); c += 1) {
+qrHtml += '<td style="';
+qrHtml += ' border-width: 0px; border-style: none;';
+qrHtml += ' border-collapse: collapse;';
+qrHtml += ' padding: 0px; margin: 0px;';
+qrHtml += ' width: ' + cellSize + 'px;';
+qrHtml += ' height: ' + cellSize + 'px;';
+qrHtml += ' background-color: ';
+qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+qrHtml += ';';
+qrHtml += '"/>';
+}
+qrHtml += '</tr>';
+}
+qrHtml += '</tbody>';
+qrHtml += '</table>';
+return qrHtml;
+};
+_this.createSvgTag = function(cellSize, margin, alt, title) {
+var opts = {};
+if (typeof arguments[0] == 'object') {
+opts = arguments[0];
+cellSize = opts.cellSize;
+margin = opts.margin;
+alt = opts.alt;
+title = opts.title;
+}
+cellSize = cellSize || 2;
+margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+alt.text = alt.text || null;
+alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+title = (typeof title === 'string') ? {text: title} : title || {};
+title.text = title.text || null;
+title.id = (title.text) ? title.id || 'qrcode-title' : null;
+var size = _this.getModuleCount() * cellSize + margin * 2;
+var c, mc, r, mr, qrSvg='', rect;
+rect = 'l' + cellSize + ',0 0,' + cellSize +
+' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+qrSvg += '>';
+qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+escapeXml(title.text) + '</title>' : '';
+qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+escapeXml(alt.text) + '</description>' : '';
+qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+qrSvg += '<path d="';
+for (r = 0; r < _this.getModuleCount(); r += 1) {
+mr = r * cellSize + margin;
+for (c = 0; c < _this.getModuleCount(); c += 1) {
+if (_this.isDark(r, c) ) {
+mc = c*cellSize+margin;
+qrSvg += 'M' + mc + ',' + mr + rect;
+}
+}
+}
+qrSvg += '" stroke="transparent" fill="black"/>';
+qrSvg += '</svg>';
+return qrSvg;
+};
+_this.createDataURL = function(cellSize, margin) {
+cellSize = cellSize || 2;
+margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+var size = _this.getModuleCount() * cellSize + margin * 2;
+var min = margin;
+var max = size - margin;
+return createDataURL(size, size, function(x, y) {
+if (min <= x && x < max && min <= y && y < max) {
+var c = Math.floor( (x - min) / cellSize);
+var r = Math.floor( (y - min) / cellSize);
+return _this.isDark(r, c)? 0 : 1;
+} else {
+return 1;
+}
+} );
+};
+_this.createImgTag = function(cellSize, margin, alt) {
+cellSize = cellSize || 2;
+margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+var size = _this.getModuleCount() * cellSize + margin * 2;
+var img = '';
+img += '<img';
+img += '\u0020src="';
+img += _this.createDataURL(cellSize, margin);
+img += '"';
+img += '\u0020width="';
+img += size;
+img += '"';
+img += '\u0020height="';
+img += size;
+img += '"';
+if (alt) {
+img += '\u0020alt="';
+img += escapeXml(alt);
+img += '"';
+}
+img += '/>';
+return img;
+};
+var escapeXml = function(s) {
+var escaped = '';
+for (var i = 0; i < s.length; i += 1) {
+var c = s.charAt(i);
+switch(c) {
+case '<': escaped += '&lt;'; break;
+case '>': escaped += '&gt;'; break;
+case '&': escaped += '&amp;'; break;
+case '"': escaped += '&quot;'; break;
+default : escaped += c; break;
+}
+}
+return escaped;
+};
+var _createHalfASCII = function(margin) {
+var cellSize = 1;
+margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+var size = _this.getModuleCount() * cellSize + margin * 2;
+var min = margin;
+var max = size - margin;
+var y, x, r1, r2, p;
+var blocks = {
+'██': '█',
+'█ ': '▀',
+' █': '▄',
+'  ': ' '
+};
+var blocksLastLineNoMargin = {
+'██': '▀',
+'█ ': '▀',
+' █': ' ',
+'  ': ' '
+};
+var ascii = '';
+for (y = 0; y < size; y += 2) {
+r1 = Math.floor((y - min) / cellSize);
+r2 = Math.floor((y + 1 - min) / cellSize);
+for (x = 0; x < size; x += 1) {
+p = '█';
+if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+p = ' ';
+}
+if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+p += ' ';
+}
+else {
+p += '█';
+}
+ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+}
+ascii += '\n';
+}
+if (size % 2 && margin > 0) {
+return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+}
+return ascii.substring(0, ascii.length-1);
+};
+_this.createASCII = function(cellSize, margin) {
+cellSize = cellSize || 1;
+if (cellSize < 2) {
+return _createHalfASCII(margin);
+}
+cellSize -= 1;
+margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+var size = _this.getModuleCount() * cellSize + margin * 2;
+var min = margin;
+var max = size - margin;
+var y, x, r, p;
+var white = Array(cellSize+1).join('██');
+var black = Array(cellSize+1).join('  ');
+var ascii = '';
+var line = '';
+for (y = 0; y < size; y += 1) {
+r = Math.floor( (y - min) / cellSize);
+line = '';
+for (x = 0; x < size; x += 1) {
+p = 1;
+if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+p = 0;
+}
+line += p ? white : black;
+}
+for (r = 0; r < cellSize; r += 1) {
+ascii += line + '\n';
+}
+}
+return ascii.substring(0, ascii.length-1);
+};
+_this.renderTo2dContext = function(context, cellSize) {
+cellSize = cellSize || 2;
+var length = _this.getModuleCount();
+for (var row = 0; row < length; row++) {
+for (var col = 0; col < length; col++) {
+context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+context.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+}
+}
+}
+return _this;
+};
+qrcode.stringToBytesFuncs = {
+'default' : function(s) {
+var bytes = [];
+for (var i = 0; i < s.length; i += 1) {
+var c = s.charCodeAt(i);
+bytes.push(c & 0xff);
+}
+return bytes;
+}
+};
+qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+qrcode.createStringToBytes = function(unicodeData, numChars) {
+var unicodeMap = function() {
+var bin = base64DecodeInputStream(unicodeData);
+var read = function() {
+var b = bin.read();
+if (b == -1) throw 'eof';
+return b;
+};
+var count = 0;
+var unicodeMap = {};
+while (true) {
+var b0 = bin.read();
+if (b0 == -1) break;
+var b1 = read();
+var b2 = read();
+var b3 = read();
+var k = String.fromCharCode( (b0 << 8) | b1);
+var v = (b2 << 8) | b3;
+unicodeMap[k] = v;
+count += 1;
+}
+if (count != numChars) {
+throw count + ' != ' + numChars;
+}
+return unicodeMap;
+}();
+var unknownChar = '?'.charCodeAt(0);
+return function(s) {
+var bytes = [];
+for (var i = 0; i < s.length; i += 1) {
+var c = s.charCodeAt(i);
+if (c < 128) {
+bytes.push(c);
+} else {
+var b = unicodeMap[s.charAt(i)];
+if (typeof b == 'number') {
+if ( (b & 0xff) == b) {
+bytes.push(b);
+} else {
+bytes.push(b >>> 8);
+bytes.push(b & 0xff);
+}
+} else {
+bytes.push(unknownChar);
+}
+}
+}
+return bytes;
+};
+};
+var QRMode = {
+MODE_NUMBER :    1 << 0,
+MODE_ALPHA_NUM : 1 << 1,
+MODE_8BIT_BYTE : 1 << 2,
+MODE_KANJI :     1 << 3
+};
+var QRErrorCorrectionLevel = {
+L : 1,
+M : 0,
+Q : 3,
+H : 2
+};
+var QRMaskPattern = {
+PATTERN000 : 0,
+PATTERN001 : 1,
+PATTERN010 : 2,
+PATTERN011 : 3,
+PATTERN100 : 4,
+PATTERN101 : 5,
+PATTERN110 : 6,
+PATTERN111 : 7
+};
+var QRUtil = function() {
+var PATTERN_POSITION_TABLE = [
+[],
+[6, 18],
+[6, 22],
+[6, 26],
+[6, 30],
+[6, 34],
+[6, 22, 38],
+[6, 24, 42],
+[6, 26, 46],
+[6, 28, 50],
+[6, 30, 54],
+[6, 32, 58],
+[6, 34, 62],
+[6, 26, 46, 66],
+[6, 26, 48, 70],
+[6, 26, 50, 74],
+[6, 30, 54, 78],
+[6, 30, 56, 82],
+[6, 30, 58, 86],
+[6, 34, 62, 90],
+[6, 28, 50, 72, 94],
+[6, 26, 50, 74, 98],
+[6, 30, 54, 78, 102],
+[6, 28, 54, 80, 106],
+[6, 32, 58, 84, 110],
+[6, 30, 58, 86, 114],
+[6, 34, 62, 90, 118],
+[6, 26, 50, 74, 98, 122],
+[6, 30, 54, 78, 102, 126],
+[6, 26, 52, 78, 104, 130],
+[6, 30, 56, 82, 108, 134],
+[6, 34, 60, 86, 112, 138],
+[6, 30, 58, 86, 114, 142],
+[6, 34, 62, 90, 118, 146],
+[6, 30, 54, 78, 102, 126, 150],
+[6, 24, 50, 76, 102, 128, 154],
+[6, 28, 54, 80, 106, 132, 158],
+[6, 32, 58, 84, 110, 136, 162],
+[6, 26, 54, 82, 110, 138, 166],
+[6, 30, 58, 86, 114, 142, 170]
+];
+var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+var _this = {};
+var getBCHDigit = function(data) {
+var digit = 0;
+while (data != 0) {
+digit += 1;
+data >>>= 1;
+}
+return digit;
+};
+_this.getBCHTypeInfo = function(data) {
+var d = data << 10;
+while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+}
+return ( (data << 10) | d) ^ G15_MASK;
+};
+_this.getBCHTypeNumber = function(data) {
+var d = data << 12;
+while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+}
+return (data << 12) | d;
+};
+_this.getPatternPosition = function(typeNumber) {
+return PATTERN_POSITION_TABLE[typeNumber - 1];
+};
+_this.getMaskFunction = function(maskPattern) {
+switch (maskPattern) {
+case QRMaskPattern.PATTERN000 :
+return function(i, j) { return (i + j) % 2 == 0; };
+case QRMaskPattern.PATTERN001 :
+return function(i, j) { return i % 2 == 0; };
+case QRMaskPattern.PATTERN010 :
+return function(i, j) { return j % 3 == 0; };
+case QRMaskPattern.PATTERN011 :
+return function(i, j) { return (i + j) % 3 == 0; };
+case QRMaskPattern.PATTERN100 :
+return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+case QRMaskPattern.PATTERN101 :
+return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+case QRMaskPattern.PATTERN110 :
+return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+case QRMaskPattern.PATTERN111 :
+return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+default :
+throw 'bad maskPattern:' + maskPattern;
+}
+};
+_this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+var a = qrPolynomial([1], 0);
+for (var i = 0; i < errorCorrectLength; i += 1) {
+a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+}
+return a;
+};
+_this.getLengthInBits = function(mode, type) {
+if (1 <= type && type < 10) {
+switch(mode) {
+case QRMode.MODE_NUMBER    : return 10;
+case QRMode.MODE_ALPHA_NUM : return 9;
+case QRMode.MODE_8BIT_BYTE : return 8;
+case QRMode.MODE_KANJI     : return 8;
+default :
+throw 'mode:' + mode;
+}
+} else if (type < 27) {
+switch(mode) {
+case QRMode.MODE_NUMBER    : return 12;
+case QRMode.MODE_ALPHA_NUM : return 11;
+case QRMode.MODE_8BIT_BYTE : return 16;
+case QRMode.MODE_KANJI     : return 10;
+default :
+throw 'mode:' + mode;
+}
+} else if (type < 41) {
+switch(mode) {
+case QRMode.MODE_NUMBER    : return 14;
+case QRMode.MODE_ALPHA_NUM : return 13;
+case QRMode.MODE_8BIT_BYTE : return 16;
+case QRMode.MODE_KANJI     : return 12;
+default :
+throw 'mode:' + mode;
+}
+} else {
+throw 'type:' + type;
+}
+};
+_this.getLostPoint = function(qrcode) {
+var moduleCount = qrcode.getModuleCount();
+var lostPoint = 0;
+for (var row = 0; row < moduleCount; row += 1) {
+for (var col = 0; col < moduleCount; col += 1) {
+var sameCount = 0;
+var dark = qrcode.isDark(row, col);
+for (var r = -1; r <= 1; r += 1) {
+if (row + r < 0 || moduleCount <= row + r) {
+continue;
+}
+for (var c = -1; c <= 1; c += 1) {
+if (col + c < 0 || moduleCount <= col + c) {
+continue;
+}
+if (r == 0 && c == 0) {
+continue;
+}
+if (dark == qrcode.isDark(row + r, col + c) ) {
+sameCount += 1;
+}
+}
+}
+if (sameCount > 5) {
+lostPoint += (3 + sameCount - 5);
+}
+}
+};
+for (var row = 0; row < moduleCount - 1; row += 1) {
+for (var col = 0; col < moduleCount - 1; col += 1) {
+var count = 0;
+if (qrcode.isDark(row, col) ) count += 1;
+if (qrcode.isDark(row + 1, col) ) count += 1;
+if (qrcode.isDark(row, col + 1) ) count += 1;
+if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+if (count == 0 || count == 4) {
+lostPoint += 3;
+}
+}
+}
+for (var row = 0; row < moduleCount; row += 1) {
+for (var col = 0; col < moduleCount - 6; col += 1) {
+if (qrcode.isDark(row, col)
+&& !qrcode.isDark(row, col + 1)
+&&  qrcode.isDark(row, col + 2)
+&&  qrcode.isDark(row, col + 3)
+&&  qrcode.isDark(row, col + 4)
+&& !qrcode.isDark(row, col + 5)
+&&  qrcode.isDark(row, col + 6) ) {
+lostPoint += 40;
+}
+}
+}
+for (var col = 0; col < moduleCount; col += 1) {
+for (var row = 0; row < moduleCount - 6; row += 1) {
+if (qrcode.isDark(row, col)
+&& !qrcode.isDark(row + 1, col)
+&&  qrcode.isDark(row + 2, col)
+&&  qrcode.isDark(row + 3, col)
+&&  qrcode.isDark(row + 4, col)
+&& !qrcode.isDark(row + 5, col)
+&&  qrcode.isDark(row + 6, col) ) {
+lostPoint += 40;
+}
+}
+}
+var darkCount = 0;
+for (var col = 0; col < moduleCount; col += 1) {
+for (var row = 0; row < moduleCount; row += 1) {
+if (qrcode.isDark(row, col) ) {
+darkCount += 1;
+}
+}
+}
+var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+lostPoint += ratio * 10;
+return lostPoint;
+};
+return _this;
+}();
+var QRMath = function() {
+var EXP_TABLE = new Array(256);
+var LOG_TABLE = new Array(256);
+for (var i = 0; i < 8; i += 1) {
+EXP_TABLE[i] = 1 << i;
+}
+for (var i = 8; i < 256; i += 1) {
+EXP_TABLE[i] = EXP_TABLE[i - 4]
+^ EXP_TABLE[i - 5]
+^ EXP_TABLE[i - 6]
+^ EXP_TABLE[i - 8];
+}
+for (var i = 0; i < 255; i += 1) {
+LOG_TABLE[EXP_TABLE[i] ] = i;
+}
+var _this = {};
+_this.glog = function(n) {
+if (n < 1) {
+throw 'glog(' + n + ')';
+}
+return LOG_TABLE[n];
+};
+_this.gexp = function(n) {
+while (n < 0) {
+n += 255;
+}
+while (n >= 256) {
+n -= 255;
+}
+return EXP_TABLE[n];
+};
+return _this;
+}();
+function qrPolynomial(num, shift) {
+if (typeof num.length == 'undefined') {
+throw num.length + '/' + shift;
+}
+var _num = function() {
+var offset = 0;
+while (offset < num.length && num[offset] == 0) {
+offset += 1;
+}
+var _num = new Array(num.length - offset + shift);
+for (var i = 0; i < num.length - offset; i += 1) {
+_num[i] = num[i + offset];
+}
+return _num;
+}();
+var _this = {};
+_this.getAt = function(index) {
+return _num[index];
+};
+_this.getLength = function() {
+return _num.length;
+};
+_this.multiply = function(e) {
+var num = new Array(_this.getLength() + e.getLength() - 1);
+for (var i = 0; i < _this.getLength(); i += 1) {
+for (var j = 0; j < e.getLength(); j += 1) {
+num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+}
+}
+return qrPolynomial(num, 0);
+};
+_this.mod = function(e) {
+if (_this.getLength() - e.getLength() < 0) {
+return _this;
+}
+var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+var num = new Array(_this.getLength() );
+for (var i = 0; i < _this.getLength(); i += 1) {
+num[i] = _this.getAt(i);
+}
+for (var i = 0; i < e.getLength(); i += 1) {
+num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+}
+return qrPolynomial(num, 0).mod(e);
+};
+return _this;
+};
+var QRRSBlock = function() {
+var RS_BLOCK_TABLE = [
+[1, 26, 19],
+[1, 26, 16],
+[1, 26, 13],
+[1, 26, 9],
+[1, 44, 34],
+[1, 44, 28],
+[1, 44, 22],
+[1, 44, 16],
+[1, 70, 55],
+[1, 70, 44],
+[2, 35, 17],
+[2, 35, 13],
+[1, 100, 80],
+[2, 50, 32],
+[2, 50, 24],
+[4, 25, 9],
+[1, 134, 108],
+[2, 67, 43],
+[2, 33, 15, 2, 34, 16],
+[2, 33, 11, 2, 34, 12],
+[2, 86, 68],
+[4, 43, 27],
+[4, 43, 19],
+[4, 43, 15],
+[2, 98, 78],
+[4, 49, 31],
+[2, 32, 14, 4, 33, 15],
+[4, 39, 13, 1, 40, 14],
+[2, 121, 97],
+[2, 60, 38, 2, 61, 39],
+[4, 40, 18, 2, 41, 19],
+[4, 40, 14, 2, 41, 15],
+[2, 146, 116],
+[3, 58, 36, 2, 59, 37],
+[4, 36, 16, 4, 37, 17],
+[4, 36, 12, 4, 37, 13],
+[2, 86, 68, 2, 87, 69],
+[4, 69, 43, 1, 70, 44],
+[6, 43, 19, 2, 44, 20],
+[6, 43, 15, 2, 44, 16],
+[4, 101, 81],
+[1, 80, 50, 4, 81, 51],
+[4, 50, 22, 4, 51, 23],
+[3, 36, 12, 8, 37, 13],
+[2, 116, 92, 2, 117, 93],
+[6, 58, 36, 2, 59, 37],
+[4, 46, 20, 6, 47, 21],
+[7, 42, 14, 4, 43, 15],
+[4, 133, 107],
+[8, 59, 37, 1, 60, 38],
+[8, 44, 20, 4, 45, 21],
+[12, 33, 11, 4, 34, 12],
+[3, 145, 115, 1, 146, 116],
+[4, 64, 40, 5, 65, 41],
+[11, 36, 16, 5, 37, 17],
+[11, 36, 12, 5, 37, 13],
+[5, 109, 87, 1, 110, 88],
+[5, 65, 41, 5, 66, 42],
+[5, 54, 24, 7, 55, 25],
+[11, 36, 12, 7, 37, 13],
+[5, 122, 98, 1, 123, 99],
+[7, 73, 45, 3, 74, 46],
+[15, 43, 19, 2, 44, 20],
+[3, 45, 15, 13, 46, 16],
+[1, 135, 107, 5, 136, 108],
+[10, 74, 46, 1, 75, 47],
+[1, 50, 22, 15, 51, 23],
+[2, 42, 14, 17, 43, 15],
+[5, 150, 120, 1, 151, 121],
+[9, 69, 43, 4, 70, 44],
+[17, 50, 22, 1, 51, 23],
+[2, 42, 14, 19, 43, 15],
+[3, 141, 113, 4, 142, 114],
+[3, 70, 44, 11, 71, 45],
+[17, 47, 21, 4, 48, 22],
+[9, 39, 13, 16, 40, 14],
+[3, 135, 107, 5, 136, 108],
+[3, 67, 41, 13, 68, 42],
+[15, 54, 24, 5, 55, 25],
+[15, 43, 15, 10, 44, 16],
+[4, 144, 116, 4, 145, 117],
+[17, 68, 42],
+[17, 50, 22, 6, 51, 23],
+[19, 46, 16, 6, 47, 17],
+[2, 139, 111, 7, 140, 112],
+[17, 74, 46],
+[7, 54, 24, 16, 55, 25],
+[34, 37, 13],
+[4, 151, 121, 5, 152, 122],
+[4, 75, 47, 14, 76, 48],
+[11, 54, 24, 14, 55, 25],
+[16, 45, 15, 14, 46, 16],
+[6, 147, 117, 4, 148, 118],
+[6, 73, 45, 14, 74, 46],
+[11, 54, 24, 16, 55, 25],
+[30, 46, 16, 2, 47, 17],
+[8, 132, 106, 4, 133, 107],
+[8, 75, 47, 13, 76, 48],
+[7, 54, 24, 22, 55, 25],
+[22, 45, 15, 13, 46, 16],
+[10, 142, 114, 2, 143, 115],
+[19, 74, 46, 4, 75, 47],
+[28, 50, 22, 6, 51, 23],
+[33, 46, 16, 4, 47, 17],
+[8, 152, 122, 4, 153, 123],
+[22, 73, 45, 3, 74, 46],
+[8, 53, 23, 26, 54, 24],
+[12, 45, 15, 28, 46, 16],
+[3, 147, 117, 10, 148, 118],
+[3, 73, 45, 23, 74, 46],
+[4, 54, 24, 31, 55, 25],
+[11, 45, 15, 31, 46, 16],
+[7, 146, 116, 7, 147, 117],
+[21, 73, 45, 7, 74, 46],
+[1, 53, 23, 37, 54, 24],
+[19, 45, 15, 26, 46, 16],
+[5, 145, 115, 10, 146, 116],
+[19, 75, 47, 10, 76, 48],
+[15, 54, 24, 25, 55, 25],
+[23, 45, 15, 25, 46, 16],
+[13, 145, 115, 3, 146, 116],
+[2, 74, 46, 29, 75, 47],
+[42, 54, 24, 1, 55, 25],
+[23, 45, 15, 28, 46, 16],
+[17, 145, 115],
+[10, 74, 46, 23, 75, 47],
+[10, 54, 24, 35, 55, 25],
+[19, 45, 15, 35, 46, 16],
+[17, 145, 115, 1, 146, 116],
+[14, 74, 46, 21, 75, 47],
+[29, 54, 24, 19, 55, 25],
+[11, 45, 15, 46, 46, 16],
+[13, 145, 115, 6, 146, 116],
+[14, 74, 46, 23, 75, 47],
+[44, 54, 24, 7, 55, 25],
+[59, 46, 16, 1, 47, 17],
+[12, 151, 121, 7, 152, 122],
+[12, 75, 47, 26, 76, 48],
+[39, 54, 24, 14, 55, 25],
+[22, 45, 15, 41, 46, 16],
+[6, 151, 121, 14, 152, 122],
+[6, 75, 47, 34, 76, 48],
+[46, 54, 24, 10, 55, 25],
+[2, 45, 15, 64, 46, 16],
+[17, 152, 122, 4, 153, 123],
+[29, 74, 46, 14, 75, 47],
+[49, 54, 24, 10, 55, 25],
+[24, 45, 15, 46, 46, 16],
+[4, 152, 122, 18, 153, 123],
+[13, 74, 46, 32, 75, 47],
+[48, 54, 24, 14, 55, 25],
+[42, 45, 15, 32, 46, 16],
+[20, 147, 117, 4, 148, 118],
+[40, 75, 47, 7, 76, 48],
+[43, 54, 24, 22, 55, 25],
+[10, 45, 15, 67, 46, 16],
+[19, 148, 118, 6, 149, 119],
+[18, 75, 47, 31, 76, 48],
+[34, 54, 24, 34, 55, 25],
+[20, 45, 15, 61, 46, 16]
+];
+var qrRSBlock = function(totalCount, dataCount) {
+var _this = {};
+_this.totalCount = totalCount;
+_this.dataCount = dataCount;
+return _this;
+};
+var _this = {};
+var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+switch(errorCorrectionLevel) {
+case QRErrorCorrectionLevel.L :
+return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+case QRErrorCorrectionLevel.M :
+return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+case QRErrorCorrectionLevel.Q :
+return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+case QRErrorCorrectionLevel.H :
+return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+default :
+return undefined;
+}
+};
+_this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+if (typeof rsBlock == 'undefined') {
+throw 'bad rs block @ typeNumber:' + typeNumber +
+'/errorCorrectionLevel:' + errorCorrectionLevel;
+}
+var length = rsBlock.length / 3;
+var list = [];
+for (var i = 0; i < length; i += 1) {
+var count = rsBlock[i * 3 + 0];
+var totalCount = rsBlock[i * 3 + 1];
+var dataCount = rsBlock[i * 3 + 2];
+for (var j = 0; j < count; j += 1) {
+list.push(qrRSBlock(totalCount, dataCount) );
+}
+}
+return list;
+};
+return _this;
+}();
+var qrBitBuffer = function() {
+var _buffer = [];
+var _length = 0;
+var _this = {};
+_this.getBuffer = function() {
+return _buffer;
+};
+_this.getAt = function(index) {
+var bufIndex = Math.floor(index / 8);
+return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+};
+_this.put = function(num, length) {
+for (var i = 0; i < length; i += 1) {
+_this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+}
+};
+_this.getLengthInBits = function() {
+return _length;
+};
+_this.putBit = function(bit) {
+var bufIndex = Math.floor(_length / 8);
+if (_buffer.length <= bufIndex) {
+_buffer.push(0);
+}
+if (bit) {
+_buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+}
+_length += 1;
+};
+return _this;
+};
+var qrNumber = function(data) {
+var _mode = QRMode.MODE_NUMBER;
+var _data = data;
+var _this = {};
+_this.getMode = function() {
+return _mode;
+};
+_this.getLength = function(buffer) {
+return _data.length;
+};
+_this.write = function(buffer) {
+var data = _data;
+var i = 0;
+while (i + 2 < data.length) {
+buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+i += 3;
+}
+if (i < data.length) {
+if (data.length - i == 1) {
+buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+} else if (data.length - i == 2) {
+buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+}
+}
+};
+var strToNum = function(s) {
+var num = 0;
+for (var i = 0; i < s.length; i += 1) {
+num = num * 10 + chatToNum(s.charAt(i) );
+}
+return num;
+};
+var chatToNum = function(c) {
+if ('0' <= c && c <= '9') {
+return c.charCodeAt(0) - '0'.charCodeAt(0);
+}
+throw 'illegal char :' + c;
+};
+return _this;
+};
+var qrAlphaNum = function(data) {
+var _mode = QRMode.MODE_ALPHA_NUM;
+var _data = data;
+var _this = {};
+_this.getMode = function() {
+return _mode;
+};
+_this.getLength = function(buffer) {
+return _data.length;
+};
+_this.write = function(buffer) {
+var s = _data;
+var i = 0;
+while (i + 1 < s.length) {
+buffer.put(
+getCode(s.charAt(i) ) * 45 +
+getCode(s.charAt(i + 1) ), 11);
+i += 2;
+}
+if (i < s.length) {
+buffer.put(getCode(s.charAt(i) ), 6);
+}
+};
+var getCode = function(c) {
+if ('0' <= c && c <= '9') {
+return c.charCodeAt(0) - '0'.charCodeAt(0);
+} else if ('A' <= c && c <= 'Z') {
+return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+} else {
+switch (c) {
+case ' ' : return 36;
+case '$' : return 37;
+case '%' : return 38;
+case '*' : return 39;
+case '+' : return 40;
+case '-' : return 41;
+case '.' : return 42;
+case '/' : return 43;
+case ':' : return 44;
+default :
+throw 'illegal char :' + c;
+}
+}
+};
+return _this;
+};
+var qr8BitByte = function(data) {
+var _mode = QRMode.MODE_8BIT_BYTE;
+var _data = data;
+var _bytes = qrcode.stringToBytes(data);
+var _this = {};
+_this.getMode = function() {
+return _mode;
+};
+_this.getLength = function(buffer) {
+return _bytes.length;
+};
+_this.write = function(buffer) {
+for (var i = 0; i < _bytes.length; i += 1) {
+buffer.put(_bytes[i], 8);
+}
+};
+return _this;
+};
+var qrKanji = function(data) {
+var _mode = QRMode.MODE_KANJI;
+var _data = data;
+var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+if (!stringToBytes) {
+throw 'sjis not supported.';
+}
+!function(c, code) {
+var test = stringToBytes(c);
+if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+throw 'sjis not supported.';
+}
+}('\u53cb', 0x9746);
+var _bytes = stringToBytes(data);
+var _this = {};
+_this.getMode = function() {
+return _mode;
+};
+_this.getLength = function(buffer) {
+return ~~(_bytes.length / 2);
+};
+_this.write = function(buffer) {
+var data = _bytes;
+var i = 0;
+while (i + 1 < data.length) {
+var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+if (0x8140 <= c && c <= 0x9FFC) {
+c -= 0x8140;
+} else if (0xE040 <= c && c <= 0xEBBF) {
+c -= 0xC140;
+} else {
+throw 'illegal char at ' + (i + 1) + '/' + c;
+}
+c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+buffer.put(c, 13);
+i += 2;
+}
+if (i < data.length) {
+throw 'illegal char at ' + (i + 1);
+}
+};
+return _this;
+};
+var byteArrayOutputStream = function() {
+var _bytes = [];
+var _this = {};
+_this.writeByte = function(b) {
+_bytes.push(b & 0xff);
+};
+_this.writeShort = function(i) {
+_this.writeByte(i);
+_this.writeByte(i >>> 8);
+};
+_this.writeBytes = function(b, off, len) {
+off = off || 0;
+len = len || b.length;
+for (var i = 0; i < len; i += 1) {
+_this.writeByte(b[i + off]);
+}
+};
+_this.writeString = function(s) {
+for (var i = 0; i < s.length; i += 1) {
+_this.writeByte(s.charCodeAt(i) );
+}
+};
+_this.toByteArray = function() {
+return _bytes;
+};
+_this.toString = function() {
+var s = '';
+s += '[';
+for (var i = 0; i < _bytes.length; i += 1) {
+if (i > 0) {
+s += ',';
+}
+s += _bytes[i];
+}
+s += ']';
+return s;
+};
+return _this;
+};
+var base64EncodeOutputStream = function() {
+var _buffer = 0;
+var _buflen = 0;
+var _length = 0;
+var _base64 = '';
+var _this = {};
+var writeEncoded = function(b) {
+_base64 += String.fromCharCode(encode(b & 0x3f) );
+};
+var encode = function(n) {
+if (n < 0) {
+} else if (n < 26) {
+return 0x41 + n;
+} else if (n < 52) {
+return 0x61 + (n - 26);
+} else if (n < 62) {
+return 0x30 + (n - 52);
+} else if (n == 62) {
+return 0x2b;
+} else if (n == 63) {
+return 0x2f;
+}
+throw 'n:' + n;
+};
+_this.writeByte = function(n) {
+_buffer = (_buffer << 8) | (n & 0xff);
+_buflen += 8;
+_length += 1;
+while (_buflen >= 6) {
+writeEncoded(_buffer >>> (_buflen - 6) );
+_buflen -= 6;
+}
+};
+_this.flush = function() {
+if (_buflen > 0) {
+writeEncoded(_buffer << (6 - _buflen) );
+_buffer = 0;
+_buflen = 0;
+}
+if (_length % 3 != 0) {
+var padlen = 3 - _length % 3;
+for (var i = 0; i < padlen; i += 1) {
+_base64 += '=';
+}
+}
+};
+_this.toString = function() {
+return _base64;
+};
+return _this;
+};
+var base64DecodeInputStream = function(str) {
+var _str = str;
+var _pos = 0;
+var _buffer = 0;
+var _buflen = 0;
+var _this = {};
+_this.read = function() {
+while (_buflen < 8) {
+if (_pos >= _str.length) {
+if (_buflen == 0) {
+return -1;
+}
+throw 'unexpected end of file./' + _buflen;
+}
+var c = _str.charAt(_pos);
+_pos += 1;
+if (c == '=') {
+_buflen = 0;
+return -1;
+} else if (c.match(/^\s$/) ) {
+continue;
+}
+_buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+_buflen += 6;
+}
+var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+_buflen -= 8;
+return n;
+};
+var decode = function(c) {
+if (0x41 <= c && c <= 0x5a) {
+return c - 0x41;
+} else if (0x61 <= c && c <= 0x7a) {
+return c - 0x61 + 26;
+} else if (0x30 <= c && c <= 0x39) {
+return c - 0x30 + 52;
+} else if (c == 0x2b) {
+return 62;
+} else if (c == 0x2f) {
+return 63;
+} else {
+throw 'c:' + c;
+}
+};
+return _this;
+};
+var gifImage = function(width, height) {
+var _width = width;
+var _height = height;
+var _data = new Array(width * height);
+var _this = {};
+_this.setPixel = function(x, y, pixel) {
+_data[y * _width + x] = pixel;
+};
+_this.write = function(out) {
+out.writeString('GIF87a');
+out.writeShort(_width);
+out.writeShort(_height);
+out.writeByte(0x80); // 2bit
+out.writeByte(0);
+out.writeByte(0);
+out.writeByte(0x00);
+out.writeByte(0x00);
+out.writeByte(0x00);
+out.writeByte(0xff);
+out.writeByte(0xff);
+out.writeByte(0xff);
+out.writeString(',');
+out.writeShort(0);
+out.writeShort(0);
+out.writeShort(_width);
+out.writeShort(_height);
+out.writeByte(0);
+var lzwMinCodeSize = 2;
+var raster = getLZWRaster(lzwMinCodeSize);
+out.writeByte(lzwMinCodeSize);
+var offset = 0;
+while (raster.length - offset > 255) {
+out.writeByte(255);
+out.writeBytes(raster, offset, 255);
+offset += 255;
+}
+out.writeByte(raster.length - offset);
+out.writeBytes(raster, offset, raster.length - offset);
+out.writeByte(0x00);
+out.writeString(';');
+};
+var bitOutputStream = function(out) {
+var _out = out;
+var _bitLength = 0;
+var _bitBuffer = 0;
+var _this = {};
+_this.write = function(data, length) {
+if ( (data >>> length) != 0) {
+throw 'length over';
+}
+while (_bitLength + length >= 8) {
+_out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+length -= (8 - _bitLength);
+data >>>= (8 - _bitLength);
+_bitBuffer = 0;
+_bitLength = 0;
+}
+_bitBuffer = (data << _bitLength) | _bitBuffer;
+_bitLength = _bitLength + length;
+};
+_this.flush = function() {
+if (_bitLength > 0) {
+_out.writeByte(_bitBuffer);
+}
+};
+return _this;
+};
+var getLZWRaster = function(lzwMinCodeSize) {
+var clearCode = 1 << lzwMinCodeSize;
+var endCode = (1 << lzwMinCodeSize) + 1;
+var bitLength = lzwMinCodeSize + 1;
+var table = lzwTable();
+for (var i = 0; i < clearCode; i += 1) {
+table.add(String.fromCharCode(i) );
+}
+table.add(String.fromCharCode(clearCode) );
+table.add(String.fromCharCode(endCode) );
+var byteOut = byteArrayOutputStream();
+var bitOut = bitOutputStream(byteOut);
+bitOut.write(clearCode, bitLength);
+var dataIndex = 0;
+var s = String.fromCharCode(_data[dataIndex]);
+dataIndex += 1;
+while (dataIndex < _data.length) {
+var c = String.fromCharCode(_data[dataIndex]);
+dataIndex += 1;
+if (table.contains(s + c) ) {
+s = s + c;
+} else {
+bitOut.write(table.indexOf(s), bitLength);
+if (table.size() < 0xfff) {
+if (table.size() == (1 << bitLength) ) {
+bitLength += 1;
+}
+table.add(s + c);
+}
+s = c;
+}
+}
+bitOut.write(table.indexOf(s), bitLength);
+bitOut.write(endCode, bitLength);
+bitOut.flush();
+return byteOut.toByteArray();
+};
+var lzwTable = function() {
+var _map = {};
+var _size = 0;
+var _this = {};
+_this.add = function(key) {
+if (_this.contains(key) ) {
+throw 'dup key:' + key;
+}
+_map[key] = _size;
+_size += 1;
+};
+_this.size = function() {
+return _size;
+};
+_this.indexOf = function(key) {
+return _map[key];
+};
+_this.contains = function(key) {
+return typeof _map[key] != 'undefined';
+};
+return _this;
+};
+return _this;
+};
+var createDataURL = function(width, height, getPixel) {
+var gif = gifImage(width, height);
+for (var y = 0; y < height; y += 1) {
+for (var x = 0; x < width; x += 1) {
+gif.setPixel(x, y, getPixel(x, y) );
+}
+}
+var b = byteArrayOutputStream();
+gif.write(b);
+var base64 = base64EncodeOutputStream();
+var bytes = b.toByteArray();
+for (var i = 0; i < bytes.length; i += 1) {
+base64.writeByte(bytes[i]);
+}
+base64.flush();
+return 'data:image/gif;base64,' + base64;
+};
+return qrcode;
+}();
+!function() {
+qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+function toUTF8Array(str) {
+var utf8 = [];
+for (var i=0; i < str.length; i++) {
+var charcode = str.charCodeAt(i);
+if (charcode < 0x80) utf8.push(charcode);
+else if (charcode < 0x800) {
+utf8.push(0xc0 | (charcode >> 6),
+0x80 | (charcode & 0x3f));
+}
+else if (charcode < 0xd800 || charcode >= 0xe000) {
+utf8.push(0xe0 | (charcode >> 12),
+0x80 | ((charcode>>6) & 0x3f),
+0x80 | (charcode & 0x3f));
+}
+else {
+i++;
+charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+| (str.charCodeAt(i) & 0x3ff));
+utf8.push(0xf0 | (charcode >>18),
+0x80 | ((charcode>>12) & 0x3f),
+0x80 | ((charcode>>6) & 0x3f),
+0x80 | (charcode & 0x3f));
+}
+}
+return utf8;
+}
+return toUTF8Array(s);
+};
+}();
+const EVENTOS={"hannah-caio":{kind:"wedding",donos:[],conv:"Use os stories do casamento de Hannah & Caio: escolha um modelo, grave seu vídeo e poste.",titulo:"Wedding Hannah & Caio",dataISO:"2026-12-19",nome:"Hannah & Caio",mono:"H&C",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"pé na areia",foto:"hannah-caio.jpg",
   msg:"Que o amor de vocês seja como o mar: imenso, sereno e sem fim."},
- "desafio-fortaleza-japao":{kind:"corrida",titulo:"Desafio Fortaleza - Japão",dataISO:"2026-12-19",nome:"Desafio Fortaleza - Japão",mono:"ST",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"Stark · Fortaleza à Praia do Japão",
+ "desafio-fortaleza-japao":{kind:"corrida",donos:[],conv:"Stories do Desafio Fortaleza - Japão: escolha um modelo, grave o seu e poste.",titulo:"Desafio Fortaleza - Japão",dataISO:"2026-12-19",nome:"Desafio Fortaleza - Japão",mono:"ST",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"Stark · Fortaleza à Praia do Japão",
   cad:"Para usar os stories da prova, deixe seu contato. Leva 20 segundos."},
- "revezo":{kind:"marca",tema:"rz",titulo:"Revezô Sports",nome:"Revezô",mono:"rz",dataLonga:"Stories dos atletas",lugar:"@revezo.sports",
+ "uninter-fortaleza":{kind:"marca",tema:"un",donos:[],titulo:"Uninter Fortaleza Centro",nome:"Uninter Fortaleza",mono:"UN",dataLonga:"Eventos e datas especiais",lugar:"@uninterfortalezacentrooficial",
+  conv:"Stories da Uninter Fortaleza Centro: escolha um modelo, grave o seu e poste.",cad:"Para usar os stories da Uninter Fortaleza Centro, deixe seu contato. Leva 20 segundos.",
+  models:[["unlive","Live Uninter","Como se você estivesse ao vivo no perfil do polo, com as dúvidas aparecendo.",960],["unnatal","Feliz Natal","Luzes douradas, estrela desenhada e Feliz Natal aparecendo letra a letra.",860],["un2027","Feliz 2027","Fogos discretos e o 2026 virando 2027 na sua tela.",860],["unmeta","Metas 2027","Sua lista de metas com a faculdade já marcada como feita.",860],["unmatri","Matrículas 2027.1","Chamada de matrículas abertas com os cursos aparecendo.",860]]},
+ "revezo":{kind:"marca",donos:[],conv:"Stories da Revezô: escolha um modelo, grave o seu e poste.",tema:"rz",titulo:"Revezô Sports",nome:"Revezô",mono:"rz",dataLonga:"Stories dos atletas",lugar:"@revezo.sports",
   cad:"Para usar os stories da Revezô, deixe seu contato. Leva 20 segundos.",
   models:[["rz5","Revezô 5K","A marca e a distância de 5 km subindo por alguns segundos.",1640],["rz10","Revezô 10K","A marca e a distância de 10 km subindo por alguns segundos.",1640],["rz21","Revezô 21K","Para a meia maratona: a marca e os 21,1 km subindo.",1640],["rz42","Revezô 42K","Para a maratona: a marca e os 42,2 km subindo.",1640],["faqlive","Live Esportiva","Como se você estivesse ao vivo no perfil da Revezô, com as dúvidas aparecendo.",960],["rzres","Meu resultado","Sua distância, ritmo e tempo subindo na tela, com a marca Revezô.",1540]]}};
 const EVT_RUN_INFO=[["Desafio","Seu vídeo com a rota até a Praia do Japão e a contagem para a largada."],["Eu sobrevivi","Para depois da chegada: carimbo, medalha e o seu tempo, se quiser mostrar."],["Meu resultado","Sua distância, ritmo e tempo subindo na tela, com a rota da prova."]],EVT_RUN_MOD=["Desafio","Eu sobrevivi","Meu resultado"];
@@ -5469,9 +7196,12 @@ const evRun=()=>!!(EVT&&EVT.kind==="corrida"),evInfo=()=>EVT&&EVT.models?EVT.mod
 let evRunTm="",evRunKm="",evRunPv="",evThumbing=false;
 function drawEvDs(ctx,st){const l=st.layers.find(x=>x.evMedia);let el=null,t=0;const rec=!!(evCam&&evCam.mr);
   if(l&&l.type==="video"){el=getVid(l);t=l.vid==="evcam"?(rec?(Date.now()-evtLiveT0)/1000:((Date.now()-evtLiveT0)/1000)%12):(el?el.currentTime:0)}
-  else if(l){const im=getImg(l.src);if(im&&im.naturalWidth){im.videoWidth=im.naturalWidth;im.videoHeight=im.naturalHeight;el=im}{const sec=(Date.now()-evtLiveT0)/1000,rzS=/^rz\d/.test(st.evDs);t=l.evPh?(rzS?(evThumbing?2.6+sec%3.2:sec%9):sec%12):rzS?3.2+sec%2.5:6+sec%(st.evDs==="faqlive"?40:8)}}
+  else if(l){const im=getImg(l.src);if(im&&im.naturalWidth){im.videoWidth=im.naturalWidth;im.videoHeight=im.naturalHeight;el=im}{const sec=(Date.now()-evtLiveT0)/1000,rzS=/^rz\d/.test(st.evDs);t=l.evPh?(rzS?(evThumbing?2.6+sec%3.2:sec%9):/^un(live|natal|2027|meta|matri)$/.test(st.evDs)&&st.evDs!=="unlive"?(evThumbing?4.2+sec%4:sec%10):sec%12):rzS?3.2+sec%2.5:6+sec%(st.evDs==="faqlive"?40:8)}}
   ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);drawStyle(ctx,l||{},el,t,null,{style:st.evDs,caps:false,fq:st.evDs==="faqlive"?FQ_REVEZO:undefined,ds:Object.assign(dsDef(),st.evDs==="sobrevivi"?{tm:evRunTm}:st.evDs==="resultado"?(evThumbing&&!evRunKm?{tm:"2:48:30",km:"32,4"}:{tm:evRunTm,km:evRunKm}):st.evDs==="rzres"?(evThumbing&&!evRunKm?{tm:"1:52:40",km:"21,1",pv:""}:{tm:evRunTm,km:evRunKm,pv:evRunPv}):{}),scenes:[{t0:0,t1:999,type:"fala"}]});ctx.restore()}
 let EVT=null,evtRAF=0,evtSt=null;
+/* quem vê e gerencia um evento: o administrador e, quando houver, os e-mails donos do evento (E.donos) */
+function evPode(id,acc,email){const E=EVENTOS[id];if(!E)return false;if(acc&&acc.role==="admin")return true;const em=String(email||(acc&&acc.email)||"").toLowerCase();return !!(em&&(E.donos||[]).some(d=>String(d).toLowerCase()===em))}
+function evSessAcc(){try{const su=sessGet();if(!su)return null;if(su.startsWith("sb:")){const a=authGet();return a?{role:"cliente",email:a.email}:null}return ACCOUNTS.find(a=>a.u===su)||null}catch(e){return null}}
 const EVC={sand:"#f3ece1",sand2:"#e6d8c2",sea:"#2c6a70",deep:"#173f45",foam:"#8fbcb8",gold:"#b08d57",ink:"#1d3b3f",ivory:"#fbf7f0"};
 let evtPhSrc="";function evtPh(){if(evtPhSrc)return evtPhSrc;if(evRun())return evtPhSrc=evtPhRun();const c=document.createElement("canvas");c.width=540;c.height=960;const x=c.getContext("2d");
   let g=x.createLinearGradient(0,0,0,600);g.addColorStop(0,"#f3d9c6");g.addColorStop(1,"#eadfd2");x.fillStyle=g;x.fillRect(0,0,540,600);
@@ -5482,11 +7212,11 @@ let evtPhSrc="";function evtPh(){if(evtPhSrc)return evtPhSrc;if(evRun())return e
   x.shadowColor="rgba(23,63,69,.35)";x.shadowBlur=24;x.shadowOffsetY=6;x.fillStyle="#1d3b3f";x.beginPath();x.roundRect?x.roundRect(270-tw/2,444,tw,84,42):x.rect(270-tw/2,444,tw,84);x.fill();x.shadowColor="transparent";
   x.fillStyle="#fbf7f0";x.fillText(tx,270,488);
   return evtPhSrc=c.toDataURL("image/jpeg",.85)}
-const evtPhRunC={};function evtPhRun(py,tema){py=py||488;const key=py+(tema||"");if(evtPhRunC[key])return evtPhRunC[key];const rz=tema==="rz";const c=document.createElement("canvas");c.width=540;c.height=960;const x=c.getContext("2d");
-  let g=x.createLinearGradient(0,0,0,960);g.addColorStop(0,rz?"#2b3a55":"#2a3550");g.addColorStop(.55,rz?"#4f6078":"#4b5873");g.addColorStop(1,rz?"#16213a":"#1a2238");x.fillStyle=g;x.fillRect(0,0,540,960);
+const evtPhRunC={};function evtPhRun(py,tema){py=py||488;const key=py+(tema||"");if(evtPhRunC[key])return evtPhRunC[key];const rz=tema==="rz",un=tema==="un";const c=document.createElement("canvas");c.width=540;c.height=960;const x=c.getContext("2d");
+  let g=x.createLinearGradient(0,0,0,960);g.addColorStop(0,un?"#3a4a66":rz?"#2b3a55":"#2a3550");g.addColorStop(.55,un?"#5b6a84":rz?"#4f6078":"#4b5873");g.addColorStop(1,un?"#13203a":rz?"#16213a":"#1a2238");x.fillStyle=g;x.fillRect(0,0,540,960);
   x.fillStyle="#ffffff";x.globalAlpha=.08;x.beginPath();x.ellipse(270,560,150,210,0,0,7);x.fill();x.beginPath();x.arc(270,330,95,0,7);x.fill();x.globalAlpha=1;
   x.textAlign="center";x.textBaseline="middle";if("letterSpacing" in x)x.letterSpacing="1px";x.font='800 36px "Montserrat",sans-serif';const tx="Clique, grave e poste",tw=x.measureText(tx).width+56;
-  x.fillStyle=rz?"#ffffff":"#f3e6c8";x.beginPath();x.roundRect?x.roundRect(270-tw/2,py-44,tw,84,42):x.rect(270-tw/2,py-44,tw,84);x.fill();x.fillStyle=rz?"#03045E":"#141238";x.fillText(tx,270,py);
+  x.fillStyle=un?"#f2b705":rz?"#ffffff":"#f3e6c8";x.beginPath();x.roundRect?x.roundRect(270-tw/2,py-44,tw,84,42):x.rect(270-tw/2,py-44,tw,84);x.fill();x.fillStyle=un?"#00316a":rz?"#03045E":"#141238";x.fillText(tx,270,py);
   return evtPhRunC[key]=c.toDataURL("image/jpeg",.85)}
 function evtStory(tpl,bg,layers){layers.forEach(l=>{if(l.evMedia&&!l.src){l.src=evtPh();l.evPh=true}});const cap=defCap();cap.on=false;return{id:uid(),status:"rascunho",at:"",tpl,cap,bg:Object.assign({type:"solid",c1:"#000",c2:"#000",angle:180,img:"",ov:0},bg),layers}}
 function evtStories(E){if(E.models)return E.models.map(([sty,,,py])=>{const st=evtStory("evt_"+sty,{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]);st.evDs=sty;st.layers[0].src=evtPhRun(Math.round(py/2),E.tema);return st});
@@ -5534,10 +7264,11 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
   S.stories.forEach(st=>st.cap.on=false);
   $("#login").classList.add("off");document.body.classList.add("evton");document.title=`${E.titulo||E.nome} · Story Pronto`;
   let ov=$("#evt");if(!ov){ov=document.createElement("div");ov.id="evt";document.body.appendChild(ov)}
-  ov.classList.toggle("evrun",E.kind==="corrida");ov.classList.toggle("evrz",E.tema==="rz");const own=(()=>{try{return !!sessGet()}catch(e){return false}})();EVT.own=own;const IC={home:'<path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/>',ed:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',stu:'<rect x="3" y="6.5" width="13" height="11" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>'},ic=k=>`<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
-  ov.innerHTML=`<div class="evh">${own?`<a class="evhome" href="/?ir=inicio" aria-label="Voltar ao início"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg></a>`:""}${E.tema==="rz"?`<span class="evlogo"><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" height="26" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></span>`:`<span class="evmono">${esc(E.mono)}</span>`}<div class="evht"><b>${esc(E.titulo||E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div>
-   ${own?`<nav class="evnav" aria-label="Story Pronto"><a href="/?ir=inicio">${ic("home")}<span>Início</span></a><a href="/?ir=editor">${ic("ed")}<span>Editor</span></a><a href="/?ir=estudio">${ic("stu")}<span>Estúdio</span></a></nav>`:`<a class="evlogin" href="/?ir=inicio">Entrar</a>`}</div>
+  ov.classList.toggle("evrun",E.kind==="corrida");ov.classList.toggle("evrz",E.tema==="rz");ov.classList.toggle("evun",E.tema==="un");const sa=evSessAcc(),own=!!sa;EVT.own=!!(sa&&evPode(id,sa));const IC={home:'<path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/>',ed:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',stu:'<rect x="3" y="6.5" width="13" height="11" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>'},ic=k=>`<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
+  ov.innerHTML=`<div class="evh">${own?`<a class="evhome" href="/?ir=inicio" aria-label="Voltar ao início"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg></a>`:""}${E.tema==="un"?`<span class="evlogo"><img src="${UN_FQ.logo}" alt="Uninter" width="46" height="46" style="border-radius:50%;display:block"></span>`:E.tema==="rz"?`<span class="evlogo"><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" height="26" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></span>`:`<span class="evmono">${esc(E.mono)}</span>`}<div class="evht"><b>${esc(E.titulo||E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div>
+   <button type="button" class="evshb1" data-ev="share" aria-label="Compartilhar o link do evento"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span>Compartilhar</span></button>${own?`<nav class="evnav" aria-label="Story Pronto"><a href="/?ir=inicio">${ic("home")}<span>Início</span></a><a href="/?ir=editor">${ic("ed")}<span>Editor</span></a><a href="/?ir=estudio">${ic("stu")}<span>Estúdio</span></a></nav>`:`<a class="evlogin" href="/?ir=inicio">Entrar</a>`}</div>
    <section class="evlist" id="evList"><p class="evk">${E.kind==="corrida"?"Escolha o seu story da prova":E.kind==="marca"?"Escolha o seu story":"Escolha o seu story"}</p><div class="evcards">${S.stories.map((st,i)=>`<button type="button" class="evcard" data-evi="${i}"><canvas width="270" height="480"></canvas><b>${evInfo()[i][0]}</b><span>${evInfo()[i][1]}</span></button>`).join("")}</div>
+   <div class="evinv"><div><b>Conhece alguém do evento?</b><span>Mande o link: a pessoa abre os stories direto, sem QR code.</span></div><button type="button" data-ev="share">Compartilhar</button></div>
    <p class="evfoot">Stories para momentos especiais · <a href="/?cadastro&origem=evento-${esc(id)}">Story Pronto</a></p></section>
    <section class="evedit" id="evEdit" hidden><div class="evtop"><button type="button" class="evback" data-ev="back"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg>Modelos</button><span id="evName"></span></div>
     <div class="evstage"><canvas id="evCv" width="540" height="960"></canvas></div>
@@ -5552,11 +7283,11 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
   const ready=()=>{evThumbing=true;try{ov.querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]))}finally{evThumbing=false}};
   (function liveThumb(){const cs=[...ov.querySelectorAll('.evcard canvas')];if(!cs.length||!document.body.contains(cs[0]))return;if(!$("#evList").hidden&&!$("#evCad")){evThumbing=true;try{const vh=innerHeight;cs.forEach((cv,i)=>{const st=S.stories[i];if(!st||!(st.evLive||st.evDs))return;const r=cv.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;evtRender(cv,st)})}finally{evThumbing=false}}setTimeout(liveThumb,120)})();
   ready();ready();document.fonts.ready.then(()=>setTimeout(ready,150));setTimeout(ready,1200);
-  ov.onclick=e=>{const c=e.target.closest("[data-evi]");if(c){evtOpen(+c.dataset.evi);return}const b=e.target.closest("[data-ev]");if(!b)return;const k=b.dataset.ev;if(k==="back"){evtCamOff();evtClose()}else if(k==="camx")evtCamOff(true);else if(k==="flip")evtFlip()};
+  ov.onclick=e=>{const c=e.target.closest("[data-evi]");if(c){evtOpen(+c.dataset.evi);return}const b=e.target.closest("[data-ev]");if(!b)return;const k=b.dataset.ev;if(k==="share"){evShare(id);return}if(k==="back"){evtCamOff();evtClose()}else if(k==="camx")evtCamOff(true);else if(k==="flip")evtFlip()};
   $("#evRecB").onclick=evtCamOn;$("#evRb").onclick=()=>{if(evCam&&evCam.mr)evtRecStop();else evtRecStart()};
   $("#evFile").onchange=evtMedia;$("#evMsg").oninput=e=>{const l=evtSt&&evtSt.layers.find(x=>x.evMsg);if(l){l.text=e.target.value.trim()||EVT.msg}};
   $("#evGo").onclick=evtPost;$("#evTmI").oninput=e=>{const m=tmMask(e.target.value);e.target.value=m;evRunTm=m};$("#evKmI").oninput=e=>{evRunKm=e.target.value.replace(/[^\d,.]/g,"")};$("#evPvI").oninput=e=>{evRunPv=e.target.value};
-  try{track("evento_"+id)}catch(e){}evCount(id,"abriu",{origem:"link"});if(!own)evtCadastro(id);
+  try{track("evento_"+id)}catch(e){}evCount(id,"abriu",{origem:"link"});if(!EVT.own)evtCadastro(id);
   return true}
 function evtOpen(i,quiet){const st=S.stories[i];evtSt=st;if(!quiet)evCount(EVT.id,"modelo",{modelo:evMod(i),origem:"link"});S.cur=st.id;$("#evList").hidden=true;$("#evEdit").hidden=false;$("#evName").textContent=evInfo()[i][0];
   const hasMedia=st.layers.some(l=>l.evMedia),msg=st.layers.find(l=>l.evMsg),got=evtHasMedia(st);$("#evPickW").hidden=!hasMedia;$("#evRecB").hidden=!hasMedia;$("#evMsgW").hidden=!msg;const isRes=st.evDs==="resultado"||st.evDs==="rzres";$("#evTmW").hidden=st.evDs!=="sobrevivi"&&!isRes;$("#evKmW").hidden=!isRes;$("#evPvW").hidden=st.evDs!=="rzres";$("#evTmL").textContent=isRes?"Seu tempo":"Seu tempo de prova (opcional)";if(msg)$("#evMsg").value=msg.text===EVT.msg?"":msg.text;
@@ -5569,7 +7300,7 @@ function evCadSend(id,d){return fetch(SB_URL+"/rest/v1/evento_cadastros",{method
 function evCadRetry(id){let q=null;try{q=JSON.parse(localStorage.getItem(evCadK(id)+"_fila")||"null")}catch(e){}if(!q)return;evCadSend(id,q).then(()=>{try{localStorage.removeItem(evCadK(id)+"_fila")}catch(e){}}).catch(()=>{})}
 function evtCadastro(id){let done=false;try{done=!!localStorage.getItem(evCadK(id))}catch(e){}if(done){evCadRetry(id);return}
   const E=EVENTOS[id],ov=$("#evt");if(!ov)return;const m=document.createElement("div");m.className="evcad";m.id="evCad";
-  m.innerHTML=`<form class="evcadb" novalidate>${E.tema==="rz"?`<span class="evlogo evlogoc"><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" height="34" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></span>`:`<span class="evmono">${esc(E.mono)}</span>`}<h2>Bem-vindo ao<br><em>${esc(E.titulo||E.nome)}</em></h2><p>${esc(E.cad||"Para usar os stories do casamento, deixe seu contato. Leva 20 segundos.")}</p>
+  m.innerHTML=`<form class="evcadb" novalidate>${E.tema==="un"?`<span class="evlogo evlogoc"><img src="${UN_FQ.logo}" alt="Uninter" width="60" height="60" style="border-radius:50%;display:block"></span>`:E.tema==="rz"?`<span class="evlogo evlogoc"><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" height="34" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></span>`:`<span class="evmono">${esc(E.mono)}</span>`}<h2>Bem-vindo ao<br><em>${esc(E.titulo||E.nome)}</em></h2><p>${esc(E.cad||"Para usar os stories do casamento, deixe seu contato. Leva 20 segundos.")}</p>
    <label><span>Seu nome</span><input id="ecN" autocomplete="name" maxlength="80"></label>
    <label><span>E-mail</span><input id="ecE" type="email" inputmode="email" autocomplete="email" autocapitalize="none" maxlength="120"></label>
    <label><span>WhatsApp</span><input id="ecT" type="tel" inputmode="tel" autocomplete="tel" placeholder="(85) 90000-0000" maxlength="16"></label>
@@ -5588,6 +7319,31 @@ function evtCadastro(id){let done=false;try{done=!!localStorage.getItem(evCadK(i
     try{localStorage.setItem(evCadK(id),String(Date.now()))}catch(e2){}try{track("evento_cadastro")}catch(e2){}
     m.classList.add("out");document.body.classList.remove("evcadon");setTimeout(()=>m.remove(),350)};
   setTimeout(()=>{try{$("#ecN").focus({preventScroll:true})}catch(e){}},300)}
+
+/* ---------- compartilhar o link do evento (todos) e baixar o QR code (dono e administrador) ---------- */
+const evUrl=id=>location.origin+"/?evento="+id;
+const SH_I={wa:'<path d="M20 11.6a8.3 8.3 0 0 1-12.3 7.3L4 20l1.2-3.6A8.3 8.3 0 1 1 20 11.6z"/><path d="M9 8.8c.2 1.9 2.3 4.6 4.6 5.3l1.1-1.1 1.7.8c-.2 1.2-1.1 1.7-2.1 1.6-2.9-.4-6.2-3.6-6.4-6.5-.1-1 .5-1.8 1.6-2l.8 1.7z"/>',mais:'<circle cx="6" cy="12" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="m8 11 8-4M8 13l8 4"/>',link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',qr:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/>'},shI=k=>`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${SH_I[k]}</svg>`;
+function evShare(id){const E=EVENTOS[id];if(!E)return;const url=evUrl(id),txt=E.conv||("Stories de "+(E.titulo||E.nome)+"."),pode=(EVT&&EVT.id===id)?!!EVT.own:evPode(id,ACC,(authGet()||{}).email);
+  const host=$("#evt.on")||document.body;let m=$("#evSh");if(m)m.remove();m=document.createElement("div");m.id="evSh";m.className="evsh"+(E.tema==="un"?" evsh-un":E.tema==="rz"?" evsh-rz":E.kind==="corrida"?" evsh-run":E.kind==="wedding"?" evsh-wd":"");
+  m.innerHTML=`<div class="evshb" role="dialog" aria-label="Compartilhar"><b>Chame mais gente para o ${esc(E.titulo||E.nome)}</b><p>Quem receber o link abre os stories direto, sem precisar de QR code.</p>
+    <button type="button" data-sh="wa">${shI("wa")}<span>Enviar no WhatsApp</span></button>${navigator.share?`<button type="button" data-sh="mais">${shI("mais")}<span>Outros apps</span></button>`:""}<button type="button" data-sh="link">${shI("link")}<span>Copiar link</span></button>${pode?`<button type="button" data-sh="qr">${shI("qr")}<span>Baixar QR code</span></button>`:""}
+    <button type="button" class="evshx" data-sh="x">Fechar</button></div>`;
+  host.appendChild(m);requestAnimationFrame(()=>m.classList.add("on"));const close=()=>{m.classList.remove("on");setTimeout(()=>m.remove(),250)};
+  const cnt=via=>{try{if(EVT&&EVT.id===id)evCount(id,"compartilhou",{via,origem:"link"})}catch(e){}};
+  m.onclick=async e=>{if(e.target===m){close();return}const b=e.target.closest("[data-sh]");if(!b)return;const k=b.dataset.sh;
+    if(k==="x"){close();return}
+    if(k==="wa"){cnt("whatsapp");window.open("https://wa.me/?text="+encodeURIComponent(txt+"\n"+url),"_blank","noopener");close();return}
+    if(k==="mais"){try{await navigator.share({title:E.titulo||E.nome,text:txt,url});cnt("outros");close()}catch(err){}return}
+    if(k==="link"){let ok=false;try{await navigator.clipboard.writeText(url);ok=true}catch(err){try{const ta=document.createElement("textarea");ta.value=url;document.body.appendChild(ta);ta.select();ok=document.execCommand("copy");ta.remove()}catch(e2){}}cnt("link");toast(ok?"Link copiado. É só colar no WhatsApp ou onde quiser.":url);close();return}
+    if(k==="qr"){try{const bl=await evQrPng(id);const a=document.createElement("a");a.href=URL.createObjectURL(bl);a.download="qrcode-"+id+".png";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast("QR code baixado.")}catch(err){toast("Não consegui gerar o QR code. Tente de novo.")}close()}}}
+function evQrPng(id){const E=EVENTOS[id],url=evUrl(id),T=E.tema==="rz"?{bg:"#03045E",tx:"#ffffff",mu:"#c9cbe8",f:'"Onest","Montserrat",sans-serif',w:"700"}:E.kind==="corrida"?{bg:"#0f0e2a",tx:"#f3e6c8",mu:"#b9b4cc",f:'"Montserrat",sans-serif',w:"800"}:{bg:"#f6f1e8",tx:"#1d3b3f",mu:"#5d6f70",f:'"Playfair Display",serif',w:"italic 700"};
+  const q=qrcode(0,"M");q.addData(url);q.make();const n=q.getModuleCount(),c=document.createElement("canvas");c.width=1080;c.height=1350;const x=c.getContext("2d");x.fillStyle=T.bg;x.fillRect(0,0,1080,1350);
+  const P=700,px=(1080-P)/2,py=300,cell=(P-80)/n;x.fillStyle="#ffffff";rr(x,px,py,P,P,36);x.fill();x.fillStyle="#111111";for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))x.fillRect(Math.floor(px+40+k*cell),Math.floor(py+40+r*cell),Math.ceil(cell),Math.ceil(cell));
+  x.textAlign="center";x.textBaseline="middle";x.fillStyle=T.tx;let fs=64;const tt=E.titulo||E.nome;do{x.font=`${T.w} ${fs}px ${T.f}`;fs-=2}while(x.measureText(tt).width>960&&fs>30);x.fillText(tt,540,170);
+  x.fillStyle=T.mu;x.font='600 34px "Manrope",sans-serif';x.fillText("Aponte a câmera do celular",540,1100);x.font='500 28px "Manrope",sans-serif';x.fillText("ou acesse "+url.replace(/^https?:\/\//,""),540,1156);
+  x.font='600 24px "Manrope",sans-serif';x.fillText("Clique, grave e poste · Story Pronto",540,1270);
+  return new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(),"image/png"))}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-evsh]");if(!b)return;e.preventDefault();e.stopPropagation();evShare(b.dataset.evsh)},true);
 let evCam=null;
 /* tempo pelo teclado numérico: só números, os dois-pontos entram sozinhos (13625 → 1:36:25) */
 function tmMask(v){const d=String(v||"").replace(/\D/g,"").replace(/^0+(?=\d{3})/,"").slice(0,6);if(d.length<=2)return d;if(d.length<=4)return d.slice(0,-2)+":"+d.slice(-2);return d.slice(0,-4)+":"+d.slice(-4,-2)+":"+d.slice(-2)}
@@ -5946,11 +7702,7 @@ function renderHome(){const B=$("#hmBody");if(!B||!S)return;if(!$("#bDemo")){con
   B.innerHTML=`${S.demo?`<div class="hm-demo"><span>Apresentação para <b>${esc(S.demo.nome)}</b></span><button type="button" data-hm="demo">Ajustar</button></div>`:""}<div class="hm-hero"><p>${esc(hmDate())}</p><h1>${nm?esc(nm):"Story Pronto"}</h1></div>
    <div class="hm-main"><button type="button" class="hm-card hm-v" data-hm="video"><span class="hm-pv"><canvas id="hmPv" width="150" height="266"></canvas></span><b>Novo vídeo</b><span>Grave falando e receba editado</span></button>
      <button type="button" class="hm-card hm-i" data-hm="img"><span class="hm-fan" id="hmFan"><canvas width="150" height="266"></canvas><canvas width="150" height="266"></canvas><canvas width="150" height="266"></canvas></span><b>Story de imagem</b><span>Modelos prontos para editar</span></button></div>
-   ${ACC&&ACC.role!=="evento"?`<div class="hm-sec hm-evsec"><div class="hm-h"><b>Eventos</b><span>Stories dos convidados e atletas</span></div><div class="hm-main">
-     <a class="hm-card hm-ew" href="/?evento=hannah-caio"><i class="evmono">H&amp;C</i><b>Wedding Hannah &amp; Caio</b><span>Stories dos convidados · 19/12</span></a>
-     <a class="hm-card hm-ed" href="/?evento=desafio-fortaleza-japao"><i><svg viewBox="0 0 96 28" fill="none" stroke-linecap="round"><path d="M4 22c14 0 16-10 30-10s18-8 30-6 18-2 26-2" stroke="#f3e6c8" stroke-opacity=".35" stroke-width="2"/><path d="M4 22c14 0 16-10 30-10s18-8 30-6" stroke="#ec2b3a" stroke-width="2.4"/><circle cx="4" cy="22" r="3" fill="#f3e6c8"/><circle cx="64" cy="6" r="3.4" fill="#fff"/></svg></i><b>Desafio Fortaleza - Japão</b><span>Stark · stories dos atletas · 19/12</span></a>
-     <a class="hm-card hm-er" href="/?evento=revezo"><i><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></i><b>Revezô Sports</b><span>Stories e Live Esportiva</span></a>
-   </div></div>`:""}
+   ${(()=>{const em=(authGet()||{}).email,ok=["hannah-caio","desafio-fortaleza-japao","revezo","uninter-fortaleza"].filter(id=>ACC&&ACC.role!=="evento"&&evPode(id,ACC,em)),C={"uninter-fortaleza":`<a class="hm-card hm-eu" href="/?evento=uninter-fortaleza"><button type="button" class="hm-evsh" data-evsh="uninter-fortaleza" aria-label="Compartilhar o link" title="Compartilhar o link"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button><i><img src="${UN_FQ.logo}" alt="Uninter"></i><b>Uninter Fortaleza Centro</b><span>Eventos e datas especiais</span></a>`,"hannah-caio":`<a class="hm-card hm-ew" href="/?evento=hannah-caio"><button type="button" class="hm-evsh" data-evsh="hannah-caio" aria-label="Compartilhar o link" title="Compartilhar o link"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button><i class="evmono">H&amp;C</i><b>Wedding Hannah &amp; Caio</b><span>Stories dos convidados · 19/12</span></a>`,"desafio-fortaleza-japao":`<a class="hm-card hm-ed" href="/?evento=desafio-fortaleza-japao"><button type="button" class="hm-evsh" data-evsh="desafio-fortaleza-japao" aria-label="Compartilhar o link" title="Compartilhar o link"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button><i><svg viewBox="0 0 96 28" fill="none" stroke-linecap="round"><path d="M4 22c14 0 16-10 30-10s18-8 30-6 18-2 26-2" stroke="#f3e6c8" stroke-opacity=".35" stroke-width="2"/><path d="M4 22c14 0 16-10 30-10s18-8 30-6" stroke="#ec2b3a" stroke-width="2.4"/><circle cx="4" cy="22" r="3" fill="#f3e6c8"/><circle cx="64" cy="6" r="3.4" fill="#fff"/></svg></i><b>Desafio Fortaleza - Japão</b><span>Stark · stories dos atletas · 19/12</span></a>`,"revezo":`<a class="hm-card hm-er" href="/?evento=revezo"><button type="button" class="hm-evsh" data-evsh="revezo" aria-label="Compartilhar o link" title="Compartilhar o link"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button><i><svg viewBox="0 0 ${RZ_LOGO.W} ${RZ_LOGO.H}" aria-label="Revezô"><path d="${RZ_LOGO.w}" fill="#fff"/><path d="${RZ_LOGO.c}" fill="#00B4D8"/><path d="${RZ_LOGO.o}" fill="#FF6600"/></svg></i><b>Revezô Sports</b><span>Stories e Live Esportiva</span></a>`};return ok.length?`<div class="hm-sec hm-evsec"><div class="hm-h"><b>Eventos</b><span>Stories dos convidados e atletas</span></div><div class="hm-main hm-ev${ok.length}">${ok.map(id=>C[id]).join("")}</div></div>`:""})()}
    <div class="hm-sec"><div class="hm-h"><b>Atalhos</b></div><div class="hm-list">${[["lote","Minha semana","Planeje os stories dos próximos dias"],["agenda","Agendados","O que já está programado para sair"],["seq","Sequência pronta","Vários stories de uma vez, em sequência"],["brand","Minha marca","Cores, fontes e logo"],["benef","Benefícios","Vantagens para quem usa o Story Pronto"],["files","Meus arquivos","Tudo o que você já criou"]].map(([k,n,d])=>`<button type="button" data-hm="${k}"><span><b>${n}</b><em>${d}</em></span><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>`).join("")}</div></div>`;
   hmPreview();
   const R=$("#hmRec");if(R)rec.forEach(st=>{const b=document.createElement("button");b.type="button";b.className="hm-th";b.dataset.hmst=st.id;const c=document.createElement("canvas");try{thumbInto(c,st)}catch(e){}b.appendChild(c);
