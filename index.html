@@ -3031,19 +3031,21 @@ function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();
       b.textContent="Enviado ✓";toast(`Enviado! Publica ${/(^|__)agora/.test(fname)?"em até 10 minutos":"em "+ghQuando(fname)}${st.conta||isAdmin()?" em @"+contaDe(st):""}.`)}
     catch(e){toast(e.message);b.disabled=false;b.textContent="Publicar no Instagram"}};
 }
-function closeModal(){if(recording)return;$("#mdl").classList.remove("on");const v=$("#mdlBox video");if(v)v.pause()}
+function closeModal(){if(recording)return;$("#mdl").classList.remove("on");const v=$("#mdlBox video");if(v){v.pause();v.removeAttribute("src");v.load()}if(expUrl){try{URL.revokeObjectURL(expUrl)}catch(e){}expUrl=""}}
 /* ---------- formatos para outras plataformas ---------- */
 const FMTS=[
  {id:"v",w:1080,h:1920,n:"Vertical 9:16",d:"O mesmo vídeo serve para todas, sem cortar nada",pl:[["Story do Instagram",60,"Até 60 s por story. Acima disso o Instagram divide em partes."],["Reels",180,"Até 3 min para aparecer como Reels."],["TikTok",600,"Até 10 min."],["YouTube Shorts",180,"Até 3 min para contar como Shorts."],["Status do WhatsApp",60,"Até 60 s (em alguns aparelhos, 90 s). Acima disso o WhatsApp corta."],["Kwai",0,"Público forte no Norte e Nordeste. Vídeo real, feito no celular, funciona melhor."],["Facebook Reels",90,"Até 90 s quando publicado por ferramenta de agendamento."],["LinkedIn",0,"O LinkedIn aceita vídeo vertical, mas no feed do computador ele aparece cortado. Para o feed, o 4:5 fica melhor."]]},
  {id:"f",w:1080,h:1350,n:"Feed 4:5",d:"Seu story inteiro no centro, com o fundo desfocado nas laterais",pl:[["Feed do Instagram",0,""],["Facebook",0,""],["LinkedIn",0,""],["Threads",0,""]]},
  {id:"q",w:1080,h:1080,n:"Quadrado 1:1",d:"Bom para grupos, anúncios e LinkedIn",pl:[["Grupos de WhatsApp",0,""],["Anúncios",0,""],["LinkedIn",0,""]]}];
+let fmtBg=null,expUrl="";const isPhone=()=>{try{return matchMedia("(pointer:coarse)").matches}catch(e){return false}};
 let expFmt=FMTS[0],expPlat="Story do Instagram",expPlats=["Story do Instagram"],fmtCv=null;
 function drawOut(rx,st){if(expFmt.id==="v"){draw(rx,st,false);return}
   if(!fmtCv){fmtCv=document.createElement("canvas");fmtCv.width=W;fmtCv.height=H}const fx=fmtCv.getContext("2d");draw(fx,st,false);
   const ow=expFmt.w,oh=expFmt.h;rx.save();rx.fillStyle="#000";rx.fillRect(0,0,ow,oh);
-  const cs=Math.max(ow/W,oh/H),cw=W*cs,ch=H*cs;try{rx.filter="blur(40px) brightness(.55)"}catch(e){}rx.drawImage(fmtCv,(ow-cw)/2,(oh-ch)/2,cw,ch);rx.filter="none";
-  if(!("filter" in rx)){rx.fillStyle="#000a";rx.fillRect(0,0,ow,oh)}
-  const fs=oh/H,fw=W*fs;rx.shadowColor="#0009";rx.shadowBlur=30;rx.drawImage(fmtCv,(ow-fw)/2,0,fw,oh);rx.restore()}
+  if(!fmtBg){fmtBg=document.createElement("canvas")}const bw=Math.round(ow/24),bh=Math.round(oh/24);if(fmtBg.width!==bw||fmtBg.height!==bh){fmtBg.width=bw;fmtBg.height=bh}
+  const bx=fmtBg.getContext("2d"),cs=Math.max(bw/W,bh/H);bx.drawImage(fmtCv,(bw-W*cs)/2,(bh-H*cs)/2,W*cs,H*cs);
+  rx.imageSmoothingEnabled=true;rx.imageSmoothingQuality="low";rx.drawImage(fmtBg,0,0,ow,oh);rx.fillStyle="#0009";rx.fillRect(0,0,ow,oh);
+  const fs=oh/H,fw=W*fs;rx.drawImage(fmtCv,(ow-fw)/2,0,fw,oh);rx.restore()}
 function fmtName(st,ext){const p=(expPlats.length>1?expFmt.n:expPlat).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return `storypronto_${p}_${st.id.slice(0,4)}.${ext}`}
 function pickFormat(st,go){sideOff();const isV=!!vLayer(st);
   $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">Onde você vai postar?</h3><p class="note" style="margin:0">O Story Pronto ajusta o tamanho para cada rede.</p>
@@ -3078,14 +3080,14 @@ async function exportVideo(st){expSt=st;
   all.forEach(x=>x.g=ensureAudio(x.el));const g=all.find(x=>x.el===el).g;
   const stream=rc.captureStream(30);
   if(g&&adest){const at=adest.stream.getAudioTracks()[0];if(at)stream.addTrack(at)}
-  recording=true;recMainEl=el;sel=null;
+  recording=true;recMainEl=el;sel=null;let wl=null;try{wl=await navigator.wakeLock.request("screen")}catch(e){}
   $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">Gerando o vídeo…</h3><p class="note" style="margin:0">A gravação acontece em tempo real: um trecho de ${sec(l.end-l.start)} leva esse mesmo tempo. Mantenha esta aba aberta.</p><div class="prog"><i id="pg"></i></div><p class="note" id="pgt" style="margin:0">0%</p>`;
   $("#mdl").classList.add("on");
   vids.forEach(r=>{if(r.el)r.el.pause()});
   await Promise.all(all.map(x=>new Promise(res=>{const done=()=>{x.el.removeEventListener("seeked",done);res()};x.el.addEventListener("seeked",done);x.el.currentTime=x.l.start||0;setTimeout(done,1500)})));
   all.forEach(x=>{x.el.muted=x.l.sound===false;if(x.g)x.g.spk.gain.value=soundOn?1:0});
   const chunks=[];let rec;
-  try{rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:8e6})}catch(e){rec=new MediaRecorder(stream)}
+  try{rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:isPhone()?4e6:8e6})}catch(e){rec=new MediaRecorder(stream)}
   rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
   const stopped=new Promise(res=>rec.onstop=res);
   drawOut(rx,st);
@@ -3097,9 +3099,9 @@ async function exportVideo(st){expSt=st;
     if(el.currentTime>=l.end||el.ended)res();else requestAnimationFrame(f)})()});
   drawOut(rx,st);
   rec.stop();all.forEach(x=>x.el.pause());await stopped;
-  recording=false;recMainEl=null;all.forEach(x=>{if(x.g)x.g.spk.gain.value=1;x.el.currentTime=x.l.start||0});
+  recording=false;recMainEl=null;try{wl&&wl.release()}catch(e){}all.forEach(x=>{if(x.g)x.g.spk.gain.value=1;x.el.currentTime=x.l.start||0});
   const type=(rec.mimeType||mime).split(";")[0],ext=type.includes("mp4")?"mp4":"webm";
-  const blob=new Blob(chunks,{type}),url=URL.createObjectURL(blob);
+  const blob=new Blob(chunks,{type});chunks.length=0;if(expUrl)try{URL.revokeObjectURL(expUrl)}catch(e){}const url=URL.createObjectURL(blob);expUrl=url;
   const extra=ext==="webm"?`<div class="warn">Este navegador gerou o vídeo em WEBM, que o Instagram não aceita. Para gerar MP4, use o Chrome ou o Edge atualizados no computador.</div>`:"";
   modalResult(`<video src="${url}" controls playsinline></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB • ${sec(Math.max(1,len-((l.mont&&l.mont.dyn&&l.mont.cuts)?l.mont.cuts.reduce((a,c)=>a+Math.max(0,Math.min(l.end,c[1])-Math.max(l.start||0,c[0])),0):0)))} • ${ext.toUpperCase()}</p>`,blob,expFmt.id==="v"?queueName(st,ext):fmtName(st,ext),payloadOf(st,true),extra+fmtTip(len));
   syncPlayback();
