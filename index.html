@@ -5115,7 +5115,9 @@ let evtPhSrc="";function evtPh(){if(evtPhSrc)return evtPhSrc;const c=document.cr
   x.fillStyle="#fbf1e2";x.globalAlpha=.9;x.beginPath();x.arc(270,330,70,0,7);x.fill();x.globalAlpha=1;
   g=x.createLinearGradient(0,560,0,960);g.addColorStop(0,"#7fa9a6");g.addColorStop(1,"#2c6a70");x.fillStyle=g;x.fillRect(0,560,540,400);
   x.strokeStyle="#ffffff";x.globalAlpha=.35;x.lineWidth=2;for(let k=0;k<5;k++){x.beginPath();for(let i=0;i<=40;i++){const px=i*540/40,py=620+k*62+6*Math.sin(i/3+k);i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke()}
-  x.globalAlpha=1;x.fillStyle="#ffffff";x.font='600 22px "Montserrat",sans-serif';x.textAlign="center";if("letterSpacing" in x)x.letterSpacing="5px";x.globalAlpha=.85;x.fillText("SUA FOTO OU VÍDEO AQUI",270,500);
+  x.globalAlpha=1;x.textAlign="center";x.textBaseline="middle";if("letterSpacing" in x)x.letterSpacing="1px";x.font='800 36px "Montserrat",sans-serif';const tx="Clique, grave e poste",tw=x.measureText(tx).width+56;
+  x.shadowColor="rgba(23,63,69,.35)";x.shadowBlur=24;x.shadowOffsetY=6;x.fillStyle="#1d3b3f";x.beginPath();x.roundRect?x.roundRect(270-tw/2,444,tw,84,42):x.rect(270-tw/2,444,tw,84);x.fill();x.shadowColor="transparent";
+  x.fillStyle="#fbf7f0";x.fillText(tx,270,488);
   return evtPhSrc=c.toDataURL("image/jpeg",.85)}
 function evtStory(tpl,bg,layers){layers.forEach(l=>{if(l.evMedia&&!l.src){l.src=evtPh();l.evPh=true}});const cap=defCap();cap.on=false;return{id:uid(),status:"rascunho",at:"",tpl,cap,bg:Object.assign({type:"solid",c1:"#000",c2:"#000",angle:180,img:"",ov:0},bg),layers}}
 function evtStories(E){const C=EVC,lab=(y,t,c,o)=>T(Object.assign({y,text:t,font:"Montserrat",size:30,weight:500,color:c,ls:12,shadow:false},o||{}));
