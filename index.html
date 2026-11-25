@@ -954,6 +954,7 @@ a.hm-card{text-decoration:none}
 .evnav a:hover{background:#ffffff}
 #evt.evrun .evnav{background:#f3e6c812}#evt.evrun .evnav a:hover{background:#f3e6c81f}#evt.evrun .evhome:hover{background:#f3e6c814}
 @media(max-width:640px){.evh{row-gap:12px}.evnav{order:5;width:100%;justify-content:space-between}.evnav a{flex:1;justify-content:center;padding:9px 6px;font-size:13px}}
+.evlogin{margin-left:auto;padding:8px 14px;border-radius:999px;border:1px solid currentColor;color:inherit;opacity:.7;text-decoration:none;font-size:13px;font-weight:600}.evlogin:hover{opacity:1}
 .hmevt{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#f6f1e8;color:#1d3b3f;text-decoration:none}
 .hmevt .evmono{width:42px;height:42px;flex:0 0 42px;font-size:15px}.hmevt div{flex:1;min-width:0}.hmevt b{display:block;font:italic 700 16px/1.25 "Playfair Display",serif}.hmevt span{font-size:12px;color:#5d6f70;word-break:break-all}.hmevt i{font-style:normal;font-size:13px;font-weight:600;white-space:nowrap}
 
@@ -5343,7 +5344,7 @@ $("#v-pub").addEventListener("click",async e=>{const b=e.target.closest("[data-c
 /* ---------- contador anônimo de eventos (sem nome, e-mail, localização ou vídeo) ---------- */
 const evSlug=t=>String(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g," ").replace(/\be\b/g," ").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60);
 function evDev(){let d="";try{d=localStorage.getItem("sp_evdev")||""}catch(e){}if(!/^[a-z0-9]{8,40}$/.test(d)){d=Array.from(crypto.getRandomValues(new Uint8Array(12)),b=>(b%36).toString(36)).join("");try{localStorage.setItem("sp_evdev",d)}catch(e){}}return d}
-function evCount(evento,acao,extra){try{const ev=evSlug(evento);if(!SB_URL||!SB_ANON||ev.length<2)return;const body=Object.assign({evento:ev,acao,aparelho:evDev()},extra||{});
+function evCount(evento,acao,extra){try{if(EVT&&EVT.own)return;const ev=evSlug(evento);if(!SB_URL||!SB_ANON||ev.length<2)return;const body=Object.assign({evento:ev,acao,aparelho:evDev()},extra||{});
   fetch(SB_URL+"/rest/v1/evento_uso",{method:"POST",keepalive:true,headers:Object.assign(sbHead(SB_ANON),{Prefer:"return=minimal"}),body:JSON.stringify(body)}).catch(()=>{})}catch(e){}}
 const EVT_MOD=["Pé na areia","Polaroid","Casamento do Ano","Ao vivo"];
 const wedModel=k=>({hcareia:"Pé na areia",hcpolaroid:"Polaroid",hcano:"Casamento do Ano",hclive:"Ao vivo"})[k]||k;
@@ -5421,9 +5422,9 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
   S.stories.forEach(st=>st.cap.on=false);
   $("#login").classList.add("off");document.body.classList.add("evton");document.title=`${E.titulo||E.nome} · Story Pronto`;
   let ov=$("#evt");if(!ov){ov=document.createElement("div");ov.id="evt";document.body.appendChild(ov)}
-  ov.classList.toggle("evrun",E.kind==="corrida");const own=(()=>{try{return !!sessGet()}catch(e){return false}})(),IC={home:'<path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/>',ed:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',stu:'<rect x="3" y="6.5" width="13" height="11" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>'},ic=k=>`<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
+  ov.classList.toggle("evrun",E.kind==="corrida");const own=(()=>{try{return !!sessGet()}catch(e){return false}})();EVT.own=own;const IC={home:'<path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/>',ed:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',stu:'<rect x="3" y="6.5" width="13" height="11" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>'},ic=k=>`<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
   ov.innerHTML=`<div class="evh">${own?`<a class="evhome" href="/?ir=inicio" aria-label="Voltar ao início"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg></a>`:""}<span class="evmono">${esc(E.mono)}</span><div class="evht"><b>${esc(E.titulo||E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div>
-   ${own?`<nav class="evnav" aria-label="Story Pronto"><a href="/?ir=inicio">${ic("home")}<span>Início</span></a><a href="/?ir=editor">${ic("ed")}<span>Editor</span></a><a href="/?ir=estudio">${ic("stu")}<span>Estúdio</span></a></nav>`:""}</div>
+   ${own?`<nav class="evnav" aria-label="Story Pronto"><a href="/?ir=inicio">${ic("home")}<span>Início</span></a><a href="/?ir=editor">${ic("ed")}<span>Editor</span></a><a href="/?ir=estudio">${ic("stu")}<span>Estúdio</span></a></nav>`:`<a class="evlogin" href="/?ir=inicio">Entrar</a>`}</div>
    <section class="evlist" id="evList"><p class="evk">${E.kind==="corrida"?"Escolha o seu story da prova":"Escolha o seu story"}</p><div class="evcards">${S.stories.map((st,i)=>`<button type="button" class="evcard" data-evi="${i}"><canvas width="270" height="480"></canvas><b>${evInfo()[i][0]}</b><span>${evInfo()[i][1]}</span></button>`).join("")}</div>
    <p class="evfoot">Stories para momentos especiais · <a href="/?cadastro&origem=evento-${esc(id)}">Story Pronto</a></p></section>
    <section class="evedit" id="evEdit" hidden><div class="evtop"><button type="button" class="evback" data-ev="back"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg>Modelos</button><span id="evName"></span></div>
@@ -5443,7 +5444,7 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
   $("#evRecB").onclick=evtCamOn;$("#evRb").onclick=()=>{if(evCam&&evCam.mr)evtRecStop();else evtRecStart()};
   $("#evFile").onchange=evtMedia;$("#evMsg").oninput=e=>{const l=evtSt&&evtSt.layers.find(x=>x.evMsg);if(l){l.text=e.target.value.trim()||EVT.msg}};
   $("#evGo").onclick=evtPost;$("#evTmI").oninput=e=>{evRunTm=e.target.value.replace(/[^\d:]/g,"")};
-  try{track("evento_"+id)}catch(e){}evCount(id,"abriu",{origem:"link"});evtCadastro(id);
+  try{track("evento_"+id)}catch(e){}evCount(id,"abriu",{origem:"link"});if(!own)evtCadastro(id);
   return true}
 function evtOpen(i,quiet){const st=S.stories[i];evtSt=st;if(!quiet)evCount(EVT.id,"modelo",{modelo:evMod(i),origem:"link"});S.cur=st.id;$("#evList").hidden=true;$("#evEdit").hidden=false;$("#evName").textContent=evInfo()[i][0];
   const hasMedia=st.layers.some(l=>l.evMedia),msg=st.layers.find(l=>l.evMsg),got=evtHasMedia(st);$("#evPickW").hidden=!hasMedia;$("#evRecB").hidden=!hasMedia;$("#evMsgW").hidden=!msg;$("#evTmW").hidden=st.evDs!=="sobrevivi";if(msg)$("#evMsg").value=msg.text===EVT.msg?"":msg.text;
