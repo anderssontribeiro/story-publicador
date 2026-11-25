@@ -7714,7 +7714,8 @@ async function evtCamStream(face,withMic){const C=evCam;if(!C)return;const tk=++
   const at=ns.getAudioTracks()[0];if(at)C.mic=at;C.stream=new MediaStream(ns.getVideoTracks());C.face=camFaceOf(ns,face);C.v.srcObject=C.stream;await C.v.play().catch(()=>{})}
 async function evtFlip(){const C=evCam;if(!C)return;const nf=C.face==="user"?"environment":"user";try{await evtCamStream(nf,false)}catch(e){toast("Não consegui trocar a câmera. Tente de novo.");try{await evtCamStream(C.face,false)}catch(e2){}}}
 /* ---------- EVENTOS · acabamento automático do vídeo: tira as pausas e limpa o som ---------- */
-let evPostT=null,evAC=null;
+let evPostT=null,evAC=null,evPC=null;const evPostOff=()=>{try{return localStorage.getItem("sp_evpost_off")==="1"}catch(e){return false}};
+(function(){try{if(sessionStorage.getItem("sp_evpost_run")==="1"||localStorage.getItem("sp_evpost_run")==="1"){localStorage.setItem("sp_evpost_off","1");localStorage.removeItem("sp_evpost_run");sessionStorage.removeItem("sp_evpost_run");setTimeout(()=>{try{toast("Seu celular ficou sem memória no acabamento do vídeo. Agora ele grava direto, sem o corte de pausas.")}catch(e){}},2500)}}catch(e){}})();
 function evACNow(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;if(!evAC)evAC=new AC();if(evAC.state==="suspended")evAC.resume();return evAC}catch(e){return null}}
 function evSpeech(ab){const ch=ab.getChannelData(0),sr=ab.sampleRate,hop=Math.max(1,Math.round(sr*.02)),n=Math.floor(ch.length/hop),db=new Float32Array(n);
   for(let i=0;i<n;i++){let s=0;for(let j=i*hop,e=j+hop;j<e;j++)s+=ch[j]*ch[j];db[i]=10*Math.log10(s/hop+1e-10)}
@@ -7725,16 +7726,17 @@ function evSpeech(ab){const ch=ab.getChannelData(0),sr=ab.sampleRate,hop=Math.ma
   segs=m.filter(s=>s[1]-s[0]>=.18).map(s=>[Math.max(0,s[0]-.15),s[1]+.28]);const out=[];for(const s of segs){if(out.length&&s[0]<=out[out.length-1][1])out[out.length-1][1]=s[1];else out.push(s)}
   const rmsDb=cnt?10*Math.log10(lin/cnt):-30,gain=Math.max(.45,Math.min(3.2,Math.pow(10,(-19-rmsDb)/20))),dur=n*fd,keep=out.reduce((x,s)=>x+Math.min(dur,s[1])-s[0],0);
   if(peak-floor<9||keep<1||dur-keep<.35)return{segs:null,gain,cut:0};if(out[0][0]<.4)out[0][0]=0;return{segs:out,gain,cut:Math.max(0,dur-keep)}}
-async function evPost(st,raw,dur,mirror){const ac=evACNow();const mime=pickMime();const i=st.layers.findIndex(l=>l.evMedia);if(!mime||i<0)throw new Error("sem gravador");
+async function evPost(st,raw,dur,mirror){try{localStorage.setItem("sp_evpost_run","1")}catch(e){}try{return await evPostRun(st,raw,dur,mirror)}finally{try{localStorage.removeItem("sp_evpost_run")}catch(e){}}}
+async function evPostRun(st,raw,dur,mirror){const ac=evACNow();const mime=pickMime();const i=st.layers.findIndex(l=>l.evMedia);if(!mime||i<0)throw new Error("sem gravador");
   $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">Deixando seu vídeo pronto…</h3><p class="note" style="margin:0" id="pgs">Ajustando o som e tirando as pausas da fala.</p><div class="prog"><i id="pg"></i></div><p class="note" id="pgt" style="margin:0">0%</p>`;$("#mdl").classList.add("on");
-  let an={segs:null,gain:1,cut:0};if(ac){try{const ab=await ac.decodeAudioData(await raw.arrayBuffer());an=evSpeech(ab);if(!dur||!isFinite(dur))dur=ab.duration}catch(e){}}
+  let an={segs:null,gain:1,cut:0};if(ac&&raw.size<(isPhone()?60:200)*1048576){try{const ab=await ac.decodeAudioData(await raw.arrayBuffer());an=evSpeech(ab);if(!dur||!isFinite(dur))dur=ab.duration}catch(e){}}
   const url=URL.createObjectURL(raw),v=document.createElement("video");v.playsInline=true;v.setAttribute("playsinline","");v.preload="auto";v.src=url;
   await new Promise(res=>{v.onloadeddata=res;v.onerror=res;setTimeout(res,5000)});if(!dur||!isFinite(dur))dur=isFinite(v.duration)?v.duration:60;
-  const old=st.layers[i],full=old.w>=W&&old.ratio==="9:16",cv=document.createElement("canvas");cv.width=720;cv.height=1280;Object.assign(cv,{videoWidth:720,videoHeight:1280,paused:false,currentTime:0,pause:()=>{},play:()=>Promise.resolve()});
+  if(!evPC)evPC={cv:document.createElement("canvas"),out:document.createElement("canvas")};const old=st.layers[i],full=old.w>=W&&old.ratio==="9:16",cv=evPC.cv;cv.width=720;cv.height=1280;Object.assign(cv,{videoWidth:720,videoHeight:1280,paused:false,currentTime:0,pause:()=>{},play:()=>Promise.resolve()});
   const geo={x:old.x,y:old.y,w:old.w,ratio:old.ratio,shape:old.shape,radius:old.radius,border:old.border,bcolor:old.bcolor,fshadow:old.fshadow,rot:old.rot||0,evMedia:true};
   const lay=V(Object.assign(geo,{vid:"evcam",main:true,mode:full?"tela":"moldura",dim:0,sound:true}));vids.set("evcam",{el:cv,ready:true,cam:true});st.layers.splice(i,1,lay);
-  const out=document.createElement("canvas");out.width=W;out.height=H;const ox=out.getContext("2d"),cx=cv.getContext("2d"),stream=out.captureStream(30);let gate=null;
-  try{if(ac){const src=ac.createMediaElementSource(v),hp=ac.createBiquadFilter(),lo=ac.createBiquadFilter(),pr=ac.createBiquadFilter(),pg=ac.createGain(),cp=ac.createDynamicsCompressor(),mk=ac.createGain(),lim=ac.createDynamicsCompressor(),og=ac.createGain(),dest=ac.createMediaStreamDestination();gate=ac.createGain();
+  const out=evPC.out;out.width=W;out.height=H;const ox=out.getContext("2d"),cx=cv.getContext("2d"),stream=out.captureStream(30);let gate=null,src=null;
+  try{if(ac){src=ac.createMediaElementSource(v);const hp=ac.createBiquadFilter(),lo=ac.createBiquadFilter(),pr=ac.createBiquadFilter(),pg=ac.createGain(),cp=ac.createDynamicsCompressor(),mk=ac.createGain(),lim=ac.createDynamicsCompressor(),og=ac.createGain(),dest=ac.createMediaStreamDestination();gate=ac.createGain();
     hp.type="highpass";hp.frequency.value=85;hp.Q.value=.7;lo.type="lowpass";lo.frequency.value=12500;pr.type="peaking";pr.frequency.value=3000;pr.Q.value=.9;pr.gain.value=2.5;pg.gain.value=an.gain;
     cp.threshold.value=-26;cp.knee.value=10;cp.ratio.value=3;cp.attack.value=.005;cp.release.value=.22;mk.gain.value=1.5;lim.threshold.value=-5;lim.knee.value=0;lim.ratio.value=20;lim.attack.value=.001;lim.release.value=.1;og.gain.value=.9;
     src.connect(hp);hp.connect(lo);lo.connect(pr);pr.connect(pg);pg.connect(cp);cp.connect(mk);mk.connect(lim);lim.connect(og);og.connect(gate);gate.connect(dest);const at=dest.stream.getAudioTracks()[0];if(at)stream.addTrack(at)}}catch(e){}
@@ -7742,30 +7744,36 @@ async function evPost(st,raw,dur,mirror){const ac=evACNow();const mime=pickMime(
   const ch=[];mr.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};const stopped=new Promise(r=>mr.onstop=r);
   const inS=t=>!an.segs||an.segs.some(s=>t>=s[0]&&t<s[1]);let outT=0,last=0,wl=null;try{wl=await navigator.wakeLock.request("screen")}catch(e){}
   const frame=()=>{const vw=v.videoWidth,vh=v.videoHeight;if(vw){const s=Math.max(720/vw,1280/vh),dw=vw*s,dh=vh*s;cx.save();if(mirror){cx.translate(720,0);cx.scale(-1,1)}cx.drawImage(v,(720-dw)/2,(1280-dh)/2,dw,dh);cx.restore()}evPostT=outT;cv.currentTime=outT;draw(ox,st,false)};
-  try{if(!inS(0)){v.currentTime=0}frame();mr.start(250);if(!inS(0))mr.pause();await v.play().catch(()=>{});last=performance.now();
-    await new Promise(res=>{let stuck=0,lt=-1;(function f(){const now=performance.now(),ct=v.currentTime,sp=inS(ct);
-      if(sp){if(mr.state==="paused")mr.resume();if(gate)gate.gain.value=1;if(v.playbackRate!==1)v.playbackRate=1;outT+=(now-last)/1000}else{if(mr.state==="recording")mr.pause();if(gate)gate.gain.value=0;if(v.playbackRate!==8)v.playbackRate=8}
-      last=now;frame();const p=Math.max(0,Math.min(1,ct/dur)),g=$("#pg");if(g){g.style.width=(p*100).toFixed(0)+"%";$("#pgt").textContent=(p*100).toFixed(0)+"%"}
-      stuck=ct===lt?stuck+1:0;lt=ct;if(v.ended||ct>=dur-.03||stuck>240)res();else requestAnimationFrame(f)})()});
+  const seekTo=x=>new Promise(r=>{let ok=false;const f=()=>{ok=true;v.removeEventListener("seeked",f);r(true)};v.addEventListener("seeked",f);try{v.currentTime=x}catch(e){}setTimeout(()=>{if(!ok){v.removeEventListener("seeked",f);r(false)}},2500)});
+  const nextS=ct=>{if(!an.segs)return null;const n=an.segs.find(s=>s[0]>ct);return n?n[0]:null};
+  try{const s0=an.segs?an.segs[0][0]:0;if(s0>0.05)await seekTo(s0);frame();mr.start(250);await v.play().catch(()=>{});last=performance.now();
+    await new Promise(res=>{let stuck=0,lt=-1,busy=false,slow=false;(function f(){if(busy){requestAnimationFrame(f);return}const now=performance.now(),ct=v.currentTime,sp=inS(ct);
+      if(sp){if(mr.state==="paused")mr.resume();if(gate)gate.gain.value=1;if(v.playbackRate!==1)v.playbackRate=1;outT+=(now-last)/1000;last=now;frame()}
+      else{const ns=nextS(ct);if(ns==null){res();return}if(mr.state==="recording")mr.pause();if(gate)gate.gain.value=0;
+        if(slow){if(v.playbackRate!==2)v.playbackRate=2;last=now}
+        else{busy=true;v.pause();seekTo(ns).then(ok=>{if(!ok||v.currentTime<ns-.4)slow=true;return v.play().catch(()=>{})}).then(()=>{last=performance.now();busy=false})}}
+      const p=Math.max(0,Math.min(1,ct/dur)),g=$("#pg");if(g){g.style.width=(p*100).toFixed(0)+"%";$("#pgt").textContent=(p*100).toFixed(0)+"%"}
+      stuck=ct===lt&&!v.paused?stuck+1:0;lt=ct;if(v.ended||ct>=dur-.03||stuck>240)res();else requestAnimationFrame(f)})()});
     if(mr.state==="paused")mr.resume();frame();await new Promise(r=>setTimeout(r,120));mr.stop();await stopped}
-  finally{v.pause();evPostT=null;vids.delete("evcam");const j=st.layers.indexOf(lay);if(j>=0)st.layers.splice(j,1,old);try{URL.revokeObjectURL(url)}catch(e){}try{wl&&wl.release()}catch(e){}}
+  finally{v.pause();evPostT=null;vids.delete("evcam");const j=st.layers.indexOf(lay);if(j>=0)st.layers.splice(j,1,old);
+    try{stream.getTracks().forEach(t=>t.stop())}catch(e){}try{src&&src.disconnect()}catch(e){}try{v.removeAttribute("src");v.load()}catch(e){}try{URL.revokeObjectURL(url)}catch(e){}try{wl&&wl.release()}catch(e){}try{out.width=1;out.height=1;cv.width=1;cv.height=1}catch(e){}}
   const type=(mr.mimeType||mime).split(";")[0];return{blob:new Blob(ch,{type}),type,cut:an.segs?an.cut:0}}
 function evShowVid(st,blob,type,cut){const ext=type.includes("mp4")?"mp4":"webm";expFmt=FMTS[0];expPlats=evPlats();expPlat=expPlats[0];expSt=st;if(expUrl)try{URL.revokeObjectURL(expUrl)}catch(e){}const url=URL.createObjectURL(blob);expUrl=url;
   const extra=ext==="webm"?`<div class="warn">Este celular gravou em WEBM. Se o Instagram recusar, use o Status do WhatsApp ou grave pelo Chrome atualizado.</div>`:"";
-  modalResult(`<video src="${url}" controls playsinline autoplay muted loop></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB · ${ext.toUpperCase()}${cut>=.5?` · tiramos ${Math.round(cut)} s de pausas`:""} · som ajustado</p>`,blob,fmtName(st,ext),payloadOf(st,true),extra);
+  modalResult(`<video src="${url}" controls playsinline autoplay muted loop></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB · ${ext.toUpperCase()}${cut>=.5?` · tiramos ${Math.round(cut)} s de pausas`:""}${cut<0?"":" · som ajustado"}</p>`,blob,fmtName(st,ext),payloadOf(st,true),extra);
   setTimeout(()=>{const v=document.querySelector("#mdlBox video");if(v){v.muted=false;v.volume=1;v.play().catch(()=>{v.muted=true;v.play().catch(()=>{})})}},60)}
 function evtRecStart(){const C=evCam;if(!C||!C.out)return;const mime=pickMime();if(!mime||!C.out.captureStream){toast("Este navegador não grava vídeo. Use a galeria.");return}
-  const vs=C.cv.captureStream(30),ms=new MediaStream([vs.getVideoTracks()[0]].concat(C.mic?[C.mic]:[]));let mr;
+  C.direct=evPostOff();const vs=(C.direct?C.out:C.cv).captureStream(30);C.vs=vs;const ms=new MediaStream([vs.getVideoTracks()[0]].concat(C.mic?[C.mic]:[]));let mr;
   try{mr=new MediaRecorder(ms,{mimeType:mime,videoBitsPerSecond:isPhone()?4e6:6e6})}catch(e){mr=new MediaRecorder(ms)}
   const ch=[];mr.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};mr.onstop=()=>{const type=(mr.mimeType||mime).split(";")[0];evtRecDone(new Blob(ch,{type}),type)};
   C.mr=mr;C.t0=Date.now();evtLiveT0=Date.now();mr.start(250);$("#evRb").classList.add("on");try{navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>C.wl=w).catch(()=>{})}catch(e){}try{track("evento_gravar")}catch(e){}}
 function evtRecStop(){const C=evCam;if(!C||!C.mr||C.mr.state==="inactive")return;evACNow();const el=(Date.now()-C.t0)/1000;if(el<1){return}C.mr.stop();$("#evRb").classList.remove("on")}
-function evtRecDone(blob,type){const C=evCam;if(!C)return;const st=C.st,dur=(Date.now()-C.t0)/1000;evtCamOff(true);cancelAnimationFrame(evtRAF);
+function evtRecDone(blob,type){const C=evCam;if(!C)return;const st=C.st,dur=(Date.now()-C.t0)/1000,direct=C.direct;evtCamOff(true);if(direct){evCount(EVT.id,"gravou",{modelo:evMod(S.stories.indexOf(st)),origem:"link"});evShowVid(st,blob,type,-1);return}cancelAnimationFrame(evtRAF);
   evCount(EVT.id,"gravou",{modelo:evMod(S.stories.indexOf(st)),origem:"link"});try{track("evento_video")}catch(e){}
   const back=()=>{const ed=$("#evEdit");if(ed&&!ed.hidden)evtOpen(S.stories.indexOf(st),true)};
   evPost(st,blob,dur,false).then(r=>{evShowVid(st,r.blob,r.type,r.cut);back()}).catch(e=>{$("#mdl").classList.remove("on");back();toast("Não consegui finalizar o vídeo. Grave de novo, por favor.")})}
 function evtCamOff(back){const C=evCam;if(!C)return;evCam=null;cancelAnimationFrame(evtRAF);try{if(C.mr&&C.mr.state!=="inactive"){C.mr.onstop=null;C.mr.stop()}}catch(e){}
-  try{C.wl&&C.wl.release()}catch(e){}if(C.stream)C.stream.getTracks().forEach(t=>t.stop());if(C.mic)C.mic.stop();C.v.srcObject=null;vids.delete("evcam");
+  try{C.wl&&C.wl.release()}catch(e){}if(C.stream)C.stream.getTracks().forEach(t=>t.stop());if(C.mic)C.mic.stop();try{C.vs&&C.vs.getTracks().forEach(t=>t.stop())}catch(e){}C.v.srcObject=null;vids.delete("evcam");try{if(C.out){C.out.width=1;C.out.height=1}C.cv.width=1;C.cv.height=1}catch(e){}
   const j=C.st.layers.indexOf(C.lay);if(j>=0)C.st.layers.splice(j,1,C.old);if(back&&!$("#evEdit").hidden)evtOpen(S.stories.indexOf(C.st),true)}
 const evtHasMedia=st=>st.layers.some(l=>l.evMedia&&(l.type==="video"?!!l.vid:!!l.src&&!l.evPh));
 function evtClose(){cancelAnimationFrame(evtRAF);vids.forEach(r=>{if(r.el)r.el.pause()});$("#evEdit").hidden=true;$("#evList").hidden=false;$("#evt").querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]))}
@@ -7778,7 +7786,7 @@ async function evtMedia(e){const f=e.target.files[0];e.target.value="";if(!f)ret
 function evtPost(){const st=evtSt;if(!st)return;if(!evResOk(st))return;if(st.layers.some(l=>l.evMedia)&&!evtHasMedia(st)){toast("Primeiro, adicione sua foto ou vídeo.");return}
   cancelAnimationFrame(evtRAF);expFmt=FMTS[0];expPlats=evPlats();expPlat=expPlats[0];try{track("evento_post")}catch(e){}
   const done=()=>{const ed=$("#evEdit");if(ed&&!ed.hidden)evtOpen(S.stories.indexOf(st),true)};
-  const vl=st.layers.find(l=>l.type==="video"&&l.vid);if(vl){const el=getVid(vl);if(el){el.muted=false;el.pause()}if(vl.evMedia&&el&&el.src&&typeof MediaRecorder!=="undefined"){evACNow();fetch(el.src).then(r=>r.blob()).then(b=>evPost(st,b,el.duration,false)).then(r=>{evShowVid(st,r.blob,r.type,r.cut);done()}).catch(()=>{$("#mdl").classList.remove("on");exportVideo(st).then(done)});return}exportVideo(st).then(done)}else{exportPng(st);setTimeout(done,600)}}
+  const vl=st.layers.find(l=>l.type==="video"&&l.vid);if(vl){const el=getVid(vl);if(el){el.muted=false;el.pause()}if(vl.evMedia&&el&&el.src&&typeof MediaRecorder!=="undefined"&&!evPostOff()){evACNow();fetch(el.src).then(r=>r.blob()).then(b=>evPost(st,b,el.duration,false)).then(r=>{evShowVid(st,r.blob,r.type,r.cut);done()}).catch(()=>{$("#mdl").classList.remove("on");exportVideo(st).then(done)});return}exportVideo(st).then(done)}else{exportPng(st);setTimeout(done,600)}}
 
 /* ---------- boot ---------- */
 document.fonts&&document.fonts.ready.then(()=>{hcOvK="";try{stuSync()}catch(e){}});
