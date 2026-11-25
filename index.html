@@ -945,6 +945,15 @@ a.hm-card{text-decoration:none}
 #evt.evrun .evcadb input:not([type=checkbox]){background:#ffffff0f;border-color:#f3e6c833;color:#f3e6c8}
 #evt.evrun .evcadb a{color:#f3e6c8}
 #evt.evrun .evgo{background:#f3e6c8;color:#141238}
+.evh{flex-wrap:wrap}
+.evht{flex:1;min-width:0}
+.evhome{width:38px;height:38px;flex:0 0 38px;margin-left:-8px;border-radius:50%;display:grid;place-items:center;color:inherit;text-decoration:none}
+.evhome:hover{background:#1d3b3f0f}
+.evnav{display:flex;gap:4px;padding:4px;border-radius:999px;background:#1d3b3f0d}
+.evnav a{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;color:inherit;text-decoration:none;font-size:13.5px;font-weight:600;white-space:nowrap;transition:background .15s}
+.evnav a:hover{background:#ffffff}
+#evt.evrun .evnav{background:#f3e6c812}#evt.evrun .evnav a:hover{background:#f3e6c81f}#evt.evrun .evhome:hover{background:#f3e6c814}
+@media(max-width:640px){.evh{row-gap:12px}.evnav{order:5;width:100%;justify-content:space-between}.evnav a{flex:1;justify-content:center;padding:9px 6px;font-size:13px}}
 .hmevt{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#f6f1e8;color:#1d3b3f;text-decoration:none}
 .hmevt .evmono{width:42px;height:42px;flex:0 0 42px;font-size:15px}.hmevt div{flex:1;min-width:0}.hmevt b{display:block;font:italic 700 16px/1.25 "Playfair Display",serif}.hmevt span{font-size:12px;color:#5d6f70;word-break:break-all}.hmevt i{font-style:normal;font-size:13px;font-weight:600;white-space:nowrap}
 
@@ -5412,7 +5421,9 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
   S.stories.forEach(st=>st.cap.on=false);
   $("#login").classList.add("off");document.body.classList.add("evton");document.title=`${E.titulo||E.nome} · Story Pronto`;
   let ov=$("#evt");if(!ov){ov=document.createElement("div");ov.id="evt";document.body.appendChild(ov)}
-  ov.classList.toggle("evrun",E.kind==="corrida");ov.innerHTML=`<div class="evh"><span class="evmono">${esc(E.mono)}</span><div><b>${esc(E.titulo||E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div></div>
+  ov.classList.toggle("evrun",E.kind==="corrida");const own=(()=>{try{return !!sessGet()}catch(e){return false}})(),IC={home:'<path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/>',ed:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',stu:'<rect x="3" y="6.5" width="13" height="11" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>'},ic=k=>`<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
+  ov.innerHTML=`<div class="evh">${own?`<a class="evhome" href="/?ir=inicio" aria-label="Voltar ao início"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg></a>`:""}<span class="evmono">${esc(E.mono)}</span><div class="evht"><b>${esc(E.titulo||E.nome)}</b><span>${esc(E.dataLonga)} · ${esc(E.lugar)}</span></div>
+   ${own?`<nav class="evnav" aria-label="Story Pronto"><a href="/?ir=inicio">${ic("home")}<span>Início</span></a><a href="/?ir=editor">${ic("ed")}<span>Editor</span></a><a href="/?ir=estudio">${ic("stu")}<span>Estúdio</span></a></nav>`:""}</div>
    <section class="evlist" id="evList"><p class="evk">${E.kind==="corrida"?"Escolha o seu story da prova":"Escolha o seu story"}</p><div class="evcards">${S.stories.map((st,i)=>`<button type="button" class="evcard" data-evi="${i}"><canvas width="270" height="480"></canvas><b>${evInfo()[i][0]}</b><span>${evInfo()[i][1]}</span></button>`).join("")}</div>
    <p class="evfoot">Stories para momentos especiais · <a href="/?cadastro&origem=evento-${esc(id)}">Story Pronto</a></p></section>
    <section class="evedit" id="evEdit" hidden><div class="evtop"><button type="button" class="evback" data-ev="back"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg>Modelos</button><span id="evName"></span></div>
@@ -5522,7 +5533,8 @@ boot();
   if(h==="demo")enter(ACCOUNTS.find(a=>a.role==="demo"));
   else if(su&&su.startsWith("sb:")){const a=authGet();if(a&&"sb:"+a.id===su){enter(accFromAuth(a),true);authFresh().then(x=>{if(!x){sessSet(null);ACC=null;KEY=null;$("#login").classList.remove("off");lgSet("in");$("#lgErr").textContent="Sua sessão expirou. Entre de novo."}else perfilPing()})}else sessSet(null)}
   else if(su){const acc=ACCOUNTS.find(a=>a.u===su);if(acc)enter(acc,true)}
-  if(new URLSearchParams(location.search).get("cadastro")!==null&&!ACC)lgSet("up")})();
+  if(new URLSearchParams(location.search).get("cadastro")!==null&&!ACC)lgSet("up");
+  const ir=new URLSearchParams(location.search).get("ir");if(ir){try{history.replaceState(history.state,"",location.pathname)}catch(e){}if(ACC&&ACC.role!=="evento"){if(ir==="editor")show("editor");else if(ir==="estudio")setTimeout(()=>{try{openStudio()}catch(e){}},300)}}})();
 Promise.all(FONTS.map(([,f])=>document.fonts.load(`700 40px "${f}"`).catch(()=>{})).concat([document.fonts.load('italic 700 40px "Playfair Display"').catch(()=>{}),document.fonts.load('800 40px "Montserrat"').catch(()=>{}),document.fonts.load('400 40px "Onest"').catch(()=>{}),document.fonts.load('700 40px "Onest"').catch(()=>{})])).then(()=>document.fonts.ready).then(boot);
 setInterval(tick,15000);
 /* ---------- celular: barra de cima, menu e encaixe ---------- */
@@ -5807,8 +5819,8 @@ function renderHome(){const B=$("#hmBody");if(!B||!S)return;if(!$("#bDemo")){con
    <div class="hm-main"><button type="button" class="hm-card hm-v" data-hm="video"><i>${hmIco(HM_I.video)}</i><b>Novo vídeo</b><span>Grave falando e receba editado</span></button>
      <button type="button" class="hm-card hm-i" data-hm="img"><i>${hmIco(HM_I.img)}</i><b>Story de imagem</b><span>Modelos prontos para editar</span></button></div>
    ${ACC&&ACC.role!=="evento"?`<div class="hm-sec hm-evsec"><div class="hm-h"><b>Eventos</b></div><div class="hm-main">
-     <a class="hm-card hm-ew" href="/?evento=hannah-caio" target="_blank" rel="noopener"><i class="evmono">H&amp;C</i><b>Wedding Hannah &amp; Caio</b><span>Stories dos convidados · 19/12</span></a>
-     <a class="hm-card hm-ed" href="/?evento=desafio-fortaleza-japao" target="_blank" rel="noopener"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 17c3 0 4-3 7-3s3-6 7-7"/><circle cx="4" cy="17" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="7" r="2" fill="#ec2b3a" stroke="none"/></svg></i><b>Desafio Fortaleza - Japão</b><span>Stark · stories dos atletas · 19/12</span></a>
+     <a class="hm-card hm-ew" href="/?evento=hannah-caio"><i class="evmono">H&amp;C</i><b>Wedding Hannah &amp; Caio</b><span>Stories dos convidados · 19/12</span></a>
+     <a class="hm-card hm-ed" href="/?evento=desafio-fortaleza-japao"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 17c3 0 4-3 7-3s3-6 7-7"/><circle cx="4" cy="17" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="7" r="2" fill="#ec2b3a" stroke="none"/></svg></i><b>Desafio Fortaleza - Japão</b><span>Stark · stories dos atletas · 19/12</span></a>
    </div></div>`:""}
    ${rec.length?`<div class="hm-sec"><div class="hm-h"><b>Recentes</b><button type="button" data-hm="files">Ver tudo</button></div><div class="hm-rec" id="hmRec"></div></div>`:""}
    <div class="hm-sec"><div class="hm-h"><b>Atalhos</b></div><div class="hm-tools">${[["lote","Minha semana",HM_I.lote],["agenda","Agendados",HM_I.agenda],["seq","Sequência pronta",HM_I.seq],["brand","Minha marca",HM_I.brand],["benef","Benefícios",HM_I.benef],["files","Meus arquivos",HM_I.files]].map(([k,n,d])=>`<button type="button" data-hm="${k}"><i>${hmIco(d)}</i><span>${n}</span></button>`).join("")}</div></div>`;
