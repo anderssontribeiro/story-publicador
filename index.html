@@ -2191,7 +2191,7 @@ function drawTag(ctx,l){
   lines.forEach((ln,i)=>{let x=tx;const y=top+pad+nh+lh*i+lh/2;ln.words.forEach((wd,j)=>{ctx.font=fontStr(l,s,wd.hl?900:500);ctx.fillStyle=wd.hl&&l.hl?l.hl:l.color;ctx.fillText(wd.t,x,y);x+=wd.w+wd.sp})});
   return{w,h};
 }
-function draw(ctx,st,showSel){
+function draw(ctx,st,showSel){if(st&&st.evLive){drawEvLive(ctx,st);return}
   drawingStory=st;ctx.clearRect(0,0,W,H);drawBg(ctx,st.bg);
   for(const l of st.layers){
     if(skipLayerId&&l.id===skipLayerId)continue;
@@ -3960,7 +3960,10 @@ function hcLine(ctx,cx,y,w,amp,n,color,lw){ctx.save();ctx.strokeStyle=color;ctx.
 function hcTxt(ctx,t,x,y,font,color,ls,o={}){if(!t)return;ctx.save();ctx.font=font;setLS(ctx,ls||0);ctx.fillStyle=color;ctx.textAlign=o.align||"center";ctx.textBaseline="middle";if(o.shadow){ctx.shadowColor=o.shadow;ctx.shadowBlur=o.blur||10}if(o.a!=null)ctx.globalAlpha*=o.a;
   if(o.max){let fs=o.size;const fam=font.replace(/^.*?\d+px\s*/,""),pre=font.replace(/\d+px.*$/,"");while(ctx.measureText(t).width>o.max&&fs>o.min){fs-=4;ctx.font=`${pre}${fs}px ${fam}`}}ctx.fillText(t,x,y);ctx.restore()}
 const HC_HEART=new Path2D("M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.6 1.1 5.2 3 1.6-1.9 3.2-3 5.2-3 3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z");
-const HC_COM=[["madrinhas","Que casal lindo! Felicidades"],["familia.da.noiva","Chorando aqui de emoção"],["padrinhos","O pôr do sol caprichou hoje"],["amigos.do.noivo","Já quero a festa!"],["tia.querida","Que festa linda!"]];
+const HC_COM=[["madrinhas","Que casal lindo! Felicidades"],["familia.da.noiva","Chorando aqui de emoção"],["padrinhos","O pôr do sol caprichou hoje"],["amigos.do.noivo","Já quero a festa!"],["tia.querida","Que festa linda!"],["amigas.da.faculdade","Vivaaa os noivos!"],["vovo.coruja","Deus abençoe esse casal"],["turma.da.praia","Pé na areia é outro nível"],["primos.da.noiva","Que vestido é esse?!"],["colegas.de.trabalho","Parabéns, vocês merecem!"],["amigos.de.infancia","A gente sempre soube!"],["convidados","Melhor casamento do ano!"],["madrinhas","Hora do buquê!!"],["familia.do.noivo","Que orgulho de vocês"],["dj.da.festa","Pista aberta daqui a pouco"],["amigas.da.noiva","Lindaaa demais"]];
+const HC_JOIN=["amigos.da.escola","tio.do.noivo","vizinhos","sobrinhos","turma.do.trabalho","primas","afilhados","padrinhos.de.batismo"];
+const hcViews=t=>Math.round(1200+11800*(1-Math.exp(-t/22))+60*Math.sin(t*2.3)+t*14);
+const hcFmtV=v=>v>=1000?(v/1000).toFixed(1).replace(".",",")+" mil":String(v);
 function drawWedding(ctx,l,el,t,st,m,cap){const k=m.style,Q=hcInfo(m),serif='"Playfair Display",Georgia,serif',sans='"Montserrat",sans-serif';
   if(k==="hcpolaroid"){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#f7f1e8");g.addColorStop(1,HC.sand2);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
     hcTxt(ctx,"WEDDING  "+Q.mono,540,150,`500 30px ${sans}`,HC.gold,12);
@@ -3985,13 +3988,15 @@ function drawWedding(ctx,l,el,t,st,m,cap){const k=m.style,Q=hcInfo(m),serif='"Pl
     ctx.save();ctx.fillStyle="#ff2d55";rr(ctx,714,256,156,58,12);ctx.fill();ctx.fillStyle="rgba(0,0,0,.45)";rr(ctx,878,256,168,58,12);ctx.fill();ctx.restore();
     hcTxt(ctx,"AO VIVO",792,287,`800 26px ${sans}`,"#fff",2);
     ctx.save();ctx.strokeStyle="#fff";ctx.lineWidth=2.6;ctx.beginPath();ctx.ellipse(912,286,15,9,0,0,7);ctx.stroke();ctx.beginPath();ctx.arc(912,286,4.5,0,7);ctx.stroke();ctx.restore();
-    const vw=12.4+Math.floor(t*3)%9/10;hcTxt(ctx,vw.toFixed(1).replace(".",",")+" mil",936,287,`800 26px ${sans}`,"#fff",0,{align:"left"});
-    const feed=HC_COM.map((c,i)=>({n:c[0],t:c[1],ti:.6+i*2.2})).filter(c=>t>=c.ti);if(cap)feed.push({n:"você",t:cap.ws.join(" "),ti:cap.s,me:true});
-    const vis=feed.slice(-4);let y=1640;const cols=["#d8a7b1","#b08d57","#7fa9a6","#c9b79c","#9fb4d8"];
-    for(let j=vis.length-1;j>=0;j--){const c=vis[j],a=Math.max(.4,mtOut((t-c.ti)/.35))*(j<vis.length-3?.65:1);ctx.save();ctx.globalAlpha=a;ctx.font=`500 31px ${sans}`;const ls=mtWrap(ctx,c.t,740).slice(0,2),h=40+ls.length*38;y-=h+16;
+    hcTxt(ctx,hcFmtV(hcViews(t)),936,287,`800 26px ${sans}`,"#fff",0,{align:"left"});
+    {const ji=Math.floor((t-1)/4.5);if(ji>=0){const lt=(t-1)-ji*4.5;if(lt<2.4){const a=Math.min(1,lt/.3,(2.4-lt)/.4);ctx.save();ctx.globalAlpha=a;const tx="@"+HC_JOIN[ji%HC_JOIN.length]+" entrou";ctx.font=`600 24px ${sans}`;const w=ctx.measureText(tx).width+36;ctx.fillStyle="rgba(0,0,0,.4)";rr(ctx,54,1060-(1-a)*12,w,46,23);ctx.fill();ctx.restore();hcTxt(ctx,tx,72,1084-(1-a)*12,`600 24px ${sans}`,"#fff",0,{align:"left",a})}}}
+    const step=1.7,nC=Math.max(0,Math.floor((t-.3)/step)+1),feed=[];for(let i=Math.max(0,nC-5);i<nC;i++){const c=HC_COM[i%HC_COM.length];feed.push({n:c[0],t:c[1],ti:.3+i*step})}
+    if(cap)feed.push({n:"você",t:cap.ws.join(" "),ti:cap.s,me:true});feed.sort((a,b)=>a.ti-b.ti);
+    const vis=feed.slice(-4);let y=1640;const cols=["#d8a7b1","#b08d57","#7fa9a6","#c9b79c","#9fb4d8"],last=vis[vis.length-1],slide=last?(1-mtOut(Math.min(1,(t-last.ti)/.4)))*60:0;y+=slide;
+    for(let j=vis.length-1;j>=0;j--){const c=vis[j],a=Math.min(1,Math.max(0,(t-c.ti)/.3))*(j===0&&vis.length>3?.55:j<vis.length-2?.85:1);ctx.save();ctx.globalAlpha=a;ctx.font=`500 31px ${sans}`;const ls=mtWrap(ctx,c.t,740).slice(0,2),h=40+ls.length*38;y-=h+16;
       ctx.fillStyle=c.me?"#ff3b6b":cols[c.n.length%cols.length];ctx.beginPath();ctx.arc(96,y+30,26,0,7);ctx.fill();
       hcTxt(ctx,c.me?"você":"@"+c.n,140,y+16,`800 25px ${sans}`,"#fff",0,{align:"left",shadow:"rgba(0,0,0,.6)"});ls.forEach((ln,i)=>hcTxt(ctx,ln,140,y+54+i*38,`500 31px ${sans}`,"#fff",0,{align:"left",shadow:"rgba(0,0,0,.6)"}));ctx.restore()}
-    for(let i=0;i<6;i++){const ph=(t*.45+i/6)%1,sz=34+((i*13)%30),x=985+18*Math.sin(t*2+i*1.7),yy=1660-ph*440;ctx.save();ctx.globalAlpha=Math.max(0,1-ph)*.95;ctx.translate(x-sz/2,yy-sz/2);ctx.scale(sz/24,sz/24);ctx.fillStyle=["#ff3b6b","#ff8fab","#ffffff"][i%3];ctx.fill(HC_HEART);ctx.restore()}}}
+    for(let i=0;i<9;i++){const ph=(t*.55+i/9)%1,sz=34+((i*13)%30),x=985+18*Math.sin(t*2+i*1.7),yy=1660-ph*440;ctx.save();ctx.globalAlpha=Math.max(0,1-ph)*.95;ctx.translate(x-sz/2,yy-sz/2);ctx.scale(sz/24,sz/24);ctx.fillStyle=["#ff3b6b","#ff8fab","#ffffff"][i%3];ctx.fill(HC_HEART);ctx.restore()}}}
 function drawStyle(ctx,l,el,t,st,m){if(/^hc/.test(m.style)){const cap=m.caps!==false&&el!=="HOLE"?stCap(st,t):null;ctx.save();if(el!=="HOLE"){ctx.fillStyle="#000";ctx.fillRect(0,0,W,H)}drawWedding(ctx,l,el,t,st,m,cap);ctx.restore();return}const T=mtTheme(m),I=stInfo(m,t),z=mtPunch(m,t),dur=Math.max(1,(l.end||0)-(l.start||0)||(m.scenes[m.scenes.length-1].t1-.5)),cap=m.caps!==false?stCap(st,t):null;
   ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);
   const k=m.style;
@@ -4294,7 +4299,13 @@ let hcOvK="",hcOvU="";
 function hcOverlay(){const k=String(recLay).slice(3),key=[k,recWN,recWD,recWL].join("|");if(key===hcOvK)return hcOvU;
   const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");const m={style:k,wN:recWN,wD:recWD,wL:recWL,caps:false,scenes:[{t0:0,t1:99,type:"fala"}]};
   try{drawStyle(x,{},"HOLE",k==="hclive"?7:3,null,m)}catch(e){}hcOvK=key;hcOvU=c.toDataURL("image/png");return hcOvU}
-function stuGuide(){if(isWedLay())return`<img class="hcov" src="${hcOverlay()}" alt="">`;const k=String(recLay).startsWith("st:")?recLay.slice(3):recLay,Z=(x,y,w,h,t,r=18)=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" class="sz"/><text x="${x+w/2}" y="${y+h/2+12}" class="st">${t}</text></g>`;
+let hcAnimRAF=0,hcAnimT0=performance.now();
+function hcAnimStart(){if(hcAnimRAF)return;let last=0;const loop=now=>{const cs=[...document.querySelectorAll("canvas.hcanim")].filter(c=>c.offsetParent!==null);if(!cs.length&&!document.querySelector("canvas.hcanim")){hcAnimRAF=0;return}
+    if(now-last>45&&cs.length){last=now;const rec=typeof recMR!=="undefined"&&recMR&&recMR.state==="recording"&&typeof recT0==="number",t=rec?(now-recT0)/1000:((now-hcAnimT0)/1000)%70;
+      const m={style:"hclive",wN:recWN,wD:recWD,wL:recWL,caps:false,scenes:[{t0:0,t1:999,type:"fala"}]};
+      cs.forEach(c=>{const x=c.getContext("2d");x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,c.width,c.height);x.setTransform(c.width/W,0,0,c.height/H,0,0);try{drawStyle(x,{},"HOLE",t,null,m)}catch(e){}})}
+    hcAnimRAF=requestAnimationFrame(loop)};hcAnimRAF=requestAnimationFrame(loop)}
+function stuGuide(){if(recLay==="st:hclive"){setTimeout(hcAnimStart,0);return`<canvas class="hcov hcanim" width="540" height="960"></canvas>`}if(isWedLay())return`<img class="hcov" src="${hcOverlay()}" alt="">`;const k=String(recLay).startsWith("st:")?recLay.slice(3):recLay,Z=(x,y,w,h,t,r=18)=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" class="sz"/><text x="${x+w/2}" y="${y+h/2+12}" class="st">${t}</text></g>`;
   let z="";
   if(k==="viral")z=Z(90,170,900,190,"Título de abertura")+Z(70,1500,940,200,"Legenda");
   else if(k==="cinema")z=`<rect x="0" y="0" width="1080" height="250" class="sb"/><rect x="0" y="1670" width="1080" height="250" class="sb"/>`+Z(140,1700,800,180,"Legenda",12);
@@ -4401,10 +4412,10 @@ async function startCam(){
   const tk=++recTok;let ns;try{ns=await getCam(recFacing,1920,1080,{echoCancellation:true,noiseSuppression:true})}
   catch(err){const m=(err&&err.name)==="NotAllowedError"?"A câmera foi bloqueada. Toque no cadeado ao lado do endereço do site e permita câmera e microfone.":"Não consegui abrir a câmera aqui. Se estiver no link do artefato, abra o arquivo HTML direto no Chrome ou Edge.";$("#recMsg").textContent=m;$("#recMsg").style.display="block";return false}
   if(tk!==recTok||!$("#recCam")){ns.getTracks().forEach(t=>t.stop());return false}recStream=ns;recFacing=camFaceOf(ns,recFacing);const v=$("#recCam");v.srcObject=recStream;v.classList.toggle("mirror",recFacing==="user");await v.play().catch(()=>{});return true}
-function recLayCls(on){const ov=$("#recOv");if(!ov)return;ov.classList.toggle("lay-sobre",!!on&&recLay==="pv_sobre");ov.classList.toggle("lay-div",!!on&&recLay==="pv_dividido");const im=$("#recProdImg");if(im){if(recProdPick)im.src=recProdPick;else im.removeAttribute("src")}const pr=$("#recProd");if(pr)pr.classList.toggle("has",!!recProdPick);const wd=!!on&&isWedLay();ov.classList.toggle("lay-wed",wd);const hi=$("#recHcOv");if(hi&&wd)hi.src=hcOverlay()}
+function recLayCls(on){const ov=$("#recOv");if(!ov)return;ov.classList.toggle("lay-sobre",!!on&&recLay==="pv_sobre");ov.classList.toggle("lay-div",!!on&&recLay==="pv_dividido");const im=$("#recProdImg");if(im){if(recProdPick)im.src=recProdPick;else im.removeAttribute("src")}const pr=$("#recProd");if(pr)pr.classList.toggle("has",!!recProdPick);const wd=!!on&&isWedLay();ov.classList.toggle("lay-wed",wd);const hi=$("#recHcOv"),hc=$("#recHcCv"),an=wd&&recLay==="st:hclive";if(hi){hi.style.visibility=an?"hidden":"";if(wd&&!an)hi.src=hcOverlay()}if(hc){hc.style.visibility=an?"":"hidden";if(an)hcAnimStart()}}
 function openRecorder(){try{closeStudio()}catch(e){}try{if(!(history.state&&history.state.sp==="rec"))history.pushState({sp:"rec"},"")}catch(e){}recProdSrc=recProdPick||"";if(recPhoto)idbGet("up:"+recPhoto).then(x=>{recProdSrc=x||""});
   let ov=$("#recOv");if(!ov){ov=document.createElement("div");ov.id="recOv";ov.className="recov";document.body.appendChild(ov)}
-  ov.innerHTML=`<div class="recstage"><img class="hcov" id="recHcOv" alt=""><div class="recprod" id="recProd"><img id="recProdImg" alt=""><span>Sem foto do produto</span></div><video id="recCam" autoplay muted playsinline></video><video id="recPlay" playsinline controls style="display:none"></video>
+  ov.innerHTML=`<div class="recstage"><img class="hcov" id="recHcOv" alt=""><canvas class="hcov hcanim" id="recHcCv" width="540" height="960"></canvas><div class="recprod" id="recProd"><img id="recProdImg" alt=""><span>Sem foto do produto</span></div><video id="recCam" autoplay muted playsinline></video><video id="recPlay" playsinline controls style="display:none"></video>
    <div class="prompt" id="recPrompt"><div class="ptext" id="recP" style="font-size:${recFont}px">${esc(String(recScript)).replace(/\n/g,"<br>")}</div></div>
    <div class="rguide" id="recGuide"><span>Área do título · mantenha a cabeça abaixo desta linha</span></div>
    <button type="button" class="recx" data-rc="close" aria-label="Voltar ao estúdio">‹ Voltar ao estúdio</button>
@@ -5106,7 +5117,7 @@ function evCount(evento,acao,extra){try{const ev=evSlug(evento);if(!SB_URL||!SB_
 const EVT_MOD=["Pé na areia","Polaroid","Casamento do Ano","Ao vivo"];
 const wedModel=k=>({hcareia:"Pé na areia",hcpolaroid:"Polaroid",hcano:"Casamento do Ano",hclive:"Ao vivo"})[k]||k;
 /* ---------- MODO EVENTO (convidados postam sem cadastro) ---------- */
-const EVENTOS={"hannah-caio":{nome:"Hannah & Caio",mono:"H&C",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"pé na areia",foto:"hannah-caio.jpg",
+const EVENTOS={"hannah-caio":{dataISO:"2026-12-19",nome:"Hannah & Caio",mono:"H&C",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"pé na areia",foto:"hannah-caio.jpg",
   msg:"Que o amor de vocês seja como o mar: imenso, sereno e sem fim."}};
 let EVT=null,evtRAF=0,evtSt=null;
 const EVC={sand:"#f3ece1",sand2:"#e6d8c2",sea:"#2c6a70",deep:"#173f45",foam:"#8fbcb8",gold:"#b08d57",ink:"#1d3b3f",ivory:"#fbf7f0"};
@@ -5146,28 +5157,14 @@ function evtStories(E){const C=EVC,lab=(y,t,c,o)=>T(Object.assign({y,text:t,font
   const EYE="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z M12 9a3 3 0 1 0 0.01 0z",HEART="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.6 1.1 5.2 3 1.6-1.9 3.2-3 5.2-3 3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z";
   const wt=(x,y,t,o)=>T(Object.assign({x,y,text:t,anchor:"left",align:"left",font:"Montserrat",size:30,weight:500,color:"#ffffff",shadow:true,maxW:760},o||{}));
   const com=(y,h,m,cor)=>[SH({kind:"ellipse",x:96,y:y+18,w:52,h:52,color:cor,fill:true}),wt(140,y,h,{size:25,weight:800,shadow:true}),wt(140,y+38,m,{size:31})];
-  const d=evtStory("evt_live",{c1:"#000",c2:"#000"},[
-    I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true}),
-    SH({kind:"fade",x:540,y:250,w:1080,h:500,color:"#000000",dir:"down",mid:.5,op:.6}),
-    SH({kind:"fade",x:540,y:1530,w:1080,h:780,color:"#000000",mid:.5}),
-    I({x:104,y:285,w:92,ratio:"1:1",shape:"circle",border:5,bcolor:"#ff3b6b",evCasal:true}),
-    wt(168,266,E.nome,{size:34,weight:800}),wt(168,306,"Casamento · "+E.lugar,{size:24,op:.85}),
-    SH({kind:"rect",x:792,y:285,w:156,h:58,radius:12,color:"#ff2d55",fill:true}),
-    T({x:792,y:286,text:"AO VIVO",font:"Montserrat",size:26,weight:800,color:"#ffffff",ls:2,shadow:false}),
-    SH({kind:"rect",x:962,y:285,w:168,h:58,radius:12,color:"#000000",fill:true,op:.45}),
-    SH({kind:"path",d:EYE,x:910,y:285,w:34,h:34,color:"#ffffff",fill:false,stroke:2}),
-    wt(936,286,"12,8 mil",{size:26,weight:800,shadow:false}),
-    ...com(1175,"@madrinhas","Que casal lindo! Felicidades","#d8a7b1"),
-    ...com(1300,"@familia.da.noiva","Chorando aqui de emoção","#b08d57"),
-    ...com(1425,"@padrinhos","O pôr do sol caprichou hoje","#7fa9a6"),
-    ...com(1550,"@amigos.do.noivo","Já quero a festa!","#c9b79c"),
-    SH({kind:"path",d:HEART,x:990,y:1600,w:84,h:84,color:"#ff3b6b",fill:true}),
-    SH({kind:"path",d:HEART,x:1004,y:1505,w:64,h:64,color:"#ff8fab",fill:true,op:.92}),
-    SH({kind:"path",d:HEART,x:982,y:1428,w:50,h:50,color:"#ffffff",fill:true,op:.85}),
-    SH({kind:"path",d:HEART,x:1000,y:1368,w:38,h:38,color:"#ff3b6b",fill:true,op:.7}),
-    SH({kind:"path",d:HEART,x:986,y:1322,w:28,h:28,color:"#ff8fab",fill:true,op:.5})]);
+  const d=evtStory("evt_live",{c1:"#000",c2:"#000"},[I({x:540,y:960,w:1080,ratio:"9:16",shape:"rect",radius:0,evMedia:true})]);d.evLive=true;
   return[a,b,c,d]}
 const EVT_INFO=[["Cheguei!","Sua foto ou vídeo em tela cheia, com a areia e o nome dos noivos."],["Polaroid","Seu momento numa foto revelada, com o mar embaixo."],["Casamento do Ano","Sua foto com degradê branco e letras douradas."],["Ao vivo","Como se você estivesse transmitindo o casamento ao vivo."]];
+let evtLiveT0=Date.now();
+function drawEvLive(ctx,st){const l=st.layers.find(x=>x.evMedia);let el=null,t=0;
+  if(l&&l.type==="video"){el=getVid(l);t=l.vid==="evcam"?(Date.now()-evtLiveT0)/1000:(el?el.currentTime:0)}
+  else if(l){const im=getImg(l.src);if(im&&im.naturalWidth){im.videoWidth=im.naturalWidth;im.videoHeight=im.naturalHeight;el=im}t=6+((Date.now()-evtLiveT0)/1000)%40}
+  const E=EVT||{nome:"Hannah & Caio",lugar:"pé na areia"};ctx.save();ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);drawWedding(ctx,l||{},el,t,st,{style:"hclive",wN:E.nome,wD:E.dataISO||"2026-12-19",wL:E.lugar,caps:false},null);ctx.restore()}
 async function evtCasalFoto(E,st){const l=st.layers.find(x=>x.evCasal);if(!l)return;const fs=Math.round(l.w*.36);
   try{const r=await fetch(E.foto,{cache:"no-cache"});if(!r.ok)throw 0;const bl=await r.blob();if(!/^image\//.test(bl.type))throw 0;l.src=await readImg(new File([bl],"casal",{type:bl.type}),1200,1600)}
   catch(e){const i=st.layers.indexOf(l);st.layers.splice(i,1,SH({kind:"ellipse",x:l.x,y:l.y,w:l.w+l.border*2,h:l.w+l.border*2,color:l.bcolor,fill:true}),SH({kind:"ellipse",x:l.x,y:l.y,w:l.w,h:l.w,color:EVC.deep,fill:true}),T({x:l.x,y:l.y+2,text:E.mono,font:"Playfair Display",italic:true,size:fs,weight:700,color:EVC.ivory,shadow:false}))}}
@@ -5191,7 +5188,8 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
      <button type="button" class="evflip" data-ev="flip" aria-label="Virar câmera"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13.5a3 3 0 0 0 5 1.5M14.5 12.5a3 3 0 0 0-5-1.5M15 15.5v-1.5h-1.5M9 10.5V12h1.5"/></svg><span>Virar</span></button></div></section>`;
   ov.classList.add("on");
   const ready=()=>ov.querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]));
-  evtCasalFoto(E,S.stories[3]).then(ready);ready();document.fonts.ready.then(()=>setTimeout(ready,150));setTimeout(ready,1200);
+  (function liveThumb(){const cv=ov.querySelector('.evcard[data-evi="3"] canvas');if(!cv||!document.body.contains(cv))return;if(!$("#evList").hidden&&!$("#evCad"))evtRender(cv,S.stories[3]);setTimeout(liveThumb,120)})();
+  ready();ready();document.fonts.ready.then(()=>setTimeout(ready,150));setTimeout(ready,1200);
   ov.onclick=e=>{const c=e.target.closest("[data-evi]");if(c){evtOpen(+c.dataset.evi);return}const b=e.target.closest("[data-ev]");if(!b)return;const k=b.dataset.ev;if(k==="back"){evtCamOff();evtClose()}else if(k==="camx")evtCamOff(true);else if(k==="flip")evtFlip()};
   $("#evRecB").onclick=evtCamOn;$("#evRb").onclick=()=>{if(evCam&&evCam.mr)evtRecStop();else evtRecStart()};
   $("#evFile").onchange=evtMedia;$("#evMsg").oninput=e=>{const l=evtSt&&evtSt.layers.find(x=>x.evMsg);if(l){l.text=e.target.value.trim()||EVT.msg}};
@@ -5254,7 +5252,7 @@ function evtRecStart(){const C=evCam;if(!C||!C.out)return;const mime=pickMime();
   const vs=C.out.captureStream(30),ms=new MediaStream([vs.getVideoTracks()[0]].concat(C.mic?[C.mic]:[]));let mr;
   try{mr=new MediaRecorder(ms,{mimeType:mime,videoBitsPerSecond:isPhone()?4e6:6e6})}catch(e){mr=new MediaRecorder(ms)}
   const ch=[];mr.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};mr.onstop=()=>{const type=(mr.mimeType||mime).split(";")[0];evtRecDone(new Blob(ch,{type}),type)};
-  C.mr=mr;C.t0=Date.now();mr.start(250);$("#evRb").classList.add("on");try{navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>C.wl=w).catch(()=>{})}catch(e){}try{track("evento_gravar")}catch(e){}}
+  C.mr=mr;C.t0=Date.now();evtLiveT0=Date.now();mr.start(250);$("#evRb").classList.add("on");try{navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>C.wl=w).catch(()=>{})}catch(e){}try{track("evento_gravar")}catch(e){}}
 function evtRecStop(){const C=evCam;if(!C||!C.mr||C.mr.state==="inactive")return;const el=(Date.now()-C.t0)/1000;if(el<1){return}C.mr.stop();$("#evRb").classList.remove("on")}
 function evtRecDone(blob,type){const C=evCam;if(!C)return;const st=C.st;evtCamOff(true);const ext=type.includes("mp4")?"mp4":"webm";
   expFmt=FMTS[0];expPlats=["Story do Instagram","Status do WhatsApp"];expPlat=expPlats[0];expSt=st;if(expUrl)try{URL.revokeObjectURL(expUrl)}catch(e){}const url=URL.createObjectURL(blob);expUrl=url;
