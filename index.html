@@ -912,6 +912,35 @@ header .clock,header #who{display:none!important}
 .evedit{position:relative}
 .hmevt{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#f6f1e8;color:#1d3b3f;text-decoration:none}
 .hmevt .evmono{width:42px;height:42px;flex:0 0 42px;font-size:15px}.hmevt div{flex:1;min-width:0}.hmevt b{display:block;font:italic 700 16px/1.25 "Playfair Display",serif}.hmevt span{font-size:12px;color:#5d6f70;word-break:break-all}.hmevt i{font-style:normal;font-size:13px;font-weight:600;white-space:nowrap}
+
+.pnev h3{margin:0}.pnev h4{margin:18px 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:600}
+.pnevl{display:flex;flex-direction:column;max-height:340px;overflow:auto;border:1px solid #ffffff12;border-radius:12px;margin-bottom:10px}.pnevl div{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-top:1px solid #ffffff0d}.pnevl div:first-child{border-top:0}.pnevl b{font-size:14px}.pnevl span{font-size:12px;color:var(--mut)}
+.pnevk{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}@media(max-width:820px){.pnevk{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pnevk div{border:1px solid #ffffff12;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;background:#ffffff05}
+.pnevk span{font-size:12px;color:var(--mut)}.pnevk b{font:800 28px/1.1 var(--f-disp)}.pnevk i{font-style:normal;font-size:11.5px;color:var(--mut)}
+.pnevh2{display:flex;align-items:flex-end;gap:6px;height:120px;overflow-x:auto;padding-bottom:20px}
+.pnevh2 div{flex:0 0 30px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.pnevh2 i{width:100%;background:var(--pn-s1,#ff5a7a);border-radius:6px 6px 2px 2px}.pnevh2 span{position:absolute;bottom:-18px;font-size:10.5px;color:var(--mut)}
+
+.evcad{position:fixed;inset:0;z-index:66;display:flex;align-items:flex-end;justify-content:center;background:rgba(23,63,69,.38);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:opacity .3s}
+.evcad.out{opacity:0}
+@media(min-width:600px){.evcad{align-items:center}}
+.evcadb{width:100%;max-width:440px;max-height:100%;overflow:auto;background:#f6f1e8;color:#1d3b3f;border-radius:24px 24px 0 0;padding:26px 22px calc(22px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px;box-shadow:0 -10px 40px #173f4533;animation:evup .4s cubic-bezier(.2,.8,.2,1)}
+@media(min-width:600px){.evcadb{border-radius:24px}}
+@keyframes evup{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.evcadb .evmono{align-self:center;width:52px;height:52px;flex:0 0 52px;font-size:18px}
+.evcadb h2{margin:2px 0 0;text-align:center;font:500 15px/1.4 var(--f-body);color:#5d6f70}.evcadb h2 em{display:block;font:italic 700 26px/1.2 "Playfair Display",serif;color:#1d3b3f;margin-top:2px}
+.evcadb>p{margin:0 0 4px;text-align:center;font-size:13.5px;color:#5d6f70;line-height:1.45}
+.evcadb label{display:flex;flex-direction:column;gap:5px}.evcadb label>span{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a6a3c;font-weight:600}
+.evcadb input:not([type=checkbox]){font:inherit;font-size:16px;color:#1d3b3f;background:#fff;border:1px solid #1d3b3f26;border-radius:12px;padding:13px 14px;outline:none}
+.evcadb input:focus{border-color:#b08d57;box-shadow:0 0 0 3px #b08d5726}
+.evcadb .evck{flex-direction:row;align-items:flex-start;gap:10px;font-size:13px;line-height:1.45;color:#3c5153;cursor:pointer}
+.evcadb .evck>span{font-size:13px;letter-spacing:0;text-transform:none;color:#3c5153;font-weight:400}.evcadb .evck small{color:#7d8b8c}
+.evcadb .evck input{width:18px;height:18px;flex:0 0 18px;margin:1px 0 0;accent-color:#1d3b3f}
+.evcadb a{color:#1d3b3f;text-underline-offset:2px}
+.evcadb>p.everr{margin:0;min-height:1em;font-size:13px;color:#b3261e;text-align:center}
+.evgo{min-height:52px;border:0;border-radius:14px;background:#1d3b3f;color:#fbf7f0;font:600 16px var(--f-body);cursor:pointer}.evgo:disabled{opacity:.6}
+body.evcadon #evt>.evlist{filter:blur(2px)}
 </style>
 </head>
 <body>
@@ -3089,8 +3118,9 @@ function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();
   if($("#sv"))$("#sv").onclick=()=>saveFile(fname,blob);
   const shOk=canShareFile(blob,fname),ops=otherPlats();
   $("#mdlBox").querySelectorAll("[data-shr]").forEach(b=>b.onclick=async()=>{const n=ops[+b.dataset.shr];const done=()=>{b.classList.add("ok");b.querySelector("i").firstChild.textContent="Enviado"};
-    if(!shOk){done();return}
-    try{await navigator.share({files:[new File([blob],fname,{type:blob.type})],title:"Story Pronto"});done();try{anaEv("compartilhar",n)}catch(e){}}catch(e){if(e&&e.name!=="AbortError")toast("Não consegui abrir o compartilhamento. Use Baixar arquivo e poste pelo app.")}});
+    const evN=EVT?EVT.id:(()=>{const vl=expSt&&vLayer(expSt),m=vl&&vl.mont;return m&&/^hc/.test(m.style||"")?(m.wN||"Hannah & Caio"):""})();const evP=()=>{if(evN)evCount(evN,"postou",{rede:String(n).slice(0,40),origem:EVT?"link":"estudio"})};
+    if(!shOk){done();evP();return}
+    try{await navigator.share({files:[new File([blob],fname,{type:blob.type})],title:"Story Pronto"});done();evP();try{anaEv("compartilhar",n)}catch(e){}}catch(e){if(e&&e.name!=="AbortError")toast("Não consegui abrir o compartilhamento. Use Baixar arquivo e poste pelo app.")}});
   if($("#ghSetup"))$("#ghSetup").onclick=()=>ghModal();
   if($("#ghSend"))$("#ghSend").onclick=async()=>{
     if(!/\.(jpe?g|mp4|mov)$/i.test(fname)){toast("O Instagram só aceita JPG ou MP4 pela API. Este navegador gerou "+ext.toUpperCase()+": use o Chrome ou o Edge para exportar vídeo em MP4.");return}
@@ -4415,7 +4445,7 @@ function beginRec(){
   let recSrc=recStream;try{recSrc=recMixStart()||recStream}catch(e){recSrc=recStream}
   try{recMR=new MediaRecorder(recSrc,recMime?{mimeType:recMime,videoBitsPerSecond:5e6}:{})}catch(e){recMR=new MediaRecorder(recSrc)}
   recChunks=[];recMR.ondataavailable=e=>{if(e.data&&e.data.size)recChunks.push(e.data)};
-  recMR.onstop=()=>{recMixStop();recBlob=new Blob(recChunks,{type:recMR.mimeType||recMime||"video/webm"});showTake()};
+  recMR.onstop=()=>{recMixStop();recBlob=new Blob(recChunks,{type:recMR.mimeType||recMime||"video/webm"});if(isWedLay())evCount(recWN,"gravou",{modelo:wedModel(String(recLay).slice(3)),origem:"estudio"});showTake()};
   recMR.start(250);recT0=performance.now();recKey="rec"+Date.now();livePro=null;liveProN=-1;fxStartLive();{const live=recFlow==="live";const lc=$("#recLiveCv");if(lc)lc.style.display=live&&isProLay()?"block":"none";const fx=$("#recFx");if(fx)fx.style.display=live&&recLay!=="pro"?"":"none"}recOff=0;recPaused=false;$("#recP").style.transform="translateY(0)";setTimeout(()=>{recScroll=true},700);
   $("#recCtl").innerHTML=`<span class="rlive">● Gravando</span><span class="rsrc" id="recSrcInfo">🎙 Ouvindo…</span><button class="rvirar" data-rc="flip" title="Virar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13a2.5 2.5 0 0 1 4.6-1.4M14.5 13a2.5 2.5 0 0 1-4.6 1.4"/><path d="M14 10.5l.2 1.2-1.2.2M10 15.5l-.2-1.2 1.2-.2"/></svg><span>Virar</span></button><span class="rcg"><button class="btn sm" data-rc="slow">🐢</button><span class="rlab">Velocidade <b id="recSpd">${Math.round(recSpeed*100)}%</b></span><button class="btn sm" data-rc="fast">🐇</button></span><button class="recbtn stop" data-rc="stop" aria-label="Parar"><span></span></button>`;
 }
@@ -5068,6 +5098,13 @@ $("#v-pub").addEventListener("change",e=>{const c=e.target;if(!c.dataset.g)retur
 $("#v-pub").addEventListener("click",async e=>{const b=e.target.closest("[data-copy]");if(!b)return;try{await navigator.clipboard.writeText(ROBO[b.dataset.copy]);const t=b.textContent;b.textContent="Copiado!";setTimeout(()=>b.textContent=t,1800)}catch(err){
   $("#mdlBox").innerHTML=`<h3 style="margin:0">Copie o conteúdo</h3><p class="note" style="margin:0">A cópia automática foi bloqueada. Selecione tudo abaixo e copie.</p><textarea style="width:100%;height:50vh;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px;font-family:monospace;font-size:12px">${esc(ROBO[b.dataset.copy])}</textarea><button class="btn" id="cls2">Fechar</button>`;$("#mdl").classList.add("on");$("#cls2").onclick=()=>$("#mdl").classList.remove("on")}});
 
+/* ---------- contador anônimo de eventos (sem nome, e-mail, localização ou vídeo) ---------- */
+const evSlug=t=>String(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g," ").replace(/\be\b/g," ").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60);
+function evDev(){let d="";try{d=localStorage.getItem("sp_evdev")||""}catch(e){}if(!/^[a-z0-9]{8,40}$/.test(d)){d=Array.from(crypto.getRandomValues(new Uint8Array(12)),b=>(b%36).toString(36)).join("");try{localStorage.setItem("sp_evdev",d)}catch(e){}}return d}
+function evCount(evento,acao,extra){try{const ev=evSlug(evento);if(!SB_URL||!SB_ANON||ev.length<2)return;const body=Object.assign({evento:ev,acao,aparelho:evDev()},extra||{});
+  fetch(SB_URL+"/rest/v1/evento_uso",{method:"POST",keepalive:true,headers:Object.assign(sbHead(SB_ANON),{Prefer:"return=minimal"}),body:JSON.stringify(body)}).catch(()=>{})}catch(e){}}
+const EVT_MOD=["Pé na areia","Polaroid","Casamento do Ano","Ao vivo"];
+const wedModel=k=>({hcareia:"Pé na areia",hcpolaroid:"Polaroid",hcano:"Casamento do Ano",hclive:"Ao vivo"})[k]||k;
 /* ---------- MODO EVENTO (convidados postam sem cadastro) ---------- */
 const EVENTOS={"hannah-caio":{nome:"Hannah & Caio",mono:"H&C",data:"19 · 12 · 2026",dataLonga:"19 de dezembro de 2026",lugar:"pé na areia",foto:"hannah-caio.jpg",
   msg:"Que o amor de vocês seja como o mar: imenso, sereno e sem fim."}};
@@ -5157,13 +5194,38 @@ function enterEvent(id){const E=EVENTOS[id];if(!E)return false;EVT=Object.assign
   $("#evRecB").onclick=evtCamOn;$("#evRb").onclick=()=>{if(evCam&&evCam.mr)evtRecStop();else evtRecStart()};
   $("#evFile").onchange=evtMedia;$("#evMsg").oninput=e=>{const l=evtSt&&evtSt.layers.find(x=>x.evMsg);if(l){l.text=e.target.value.trim()||EVT.msg}};
   $("#evGo").onclick=evtPost;
-  try{track("evento_"+id)}catch(e){}
+  try{track("evento_"+id)}catch(e){}evCount(id,"abriu",{origem:"link"});evtCadastro(id);
   return true}
-function evtOpen(i){const st=S.stories[i];evtSt=st;S.cur=st.id;$("#evList").hidden=true;$("#evEdit").hidden=false;$("#evName").textContent=EVT_INFO[i][0];
+function evtOpen(i,quiet){const st=S.stories[i];evtSt=st;if(!quiet)evCount(EVT.id,"modelo",{modelo:EVT_MOD[i],origem:"link"});S.cur=st.id;$("#evList").hidden=true;$("#evEdit").hidden=false;$("#evName").textContent=EVT_INFO[i][0];
   const hasMedia=st.layers.some(l=>l.evMedia),msg=st.layers.find(l=>l.evMsg),got=evtHasMedia(st);$("#evPickW").hidden=!hasMedia;$("#evRecB").hidden=!hasMedia;$("#evMsgW").hidden=!msg;if(msg)$("#evMsg").value=msg.text===EVT.msg?"":msg.text;
   $("#evPickT").textContent=got?"Trocar pela galeria":"Usar foto ou vídeo da galeria";$("#evRecB").lastChild.textContent=got?"Gravar de novo":"Gravar vídeo no modelo";
   $("#evRecB").classList.toggle("pri",!got);$("#evGo").hidden=hasMedia&&!got;$("#evGo").classList.toggle("pri",got||!hasMedia);$("#evCam").hidden=true;$("#evEdit").classList.remove("camon");
   cancelAnimationFrame(evtRAF);const cv=$("#evCv");(function loop(){if($("#evEdit").hidden)return;const vl=st.layers.find(l=>l.type==="video"&&l.evMedia&&l.vid!=="evcam"),el=vl&&getVid(vl);if(el&&el.play&&!recording){el.muted=true;if(el.paused||el.ended){if(el.ended||el.currentTime>=(vl.end||1e9))el.currentTime=vl.start||0;el.play().catch(()=>{})}}evtRender(cv,st);evtRAF=requestAnimationFrame(loop)})()}
+/* cadastro rápido do convidado (uma vez por aparelho) */
+const evCadK=id=>"sp_evcad_"+id;
+function evCadSend(id,d){return fetch(SB_URL+"/rest/v1/evento_cadastros",{method:"POST",headers:Object.assign(sbHead(SB_ANON),{Prefer:"return=minimal"}),body:JSON.stringify(Object.assign({evento:id,aparelho:evDev()},d))}).then(r=>{if(!r.ok&&r.status<500)throw new Error("dados");if(!r.ok)throw new Error("rede")})}
+function evCadRetry(id){let q=null;try{q=JSON.parse(localStorage.getItem(evCadK(id)+"_fila")||"null")}catch(e){}if(!q)return;evCadSend(id,q).then(()=>{try{localStorage.removeItem(evCadK(id)+"_fila")}catch(e){}}).catch(()=>{})}
+function evtCadastro(id){let done=false;try{done=!!localStorage.getItem(evCadK(id))}catch(e){}if(done){evCadRetry(id);return}
+  const E=EVENTOS[id],ov=$("#evt");if(!ov)return;const m=document.createElement("div");m.className="evcad";m.id="evCad";
+  m.innerHTML=`<form class="evcadb" novalidate><span class="evmono">${esc(E.mono)}</span><h2>Bem-vindo ao<br><em>Wedding ${esc(E.nome)}</em></h2><p>Para usar os stories do casamento, deixe seu contato. Leva 20 segundos.</p>
+   <label><span>Seu nome</span><input id="ecN" autocomplete="name" maxlength="80"></label>
+   <label><span>E-mail</span><input id="ecE" type="email" inputmode="email" autocomplete="email" autocapitalize="none" maxlength="120"></label>
+   <label><span>WhatsApp</span><input id="ecT" type="tel" inputmode="tel" autocomplete="tel" placeholder="(85) 90000-0000" maxlength="16"></label>
+   <label class="evck"><input type="checkbox" id="ecA"><span>Li e aceito os <a href="termos.html" target="_blank" rel="noopener">Termos de uso</a> e a <a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a>.</span></label>
+   <label class="evck"><input type="checkbox" id="ecM"><span>Quero receber novidades do Story Pronto. <small>(opcional)</small></span></label>
+   <p class="everr" id="ecErr"></p><button type="submit" class="evgo" id="ecGo">Ver os stories</button></form>`;
+  ov.appendChild(m);document.body.classList.add("evcadon");
+  const tel=$("#ecT");tel.oninput=()=>{let d=tel.value.replace(/\D/g,"").slice(0,11);tel.value=d.length>6?`(${d.slice(0,2)}) ${d.slice(2,d.length>10?7:6)}-${d.slice(d.length>10?7:6)}`:d.length>2?`(${d.slice(0,2)}) ${d.slice(2)}`:d};
+  m.querySelector("form").onsubmit=async e=>{e.preventDefault();const n=$("#ecN").value.trim(),em=$("#ecE").value.trim().toLowerCase(),t=$("#ecT").value.replace(/\D/g,""),err=$("#ecErr");err.textContent="";
+    if(n.length<2){err.textContent="Digite seu nome.";$("#ecN").focus();return}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){err.textContent="Confira o e-mail.";$("#ecE").focus();return}
+    if(t.length<10||t.length>11){err.textContent="Digite o WhatsApp com DDD.";$("#ecT").focus();return}
+    if(!$("#ecA").checked){err.textContent="Para continuar, aceite os Termos e a Política de privacidade.";return}
+    const d={nome:n,email:em,telefone:"55"+t,aceite_termos:true,versao_termos:TERMOS_VER,aceita_novidades:$("#ecM").checked};const go=$("#ecGo");go.disabled=true;go.textContent="Entrando…";
+    try{await evCadSend(id,d)}catch(x){if(x.message==="dados"){err.textContent="Confira os dados e tente de novo.";go.disabled=false;go.textContent="Ver os stories";return}try{localStorage.setItem(evCadK(id)+"_fila",JSON.stringify(d))}catch(e2){}}
+    try{localStorage.setItem(evCadK(id),String(Date.now()))}catch(e2){}try{track("evento_cadastro")}catch(e2){}
+    m.classList.add("out");document.body.classList.remove("evcadon");setTimeout(()=>m.remove(),350)};
+  setTimeout(()=>{try{$("#ecN").focus({preventScroll:true})}catch(e){}},300)}
 let evCam=null;
 async function evtCamOn(){const st=evtSt;if(!st)return;const i=st.layers.findIndex(l=>l.evMedia);if(i<0)return;
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast("Este navegador não libera a câmera. Use a galeria.");return}
@@ -5195,10 +5257,10 @@ function evtRecStop(){const C=evCam;if(!C||!C.mr||C.mr.state==="inactive")return
 function evtRecDone(blob,type){const C=evCam;if(!C)return;const st=C.st;evtCamOff(true);const ext=type.includes("mp4")?"mp4":"webm";
   expFmt=FMTS[0];expPlats=["Story do Instagram","Status do WhatsApp"];expPlat=expPlats[0];expSt=st;if(expUrl)try{URL.revokeObjectURL(expUrl)}catch(e){}const url=URL.createObjectURL(blob);expUrl=url;
   const extra=ext==="webm"?`<div class="warn">Este celular gravou em WEBM. Se o Instagram recusar, use o Status do WhatsApp ou grave pelo Chrome atualizado.</div>`:"";
-  modalResult(`<video src="${url}" controls playsinline autoplay muted loop></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB · ${ext.toUpperCase()}</p>`,blob,fmtName(st,ext),payloadOf(st,true),extra);try{track("evento_video")}catch(e){}}
+  evCount(EVT.id,"gravou",{modelo:EVT_MOD[S.stories.indexOf(st)],origem:"link"});modalResult(`<video src="${url}" controls playsinline autoplay muted loop></video><p class="note" style="margin:0">${(blob.size/1048576).toFixed(1).replace(".",",")} MB · ${ext.toUpperCase()}</p>`,blob,fmtName(st,ext),payloadOf(st,true),extra);try{track("evento_video")}catch(e){}}
 function evtCamOff(back){const C=evCam;if(!C)return;evCam=null;cancelAnimationFrame(evtRAF);try{if(C.mr&&C.mr.state!=="inactive"){C.mr.onstop=null;C.mr.stop()}}catch(e){}
   try{C.wl&&C.wl.release()}catch(e){}if(C.stream)C.stream.getTracks().forEach(t=>t.stop());if(C.mic)C.mic.stop();C.v.srcObject=null;vids.delete("evcam");
-  const j=C.st.layers.indexOf(C.lay);if(j>=0)C.st.layers.splice(j,1,C.old);if(back&&!$("#evEdit").hidden)evtOpen(S.stories.indexOf(C.st))}
+  const j=C.st.layers.indexOf(C.lay);if(j>=0)C.st.layers.splice(j,1,C.old);if(back&&!$("#evEdit").hidden)evtOpen(S.stories.indexOf(C.st),true)}
 const evtHasMedia=st=>st.layers.some(l=>l.evMedia&&(l.type==="video"?!!l.vid:!!l.src&&!l.evPh));
 function evtClose(){cancelAnimationFrame(evtRAF);vids.forEach(r=>{if(r.el)r.el.pause()});$("#evEdit").hidden=true;$("#evList").hidden=false;$("#evt").querySelectorAll(".evcard canvas").forEach((cv,i)=>evtRender(cv,S.stories[i]))}
 async function evtMedia(e){const f=e.target.files[0];e.target.value="";if(!f)return;const st=evtSt,i=st.layers.findIndex(l=>l.evMedia),old=st.layers[i];if(i<0)return;
@@ -5206,10 +5268,10 @@ async function evtMedia(e){const f=e.target.files[0];e.target.value="";if(!f)ret
   if(/^video\//.test(f.type)){if(f.size>200*1024*1024){toast("Vídeo muito grande. Escolha um trecho menor, de até 1 minuto.");return}
     const vid=uid(),full=old.w>=W&&old.ratio==="9:16";const l=V(Object.assign(geo,{main:true,vid,name:f.name,mode:full?"tela":"moldura",dim:0,sound:true}));st.layers.splice(i,1,l);mkVideo(vid,f)}
   else{try{const src=await readImg(f,1440,2560);const l=old.type==="image"?old:I(geo);l.src=src;delete l.evPh;l.zoom=1;l.ox=0;l.oy=0;st.layers.splice(i,1,l)}catch(err){toast("Não consegui abrir essa foto. Tente outra.");return}}
-  evtOpen(S.stories.indexOf(st))}
+  evCount(EVT.id,"galeria",{modelo:EVT_MOD[S.stories.indexOf(st)],origem:"link"});evtOpen(S.stories.indexOf(st),true)}
 function evtPost(){const st=evtSt;if(!st)return;if(st.layers.some(l=>l.evMedia)&&!evtHasMedia(st)){toast("Primeiro, adicione sua foto ou vídeo.");return}
   cancelAnimationFrame(evtRAF);expFmt=FMTS[0];expPlats=["Story do Instagram","Status do WhatsApp"];expPlat=expPlats[0];try{track("evento_post")}catch(e){}
-  const done=()=>{const ed=$("#evEdit");if(ed&&!ed.hidden)evtOpen(S.stories.indexOf(st))};
+  const done=()=>{const ed=$("#evEdit");if(ed&&!ed.hidden)evtOpen(S.stories.indexOf(st),true)};
   const vl=st.layers.find(l=>l.type==="video"&&l.vid);if(vl){const el=getVid(vl);if(el){el.muted=false;el.pause()}exportVideo(st).then(done)}else{exportPng(st);setTimeout(done,600)}}
 
 /* ---------- boot ---------- */
@@ -5258,7 +5320,7 @@ try{if('serviceWorker' in navigator&&location.protocol==='https:')window.addEven
 try{new MutationObserver(()=>{const m=$("#mdl");if(m&&m.classList.contains("on")&&!recording){try{vLayers().forEach(l=>{const el=getVid(l);if(el&&!el.paused)el.pause()})}catch(e){}}}).observe($("#mdl"),{attributes:true,attributeFilter:["class"]})}catch(e){}
 
 /* ---------- PAINEL (dashboard do admin): uso, faturamento, clientes e ações de cashback/bônus ---------- */
-const PN_K={chave:"sp_pn_chave"};let pnContas=null,pnDias=30,pnData=null,pnFonte="",pnGeo="estados",pnBusy=false,pnTab="uso",pnAcesso="",pnFin=null,pnCli=null,pnBusca="",pnForm=null,pnCamp=null;
+const PN_K={chave:"sp_pn_chave"};let pnEvCad={},pnEvs=null,pnContas=null,pnDias=30,pnData=null,pnFonte="",pnGeo="estados",pnBusy=false,pnTab="uso",pnAcesso="",pnFin=null,pnCli=null,pnBusca="",pnForm=null,pnCamp=null;
 const PN_FN={abrir:"Abriu o app",publish:"Publicou story",recUsed:"Usou vídeo gravado",tpl:"Usou modelo pronto",seq:"Criou sequência",fix:"Corrigiu pelo termômetro",instalar:"Instalou o app",style_pro:"Estilo: Edição Pro",style_vlegenda:"Estilo: Só você + legenda",style_pv_dividido:"Estilo: Produto + você",style_pv_sobre:"Estilo: Você no círculo"};
 const PN_TELA={editor:"Editor",agenda:"Agenda",lote:"Monte minha semana",pub:"Publicar no Instagram",aval:"Avaliações",sobre:"Como vira produto",painel:"Painel",datas:"Datas",benef:"Meus benefícios"};
 const PN_PLAT={android:"Android",ios:"iPhone",windows:"Windows",mac:"Mac",linux:"Linux",outro:"Outro"};
@@ -5291,7 +5353,7 @@ function pnLocal(d){const log=anaLS.get(ANA_K.log,[]).filter(x=>!pnAcesso||(x.ac
     horas:Array.from({length:24},(_,h)=>({h,n:e.filter(x=>new Date(x.em).getHours()===h).length}))}}
 async function pnLoad(quiet){if(!quiet){pnBusy=true;renderPainel()}
   try{if(pnTab==="uso"){if(pnBank()){try{pnData=await pnRpc("painel_dados",pnArgs({p_dias:pnDias,p_acesso:pnAcesso||null}));pnFonte="banco"}catch(e){pnData=pnLocal(pnDias);pnFonte="local";if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast("Não consegui ler o banco: "+e.message+" Mostrando só este aparelho.")}}else{pnData=pnLocal(pnDias);pnFonte="local"}}
-    else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="cli"){pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}));try{pnContas=await pnRpc("painel_contas",pnArgs({}))}catch(e){pnContas=null}}}}
+    else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="eventos"){try{pnEvs=await pnRpc("painel_eventos",pnArgs({}))}catch(e){pnEvs=/function|does not exist|não existe|PGRST202/i.test(e.message)?"sem":null;if(pnEvs!=="sem")throw e}}if(pnTab==="cli"){pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}));try{pnContas=await pnRpc("painel_contas",pnArgs({}))}catch(e){pnContas=null}}}}
   catch(e){if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast(e.message)}
   pnBusy=false;renderPainel()}
 function pnBars(list,opt={}){const L=(list||[]).filter(x=>opt.zero||x.n>0);if(!L.length||(opt.zero&&!L.some(x=>x.n>0)))return`<p class="note pnempty">Ainda sem dados.</p>`;const mx=Math.max(1,...L.map(x=>x.n)),fmt=opt.money?pnR:pnN;
@@ -5353,6 +5415,18 @@ function pnCliForm(c){c=c||{};return`<div class="pncard pnfrm" id="pnCliF"><h3>$
   <label>Cobrança<select name="ciclo"><option value="mensal"${c.ciclo!=="anual"?" selected":""}>Mensal</option><option value="anual"${c.ciclo==="anual"?" selected":""}>Anual</option></select></label>
   ${c.id?`<label>Situação<select name="status">${[["ativo","Em dia"],["atrasado","Em atraso"],["cancelado","Cancelado"]].map(([k,n])=>`<option value="${k}"${c.status===k?" selected":""}>${n}</option>`).join("")}</select></label>`:`<label>Código de quem indicou (opcional)<input name="indicado_codigo" maxlength="8" placeholder="Ex.: A32F65E0"></label>`}
   </div><div class="row"><button class="btn pri" data-pncsave="${esc(c.id||"")}">Salvar cliente</button><button class="btn" data-pnfx="1">Cancelar</button></div></div>`}
+function pnEventosTab(){const L=pnEvs;
+  if(L==="sem")return`<div class="pncard"><h3>Eventos</h3><p class="note pnempty">Rode o arquivo <b>storypronto-eventos.sql</b> no Supabase para começar a contar os eventos.</p></div>`;
+  if(!L||!L.length)return`<div class="pncard"><h3>Eventos</h3><p class="note pnempty">Nenhum uso registrado ainda. Abra storypronto.com.br/?evento=hannah-caio no celular e grave um vídeo para testar.</p></div>`;
+  const nm=e=>e==="hannah-caio"?"Wedding Hannah & Caio":e.replace(/-/g," ");
+  return L.map(v=>{const pm=Object.entries(v.por_modelo||{}).sort((a,b)=>b[1]-a[1]),pr=Object.entries(v.por_rede||{}).sort((a,b)=>b[1]-a[1]),ph=v.por_hora||[],mx=Math.max(1,...ph.map(x=>x.n));
+    return`<div class="pncard pnev"><div class="pnevh"><div><h3>${esc(nm(v.evento))}</h3><span class="note">Último uso: ${pnDate(v.ultimo)} ${new Date(v.ultimo).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</span></div></div>
+    <div class="pnevk">${[["Pessoas",v.pessoas,"celulares diferentes"],["Vídeos gravados",v.videos,v.galeria?`+ ${pnN(v.galeria)} da galeria`:"no app"],["Envios",v.postados,"para Instagram, WhatsApp…"],["Aberturas",v.aberturas,"do link ou QR Code"],["Cadastros",v.cadastros||0,v.cadastros_novidades?`${pnN(v.cadastros_novidades)} aceitam novidades`:"nome, e-mail e WhatsApp"]].map(([a,b,c])=>`<div><span>${a}</span><b>${pnN(b)}</b><i>${esc(c)}</i></div>`).join("")}</div>
+    ${pm.length?`<h4>Por modelo</h4>${pnBars(pm.map(([n,x])=>({k:n,n:x})))}`:""}
+    ${pr.length?`<h4>Para onde foram</h4>${pnBars(pr.map(([n,x])=>({k:n,n:x})))}`:""}
+    ${ph.length?`<h4>Vídeos por hora</h4><div class="pnevh2">${ph.map(x=>`<div title="${esc(x.hora)}: ${x.n}"><i style="height:${Math.max(4,Math.round(x.n/mx*100))}%"></i><span>${esc(x.hora.split(" ")[1]||x.hora)}</span></div>`).join("")}</div>`:""}
+    <h4>Cadastros dos convidados</h4>${pnEvCad[v.evento]?(pnEvCad[v.evento].length?`<div class="pnevl">${pnEvCad[v.evento].slice(0,50).map(c=>`<div><b>${esc(c.nome)}</b><span>${esc(c.email)} · ${esc(String(c.telefone).replace(/^55(\d{2})(\d{4,5})(\d{4})$/,"($1) $2-$3"))}${c.aceita_novidades?" · aceita novidades":""}</span></div>`).join("")}</div>${pnEvCad[v.evento].length>50?`<p class="note">Mostrando 50 de ${pnN(pnEvCad[v.evento].length)}. A planilha tem todos.</p>`:""}<div class="row"><button type="button" class="btn" data-pnevcsv="${esc(v.evento)}">Baixar planilha (CSV)</button></div>`:`<p class="note pnempty">Ninguém se cadastrou ainda.</p>`):`<div class="row"><button type="button" class="btn" data-pnevcad="${esc(v.evento)}">Ver cadastros</button></div>`}
+    <p class="note" style="margin:8px 0 0">Os números de uso são anônimos: não guardam nome, localização nem os vídeos. Os cadastros só existem com o aceite da pessoa. "Envios" contam quem tocou para enviar; a publicação acontece dentro de cada rede.</p></div>`}).join("")}
 function pnContasCard(){const L=pnContas;if(!L)return`<div class="pncard"><h3>Cadastros no app</h3><p class="note pnempty">Rode o arquivo <b>storypronto-contas.sql</b> no Supabase para ver aqui quem criou conta.</p></div>`;
   const fd=v=>v?new Date(v).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}):"—";
   return `<div class="pncard"><h3>Cadastros no app <span class="note">${L.length}</span></h3>${L.length?`<div class="pnacc">${L.map(c=>`<div class="pnaccr"><div><b>${esc(c.nome||"Sem nome")}</b><div class="note">${esc(c.email||"")} · criou ${fd(c.criado_em)} · último acesso ${fd(c.ultimo_acesso)}</div></div><select data-pnacc="${esc(c.id)}">${[["gratuito","Gratuito"],["cortesia","Cortesia"],["pago","Pago"]].map(([k,n])=>`<option value="${k}"${c.acesso===k?" selected":""}>${n}</option>`).join("")}</select></div>`).join("")}</div>`:`<p class="note pnempty">Ninguém se cadastrou ainda. Envie o link storypronto.com.br/?cadastro para quem vai testar.</p>`}</div>`}
@@ -5383,10 +5457,10 @@ function pnAcoesTab(){const F=pnFin;if(!F)return"";const C=F.config||{};let h=`<
 function renderPainel(){const B=$("#pnBody");if(!B)return;const bank=pnBank(),D=pnData;
   let h=`<div class="pnhead"><div><h2>Painel do Story Pronto</h2><p class="note" style="margin:0">${pnBusy?"Carregando…":pnTab==="uso"&&D?(pnFonte==="banco"?`Dados de todos os usuários · ${new Date(D.gerado_em||Date.now()).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`:"Prévia: só os dados deste aparelho"):bank?"Banco ligado":"Banco não ligado"}</p></div>
     <div class="pnper">${pnTab==="uso"?[7,30,90].map(d=>`<button type="button" class="chipb${pnDias===d?" on":""}" data-pnd="${d}">${d} dias</button>`).join(""):""}<button type="button" class="chipb" data-pnr="1" aria-label="Atualizar">⟳</button>${bank?`<button type="button" class="chipb" data-pnkey="1" title="Trocar a chave do painel">🔑</button>`:""}</div></div>
-   <div class="pnnav">${[["uso","📊 Uso"],["fin","💰 Faturamento"],["cli","👥 Clientes"],["acoes","🎁 Ações e cashback"]].map(([k,n])=>`<button type="button" class="${pnTab===k?"on":""}" data-pntab="${k}">${n}</button>`).join("")}</div>`;
+   <div class="pnnav">${[["uso","Uso"],["eventos","Eventos"],["fin","Faturamento"],["cli","Clientes"],["acoes","Ações e cashback"]].map(([k,n])=>`<button type="button" class="${pnTab===k?"on":""}" data-pntab="${k}">${n}</button>`).join("")}</div>`;
   if(!bank)h+=pnSetup();
   if(!anaOk()&&pnTab==="uso")h+=`<div class="pncard"><p class="note" style="margin:0">Este aparelho ainda não está enviando dados de uso. <button class="linkbtn" data-pnpriv="1">Ver aviso de privacidade</button></p></div>`;
-  if(pnTab==="uso")h+=pnUso();else if(!bank)h+=`<div class="pncard"><p class="note pnempty">Esta parte precisa do banco ligado (Supabase), porque guarda clientes e pagamentos com segurança.</p></div>`;else if(pnTab==="fin")h+=pnFinTab();else if(pnTab==="cli")h+=pnCliTab();else h+=pnAcoesTab();
+  if(pnTab==="uso")h+=pnUso();else if(!bank)h+=`<div class="pncard"><p class="note pnempty">Esta parte precisa do banco ligado (Supabase), porque guarda clientes e pagamentos com segurança.</p></div>`;else if(pnTab==="fin")h+=pnFinTab();else if(pnTab==="cli")h+=pnCliTab();else if(pnTab==="eventos")h+=pnEventosTab();else h+=pnAcoesTab();
   B.innerHTML=h;B.querySelectorAll("[data-pnacc]").forEach(sl=>sl.onchange=()=>pnDo("painel_conta_acesso",{p_id:sl.dataset.pnacc,p_acesso:sl.value},"Tipo de acesso atualizado.",false));if(pnTab==="uso"&&D)pnMapMount(D.mapa||[]);if(pnTab==="uso"&&D){const card=B.querySelector("[data-pnline]");if(card){const lw=Math.max(280,card.clientWidth-28);card.innerHTML=`<h3>Uso por dia</h3>${pnLine(D.serie,lw)}`}pnLineHover(B.querySelector(".pnline"),D.serie||[])}}
 function pnConfirm(b){if(b.dataset.ok)return true;b.dataset.ok="1";const t=b.textContent;b.textContent="Toque de novo para confirmar";setTimeout(()=>{if(b.isConnected){delete b.dataset.ok;b.textContent=t}},3000);return false}
 
@@ -5407,7 +5481,7 @@ setInterval(()=>{const v=$("#v-painel");if(v&&v.classList.contains("on")&&pnTab=
 
 function pnFormVals(id){const o={};document.querySelectorAll(`#${id} [name]`).forEach(i=>o[i.name]=i.value.trim());return o}
 async function pnDo(fn,args,okMsg,reload=true){try{const r=await pnRpc(fn,pnArgs(args));if(okMsg)toast(typeof okMsg==="function"?okMsg(r):okMsg);pnForm=null;if(reload)await pnLoad();return r}catch(e){toast(e.message);return null}}
-document.addEventListener("click",async e=>{const b=e.target.closest("[data-pnd],[data-pnr],[data-pnkey],[data-pngeo],#pnSave,[data-pnpriv],[data-pntab],[data-pnac],[data-pnest],[data-pnbusca],[data-pnnovo],[data-pnfx],[data-pncsave],[data-pnfp],[data-pnfc],[data-pnedit],[data-pnpag],[data-pncred],[data-pncfg],[data-pnideia],[data-pnkn],[data-pnksave],[data-pnapl],[data-pnkon],[data-pnked]");if(!b||!$("#v-painel")||!b.closest("#v-painel"))return;
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-pnd],[data-pnr],[data-pnkey],[data-pngeo],#pnSave,[data-pnpriv],[data-pntab],[data-pnac],[data-pnest],[data-pnbusca],[data-pnnovo],[data-pnfx],[data-pncsave],[data-pnfp],[data-pnfc],[data-pnedit],[data-pnpag],[data-pncred],[data-pncfg],[data-pnideia],[data-pnkn],[data-pnksave],[data-pnapl],[data-pnkon],[data-pnked],[data-pnevcad],[data-pnevcsv]");if(!b||!$("#v-painel")||!b.closest("#v-painel"))return;
   const d=b.dataset;
   if(d.pntab){pnTab=d.pntab;pnForm=null;pnLoad();return}
   if(d.pnd){pnDias=+d.pnd;pnLoad();return}
@@ -5416,6 +5490,9 @@ document.addEventListener("click",async e=>{const b=e.target.closest("[data-pnd]
   if(d.pnkey){anaLS.set(PN_K.chave,"");pnData=null;renderPainel();toast("Digite a chave do painel de novo.");return}
   if(d.pngeo){pnGeo=d.pngeo;renderPainel();return}
   if(d.pnpriv){lgpdAsk(true);return}
+  if(d.pnevcad){try{pnEvCad[d.pnevcad]=await pnRpc("painel_evento_cadastros",pnArgs({p_evento:d.pnevcad}))}catch(err){toast(/does not exist|PGRST202/i.test(err.message)?"Rode de novo o storypronto-eventos.sql no Supabase.":err.message);return}renderPainel();return}
+  if(d.pnevcsv){const L=pnEvCad[d.pnevcsv]||[],q=v=>`"${String(v??"").replace(/"/g,'""')}"`;const csv="\ufeff"+["Nome;E-mail;WhatsApp;Aceita novidades;Cadastrado em"].concat(L.map(c=>[c.nome,c.email,c.telefone,c.aceita_novidades?"sim":"não",new Date(c.em).toLocaleString("pt-BR")].map(q).join(";"))).join("\r\n");
+    saveFile(`cadastros_${d.pnevcsv}.csv`,new Blob([csv],{type:"text/csv;charset=utf-8"}));return}
   if(d.pnfx){pnForm=null;renderPainel();return}
   if(b.id==="pnSave"){const u=($("#pnUrl")||{}).value||"",k=($("#pnKey")||{}).value||"",ch=($("#pnCh")||{}).value||"";
     if(u&&!/^https:\/\/[\w-]+\.supabase\.co\/?$/.test(u.trim())){toast("A Project URL tem este formato: https://xxxx.supabase.co");return}
