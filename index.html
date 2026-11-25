@@ -1109,6 +1109,17 @@ body:not(.edvid) #galKind button[data-k="vid"],body:not(.edvid) #galKind button[
 .shgo{margin-top:10px;min-height:52px;font-size:16px}
 .shgo.fim{background:transparent!important;color:#efece6!important;border:1px solid #efece666!important;opacity:1}
 .shskip{align-self:center;padding:6px 0 0!important}
+.evstars{display:flex;justify-content:center;gap:6px;margin:6px 0 0}
+.evshb .evstars button,.evsh-wd .evshb .evstars button{background:none!important;border:0!important;min-height:0!important;padding:4px!important;color:inherit;opacity:.45;cursor:pointer;transition:transform .15s,opacity .15s}
+.evstars button.on{opacity:1}.evstars button.on path{fill:currentColor}
+.evstars button:active{transform:scale(.9)}
+.evavl{text-align:center;font-size:13px;opacity:.75;min-height:18px}
+.evavb textarea{font:inherit;font-size:15px;color:inherit;background:#ffffff0f;border:1px solid #ffffff26;border-radius:12px;padding:12px 14px;resize:none}
+.evsh-wd .evavb textarea{background:#fff;border-color:#1d3b3f26}
+.evavb .evavgo{justify-content:center;background:#efece6;color:#1c1b19;border:0}
+.evavb .evavgo:disabled{opacity:.4}
+.evsh-wd .evavb .evavgo{background:#1d3b3f;color:#fbf7f0}.evsh-run .evavb .evavgo{background:#f3e6c8;color:#141238}.evsh-rz .evavb .evavgo{background:#fff;color:#03045E}.evsh-un .evavb .evavgo{background:#f2b705;color:#00316a}
+.evsh-un .evstars button.on{color:#f2b705}.evsh-wd .evstars button.on{color:#b08d57}
 .hmevt{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#f6f1e8;color:#1d3b3f;text-decoration:none}
 .hmevt .evmono{width:42px;height:42px;flex:0 0 42px;font-size:15px}.hmevt div{flex:1;min-width:0}.hmevt b{display:block;font:italic 700 16px/1.25 "Playfair Display",serif}.hmevt span{font-size:12px;color:#5d6f70;word-break:break-all}.hmevt i{font-style:normal;font-size:13px;font-weight:600;white-space:nowrap}
 
@@ -3303,7 +3314,7 @@ let expSt=null;
 const isStoryOut=()=>!EVT&&expFmt.id==="v"&&expPlats.includes("Story do Instagram");
 const otherPlats=()=>EVT?expPlats.slice():expPlats.filter(n=>!(expFmt.id==="v"&&n==="Story do Instagram"));
 function canShareFile(blob,fname){try{return !!(navigator.canShare&&navigator.canShare({files:[new File([blob],fname,{type:blob.type})]}))}catch(e){return false}}
-function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();setTimeout(evInvite,0);
+function modalResult(mediaHtml,blob,fname,payload,extra=""){sideOff();setTimeout(evInvite,0);setTimeout(evAvTick,0);
   const st=expSt,ext=fname.split(".").pop();
   const when=/(^|__)agora/.test(fname)?"assim que o robô rodar (em até 10 minutos)":"no horário agendado";
   $("#mdlBox").innerHTML=`<h3 style="margin:0;font-family:var(--f-disp)">${EVT?"Seu story está pronto":expPlats.length>1?`Pronto para ${expPlats.length} redes`:expFmt.id==="v"&&expPlat==="Story do Instagram"?"Story pronto":"Pronto para "+esc(expPlat)} (${expFmt.w}×${expFmt.h})</h3>${mediaHtml}${extra}
@@ -7508,7 +7519,7 @@ function evShare(id){const E=EVENTOS[id];if(!E)return;const url=evUrl(id),txt=E.
     <button type="button" data-sh="wa">${shI("wa")}<span>Enviar no WhatsApp</span></button>${navigator.share?`<button type="button" data-sh="mais">${shI("mais")}<span>Outros apps</span></button>`:""}<button type="button" data-sh="link">${shI("link")}<span>Copiar link</span></button>${pode?`<button type="button" data-sh="qr">${shI("qr")}<span>Baixar QR code</span></button>`:""}
     <button type="button" class="evshx" data-sh="x">Fechar</button></div>`;
   host.appendChild(m);requestAnimationFrame(()=>m.classList.add("on"));const close=()=>{m.classList.remove("on");setTimeout(()=>m.remove(),250)};
-  const cnt=via=>{try{if(EVT&&EVT.id===id)evCount(id,"compartilhou",{via,origem:"link"})}catch(e){}};
+  const cnt=via=>{try{if(EVT&&EVT.id===id)evCount(id,"compartilhou",{rede:via,origem:"link"})}catch(e){}};
   m.onclick=async e=>{if(e.target===m){close();return}const b=e.target.closest("[data-sh]");if(!b)return;const k=b.dataset.sh;
     if(k==="x"){close();return}
     if(k==="wa"){cnt("whatsapp");window.open("https://wa.me/?text="+encodeURIComponent(txt+"\n"+url),"_blank","noopener");close();return}
@@ -7531,6 +7542,24 @@ const evContaUrl=id=>"/?cadastro&origem=evento-"+encodeURIComponent(id);
 /* convite para criar conta logo depois de postar: só falta a senha */
 function evInvite(){try{if(!EVT||EVT.own||sessGet())return;const box=$("#mdlBox");if(!box||$("#evInv",box))return;const L=evLead(),d=document.createElement("div");d.id="evInv";d.className="evinv2";
   d.innerHTML=`<div><b>Gostou? Crie sua conta grátis</b><span>Faça stories assim para você também.${L&&L.email?" Seu nome e e-mail já vão preenchidos: só falta escolher uma senha.":""}</span></div><a href="${evContaUrl(EVT.id)}">Criar conta</a>`;const ref=[...box.querySelectorAll("button,a")].find(b=>/Baixar/.test(b.textContent));if(ref&&ref.parentNode)ref.parentNode.insertBefore(d,ref);else box.appendChild(d)}catch(e){}}
+/* avaliação da experiência: aparece uma vez, depois do 2º story pronto no evento, quando a pessoa fecha o resultado */
+const evAvK=id=>"sp_evav_"+id,evPostK=id=>"sp_evposts_"+id;
+function evAvTick(){try{if(!EVT||EVT.own)return;const id=EVT.id,n=(+localStorage.getItem(evPostK(id))||0)+1;localStorage.setItem(evPostK(id),String(n));if(n<2||localStorage.getItem(evAvK(id)))return;
+  const md=$("#mdl");if(!md)return;const ob=new MutationObserver(()=>{if(!md.classList.contains("on")){ob.disconnect();setTimeout(evAvAsk,500)}});ob.observe(md,{attributes:true,attributeFilter:["class"]})}catch(e){}}
+function evAvAsk(){if(!EVT||$("#evAv"))return;const id=EVT.id,E=EVENTOS[id]||{},host=$("#evt.on")||document.body;let nota=0;
+  const m=document.createElement("div");m.id="evAv";m.className="evsh"+(E.tema==="un"?" evsh-un":E.tema==="rz"?" evsh-rz":E.kind==="corrida"?" evsh-run":E.kind==="wedding"?" evsh-wd":"");
+  const star='<svg viewBox="0 0 24 24" width="38" height="38"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-2.9-5.4 2.9 1.1-6L3.2 9.6l6.1-.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  m.innerHTML=`<div class="evshb evavb" role="dialog" aria-label="Avaliação"><b>Como está sendo usar o Story Pronto?</b><p>Leva 5 segundos e ajuda a gente a melhorar os stories do evento.</p>
+    <div class="evstars">${[1,2,3,4,5].map(i=>`<button type="button" data-nota="${i}" aria-label="${i} de 5">${star}</button>`).join("")}</div><span class="evavl" id="evAvL">Toque nas estrelas</span>
+    <textarea id="evAvC" rows="2" maxlength="300" placeholder="Quer contar algo? (opcional)"></textarea>
+    <button type="button" class="evavgo" id="evAvGo" disabled>Enviar avaliação</button><button type="button" class="evshx" data-av="x">Agora não</button></div>`;
+  host.appendChild(m);requestAnimationFrame(()=>m.classList.add("on"));const close=()=>{m.classList.remove("on");setTimeout(()=>m.remove(),250)},fim=()=>{try{localStorage.setItem(evAvK(id),String(Date.now()))}catch(e){}};
+  const LB=["","Não gostei","Poderia ser melhor","Bom","Muito bom","Adorei!"];
+  m.onclick=async e=>{if(e.target===m||e.target.closest("[data-av=x]")){fim();close();return}const sb=e.target.closest("[data-nota]");
+    if(sb){nota=+sb.dataset.nota;m.querySelectorAll("[data-nota]").forEach(b=>b.classList.toggle("on",+b.dataset.nota<=nota));$("#evAvL").textContent=LB[nota];$("#evAvGo").disabled=false;return}
+    if(e.target.closest("#evAvGo")&&nota){const go=$("#evAvGo");go.disabled=true;go.textContent="Enviando…";
+      try{if(SB_URL&&SB_ANON){const r=await fetch(SB_URL+"/rest/v1/evento_avaliacoes",{method:"POST",headers:Object.assign(sbHead(SB_ANON),{Prefer:"return=minimal"}),body:JSON.stringify({evento:evSlug(id),nota,comentario:($("#evAvC").value||"").trim().slice(0,300)||null,aparelho:evDev()})});if(!r.ok&&r.status<500)throw 0}}catch(err){}
+      fim();close();toast(nota>=4?"Obrigado! Que bom que você está curtindo.":"Obrigado! Sua opinião ajuda a gente a melhorar.")}}}
 let evCam=null;
 /* tempo pelo teclado numérico: só números, os dois-pontos entram sozinhos (13625 → 1:36:25) */
 function tmMask(v){const d=String(v||"").replace(/\D/g,"").replace(/^0+(?=\d{3})/,"").slice(0,6);if(d.length<=2)return d;if(d.length<=4)return d.slice(0,-2)+":"+d.slice(-2);return d.slice(0,-4)+":"+d.slice(-4,-2)+":"+d.slice(-2)}
@@ -7630,7 +7659,7 @@ try{if('serviceWorker' in navigator&&location.protocol==='https:')window.addEven
 try{new MutationObserver(()=>{const m=$("#mdl");if(m&&m.classList.contains("on")&&!recording){try{vLayers().forEach(l=>{const el=getVid(l);if(el&&!el.paused)el.pause()})}catch(e){}}}).observe($("#mdl"),{attributes:true,attributeFilter:["class"]})}catch(e){}
 
 /* ---------- PAINEL (dashboard do admin): uso, faturamento, clientes e ações de cashback/bônus ---------- */
-const PN_K={chave:"sp_pn_chave"};let pnEvCad={},pnEvs=null,pnContas=null,pnDias=30,pnData=null,pnFonte="",pnGeo="estados",pnBusy=false,pnTab="uso",pnAcesso="",pnFin=null,pnCli=null,pnBusca="",pnForm=null,pnCamp=null;
+const PN_K={chave:"sp_pn_chave"};let pnEvAv={},pnEvCad={},pnEvs=null,pnContas=null,pnDias=30,pnData=null,pnFonte="",pnGeo="estados",pnBusy=false,pnTab="uso",pnAcesso="",pnFin=null,pnCli=null,pnBusca="",pnForm=null,pnCamp=null;
 const PN_FN={abrir:"Abriu o app",publish:"Publicou story",recUsed:"Usou vídeo gravado",tpl:"Usou modelo pronto",seq:"Criou sequência",fix:"Corrigiu pelo termômetro",instalar:"Instalou o app",style_pro:"Estilo: Edição Pro",style_vlegenda:"Estilo: Só você + legenda",style_pv_dividido:"Estilo: Produto + você",style_pv_sobre:"Estilo: Você no círculo"};
 const PN_TELA={editor:"Editor",agenda:"Agenda",lote:"Monte minha semana",pub:"Publicar no Instagram",aval:"Avaliações",sobre:"Como vira produto",painel:"Painel",datas:"Datas",benef:"Meus benefícios"};
 const PN_PLAT={android:"Android",ios:"iPhone",windows:"Windows",mac:"Mac",linux:"Linux",outro:"Outro"};
@@ -7665,7 +7694,7 @@ let pnEvAt=0;setInterval(()=>{const v=$("#v-painel");if(pnTab==="eventos"&&v&&v.
 const pnAgo=()=>{const s=Math.round((Date.now()-pnEvAt)/1000);return s<10?"agora":s<60?`há ${s} s`:`há ${Math.round(s/60)} min`};
 async function pnLoad(quiet){if(!quiet){pnBusy=true;renderPainel()}
   try{if(pnTab==="uso"){if(pnBank()){try{pnData=await pnRpc("painel_dados",pnArgs({p_dias:pnDias,p_acesso:pnAcesso||null}));pnFonte="banco"}catch(e){pnData=pnLocal(pnDias);pnFonte="local";if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast("Não consegui ler o banco: "+e.message+" Mostrando só este aparelho.")}}else{pnData=pnLocal(pnDias);pnFonte="local"}}
-    else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="eventos"){try{pnContas=await pnRpc("painel_contas",pnArgs({}))}catch(e){}try{pnEvs=await pnRpc("painel_eventos",pnArgs({}));pnEvAt=Date.now();for(const k in pnEvCad){try{pnEvCad[k]=await pnRpc("painel_evento_cadastros",pnArgs({p_evento:k}))}catch(e){}}}catch(e){pnEvs=/function|does not exist|não existe|PGRST202/i.test(e.message)?"sem":null;if(pnEvs!=="sem")throw e}}if(pnTab==="cli"){pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}));try{pnContas=await pnRpc("painel_contas",pnArgs({}))}catch(e){pnContas=null}}}}
+    else if(pnBank()){if(pnTab==="fin"||pnTab==="acoes")pnFin=await pnRpc("painel_financeiro",pnArgs({}));if(pnTab==="eventos"){try{pnContas=await pnRpc("painel_contas",pnArgs({}))}catch(e){}try{pnEvs=await pnRpc("painel_eventos",pnArgs({}));if(Array.isArray(pnEvs))for(const v of pnEvs){try{pnEvAv[v.evento]=await pnRpc("painel_evento_avaliacoes",pnArgs({p_evento:v.evento}))}catch(e){pnEvAv[v.evento]="sem"}}pnEvAt=Date.now();for(const k in pnEvCad){try{pnEvCad[k]=await pnRpc("painel_evento_cadastros",pnArgs({p_evento:k}))}catch(e){}}}catch(e){pnEvs=/function|does not exist|não existe|PGRST202/i.test(e.message)?"sem":null;if(pnEvs!=="sem")throw e}}if(pnTab==="cli"){pnCli=await pnRpc("painel_clientes",pnArgs({p_busca:pnBusca||null}));try{pnContas=await pnRpc("painel_contas",pnArgs({}))}catch(e){pnContas=null}}}}
   catch(e){if(/chave do painel incorreta/i.test(e.message)){anaLS.set(PN_K.chave,"");toast("Chave do painel incorreta. Digite de novo no quadro abaixo.")}else toast(e.message)}
   pnBusy=false;renderPainel()}
 function pnBars(list,opt={}){const L=(list||[]).filter(x=>opt.zero||x.n>0);if(!L.length||(opt.zero&&!L.some(x=>x.n>0)))return`<p class="note pnempty">Ainda sem dados.</p>`;const mx=Math.max(1,...L.map(x=>x.n)),fmt=opt.money?pnR:pnN;
@@ -7733,10 +7762,11 @@ function pnEventosTab(){const L=pnEvs;
   const nm=e=>EVENTOS[e]?(EVENTOS[e].titulo||EVENTOS[e].nome):e.replace(/-/g," ");
   return L.map(v=>{const pm=Object.entries(v.por_modelo||{}).sort((a,b)=>b[1]-a[1]),pr=Object.entries(v.por_rede||{}).sort((a,b)=>b[1]-a[1]),ph=v.por_hora||[],mx=Math.max(1,...ph.map(x=>x.n));
     return`<div class="pncard pnev"><div class="pnevh"><div><h3>${esc(nm(v.evento))}</h3><span class="pnlive"><i></i>Ao vivo · atualiza sozinho a cada 15 s · <b id="pnEvAgo">${pnAgo()}</b></span><span class="note">Último uso: ${pnDate(v.ultimo)} ${new Date(v.ultimo).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</span></div></div>
-    <div class="pnevk">${[["Pessoas",v.pessoas,"celulares diferentes"],["Vídeos gravados",v.videos,v.galeria?`+ ${pnN(v.galeria)} da galeria`:"no app"],["Envios",v.postados,"para Instagram, WhatsApp…"],["Aberturas",v.aberturas,"do link ou QR Code"],["Cadastros",v.cadastros||0,v.cadastros_novidades?`${pnN(v.cadastros_novidades)} aceitam novidades`:"nome, e-mail e WhatsApp"],["Viraram conta",pnContas?pnContas.filter(c=>c.origem==="evento-"+v.evento).length:"—","criaram conta no app"]].map(([a,b,c])=>`<div><span>${a}</span><b>${pnN(b)}</b><i>${esc(c)}</i></div>`).join("")}</div>
+    <div class="pnevk">${[["Pessoas",v.pessoas,"celulares diferentes"],["Vídeos gravados",v.videos,v.galeria?`+ ${pnN(v.galeria)} da galeria`:"no app"],["Envios",v.postados,"para Instagram, WhatsApp…"],["Aberturas",v.aberturas,"do link ou QR Code"],["Cadastros",v.cadastros||0,v.cadastros_novidades?`${pnN(v.cadastros_novidades)} aceitam novidades`:"nome, e-mail e WhatsApp"],["Viraram conta",pnContas?pnContas.filter(c=>c.origem==="evento-"+v.evento).length:"—","criaram conta no app"],["Avaliação",pnEvAv[v.evento]&&pnEvAv[v.evento]!=="sem"&&pnEvAv[v.evento].total?String(pnEvAv[v.evento].media).replace(".",",")+" ★":"—",pnEvAv[v.evento]==="sem"?"rode o SQL de avaliações":pnEvAv[v.evento]&&pnEvAv[v.evento].total?`${pnN(pnEvAv[v.evento].total)} avaliações`:"ninguém avaliou ainda"]].map(([a,b,c])=>`<div><span>${a}</span><b>${pnN(b)}</b><i>${esc(c)}</i></div>`).join("")}</div>
     ${pm.length?`<h4>Por modelo</h4>${pnBars(pm.map(([n,x])=>({k:n,n:x})))}`:""}
     ${pr.length?`<h4>Para onde foram</h4>${pnBars(pr.map(([n,x])=>({k:n,n:x})))}`:""}
     ${ph.length?`<h4>Vídeos por hora</h4><div class="pnevh2">${ph.map(x=>`<div title="${esc(x.hora)}: ${x.n}"><i style="height:${Math.max(4,Math.round(x.n/mx*100))}%"></i><span>${esc(x.hora.split(" ")[1]||x.hora)}</span></div>`).join("")}</div>`:""}
+    ${(()=>{const A=pnEvAv[v.evento];if(!A||A==="sem"||!A.total)return"";const d=A.dist||{};return`<h4>O que acharam</h4>${pnBars([5,4,3,2,1].map(n=>({k:n+" ★",n:+(d[n]||0)})))}${(A.comentarios||[]).length?`<div class="pnevl">${A.comentarios.slice(0,30).map(c=>`<div><b>${"★".repeat(c.nota)}</b><span>${esc(c.comentario)}</span></div>`).join("")}</div>`:""}`})()}
     <h4>Cadastros dos convidados</h4>${pnEvCad[v.evento]?(pnEvCad[v.evento].length?`<div class="pnevl">${pnEvCad[v.evento].slice(0,50).map(c=>`<div><b>${esc(c.nome)}</b><span>${esc(c.email)} · ${esc(String(c.telefone).replace(/^55(\d{2})(\d{4,5})(\d{4})$/,"($1) $2-$3"))}${c.aceita_novidades?" · aceita novidades":""}</span></div>`).join("")}</div>${pnEvCad[v.evento].length>50?`<p class="note">Mostrando 50 de ${pnN(pnEvCad[v.evento].length)}. A planilha tem todos.</p>`:""}<div class="row"><button type="button" class="btn" data-pnevcsv="${esc(v.evento)}">Baixar planilha (CSV)</button></div>`:`<p class="note pnempty">Ninguém se cadastrou ainda.</p>`):`<div class="row"><button type="button" class="btn" data-pnevcad="${esc(v.evento)}">Ver cadastros</button></div>`}
     <p class="note" style="margin:8px 0 0">Os números de uso são anônimos: não guardam nome, localização nem os vídeos. Os cadastros só existem com o aceite da pessoa. "Envios" contam quem tocou para enviar; a publicação acontece dentro de cada rede.</p></div>`}).join("")}
 function pnContasCard(){const L=pnContas;if(!L)return`<div class="pncard"><h3>Cadastros no app</h3><p class="note pnempty">Rode o arquivo <b>storypronto-contas.sql</b> no Supabase para ver aqui quem criou conta.</p></div>`;
